@@ -124,7 +124,7 @@ public class LineBotController {
             }
             default:
                 List<Map<String, Object>> list2 = jdbc.queryForList
-    			("SELECT username FROM admin_user");
+    			("SELECT c_car_code FROM box_profile LIMIT 2");
                 
                 list2.forEach(System.out::println);
                 
