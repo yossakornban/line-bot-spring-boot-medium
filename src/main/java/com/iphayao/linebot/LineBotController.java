@@ -34,8 +34,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.context.annotation.ComponentScan;
 
 @Slf4j
+@ComponentScan
 @LineMessageHandler
 public class LineBotController {
     @Autowired
