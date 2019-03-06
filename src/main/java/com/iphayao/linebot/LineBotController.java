@@ -126,8 +126,10 @@ public class LineBotController {
                 List<Map<String, Object>> list2 = jdbc.queryForList
     			("SELECT username FROM admin_user");
                 
-                list2.forEach(System.out::println);
-                
+                for (Map<String, Object> map : list2) 
+                { 
+                    log.info("Return echo message key username : %s", map.get("username"));
+                }
                 log.info("Return echo message %s : %s", replyToken, text);
                 this.replyText(replyToken, text);
         }
