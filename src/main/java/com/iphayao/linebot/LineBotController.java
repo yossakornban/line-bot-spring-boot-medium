@@ -30,14 +30,19 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Slf4j
 @LineMessageHandler
 public class LineBotController {
     @Autowired
     private LineMessagingClient lineMessagingClient;
+    
+    @Autowired
+    private JdbcTemplate jdbc;
 
     @EventMapping
     public void handleTextMessage(MessageEvent<TextMessageContent> event) {
@@ -116,6 +121,11 @@ public class LineBotController {
                 break;
             }
             default:
+                List<Map<String, Object>> list2 = jdbc.queryForList
+    			("SELECT * FROM admin_user ");
+                
+                list2.forEach(System.out::println);
+                
                 log.info("Return echo message %s : %s", replyToken, text);
                 this.replyText(replyToken, text);
         }
