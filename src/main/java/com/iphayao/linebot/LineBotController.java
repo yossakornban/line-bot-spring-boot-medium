@@ -128,7 +128,7 @@ public class LineBotController {
                 
                 for (Map<String, Object> map : list2) 
                 { 
-                    log.info("Return echo message key username : %s", map.get("username"));
+                    log.info("Return echo message key username : " + map.get("username"));
                 }
                 log.info("Return echo message %s : %s", replyToken, text);
                 this.replyText(replyToken, text);
