@@ -54,4 +54,4 @@ areas:
   action:
     type: message
     label: unlink
-    text: 'richmenu unlink'
+    text: 'Flex Back'
