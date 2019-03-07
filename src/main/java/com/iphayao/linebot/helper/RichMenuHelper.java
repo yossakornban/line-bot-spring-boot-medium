@@ -11,12 +11,13 @@ import static javax.activation.FileTypeMap.getDefaultFileTypeMap;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.springframework.core.io.ClassPathResource;
 import org.yaml.snakeyaml.Yaml;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.io.ByteStreams;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.objectmapper.ModelObjectMapper;
 import com.linecorp.bot.model.response.BotApiResponse;
@@ -72,12 +73,12 @@ public class RichMenuHelper {
     private static void imageUploadRichMenu(LineMessagingClient client,
                                             String richMenuId, String path) throws IOException {
         String contentType = getDefaultFileTypeMap().getContentType(path);
-        log.info("Content-type: {}", contentType);
+        log.info("Content-type Image : {}", contentType);
 
-        InputStream is = new ClassPathResource(path).getInputStream();
-        byte[] bytes = ByteStreams.toByteArray(is);
+//        InputStream is = new ClassPathResource(path).getInputStream();
+//        byte[] bytes = ByteStreams.toByteArray(is);
         
-//        byte[] bytes = Files.readAllBytes(Paths.get(path));
+        byte[] bytes = Files.readAllBytes(Paths.get(path));
 
         BotApiResponse botApiResponse = getUnchecked(client.setRichMenuImage(richMenuId, contentType, bytes));
         log.info("Successfully finished");
