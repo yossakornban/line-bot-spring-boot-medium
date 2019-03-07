@@ -106,7 +106,7 @@ public class LineBotController {
 		switch (text) {
 		case "Flex": {
 			String pathYamlHome = "asset/richmenu-home.yml";
-			String pathImageHome = "asset/richmenu-home.png";
+			String pathImageHome = "asset/richmenu-home.jpg";
 //			String pathImageFlex = new ClassPathResource("asset/richmenu-home.png").getFile().getAbsolutePath();
 //			String pathConfigFlex = new ClassPathResource("asset/richmenu-home.yml").getFile().getAbsolutePath();
 			RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userId);
