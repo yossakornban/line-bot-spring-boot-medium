@@ -9,14 +9,14 @@ import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static javax.activation.FileTypeMap.getDefaultFileTypeMap;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
 
+import org.springframework.core.io.ClassPathResource;
 import org.yaml.snakeyaml.Yaml;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.io.ByteStreams;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.objectmapper.ModelObjectMapper;
 import com.linecorp.bot.model.response.BotApiResponse;
@@ -74,7 +74,10 @@ public class RichMenuHelper {
         String contentType = getDefaultFileTypeMap().getContentType(path);
         log.info("Content-type: {}", contentType);
 
-        byte[] bytes = Files.readAllBytes(Paths.get(path));
+        InputStream is = new ClassPathResource(path).getInputStream();
+        byte[] bytes = ByteStreams.toByteArray(is);
+        
+//        byte[] bytes = Files.readAllBytes(Paths.get(path));
 
         BotApiResponse botApiResponse = getUnchecked(client.setRichMenuImage(richMenuId, contentType, bytes));
         log.info("Successfully finished");
@@ -111,10 +114,11 @@ public class RichMenuHelper {
                 .configure(INDENT_OUTPUT, true);
 
         Object yamlAsObject;
-        try(FileInputStream is = new FileInputStream(path)) {
-            yamlAsObject = YAML.load(is);
-        }
-
+        InputStream is = new ClassPathResource(path).getInputStream();
+        yamlAsObject = YAML.load(is);
+//        try(FileInputStream is = new FileInputStream(path)) {
+//            yamlAsObject = YAML.load(is);
+//        }
         return OBJECT_MAPPER.convertValue(yamlAsObject, RichMenu.class);
     }
 }
