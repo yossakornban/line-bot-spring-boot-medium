@@ -99,7 +99,7 @@ public class LineBotController {
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		String text = content.getText();
-		String userId = event.getSource().getUserId();
+		String userId = event.getSource().getSenderId();
 
 		log.info("Got text message from %s : %s", replyToken, text);
 
