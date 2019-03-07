@@ -159,12 +159,15 @@ public class LineBotController {
                                     new URIAction("Go to line.me",
                                                   "https://line.me"),
                                     new PostbackAction("Say hello1",
+                                                       "hello こんにちは",
                                                        "hello こんにちは")
                             )),
                             new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
                                     new PostbackAction("言 hello2",
+                                                       "hello こんにちは",
                                                        "hello こんにちは"),
                                     new PostbackAction("言 hello2",
+                                                       "hello こんにちは",
                                                        "hello こんにちは"),
                                     new MessageAction("Say message",
                                                       "Rice=米")
@@ -172,23 +175,14 @@ public class LineBotController {
                             new CarouselColumn(imageUrl, "Datetime Picker",
                                                "Please select a date, time or datetime", Arrays.asList(
                                     new DatetimePickerAction("Datetime",
-                                                             "xxx",
-                                                             "datetime",
-                                                             "2017-06-18T06:15",
-                                                             "2100-12-31T23:59",
-                                                             "1900-01-01T00:00"),
+                                                             "action=sel",
+                                                             "datetime"),
                                     new DatetimePickerAction("Date",
-                                                             "xxx",
-                                                             "date",
-                                                             "2017-06-18",
-                                                             "2100-12-31",
-                                                             "1900-01-01"),
+                                                             "action=sel&only=date",
+                                                             "date"),
                                     new DatetimePickerAction("Time",
-                                                             "xxx",
-                                                             "time",
-                                                             "06:15",
-                                                             "23:59",
-                                                             "00:00")
+                                                             "action=sel&only=time",
+                                                             "time")
                             ))
                     ));
             TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
