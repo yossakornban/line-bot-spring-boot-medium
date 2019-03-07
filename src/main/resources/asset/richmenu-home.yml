@@ -3,7 +3,7 @@ size:
   height: 1686
 selected: false
 name: Home
-chatBarText: Bulletin
+chatBarText: 'Menu Eiei'
 areas:
 -
   bounds:
@@ -14,7 +14,7 @@ areas:
   action:
     type: message
     label: profile
-    text: Profile
+    text: 'Profile'
 -
   bounds:
     x: 834
@@ -44,7 +44,7 @@ areas:
   action:
     type: message
     label: unlink
-    text: 'Flex News'
+    text: 'carousel'
 -
   bounds:
     x: 834
