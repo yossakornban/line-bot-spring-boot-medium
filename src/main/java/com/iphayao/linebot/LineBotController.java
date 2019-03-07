@@ -172,6 +172,7 @@ public class LineBotController {
                                     new URIAction("Go to line.me",
                                                   "https://line.me"),
                                     new PostbackAction("Say hello1",
+                                                       "hello こんにちは",
                                                        "hello こんにちは")
                             )),
                             new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
