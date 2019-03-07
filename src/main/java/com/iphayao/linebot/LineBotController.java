@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
@@ -105,11 +106,9 @@ public class LineBotController {
 
 		switch (text) {
 		case "Flex": {
-			String pathImageHome = "asset/richmenu-home.png";
-			String pathYamlHome = "asset/richmenu-home.yml";
-//			String pathImageFlex = new ClassPathResource("asset/richmenu-home.png").getFile().getAbsolutePath();
-//			String pathConfigFlex = new ClassPathResource("asset/richmenu-home.yml").getFile().getAbsolutePath();
-			RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userId);
+			String pathImageFlex = new ClassPathResource("asset/richmenu-home.png").getFile().getAbsolutePath();
+			String pathConfigFlex = new ClassPathResource("asset/richmenu-home.yml").getFile().getAbsolutePath();
+			RichMenuHelper.createRichMenu(lineMessagingClient, pathConfigFlex, pathImageFlex, userId);
 			break;
 		}
 		case "Flex Back": {
