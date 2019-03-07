@@ -165,7 +165,7 @@ public class LineBotController {
                                     new PostbackAction("言 hello2",
                                                        "hello こんにちは"),
                                     new PostbackAction("言 hello2",
-                                                       "hello こんにちは""),
+                                                       "hello こんにちは"),
                                     new MessageAction("Say message",
                                                       "Rice=米")
                             )),
