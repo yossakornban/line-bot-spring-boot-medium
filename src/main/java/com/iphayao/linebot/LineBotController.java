@@ -33,6 +33,7 @@ import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
+import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
@@ -80,6 +81,18 @@ public class LineBotController {
 		reply(event.getReplyToken(),
 				new LocationMessage((message.getTitle() == null) ? "Location replied" : message.getTitle(),
 						message.getAddress(), message.getLatitude(), message.getLongitude()));
+	}
+
+	@EventMapping
+	public void handlePostbackEvent(PostbackEvent event) {
+		String replyToken = event.getReplyToken();
+		this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param "
+				+ event.getPostbackContent().getParams().toString());
+	}
+
+	@EventMapping
+	public void handleOtherEvent(Event event) {
+		log.info("Received message(Ignored): {}", event);
 	}
 
 	@EventMapping
@@ -150,45 +163,24 @@ public class LineBotController {
 			break;
 		}
 		case "carousel": {
-            String imageUrl = createUri("/asset/1040.jpg");
-            CarouselTemplate carouselTemplate = new CarouselTemplate(
-                    Arrays.asList(
-                            new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                    new URIAction("Go to line.me",
-                                                  "https://line.me"),
-                                    new URIAction("Go to line.me",
-                                                  "https://line.me"),
-                                    new PostbackAction("Say hello1",
-                                                       "hello こんにちは",
-                                                       "hello こんにちは")
-                            )),
-                            new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                    new PostbackAction("言 hello2",
-                                                       "hello こんにちは",
-                                                       "hello こんにちは"),
-                                    new PostbackAction("言 hello2",
-                                                       "hello こんにちは",
-                                                       "hello こんにちは"),
-                                    new MessageAction("Say message",
-                                                      "Rice=米")
-                            )),
-                            new CarouselColumn(imageUrl, "Datetime Picker",
-                                               "Please select a date, time or datetime", Arrays.asList(
-                                    new DatetimePickerAction("Datetime",
-                                                             "action=sel",
-                                                             "datetime"),
-                                    new DatetimePickerAction("Date",
-                                                             "action=sel&only=date",
-                                                             "date"),
-                                    new DatetimePickerAction("Time",
-                                                             "action=sel&only=time",
-                                                             "time")
-                            ))
-                    ));
-            TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-            this.reply(replyToken, templateMessage);
-            break;
-        }
+			String imageUrl = createUri("/asset/1040.jpg");
+			CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
+					new CarouselColumn(imageUrl, "hoge", "fuga",
+							Arrays.asList(new URIAction("Go to line.me", "https://line.me"),
+									new URIAction("Go to line.me", "https://line.me"),
+									new PostbackAction("Say hello1", "hello こんにちは", "hello こんにちは"))),
+					new CarouselColumn(imageUrl, "hoge", "fuga",
+							Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+									new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+									new MessageAction("Say message", "Rice=米"))),
+					new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime",
+							Arrays.asList(new DatetimePickerAction("Datetime", "action=sel", "datetime"),
+									new DatetimePickerAction("Date", "action=sel&only=date", "date"),
+									new DatetimePickerAction("Time", "action=sel&only=time", "time")))));
+			TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+			this.reply(replyToken, templateMessage);
+			break;
+		}
 		case "Profile": {
 			if (userId != null) {
 				lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
