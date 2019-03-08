@@ -6,12 +6,15 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,6 +29,7 @@ import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
+import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.DatetimePickerAction;
 import com.linecorp.bot.model.action.MessageAction;
@@ -35,11 +39,8 @@ import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
-import com.linecorp.bot.model.event.message.LocationMessageContent;
-import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.ImageMessage;
-import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
@@ -60,27 +61,18 @@ public class LineBotController {
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
+	@Autowired
+	private LineRepository lineRepo;
+
+	private enum status {CALL, CLOSE, SAVE, Q11};
+	private status statusBot;
+	private String userID = "";
+
 	@EventMapping
 	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
 		log.info(event.toString());
 		TextMessageContent message = event.getMessage();
 		handleTextContent(event.getReplyToken(), event, message);
-	}
-
-	@EventMapping
-	public void handleStickerMessage(MessageEvent<StickerMessageContent> event) {
-		log.info(event.toString());
-		StickerMessageContent message = event.getMessage();
-		reply(event.getReplyToken(), new StickerMessage(message.getPackageId(), message.getStickerId()));
-	}
-
-	@EventMapping
-	public void handleLocationMessage(MessageEvent<LocationMessageContent> event) {
-		log.info(event.toString());
-		LocationMessageContent message = event.getMessage();
-		reply(event.getReplyToken(),
-				new LocationMessage((message.getTitle() == null) ? "Location replied" : message.getTitle(),
-						message.getAddress(), message.getLatitude(), message.getLongitude()));
 	}
 
 	@EventMapping
@@ -118,123 +110,188 @@ public class LineBotController {
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
+
 		String text = content.getText();
-		String userId = event.getSource().getSenderId();
+		userID = event.getSource().getSenderId();
+		ModelMapper modelMapper = new ModelMapper();
 
 		log.info("Got text message from %s : %s", replyToken, text);
 
 		switch (text) {
-		case "Flex": {
-			String pathYamlHome = "asset/richmenu-home.yml";
-			String pathImageHome = "asset/richmenu-home.jpg";
-//			String pathImageFlex = new ClassPathResource("asset/richmenu-home.png").getFile().getAbsolutePath();
-//			String pathConfigFlex = new ClassPathResource("asset/richmenu-home.yml").getFile().getAbsolutePath();
-			RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userId);
+		case "call": {
+			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("สวัสดีจ้า ยินดีให้บริการรรรร")));
+			this.reply(replyToken, new StickerMessage("1", "17"));
+			statusBot = status.CALL;
 			break;
 		}
-		case "Flex Back": {
-
-			RichMenuHelper.deleteRichMenu(lineMessagingClient, userId);
-			break;
-		}
-
-		case "Flex Restaurant": {
-			this.reply(replyToken, new RestaurantFlexMessageSupplier().get());
-			break;
-		}
-		case "Flex Menu": {
-			this.reply(replyToken, new RestaurantMenuFlexMessageSupplier().get());
-			break;
-		}
-		case "Flex Receipt": {
-			this.reply(replyToken, new ReceiptFlexMessageSupplier().get());
-			break;
-		}
-		case "Flex News": {
-			this.reply(replyToken, new NewsFlexMessageSupplier().get());
-			break;
-		}
-		case "Flex Ticket": {
-			this.reply(replyToken, new TicketFlexMessageSupplier().get());
-			break;
-		}
-		case "Flex Catalogue": {
-			this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
-			break;
-		}
-		case "carousel": {
-            String imageUrl = createUri("/static/buttons/1040.jpg");
-            CarouselTemplate carouselTemplate = new CarouselTemplate(
-                    Arrays.asList(
-                            new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                    new URIAction("Go to line.me",
-                                                  "https://line.me"),
-                                    new URIAction("Go to line.me",
-                                                  "https://line.me"),
-                                    new PostbackAction("Say hello1",
-                                                       "hello こんにちは",
-                                                       "hello こんにちは")
-                            )),
-                            new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                    new PostbackAction("言 hello2",
-                                                       "hello こんにちは",
-                                                       "hello こんにちは"),
-                                    new PostbackAction("言 hello2",
-                                                       "hello こんにちは",
-                                                       "hello こんにちは"),
-                                    new MessageAction("Say message",
-                                                      "Rice=米")
-                            )),
-                            new CarouselColumn(imageUrl, "Datetime Picker",
-                                               "Please select a date, time or datetime", Arrays.asList(
-                                    new DatetimePickerAction("Datetime",
-                                                             "action=sel",
-                                                             "datetime",
-                                                             "2017-06-18T06:15",
-                                                             "2100-12-31T23:59",
-                                                             "1900-01-01T00:00"),
-                                    new DatetimePickerAction("Date",
-                                                             "action=sel&only=date",
-                                                             "date",
-                                                             "2017-06-18",
-                                                             "2100-12-31",
-                                                             "1900-01-01"),
-                                    new DatetimePickerAction("Time",
-                                                             "action=sel&only=time",
-                                                             "time",
-                                                             "06:15",
-                                                             "23:59",
-                                                             "00:00")
-                            ))
-                    ));
-            TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-            this.reply(replyToken, templateMessage);
-            break;
-        }
-		case "Profile": {
-			if (userId != null) {
-				lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
-					if (throwable != null) {
-						this.replyText(replyToken, throwable.getMessage());
-						return;
-					}
-					this.reply(replyToken,
-							Arrays.asList(new TextMessage("Display name: " + profile.getDisplayName()),
-									new TextMessage("Status message: " + profile.getStatusMessage()),
-									new TextMessage("User ID: " + profile.getUserId())));
-				});
-			}
+		case "close": {
+			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("ไปละน้าาาา บายยยยย")));
+			this.reply(replyToken, new StickerMessage("1", "108"));
+			statusBot = status.CLOSE;
 			break;
 		}
 		default:
 			log.info("Return echo message %s : %s", replyToken, text);
-			this.replyText(replyToken, text);
 		}
-	}
 
-//	private void handleStickerContent(String replyToken, StickerMessageContent content) {
-//		reply(replyToken, new StickerMessage(content.getPackageId(), content.getStickerId()));
-//	}
+		if (statusBot.equals(status.CALL)) {
+			switch (text) {
+			case "add": {
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("Format การเพิ่ม Agenda "),
+								new TextMessage("วาระการประชุม " + " ห้องประชุม" + " วันและเวลา" + " โดย "),
+								new TextMessage("พิมพ์   cancel : ยกเลิก ")));
+				statusBot = status.SAVE;
+				break;
+			}
+			case "list": {
+				ArrayList<Map<String, Object>> list = lineRepo.list();
+				list.forEach(record -> {
+					Entity en = new Entity();
+					modelMapper.map(record, en);
+					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
+				});
+				statusBot = status.CALL;
+				break;
+			}
+			case "profile": {
+				String userId = event.getSource().getUserId();
+				if (userId != null) {
+					lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
+						if (throwable != null) {
+							this.replyText(replyToken, throwable.getMessage());
+							return;
+						}
+						this.reply(replyToken,
+								Arrays.asList(new TextMessage(
+										"Display name : " + profile.getDisplayName() + "\n Status message : "
+												+ profile.getStatusMessage() + "\n User ID : " + profile.getUserId())));
+					});
+				}
+				statusBot = status.CALL;
+				break;
+			}
+			case "leave": {
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
+						"ประเภทการลา", "กรุณาเลือก", Arrays.asList(new MessageAction("ลากิจ", "1"),
+								new MessageAction("ลาป่วย", "2"), new MessageAction("ลาพักร้อน", "3")))));
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
+				statusBot = status.Q11;
+				break;
+			}
+			case "help": {
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"โปรดเลือกรายการ \n พิมพ์  profile : ดูข้อมูล Profile  \n พิมพ์  list : ดู Agenda \n พิมพ์  add : เพิ่ม Agenda")));
+				statusBot = status.CALL;;
+				break;
+			}
+			case "Flex": {
+				String pathYamlHome = "asset/richmenu-home.yml";
+				String pathImageHome = "asset/richmenu-home.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userID);
+				break;
+			}
+			case "Flex Back": {
+
+				RichMenuHelper.deleteRichMenu(lineMessagingClient, userID);
+				break;
+			}
+
+			case "Flex Restaurant": {
+				this.reply(replyToken, new RestaurantFlexMessageSupplier().get());
+				break;
+			}
+			case "Flex Menu": {
+				this.reply(replyToken, new RestaurantMenuFlexMessageSupplier().get());
+				break;
+			}
+			case "Flex Receipt": {
+				this.reply(replyToken, new ReceiptFlexMessageSupplier().get());
+				break;
+			}
+			case "Flex News": {
+				this.reply(replyToken, new NewsFlexMessageSupplier().get());
+				break;
+			}
+			case "Flex Ticket": {
+				this.reply(replyToken, new TicketFlexMessageSupplier().get());
+				break;
+			}
+			case "Flex Catalogue": {
+				this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
+				break;
+			}
+			case "carousel": {
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
+						new CarouselColumn(imageUrl, "hoge", "fuga",
+								Arrays.asList(new URIAction("Go to line.me", "https://line.me"),
+										new URIAction("Go to line.me", "https://line.me"),
+										new PostbackAction("Say hello1", "hello こんにちは", "hello こんにちは"))),
+						new CarouselColumn(imageUrl, "hoge", "fuga",
+								Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+										new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+										new MessageAction("Say message", "Rice=米"))),
+						new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime",
+								Arrays.asList(
+										new DatetimePickerAction("Datetime", "action=sel", "datetime",
+												"2017-06-18T06:15", "2100-12-31T23:59", "1900-01-01T00:00"),
+										new DatetimePickerAction("Date", "action=sel&only=date", "date", "2017-06-18",
+												"2100-12-31", "1900-01-01"),
+										new DatetimePickerAction("Time", "action=sel&only=time", "time", "06:15",
+												"23:59", "00:00")))));
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
+				break;
+			}
+			default:
+				log.info("Return echo message %s : %s", replyToken, text);
+			}
+
+		} else if (statusBot.equals(status.SAVE)) {
+			switch (text) {
+			case "cancel": {
+				this.reply(replyToken, Arrays.asList(new TextMessage("ยกเลิกสำเร็จ ")));
+				statusBot = status.CALL;
+				break;
+			}
+			default:
+				lineRepo.save(text.toString());
+				this.reply(replyToken, Arrays.asList(new TextMessage("บันทึกสำเร็จ ")));
+				statusBot = status.CALL;
+			}
+		} else if (statusBot.equals(status.Q11)) {
+			switch (text) {
+			case "1": {
+				log.info("Return echo message %s : %s", replyToken, text);
+				statusBot = status.CALL;
+				break;
+			}
+			case "2": {
+				log.info("Return echo message %s : %s", replyToken, text);
+				statusBot = status.CALL;
+				break;
+			}
+			case "3": {
+				log.info("Return echo message %s : %s", replyToken, text);
+				statusBot = status.CALL;
+				break;
+			}
+			default:
+				log.info("Return echo message %s : %s", replyToken, text);
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
+						"ประเภทการลา", "กรุณาเลือก", Arrays.asList(new MessageAction("ลากิจ", "1"),
+								new MessageAction("ลาป่วย", "2"), new MessageAction("ลาพักร้อน", "3")))));
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
+				statusBot = status.Q11;
+			}
+		}
+
+	}
 
 	private void replyText(@NonNull String replyToken, @NonNull String message) {
 		if (replyToken.isEmpty()) {
@@ -249,6 +306,14 @@ public class LineBotController {
 
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
+	}
+
+	private void push(@NonNull String replyToken, @NonNull List<Message> messages) {
+		try {
+			lineMessagingClient.pushMessage(new PushMessage(replyToken, messages)).get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
