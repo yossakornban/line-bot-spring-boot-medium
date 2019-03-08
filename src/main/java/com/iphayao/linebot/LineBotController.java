@@ -289,6 +289,9 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				statusBot = status.Q11;
 			}
+		} else {
+			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
+			this.reply(replyToken, new StickerMessage("1", "17"));
 		}
 
 	}
