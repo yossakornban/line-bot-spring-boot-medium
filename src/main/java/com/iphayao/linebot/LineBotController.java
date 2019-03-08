@@ -65,7 +65,7 @@ public class LineBotController {
 	private LineRepository lineRepo;
 
 	private enum status {CALL, CLOSE, SAVE, Q11};
-	private status statusBot;
+	private status statusBot = status.CLOSE;
 	private String userID = "";
 
 	@EventMapping
