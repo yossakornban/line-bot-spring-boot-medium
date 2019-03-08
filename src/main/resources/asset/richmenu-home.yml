@@ -14,7 +14,7 @@ areas:
   action:
     type: message
     label: profile
-    text: 'Profile'
+    text: 'profile'
 -
   bounds:
     x: 834
