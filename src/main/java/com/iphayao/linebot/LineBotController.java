@@ -70,6 +70,7 @@ public class LineBotController {
 	
 	private status statusBot = status.CLOSE; // Default status
 	private String userID = "";
+	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
 	@EventMapping
 	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
@@ -115,9 +116,8 @@ public class LineBotController {
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = new UserLog();
 		userLog.setUserID(event.getSource().getSenderId());
-		Map userMap = new HashMap();
-		userMap.put("userLog", userLog);
-		System.out.println("+++++ "+ userMap.get("userLog"));
+		userMap.put(event.getSource().getSenderId(), userLog);
+		System.out.println("+++++ "+ userMap.get(event.getSource().getSenderId()).toString());
 
 		
 		String text = content.getText();
