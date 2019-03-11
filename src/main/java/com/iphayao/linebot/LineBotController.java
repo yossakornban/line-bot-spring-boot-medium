@@ -114,10 +114,8 @@ public class LineBotController {
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = new UserLog();
 		userLog.setUserID(event.getSource().getSenderId());
-
 		
 		String text = content.getText();
-//		userID = event.getSource().getSenderId();
 		ModelMapper modelMapper = new ModelMapper();
 
 //	    public static void main(String[] args) {
@@ -128,30 +126,24 @@ public class LineBotController {
 //	        System.out.println(t.getPriority().ordinal()); // this gives 4
 //	    }
 
-		switch (text) {
-		case "call": {
-			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("สวัสดีจ้า ยินดีให้บริการรรรร")));
-			this.reply(replyToken, new StickerMessage("1", "17"));
-//			statusBot = status.CALL;
-			userLog.setStatusBot(status.CALL);
-			break;
-		}
-		case "close": {
-			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("ไปละน้าาาา บายยยยย")));
-			this.reply(replyToken, new StickerMessage("1", "108"));
-			userLog.setStatusBot(status.CLOSE);
-//			statusBot = status.CLOSE;
-			break;
-		}
-		default:
-			log.info("Return echo message %s : %s", replyToken, text); 
-		}
-		
-		System.out.println("11111 "+event.getSource().getSenderId());
-		System.out.println("22222 "+userLog.getUserID());
-		System.out.println("44444 "+userLog.getStatusBot());
+//		switch (text) {
+//		case "call": {
+//			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("สวัสดีจ้า ยินดีให้บริการรรรร")));
+//			this.reply(replyToken, new StickerMessage("1", "17"));
+//			userLog.setStatusBot(status.CALL);
+//			break;
+//		}
+//		case "close": {
+//			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("ไปละน้าาาา บายยยยย")));
+//			this.reply(replyToken, new StickerMessage("1", "108"));
+//			userLog.setStatusBot(status.CLOSE);
+//			break;
+//		}
+//		default:
+//			log.info("Return echo message %s : %s", replyToken, text); 
+//		}
 
-		if (userLog.getUserID() == event.getSource().getSenderId() && userLog.getStatusBot().equals(status.CALL)) {
+		if (userLog.getUserID() == event.getSource().getSenderId()) {
 			switch (text) {
 			case "add": {
 				this.reply(replyToken,
