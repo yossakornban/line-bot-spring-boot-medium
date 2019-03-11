@@ -145,7 +145,7 @@ public class LineBotController {
 			break;
 		}
 		default:
-			log.info("Return echo message %s : %s", replyToken, text);
+			log.info("Return echo message %s : %s", replyToken, text); 
 		}
 
 		if (userLog.getUserID() == event.getSource().getSenderId() && userLog.getStatusBot().equals(status.CALL)) {
