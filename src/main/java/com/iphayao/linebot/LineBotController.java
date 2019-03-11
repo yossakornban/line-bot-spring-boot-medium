@@ -67,9 +67,8 @@ public class LineBotController {
 
 	@Autowired
 	private LineRepository lineRepo;
-	
-	private status statusBot = status.CLOSE; // Default status
-	private String userID = "";
+
+//	private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
 	@EventMapping
@@ -114,48 +113,25 @@ public class LineBotController {
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
-		UserLog userLog = new UserLog();
-		userLog.setUserID(event.getSource().getSenderId());
-		userMap.put(event.getSource().getSenderId(), userLog);
-		System.out.println("+++++ "+ userMap.get(event.getSource().getSenderId()).toString());
-
+		UserLog userLog = userMap.get(event.getSource().getSenderId());
 		
+		if ( userLog == null) {
+			userMap.put(event.getSource().getSenderId(), new UserLog(event.getSource().getSenderId(), status.DEFAULT));
+		}
+		
+		System.out.println("+++++ " + userMap.get(event.getSource().getSenderId()).toString());
+
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 
-//	    public static void main(String[] args) {
-//	        Task t = new Task("Washing up");
-//	        t.setPriority(Priority.HIGH);
-//	        System.out.println(t.getName()); // Washing up
-//	        System.out.println(t.getPriority().toString()); // This gets the string of HIGH
-//	        System.out.println(t.getPriority().ordinal()); // this gives 4
-//	    }
-
-//		switch (text) {
-//		case "call": {
-//			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("สวัสดีจ้า ยินดีให้บริการรรรร")));
-//			this.reply(replyToken, new StickerMessage("1", "17"));
-//			userLog.setStatusBot(status.CALL);
-//			break;
-//		}
-//		case "close": {
-//			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("ไปละน้าาาา บายยยยย")));
-//			this.reply(replyToken, new StickerMessage("1", "108"));
-//			userLog.setStatusBot(status.CLOSE);
-//			break;
-//		}
-//		default:
-//			log.info("Return echo message %s : %s", replyToken, text); 
-//		}
-
-		if (userLog.getUserID() == event.getSource().getSenderId()) {
+		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "add": {
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("Format การเพิ่ม Agenda "),
 								new TextMessage("วาระการประชุม " + " ห้องประชุม" + " วันและเวลา" + " โดย "),
 								new TextMessage("พิมพ์   cancel : ยกเลิก ")));
-				statusBot = status.SAVE;
+				userLog.setStatusBot(status.SAVE);
 				break;
 			}
 			case "list": {
@@ -165,7 +141,7 @@ public class LineBotController {
 					modelMapper.map(record, en);
 					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
 				});
-				statusBot = status.CALL;
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "profile": {
@@ -182,7 +158,7 @@ public class LineBotController {
 												+ profile.getStatusMessage() + "\n User ID : " + profile.getUserId())));
 					});
 				}
-				statusBot = status.CALL;
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "leave": {
@@ -192,24 +168,25 @@ public class LineBotController {
 								new MessageAction("ลาป่วย", "2"), new MessageAction("ลาพักร้อน", "3")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
-				statusBot = status.Q11;
+				userLog.setStatusBot(status.Q11);
 				break;
 			}
 			case "help": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"โปรดเลือกรายการ \n พิมพ์  profile : ดูข้อมูล Profile  \n พิมพ์  list : ดู Agenda \n พิมพ์  add : เพิ่ม Agenda")));
-				statusBot = status.CALL;;
+				userLog.setStatusBot(status.DEFAULT);
+				;
 				break;
 			}
 			case "Flex": {
 				String pathYamlHome = "asset/richmenu-home.yml";
 				String pathImageHome = "asset/richmenu-home.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userID);
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 			}
 			case "Flex Back": {
 
-				RichMenuHelper.deleteRichMenu(lineMessagingClient, userID);
+				RichMenuHelper.deleteRichMenu(lineMessagingClient, userLog.getUserID());
 				break;
 			}
 
@@ -264,33 +241,33 @@ public class LineBotController {
 				log.info("Return echo message %s : %s", replyToken, text);
 			}
 
-		} else if (statusBot.equals(status.SAVE)) {
+		} else if (userLog.getStatusBot().equals(status.SAVE)) {
 			switch (text) {
 			case "cancel": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ยกเลิกสำเร็จ ")));
-				statusBot = status.CALL;
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			default:
 				lineRepo.save(text.toString());
 				this.reply(replyToken, Arrays.asList(new TextMessage("บันทึกสำเร็จ ")));
-				statusBot = status.CALL;
+				userLog.setStatusBot(status.DEFAULT);
 			}
-		} else if (statusBot.equals(status.Q11)) {
+		} else if (userLog.getStatusBot().equals(status.Q11)) {
 			switch (text) {
 			case "1": {
 				log.info("Return echo message %s : %s", replyToken, text);
-				statusBot = status.CALL;
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "2": {
 				log.info("Return echo message %s : %s", replyToken, text);
-				statusBot = status.CALL;
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "3": {
 				log.info("Return echo message %s : %s", replyToken, text);
-				statusBot = status.CALL;
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			default:
@@ -301,12 +278,14 @@ public class LineBotController {
 								new MessageAction("ลาป่วย", "2"), new MessageAction("ลาพักร้อน", "3")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
-				statusBot = status.Q11;
+				userLog.setStatusBot(status.Q11);
 			}
 		} else {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
 			this.reply(replyToken, new StickerMessage("1", "17"));
 		}
+		
+		userMap.put(event.getSource().getSenderId(), userLog);
 
 	}
 

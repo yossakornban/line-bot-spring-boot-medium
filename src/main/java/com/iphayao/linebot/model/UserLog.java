@@ -7,7 +7,9 @@ import lombok.Data;
 @Data
 public class UserLog {
 	
-	public enum status {CALL, CLOSE, SAVE, Q11};
+	public enum status {DEFAULT, SAVE, Q11};
+	
+	
 	
 	public status getStatusBot() {
 		return statusBot;
@@ -17,6 +19,14 @@ public class UserLog {
 		this.statusBot = statusBot;
 	}
 	
+	public UserLog(String userID, status statusBot) {
+		this.userID = userID;
+		this.statusBot = statusBot;
+	}
+	
+	public UserLog() {
+	}
+
 	private String userID;
 	private Integer leaveID;
 	private status statusBot;
