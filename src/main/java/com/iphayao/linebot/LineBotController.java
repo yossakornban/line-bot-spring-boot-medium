@@ -114,6 +114,7 @@ public class LineBotController {
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = new UserLog();
 		userLog.setUserID(event.getSource().getSenderId());
+		System.out.println("################ "+event.getSource().getSenderId());
 		
 		String text = content.getText();
 //		userID = event.getSource().getSenderId();
