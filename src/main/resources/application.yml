@@ -6,6 +6,6 @@ line.bot:
 spring.datasource:
   platform: postgres
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://isilo.db.elephantsql.com:5432/ucwqrjit
-  username: ucwqrjit
-  password: 9yUURpn67-P5gQGkGEIzQlYpa1x8ta8m
+  url: jdbc:postgresql://isilo.db.elephantsql.com:5432/bkuzmnlv
+  username: bkuzmnlv
+  password: QBNuUs9wctQWZZ7yVpx1a3ABa2cDPG73
