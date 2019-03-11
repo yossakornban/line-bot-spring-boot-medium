@@ -114,14 +114,12 @@ public class LineBotController {
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = new UserLog();
 		userLog.setUserID(event.getSource().getSenderId());
-		System.out.println("################ "+event.getSource().getSenderId());
+
 		
 		String text = content.getText();
 //		userID = event.getSource().getSenderId();
 		ModelMapper modelMapper = new ModelMapper();
 
-		log.info("Got text message from %s : %s", replyToken, text);
-	
 //	    public static void main(String[] args) {
 //	        Task t = new Task("Washing up");
 //	        t.setPriority(Priority.HIGH);
@@ -148,6 +146,10 @@ public class LineBotController {
 		default:
 			log.info("Return echo message %s : %s", replyToken, text); 
 		}
+		
+		System.out.println("11111 "+event.getSource().getSenderId());
+		System.out.println("22222 "+userLog.getUserID());
+		System.out.println("44444 "+userLog.getStatusBot());
 
 		if (userLog.getUserID() == event.getSource().getSenderId() && userLog.getStatusBot().equals(status.CALL)) {
 			switch (text) {
