@@ -1,4 +1,4 @@
-package com.iphayao.linebot;
+package com.iphayao.linebot.model;
 
 import lombok.Data;
 

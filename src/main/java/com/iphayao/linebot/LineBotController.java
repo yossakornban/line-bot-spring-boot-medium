@@ -27,6 +27,9 @@ import com.iphayao.linebot.flex.RestaurantFlexMessageSupplier;
 import com.iphayao.linebot.flex.RestaurantMenuFlexMessageSupplier;
 import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
+import com.iphayao.linebot.model.Entity;
+import com.iphayao.linebot.model.UserLog;
+import com.iphayao.linebot.model.UserLog.status;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -63,9 +66,8 @@ public class LineBotController {
 
 	@Autowired
 	private LineRepository lineRepo;
-
-	private enum status {CALL, CLOSE, SAVE, Q11};
-	private status statusBot = status.CLOSE;
+	
+	private status statusBot = status.CLOSE; // Default status
 	private String userID = "";
 
 	@EventMapping
@@ -110,31 +112,43 @@ public class LineBotController {
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
-
+		UserLog userLog = new UserLog();
+		userLog.setUserID(event.getSource().getSenderId());
+		
 		String text = content.getText();
-		userID = event.getSource().getSenderId();
+//		userID = event.getSource().getSenderId();
 		ModelMapper modelMapper = new ModelMapper();
 
 		log.info("Got text message from %s : %s", replyToken, text);
+	
+//	    public static void main(String[] args) {
+//	        Task t = new Task("Washing up");
+//	        t.setPriority(Priority.HIGH);
+//	        System.out.println(t.getName()); // Washing up
+//	        System.out.println(t.getPriority().toString()); // This gets the string of HIGH
+//	        System.out.println(t.getPriority().ordinal()); // this gives 4
+//	    }
 
 		switch (text) {
 		case "call": {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("สวัสดีจ้า ยินดีให้บริการรรรร")));
 			this.reply(replyToken, new StickerMessage("1", "17"));
-			statusBot = status.CALL;
+//			statusBot = status.CALL;
+			userLog.setStatusBot(status.CALL);
 			break;
 		}
 		case "close": {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("ไปละน้าาาา บายยยยย")));
 			this.reply(replyToken, new StickerMessage("1", "108"));
-			statusBot = status.CLOSE;
+			userLog.setStatusBot(status.CLOSE);
+//			statusBot = status.CLOSE;
 			break;
 		}
 		default:
 			log.info("Return echo message %s : %s", replyToken, text);
 		}
 
-		if (statusBot.equals(status.CALL)) {
+		if (userLog.getUserID() == event.getSource().getSenderId() && userLog.getStatusBot().equals(status.CALL)) {
 			switch (text) {
 			case "add": {
 				this.reply(replyToken,
