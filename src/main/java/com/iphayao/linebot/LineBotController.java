@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -114,6 +115,10 @@ public class LineBotController {
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = new UserLog();
 		userLog.setUserID(event.getSource().getSenderId());
+		Map userMap = new HashMap();
+		userMap.put("userLog", userLog);
+		System.out.println("+++++ "+ userMap.get("userLog"));
+
 		
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
