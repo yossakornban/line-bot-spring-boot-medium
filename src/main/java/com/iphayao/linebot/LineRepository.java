@@ -14,6 +14,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 //import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.iphayao.linebot.model.UserLog;
+
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +39,7 @@ public class LineRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	public int register(String empCode, String lineID) {
+	public int register(UserLog userLog) {
 		int aaa = 0;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -47,8 +49,8 @@ public class LineRepository {
 			stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("empcode", empCode);
-			parameters.addValue("lineid", lineID);
+			parameters.addValue("empcode", userLog.getEmpCode());
+			parameters.addValue("lineid", userLog.getUserID());
 
 			 aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;

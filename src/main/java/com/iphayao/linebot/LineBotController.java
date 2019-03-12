@@ -52,6 +52,7 @@ import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
@@ -253,13 +254,7 @@ public class LineBotController {
 				break;
 			}
 			default:
-				int aa = lineRepo.register(text.toString(), userLog.getUserID());
 
-				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ ")));
-
-				System.out.println("aaaaaa " + aa);
-
-				userLog.setStatusBot(status.DEFAULT);
 			}
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 			switch (text) {
@@ -274,7 +269,7 @@ public class LineBotController {
 				break;
 			}
 			case "3": {
-				
+
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -291,14 +286,28 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 			userLog.setEmpCode(text.toString());
 			String empName = lineRepo.findEmp(text.toString());
-			log.info("================= " + empName);
-				if (empName != null) {
-					this.reply(replyToken, Arrays.asList(new TextMessage(empName)));
-					userLog.setStatusBot(status.DEFAULT);
-				} else {
-					this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
-				}
+			ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
+					new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
+			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+			this.reply(replyToken, templateMessage);
+			userLog.setStatusBot(status.FINDCONFIRM);
 
+		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
+			switch (text) {
+			case "Yes": {
+				lineRepo.register(userLog);
+				userLog.setStatusBot(status.DEFAULT);
+				this.push(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ")));
+				break;
+			}
+			case "No": {
+				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
+				userLog.setStatusBot(status.FINDEMP);
+				break;
+			}
+			default:
+				log.info("Return echo message %s : %s", replyToken, text);
+			}
 		} else {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
 			this.reply(replyToken, new StickerMessage("1", "17"));
