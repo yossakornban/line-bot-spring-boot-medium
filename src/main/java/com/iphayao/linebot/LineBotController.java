@@ -131,12 +131,7 @@ public class LineBotController {
 			switch (text) {
 			case "register": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
-//				if (emp.getEmp_name() != null) {
 				userLog.setStatusBot(status.FINDEMP);
-//				} else {
-//					this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
-//				}
-
 				break;
 			}
 			case "list": {
@@ -286,11 +281,16 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 			userLog.setEmpCode(text.toString());
 			String empName = lineRepo.findEmp(text.toString());
+			if (empName != null) {
 			ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 					new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
 			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 			this.reply(replyToken, templateMessage);
 			userLog.setStatusBot(status.FINDCONFIRM);
+			} else {
+			this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ")));
+			userLog.setStatusBot(status.DEFAULT);
+			}
 
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
