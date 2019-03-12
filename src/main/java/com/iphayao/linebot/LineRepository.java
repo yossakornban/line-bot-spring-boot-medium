@@ -60,8 +60,8 @@ public class LineRepository {
 		return aaa;
 	}
 	
-	public ArrayList<Map<String, Object>> findEmp(String empCode) {
-		ArrayList<Map<String, Object>> result = null;
+	public Map<String, Object> findEmp(String empCode) {
+		Map<String, Object> result = null;
 //		List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -73,7 +73,7 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", empCode);
 
-			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			 result  = (Map<String, Object>) jdbcTemplate.queryForMap(stb.toString(), parameters);
 			 System.out.println("%%%%%%%%%%%%% "+ result);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());

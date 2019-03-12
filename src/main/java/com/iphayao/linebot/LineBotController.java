@@ -274,7 +274,7 @@ public class LineBotController {
 				break;
 			}
 			case "3": {
-				log.info("Return echo message %s : %s", replyToken, text); 
+				
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -289,12 +289,15 @@ public class LineBotController {
 				userLog.setStatusBot(status.Q11);
 			}
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
-			Employee emp = new Employee();
-			ArrayList<Map<String, Object>> list = lineRepo.findEmp(text.toString());
-			list.forEach(record -> {
-				modelMapper.map(record, emp);
-				this.reply(replyToken, Arrays.asList(new TextMessage(emp.getEmp_name())));
-			});
+			userLog.setEmpCode(text.toString());
+			Map<String, Object> list = lineRepo.findEmp(text.toString());
+			log.info("================= " + list);
+//				if (list.get(arg0) != null) {
+//					this.reply(replyToken, Arrays.asList(new TextMessage(emp.getEmp_name())));
+//					userLog.setStatusBot(status.DEFAULT);
+//				} else {
+//					this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
+//				}
 
 		} else {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
