@@ -37,16 +37,17 @@ public class LineRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	public void save(String message) {
+	public void register(String empCode, String lineID) {
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" INSERT INTO log_chat (message, log_date) ");
-			stb.append(" VALUES (:message, NOW()) ");
+			stb.append(" UPDATE employee SET (emp_line_id = :lineid) ");
+			stb.append(" WHERE emp_code = :empcode) ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("message", message);
+			parameters.addValue("empcode", empCode);
+			parameters.addValue("lineid", lineID);
 
 			jdbcTemplate.update(stb.toString(), parameters);
 //					(stb.toString(), parameters,

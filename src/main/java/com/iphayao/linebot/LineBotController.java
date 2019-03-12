@@ -114,24 +114,21 @@ public class LineBotController {
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
-		
-		if ( userLog == null) {
+
+		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
-		
-		System.out.println("+++++ " + userMap.get(event.getSource().getSenderId()).toString()); 
+
+		System.out.println("+++++ " + userMap.get(event.getSource().getSenderId()).toString());
 
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
-			case "add": {
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("Format การเพิ่ม Agenda "),
-								new TextMessage("วาระการประชุม " + " ห้องประชุม" + " วันและเวลา" + " โดย "),
-								new TextMessage("พิมพ์   cancel : ยกเลิก ")));
+			case "register": {
+				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
 				userLog.setStatusBot(status.SAVE);
 				break;
 			}
@@ -250,7 +247,7 @@ public class LineBotController {
 				break;
 			}
 			default:
-				lineRepo.save(text.toString());
+				lineRepo.register(text.toString(), userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("บันทึกสำเร็จ ")));
 				userLog.setStatusBot(status.DEFAULT);
 			}
@@ -285,7 +282,7 @@ public class LineBotController {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
 			this.reply(replyToken, new StickerMessage("1", "17"));
 		}
-		
+
 		userMap.put(event.getSource().getSenderId(), userLog);
 
 	}
