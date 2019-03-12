@@ -288,8 +288,8 @@ public class LineBotController {
 			this.reply(replyToken, templateMessage);
 			userLog.setStatusBot(status.FINDCONFIRM);
 			} else {
-			this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ")));
-			userLog.setStatusBot(status.DEFAULT);
+			this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ"), new TextMessage("กรอก รหัสพนักงาน")));
+			userLog.setStatusBot(status.FINDEMP);
 			}
 
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
