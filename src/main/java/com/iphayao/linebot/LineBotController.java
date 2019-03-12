@@ -129,7 +129,7 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "register": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
+				this.push(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
 				Employee emp = new Employee();
 				ArrayList<Map<String, Object>> list = lineRepo.findEmp(text.toString());
 				list.forEach(record -> {
