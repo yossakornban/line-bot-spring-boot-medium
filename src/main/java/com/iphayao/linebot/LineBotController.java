@@ -130,15 +130,8 @@ public class LineBotController {
 			switch (text) {
 			case "register": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
-				Employee emp = new Employee();
-				ArrayList<Map<String, Object>> list = lineRepo.findEmp(text.toString());
-				list.forEach(record -> {
-					modelMapper.map(record, emp);
-					this.reply(replyToken, Arrays.asList(new TextMessage(emp.getEmp_name())));
-				});
-
 //				if (emp.getEmp_name() != null) {
-					userLog.setStatusBot(status.SAVE);
+				userLog.setStatusBot(status.FINDEMP);
 //				} else {
 //					this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
 //				}
@@ -281,7 +274,7 @@ public class LineBotController {
 				break;
 			}
 			case "3": {
-				log.info("Return echo message %s : %s", replyToken, text);
+				log.info("Return echo message %s : %s", replyToken, text); 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -295,6 +288,14 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
 			}
+		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
+			Employee emp = new Employee();
+			ArrayList<Map<String, Object>> list = lineRepo.findEmp(text.toString());
+			list.forEach(record -> {
+				modelMapper.map(record, emp);
+				this.reply(replyToken, Arrays.asList(new TextMessage(emp.getEmp_name())));
+			});
+
 		} else {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
 			this.reply(replyToken, new StickerMessage("1", "17"));
