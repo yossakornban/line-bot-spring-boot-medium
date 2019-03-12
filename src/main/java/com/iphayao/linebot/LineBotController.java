@@ -129,19 +129,19 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "register": {
-				this.push(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
 				Employee emp = new Employee();
 				ArrayList<Map<String, Object>> list = lineRepo.findEmp(text.toString());
 				list.forEach(record -> {
 					modelMapper.map(record, emp);
-					this.push(replyToken, Arrays.asList(new TextMessage(emp.getEmp_name())));
+					this.reply(replyToken, Arrays.asList(new TextMessage(emp.getEmp_name())));
 				});
 
-				if (emp.getEmp_name() != null) {
+//				if (emp.getEmp_name() != null) {
 					userLog.setStatusBot(status.SAVE);
-				} else {
-					this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
-				}
+//				} else {
+//					this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
+//				}
 
 				break;
 			}
