@@ -28,6 +28,7 @@ import com.iphayao.linebot.flex.RestaurantFlexMessageSupplier;
 import com.iphayao.linebot.flex.RestaurantMenuFlexMessageSupplier;
 import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
+import com.iphayao.linebot.model.Employee;
 import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -129,7 +130,19 @@ public class LineBotController {
 			switch (text) {
 			case "register": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
-				userLog.setStatusBot(status.SAVE);
+				Employee emp = new Employee();
+				ArrayList<Map<String, Object>> list = lineRepo.findEmp(text.toString());
+				list.forEach(record -> {
+					modelMapper.map(record, emp);
+					this.push(replyToken, Arrays.asList(new TextMessage(emp.getEmp_name())));
+				});
+
+				if (emp.getEmp_name() != null) {
+					userLog.setStatusBot(status.SAVE);
+				} else {
+					this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
+				}
+
 				break;
 			}
 			case "list": {
@@ -248,13 +261,11 @@ public class LineBotController {
 			}
 			default:
 				int aa = lineRepo.register(text.toString(), userLog.getUserID());
-				if(aa == 1){
+
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ ")));
-				} else {
-				this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
-				}
-				System.out.println("aaaaaa "+aa);
-				
+
+				System.out.println("aaaaaa " + aa);
+
 				userLog.setStatusBot(status.DEFAULT);
 			}
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
