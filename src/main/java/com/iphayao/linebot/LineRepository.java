@@ -67,7 +67,7 @@ public class LineRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" SELECT message FROM log_chat ");
+			stb.append(" SELECT emp_name FROM employee ");
 			stb.append(" WHERE emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
