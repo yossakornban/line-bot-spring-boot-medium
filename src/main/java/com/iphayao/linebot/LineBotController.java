@@ -290,14 +290,14 @@ public class LineBotController {
 			}
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 			userLog.setEmpCode(text.toString());
-			Map<String, Object> list = lineRepo.findEmp(text.toString());
-			log.info("================= " + list);
-//				if (list.get(arg0) != null) {
-//					this.reply(replyToken, Arrays.asList(new TextMessage(emp.getEmp_name())));
-//					userLog.setStatusBot(status.DEFAULT);
-//				} else {
-//					this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
-//				}
+			String empName = lineRepo.findEmp(text.toString());
+			log.info("================= " + empName);
+				if (empName != null) {
+					this.reply(replyToken, Arrays.asList(new TextMessage(empName)));
+					userLog.setStatusBot(status.DEFAULT);
+				} else {
+					this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
+				}
 
 		} else {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
