@@ -37,7 +37,8 @@ public class LineRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	public void register(String empCode, String lineID) {
+	public int register(String empCode, String lineID) {
+		int aaa = 0;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
@@ -49,12 +50,14 @@ public class LineRepository {
 			parameters.addValue("empcode", empCode);
 			parameters.addValue("lineid", lineID);
 
-			jdbcTemplate.update(stb.toString(), parameters);
+			 aaa = jdbcTemplate.update(stb.toString(), parameters);
+			return aaa;
 //					(stb.toString(), parameters,
 //					new BeanPropertyRowMapper<Entity>(Entity.class));
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
+		return aaa;
 	}
 	
 	public ArrayList<Map<String, Object>> list() {

@@ -247,7 +247,8 @@ public class LineBotController {
 				break;
 			}
 			default:
-				lineRepo.register(text.toString(), userLog.getUserID());
+				int aa = lineRepo.register(text.toString(), userLog.getUserID());
+				System.out.println("aaaaaa "+aa);
 				this.reply(replyToken, Arrays.asList(new TextMessage("บันทึกสำเร็จ ")));
 				userLog.setStatusBot(status.DEFAULT);
 			}
