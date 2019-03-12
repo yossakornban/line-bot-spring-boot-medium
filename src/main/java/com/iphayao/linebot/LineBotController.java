@@ -297,7 +297,7 @@ public class LineBotController {
 			case "Yes": {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
-				this.push(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ")));
 				break;
 			}
 			case "No": {
