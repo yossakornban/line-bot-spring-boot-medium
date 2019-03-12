@@ -248,8 +248,13 @@ public class LineBotController {
 			}
 			default:
 				int aa = lineRepo.register(text.toString(), userLog.getUserID());
+				if(aa == 1){
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ ")));
+				} else {
+				this.reply(replyToken, Arrays.asList(new TextMessage("คุณยังไม่ได้ลงทะเบัยนเบื้องต้น")));
+				}
 				System.out.println("aaaaaa "+aa);
-				this.reply(replyToken, Arrays.asList(new TextMessage("บันทึกสำเร็จ ")));
+				
 				userLog.setStatusBot(status.DEFAULT);
 			}
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
