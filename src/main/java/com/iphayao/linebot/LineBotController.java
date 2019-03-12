@@ -243,7 +243,7 @@ public class LineBotController {
 				break;
 			}
 			default:
-				log.info("Return echo message %s : %s", replyToken, text);
+				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 
 		} else if (userLog.getStatusBot().equals(status.SAVE)) {
