@@ -74,7 +74,7 @@ public class LineRepository {
 			parameters.addValue("empcode", empCode);
 
 			 result  = (Map<String, Object>) jdbcTemplate.queryForMap(stb.toString(), parameters);
-			 System.out.println("%%%%%%%%%%%%% "+ result);
+			 System.out.println("%%%%%%%%%%%%% "+ result.get("emp_name"));
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
