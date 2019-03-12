@@ -43,7 +43,7 @@ public class LineRepository {
 			stb = new StringBuilder();
 
 			stb.append(" UPDATE employee SET emp_line_id = :lineid ");
-			stb.append(" WHERE emp_code = :empcode) ");
+			stb.append(" WHERE emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", empCode);
