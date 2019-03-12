@@ -130,7 +130,7 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "register": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
@@ -288,7 +288,7 @@ public class LineBotController {
 			this.reply(replyToken, templateMessage);
 			userLog.setStatusBot(status.FINDCONFIRM);
 			} else {
-			this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ"), new TextMessage("กรอก รหัสพนักงาน")));
+			this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : https://line.me/ti/p/oklP0GdrWw"), new TextMessage("กรอก รหัสพนักงาน")));
 			userLog.setStatusBot(status.FINDEMP);
 			}
 
