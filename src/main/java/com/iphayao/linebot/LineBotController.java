@@ -301,10 +301,10 @@ public class LineBotController {
 			case "Yes": {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
-				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ")));
-				this.reply(replyToken, Arrays.asList(new TextMessage("อยากทราบข้อมูลอะไรค่ะ?")));
-				String chooseEvent = "asset/select_event.yml";
-				RichMenuHelper.createRichMenu(lineMessagingClient, chooseEvent, userLog.getUserID(), chooseEvent);
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียน สำเร็จ")));
+				
+				
+				
 				break;
 			}
 			case "No": {
