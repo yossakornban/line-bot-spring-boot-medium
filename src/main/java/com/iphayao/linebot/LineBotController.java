@@ -291,13 +291,20 @@ public class LineBotController {
 			this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "), new TextMessage("กรอก รหัสพนักงาน")));
 			userLog.setStatusBot(status.FINDEMP);
 			}
+			
 
-		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
+		} else if(userLog.getStatusBot().equals(status.SELECT_EVENT)){
+			
+		}
+		else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
-				this.reply(replyToken, Arrays.asList(new TextMessage("สำเร็จ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("อยากทราบข้อมูลอะไรค่ะ?")));
+				String chooseEvent = "asset/select_event.yml";
+				RichMenuHelper.createRichMenu(lineMessagingClient, chooseEvent, userLog.getUserID(), chooseEvent);
 				break;
 			}
 			case "No": {
