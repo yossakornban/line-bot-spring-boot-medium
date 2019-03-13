@@ -302,14 +302,12 @@ public class LineBotController {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
-				if((userLog.getStatusBot().equals(status.DEFAULT))) {
-					System.out.println("DEFAULT");
-					String chooseEvent = "asset/select_event.yml";
-					String chooseEventImage = "asset/select_event.jpg";
-					RichMenuHelper.createRichMenu(lineMessagingClient, chooseEvent, chooseEventImage, userLog.getUserID());
+				String pathYamlHome = "asset/richmenu-home.yml";
+				String pathImageHome = "asset/richmenu-home.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 				}
-			}
+			
 			case "No": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
