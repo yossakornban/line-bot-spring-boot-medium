@@ -300,11 +300,9 @@ public class LineBotController {
 			switch (text) {
 			case "Yes": {
 				lineRepo.register(userLog);
-				userLog.setStatusBot(status.DEFAULT);
+				userLog.setStatusBot(status.SELECT_EVENT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
-				String pathYamlHome = "asset/richmenu-home.yml";
-				String pathImageHome = "asset/richmenu-home.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				System.out.println("RaiderStriker in Yes");
 				break;
 				}
 			
@@ -316,6 +314,8 @@ public class LineBotController {
 			default:
 				log.info("Return echo message %s : %s", replyToken, text);
 			}
+		}else if (userLog.getStatusBot().equals(status.SELECT_EVENT)) {
+			System.out.println("SELECT_EVENT");
 		}
 		
 		
