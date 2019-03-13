@@ -179,8 +179,8 @@ public class LineBotController {
 				break;
 			}
 			case "Flex": {
-				String pathYamlHome = "asset/richmenu-home.yml";
-				String pathImageHome = "asset/richmenu-home.jpg";
+				String pathYamlHome = "asset/select_event.yml";
+				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 			}
@@ -304,7 +304,7 @@ public class LineBotController {
 			case "Yes": {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
-				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ ต้องการทราบข้อมูลอะไรเหรอค่ะ? ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
 				userLog.setStatusBot(status.SELECT_EVENT);
 				
 				
