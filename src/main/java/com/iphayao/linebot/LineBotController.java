@@ -316,6 +316,10 @@ public class LineBotController {
 			}
 		}else if (userLog.getStatusBot().equals(status.SELECT_EVENT)) {
 			System.out.println("SELECT_EVENT");
+			String pathYamlHome = "asset/select_event.yml";
+			String pathImageHome = "asset/select_event.jpg";
+			RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+			System.out.println("SELECT_COMPLETE");
 		}
 		
 		
