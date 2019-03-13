@@ -299,10 +299,14 @@ public class LineBotController {
 			switch (text) {
 			case "Yes": {
 				lineRepo.register(userLog);
-				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
 				userLog.setStatusBot(status.SELECT_EVENT);
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
+				if((userLog.getStatusBot().equals(status.SELECT_EVENT))) {
+					String chooseEvent = "asset/choose_event.yml";
+					String chooseEventImage = "asset/choose_event.jpg";
+					RichMenuHelper.createRichMenu(lineMessagingClient, chooseEvent, chooseEventImage, userLog.getUserID());
 				break;
-				
+				}
 			}
 			case "No": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
@@ -312,11 +316,8 @@ public class LineBotController {
 			default:
 				log.info("Return echo message %s : %s", replyToken, text);
 			}
-		}else if((userLog.getStatusBot().equals(status.SELECT_EVENT))) {
-			String chooseEvent = "asset/choose_event.yml";
-			String chooseEventImage = "asset/choose_event.jpg";
-			RichMenuHelper.createRichMenu(lineMessagingClient, chooseEvent, chooseEventImage, userLog.getUserID());
 		}
+		
 		
 		else {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
