@@ -121,6 +121,7 @@ public class LineBotController {
 			Event event = null;
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
+			
 		}
 		String pathYamlHome = "asset/richmenu-home.yml";
 		String pathImageHome = "asset/richmenu-home.jpg";
@@ -193,8 +194,8 @@ public class LineBotController {
 				break;
 			}
 			case "Flex": {
-				String pathYamlHome = "asset/richmenu-home.yml";
-				String pathImageHome = "asset/richmenu-home.jpg";
+				String pathYamlHome = "asset/select_event.yml";
+				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 			}
