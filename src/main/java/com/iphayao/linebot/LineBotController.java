@@ -303,6 +303,10 @@ public class LineBotController {
 				userLog.setStatusBot(status.SELECT_EVENT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
 				System.out.println("RaiderStriker in Yes");
+				String pathYamlHome = "asset/select_event.yml";
+				String pathImageHome = "asset/select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				System.out.println("Pass select in yes");
 				break;
 				}
 			
