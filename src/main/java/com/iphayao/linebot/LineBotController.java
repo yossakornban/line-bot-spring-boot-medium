@@ -1,6 +1,5 @@
 package com.iphayao.linebot;
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
@@ -113,21 +112,7 @@ public class LineBotController {
 			throw new RuntimeException(e);
 		}
 
-	}  
-	
-	private void select_event() {
-		UserLog userLog = null;
-		if (userLog == null) {
-			Event event = null;
-			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
-			userMap.put(event.getSource().getSenderId(), userLog);
-			
-		}
-		String pathYamlHome = "asset/richmenu-home.yml";
-		String pathImageHome = "asset/richmenu-home.jpg";
-		RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 	}
-	
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
@@ -313,14 +298,13 @@ public class LineBotController {
 			switch (text) {
 			case "Yes": {
 				lineRepo.register(userLog);
+				userLog.setStatusBot(status.DEFAULT);
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ ต้องการทราบข้อมูลอะไรเหรอค่ะ? ")));
 				userLog.setStatusBot(status.SELECT_EVENT);
-				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
-				System.out.println("RaiderStriker in Yes");
-				select_event();
-				System.out.println("Copper");
+				
+				
 				break;
-				}
-			
+			}
 			case "No": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
@@ -329,10 +313,7 @@ public class LineBotController {
 			default:
 				log.info("Return echo message %s : %s", replyToken, text);
 			}
-		}
-		
-		
-		else {
+		} else {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
 			this.reply(replyToken, new StickerMessage("1", "17"));
 		}
