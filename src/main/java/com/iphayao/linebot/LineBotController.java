@@ -115,6 +115,18 @@ public class LineBotController {
 
 	}  
 	
+	private void select_event() {
+		UserLog userLog = null;
+		if (userLog == null) {
+			Event event = null;
+			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
+			userMap.put(event.getSource().getSenderId(), userLog);
+		}
+		String pathYamlHome = "asset/richmenu-home.yml";
+		String pathImageHome = "asset/richmenu-home.jpg";
+		RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+	}
+	
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
@@ -303,10 +315,8 @@ public class LineBotController {
 				userLog.setStatusBot(status.SELECT_EVENT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
 				System.out.println("RaiderStriker in Yes");
-				String pathYamlHome = "asset/select_event.yml";
-				String pathImageHome = "asset/select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				System.out.println("Pass select in yes");
+				select_event();
+				System.out.println("Copper");
 				break;
 				}
 			
@@ -318,12 +328,6 @@ public class LineBotController {
 			default:
 				log.info("Return echo message %s : %s", replyToken, text);
 			}
-		}else if (userLog.getStatusBot().equals(status.SELECT_EVENT)) {
-			System.out.println("SELECT_EVENT");
-			String pathYamlHome = "asset/select_event.yml";
-			String pathImageHome = "asset/select_event.jpg";
-			RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-			System.out.println("SELECT_COMPLETE");
 		}
 		
 		
