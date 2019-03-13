@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -114,11 +113,7 @@ public class LineBotController {
 		}
 
 	}  
-	private void callPictureEvent() {
-		String chooseEvent = "asset/select_event.yml";
-		String chooseEventImage = "asset/select_event.jpg";
-		RichMenuHelper.createRichMenu(lineMessagingClient, chooseEvent, chooseEventImage, chooseEventImage);
-	}
+	
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
@@ -304,11 +299,10 @@ public class LineBotController {
 			switch (text) {
 			case "Yes": {
 				lineRepo.register(userLog);
-				userLog.setStatusBot(status.DEFAULT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
-				callPictureEvent();
-				
+				userLog.setStatusBot(status.SELECT_EVENT);
 				break;
+				
 			}
 			case "No": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
@@ -318,7 +312,13 @@ public class LineBotController {
 			default:
 				log.info("Return echo message %s : %s", replyToken, text);
 			}
-		} else {
+		}else if((userLog.getStatusBot().equals(status.SELECT_EVENT))) {
+			String chooseEvent = "asset/choose_event.yml";
+			String chooseEventImage = "asset/choose_event.jpg";
+			RichMenuHelper.createRichMenu(lineMessagingClient, chooseEvent, chooseEventImage, userLog.getUserID());
+		}
+		
+		else {
 			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
 			this.reply(replyToken, new StickerMessage("1", "17"));
 		}
