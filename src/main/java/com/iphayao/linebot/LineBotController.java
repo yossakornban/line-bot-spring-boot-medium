@@ -1,5 +1,6 @@
 package com.iphayao.linebot;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
@@ -299,11 +300,12 @@ public class LineBotController {
 			switch (text) {
 			case "Yes": {
 				lineRepo.register(userLog);
-				userLog.setStatusBot(status.SELECT_EVENT);
+				userLog.setStatusBot(status.DEFAULT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
-				if((userLog.getStatusBot().equals(status.SELECT_EVENT))) {
-					String chooseEvent = "asset/choose_event.yml";
-					String chooseEventImage = "asset/choose_event.jpg";
+				if((userLog.getStatusBot().equals(status.DEFAULT))) {
+					System.out.println("DEFAULT");
+					String chooseEvent = "asset/select_event.yml";
+					String chooseEventImage = "asset/select_event.jpg";
 					RichMenuHelper.createRichMenu(lineMessagingClient, chooseEvent, chooseEventImage, userLog.getUserID());
 				break;
 				}

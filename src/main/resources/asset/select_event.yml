@@ -1,9 +1,9 @@
 size:
   width: 2500
   height: 1686
-selected: false
+selected: true
 name: Home
-chatBarText: 'Menu Eiei'
+
 areas:
 -
   bounds:
