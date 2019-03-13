@@ -299,8 +299,11 @@ public class LineBotController {
 			case "Yes": {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
-				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ ต้องการทราบข้อมูลอะไรเหรอค่ะ? ")));
 				
+				String pathYamlHome = "asset/richmenu-home.yml";
+				String pathImageHome = "asset/richmenu-home.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
 				
 				
 				break;
