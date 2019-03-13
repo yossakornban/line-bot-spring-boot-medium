@@ -293,17 +293,15 @@ public class LineBotController {
 			}
 			
 
-		} else if((userLog.getStatusBot().equals(status.SELECT_EVENT))) {
-			String pathYamlHome = "asset/select_event.yml";
-			String pathImageHome = "asset/select_event.jpg";
-			RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-			
 		}
 		else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
 				lineRepo.register(userLog);
-				userLog.setStatusBot(status.SELECT_EVENT);
+				userLog.setStatusBot(status.DEFAULT);
+				String pathYamlHome = "asset/select_event.yml";
+				String pathImageHome = "asset/select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
 				
 				
