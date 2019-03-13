@@ -294,6 +294,9 @@ public class LineBotController {
 			
 
 		} else if(userLog.getStatusBot().equals(status.SELECT_EVENT)){
+			String shooseEvent = "asset/select_event.yml";
+			String shooseEventImage = "asset/select_event.jpg";
+			RichMenuHelper.createRichMenu(lineMessagingClient, shooseEvent, shooseEventImage, userLog.getUserID());
 			
 		}
 		else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
@@ -301,8 +304,8 @@ public class LineBotController {
 			case "Yes": {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
-				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียน สำเร็จ")));
-				
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ ต้องการทราบข้อมูลอะไรเหรอค่ะ? ")));
+				userLog.setStatusBot(status.SELECT_EVENT);
 				
 				
 				break;
