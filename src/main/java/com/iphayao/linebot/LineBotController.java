@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -112,6 +113,11 @@ public class LineBotController {
 			throw new RuntimeException(e);
 		}
 
+	}  
+	private void callPictureEvent() {
+		String chooseEvent = "asset/select_event.yml";
+		String chooseEventImage = "asset/select_event.jpg";
+		RichMenuHelper.createRichMenu(lineMessagingClient, chooseEvent, chooseEventImage, chooseEventImage);
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
@@ -179,8 +185,8 @@ public class LineBotController {
 				break;
 			}
 			case "Flex": {
-				String pathYamlHome = "asset/select_event.yml";
-				String pathImageHome = "asset/select_event.jpg";
+				String pathYamlHome = "asset/richmenu-home.yml";
+				String pathImageHome = "asset/richmenu-home.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 			}
@@ -293,20 +299,14 @@ public class LineBotController {
 			}
 			
 
-		} else if(userLog.getStatusBot().equals(status.SELECT_EVENT)){
-			String shooseEvent = "asset/select_event.yml";
-			String shooseEventImage = "asset/select_event.jpg";
-			RichMenuHelper.createRichMenu(lineMessagingClient, shooseEvent, shooseEventImage, userLog.getUserID());
-			
-		}
+		} 
 		else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
-				userLog.setStatusBot(status.SELECT_EVENT);
-				
+				callPictureEvent();
 				
 				break;
 			}
