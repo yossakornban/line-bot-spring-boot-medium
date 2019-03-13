@@ -300,7 +300,7 @@ public class LineBotController {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ ต้องการทราบข้อมูลอะไรเหรอค่ะ? ")));
-				userLog.setStatusBot(status.SELECT_EVENT);
+				
 				
 				
 				break;
