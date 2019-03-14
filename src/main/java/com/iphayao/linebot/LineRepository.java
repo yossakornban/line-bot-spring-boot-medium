@@ -40,7 +40,7 @@ public class LineRepository {
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
-	public Text holidayList;
+
 	
 	
 
