@@ -90,7 +90,7 @@ public class LineRepository {
 	}
 
 	public String holidayList(String dataList) {
-		ArrayList<Map<String, Object >> result =null;
+		ArrayList<Map<String, Object >> result =holiday_;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
@@ -110,7 +110,7 @@ public class LineRepository {
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
-		return (String) result.get(0).get("holiday_year");
+		return (String) result.get(0).get("year_holiday");
 	}
 		
 	
