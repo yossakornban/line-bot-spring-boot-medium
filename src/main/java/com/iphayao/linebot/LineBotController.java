@@ -163,7 +163,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 		
 				
-			
+			 
 					System.out.println("Holiday list");
 					break;
 
