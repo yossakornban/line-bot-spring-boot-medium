@@ -14,7 +14,7 @@ areas:
   action:
     type: message
     label: profile
-    text: 'profile'
+    text: 'ขอลาหยุดครับผม'
 -
   bounds:
     x: 834
