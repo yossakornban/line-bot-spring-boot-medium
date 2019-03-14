@@ -38,6 +38,8 @@ public class LineRepository {
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
+	
+	
 
 	public int register(UserLog userLog) {
 		int aaa = 0;
@@ -87,23 +89,31 @@ public class LineRepository {
 		return (String) result.get(0).get("emp_emp_name");
 	}
 
-	public ArrayList<Map<String, Object>> Holiday() {
-		ArrayList<Map<String, Object>> result = null;
-//		List<Map<String, Object>> result = null;
+	public String holidayList(String dataList) {
+		ArrayList<Map<String, Object >> result =null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" SELECT * FROM holiday ");
+			stb.append(" SELECT year_holiday FROM holiday ");
+			
 
-			MapSqlParameterSource parame0  = new MapSqlParameterSource();
+			MapSqlParameterSource ListHolidayData = new MapSqlParameterSource();
+			ListHolidayData.addValue("dataList", dataList);
 
-			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parame0);
+			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), ListHolidayData);
+
+			 if (result.size() == 0) {
+				 return null;
+			 }
+			 
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
-		return result;
+		return (String) result.get(0).get("holiday_year");
 	}
+		
+	
 
 	
 	public ArrayList<Map<String, Object>> list() {
