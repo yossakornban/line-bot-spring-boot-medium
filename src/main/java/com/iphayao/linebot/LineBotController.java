@@ -143,7 +143,14 @@ public class LineBotController {
 				});
 				userLog.setStatusBot(status.DEFAULT);
 				break;
+			
 			}
+			case "ขอลาหยุดครับผม":{
+				
+				System.out.println("Please Wait");;
+			}
+			
+			
 			case "profile": {
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
@@ -304,8 +311,6 @@ public class LineBotController {
 				System.out.println("Called Image");
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
-				
-				
 				break;
 			}
 			case "No": {
