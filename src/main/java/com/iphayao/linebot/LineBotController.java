@@ -155,10 +155,8 @@ public class LineBotController {
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
 				userLog.setEmpCode(text.toString());
 				String holidayList = lineRepo.holidayList(text.toString());
-				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + holidayList + " หรือไม่ ?",
-						new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
-				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-				this.reply(replyToken, templateMessage);
+				this.reply(replyToken, Arrays.asList(new TextMessage(holidayList)));
+				
 			
 					System.out.println("Holiday list");
 					break;
