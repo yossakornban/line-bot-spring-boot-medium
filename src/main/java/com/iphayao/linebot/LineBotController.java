@@ -161,7 +161,7 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					
-					this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
+					this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage(getYear_holiday())));
 					
 				});
 				System.out.print("Wait status DEFULT");
@@ -350,6 +350,11 @@ public class LineBotController {
 
 		userMap.put(event.getSource().getSenderId(), userLog);
 
+	}
+
+	private String getYear_holiday() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private void replyText(@NonNull String replyToken, @NonNull String message) {
