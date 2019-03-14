@@ -3,7 +3,7 @@ size:
   height: 1686
 selected: false
 name: Home
-chatBarText: 'Please select menu'
+chatBarText: 'Select menu'
 areas:
 -
   bounds:
