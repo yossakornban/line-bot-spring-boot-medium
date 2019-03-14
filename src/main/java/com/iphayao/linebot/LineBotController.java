@@ -154,7 +154,7 @@ public class LineBotController {
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
 
 				String holiday_list_data = lineRepo.findHoliday(text);
-				this.reply(replyToken, Arrays.asList(new TextMessage(holiday_list_data)));
+				this.reply(replyToken, Arrays.asList(new TextMessage("งงเเดก")));
 					System.out.println("Holiday list");
 					break;
 
