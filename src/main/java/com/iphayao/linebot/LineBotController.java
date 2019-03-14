@@ -153,11 +153,7 @@ public class LineBotController {
 			}
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
 
-				String holidayData = lineRepo.findHoliday(text.toString());
-				
-					ConfirmTemplate confirmTemplate = new ConfirmTemplate( holidayData, null );
-					
-					userLog.setStatusBot(status.DEFAULT);
+			
 
 					System.out.println("Holiday list");
 					break;
