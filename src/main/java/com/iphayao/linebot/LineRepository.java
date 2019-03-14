@@ -94,8 +94,7 @@ public class LineRepository {
 			stb = new StringBuilder();
 
 			stb.append(" SELECT year_holiday FROM holiday ");
-			stb.append(" SELECT date_holiday FROM holiday");
-			stb.append(" SELECT name_holiday FROM holiday");
+			
 		
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
