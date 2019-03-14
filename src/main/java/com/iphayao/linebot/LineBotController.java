@@ -30,6 +30,7 @@ import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Employee;
 import com.iphayao.linebot.model.Entity;
+import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
 import com.linecorp.bot.client.LineMessagingClient;
@@ -153,9 +154,14 @@ public class LineBotController {
 			}
 			//-------------------------------------------------------------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				
-				String holidayList = lineRepo.holidayList(text.toString());
-				this.reply(replyToken, Arrays.asList(new TextMessage(holidayList)));
+				ArrayList<Map<String, Object>> list = lineRepo.list();
+				list.forEach(record -> {
+					Holiday holi = new Holiday();
+					modelMapper.map(record, holi);
+					this.push(replyToken, Arrays.asList(new TextMessage(holi.getYear_holiday())));
+				});
+				userLog.setStatusBot(status.DEFAULT);
+		
 				
 			
 					System.out.println("Holiday list");
