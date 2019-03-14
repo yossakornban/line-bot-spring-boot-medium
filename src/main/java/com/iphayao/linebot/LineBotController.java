@@ -147,13 +147,13 @@ public class LineBotController {
 			}
 			case "ขอลาหยุดครับผม": {
 
-				System.out.println("รอปปนะค่ะ");
+				System.out.println("Request to leaves");
 				break;
-
+				
 			}
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
 
-				System.out.println("Please Wait");
+				System.out.println("Holiday list");
 				break;
 
 			}
@@ -317,6 +317,7 @@ public class LineBotController {
 				String pathImageHome = "asset/select_event.jpg";
 				System.out.println("Called Image");
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
 				break;
 			}
