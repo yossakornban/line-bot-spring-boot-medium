@@ -154,7 +154,7 @@ public class LineBotController {
 			}
 			//-------------------------------------------------------------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				ArrayList<Map<String, Object>> list = lineRepo.list();
+				ArrayList<Map<String, Object>> list = lineRepo.holidayList();
 				list.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
