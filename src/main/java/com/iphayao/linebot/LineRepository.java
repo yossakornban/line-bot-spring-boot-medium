@@ -1,5 +1,6 @@
 package com.iphayao.linebot;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class LineRepository {
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
+	public Array holidayList;
 	
 	
 
