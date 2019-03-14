@@ -3,7 +3,7 @@ size:
   height: 1686
 selected: false
 name: Home
-chatBarText: 'Menu Eiei'
+chatBarText: 'ต้องการให้ช่วยอะไรค่ะ?'
 areas:
 -
   bounds:
