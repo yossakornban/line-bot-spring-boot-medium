@@ -10,6 +10,6 @@ import lombok.Data;
 @Data
 public class Holiday {
 	private String year_holiday;
-//	private Timestamp date_holiday;
-//	private String name_holiday;
+	private Timestamp date_holiday;
+	private String name_holiday;
 }
