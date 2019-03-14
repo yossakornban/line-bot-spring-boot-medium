@@ -95,7 +95,7 @@ public class LineRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" SELECT year_holiday FROM holiday ");
+			stb.append(" SELECT * FROM holiday ");
 			
 
 			MapSqlParameterSource ListHolidayData = new MapSqlParameterSource();
@@ -110,7 +110,7 @@ public class LineRepository {
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
-		return (String) result.get(0).get("year_holiday");
+		return (String) result.get(0).get("year_holiday"+"date_holiday"+"name_holiday");
 	}
 		
 	
