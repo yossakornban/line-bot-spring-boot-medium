@@ -157,7 +157,8 @@ public class LineBotController {
 				String holidayList = lineRepo.holidayList(text.toString());
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + holidayList + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
-				
+				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+				this.reply(replyToken, templateMessage);
 			
 					System.out.println("Holiday list");
 					break;
