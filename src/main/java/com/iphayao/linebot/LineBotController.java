@@ -136,11 +136,11 @@ public class LineBotController {
 				break;
 			}
 			case "list": {
-				ArrayList<Map<String, Object>> list = lineRepo.holidayList();
+				ArrayList<Map<String, Object>> list = lineRepo.list();
 				list.forEach(record -> {
-					Holiday en = new Holiday();
+					Entity en = new Entity();
 					modelMapper.map(record, en);
-					this.push(replyToken, Arrays.asList(new TextMessage(en.getYear_holiday())));
+					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
 				});
 				userLog.setStatusBot(status.DEFAULT);
 				break;
