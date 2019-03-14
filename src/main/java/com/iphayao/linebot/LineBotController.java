@@ -149,14 +149,21 @@ public class LineBotController {
 
 				System.out.println("Request to leaves");
 				break;
-				
+
 			}
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
 
-				System.out.println("Holiday list");
-				break;
+				String holidayData = lineRepo.findHoliday(text.toString());
+				
+					ConfirmTemplate confirmTemplate = new ConfirmTemplate( holidayData, null );
+					
+					userLog.setStatusBot(status.DEFAULT);
 
-			}
+					System.out.println("Holiday list");
+					break;
+
+				}
+			
 
 			case "profile": {
 				String userId = event.getSource().getUserId();
@@ -317,7 +324,7 @@ public class LineBotController {
 				String pathImageHome = "asset/select_event.jpg";
 				System.out.println("Called Image");
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				
+
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  ")));
 				break;
 			}
