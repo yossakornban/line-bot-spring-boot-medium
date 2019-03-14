@@ -2,6 +2,7 @@ package com.iphayao.linebot.model;
 
 
 
+import java.security.Timestamp;
 import java.sql.Date;
 
 import lombok.Data;
@@ -9,6 +10,6 @@ import lombok.Data;
 @Data
 public class Holiday {
 	private String year_holiday;
-	private Date date_holiday;
-	private String name_holiday;
+//	private Timestamp date_holiday;
+//	private String name_holiday;
 }
