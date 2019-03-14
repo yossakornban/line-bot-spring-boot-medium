@@ -90,7 +90,7 @@ public class LineRepository {
 	}
 
 	public String holidayList(String dataList) {
-		ArrayList<Map<String, Object >> result =holiday_;
+		ArrayList<Map<String, Object >> result =null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
