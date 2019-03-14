@@ -89,13 +89,12 @@ public class LineRepository {
 		return (String) result.get(0).get("emp_emp_name");
 	}
 
-	public String holidayList(String dataList ) {
+	public String holidayList(String dataList) {
 		ArrayList<Map<String, Object >> result =null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			
 			stb.append(" SELECT * FROM holiday ");
 			
 
@@ -111,7 +110,7 @@ public class LineRepository {
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
-		return (String) result.get(0).get("name_holiday");
+		return (String) result.get(0).get("holiday_year");
 	}
 		
 	

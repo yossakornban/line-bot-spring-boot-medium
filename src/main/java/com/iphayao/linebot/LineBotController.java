@@ -153,7 +153,7 @@ public class LineBotController {
 			}
 			//-------------------------------------------------------------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				userLog.setEmpCode(text.toString());
+				
 				String holidayList = lineRepo.holidayList(text.toString());
 				this.reply(replyToken, Arrays.asList(new TextMessage(holidayList)));
 				
