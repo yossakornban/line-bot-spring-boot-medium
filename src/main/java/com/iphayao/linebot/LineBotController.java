@@ -161,9 +161,12 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					
-					this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage(holi.getYear_holiday()+" "+holi.getDate_holiday()+" "+holi.getName_holiday())));
+					System.out.println("ควาย!");
+					
+					//this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage(holi.getYear_holiday()+" "+holi.getDate_holiday()+" "+holi.getName_holiday())));
 					
 				});
+				
 				System.out.print("Wait status DEFULT");
 				userLog.setStatusBot(status.DEFAULT);
 		
@@ -171,7 +174,8 @@ public class LineBotController {
 					break;
 				}
 			
-
+			
+ 
 			case "profile": {
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
