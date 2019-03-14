@@ -160,7 +160,9 @@ public class LineBotController {
 				list.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					this.push(replyToken, Arrays.asList(new TextMessage(holi.getYear_holiday())));
+					
+					this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
+					
 				});
 				System.out.print("Wait status DEFULT");
 				userLog.setStatusBot(status.DEFAULT);
