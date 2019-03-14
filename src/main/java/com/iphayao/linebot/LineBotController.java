@@ -143,14 +143,21 @@ public class LineBotController {
 				});
 				userLog.setStatusBot(status.DEFAULT);
 				break;
-			
+
 			}
-			case "ขอลาหยุดครับผม":{
-				
-				System.out.println("Please Wait");;
+			case "ขอลาหยุดครับผม": {
+
+				System.out.println("รอปปนะค่ะ");
+				break;
+
 			}
-			
-			
+			case "ขอทราบวันหยุดประจำปีค่ะ": {
+
+				System.out.println("Please Wait");
+				break;
+
+			}
+
 			case "profile": {
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
@@ -289,19 +296,19 @@ public class LineBotController {
 			userLog.setEmpCode(text.toString());
 			String empName = lineRepo.findEmp(text.toString());
 			if (empName != null) {
-			ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
-					new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
-			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-			this.reply(replyToken, templateMessage);
-			userLog.setStatusBot(status.FINDCONFIRM);
+				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
+						new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
+				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+				this.reply(replyToken, templateMessage);
+				userLog.setStatusBot(status.FINDCONFIRM);
 			} else {
-			this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "), new TextMessage("กรอก รหัสพนักงาน")));
-			userLog.setStatusBot(status.FINDEMP);
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
+						new TextMessage("กรอก รหัสพนักงาน")));
+				userLog.setStatusBot(status.FINDEMP);
 			}
-			
 
-		}
-		else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
+		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
 				lineRepo.register(userLog);
