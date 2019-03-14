@@ -3,7 +3,7 @@ size:
   height: 1686
 selected: false
 name: Home
-chatBarText: 'ต้องการให้ช่วยอะไรไม่ทราบค่ะ?'
+chatBarText: 'Please select event?'
 areas:
 -
   bounds:
