@@ -167,6 +167,7 @@ public class LineBotController {
 					holi_list.push(holi.getDate_holiday()+"  "+holi.getName_holiday());
 					System.out.println(holi_list);
 					System.out.println(holi_list.peek());
+					System.out.println(holi_list.toString());
 				});
 				
 				System.out.print("Wait status DEFULT");
