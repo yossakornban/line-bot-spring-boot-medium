@@ -159,20 +159,24 @@ public class LineBotController {
 				Stack<String> holi_list = new Stack<>();
 				
 				
-				System.out.println("Not here");
+				
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push(holi.getDate_holiday()+"  "+holi.getName_holiday());
-					String Imr = holi_list.toString();
-					System.out.println("String is :"+Imr);
-					System.out.print(holi_list.pop());
+					
+					
 					
 					
 				});
-				System.out.println(holi_list);
-				System.out.print("Wait status DEFULT");
+				
+				String Imr = holi_list.toString();
+				System.out.println("String is :"+Imr);
+				
+				
+				
+				System.out.println("Wait status DEFULT");
 				userLog.setStatusBot(status.DEFAULT);
 		
 					System.out.println("Holiday list");
