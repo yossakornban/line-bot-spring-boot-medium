@@ -170,9 +170,10 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^"+"\n"+Imr)));
 
 				System.out.println("Wait status DEFULT");
-				userLog.setStatusBot(status.DEFAULT);
+		
 
 				System.out.println("Holiday list");
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 
