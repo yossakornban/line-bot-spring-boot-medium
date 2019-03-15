@@ -205,10 +205,12 @@ public class LineBotController {
 				break;
 			}
 			
-			case "ย้อนกลับโว๊ย" :{
+			case "ย้อนกลับโว้ย" :{
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("กลับ มาให้ เเล้วไอ้ชาติหมา!")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
