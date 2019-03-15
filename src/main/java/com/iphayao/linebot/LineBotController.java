@@ -168,9 +168,13 @@ public class LineBotController {
 			// all
 			// Holidays------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				userLog.setStatusBot(status.DEFAULT);
+				String pathYamlHome = "asset/sub_select_event.yml";
+				String pathImageHome = "asset/sub_select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				
+				
+				
 				Stack<String> holi_list = new Stack<>();
-
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
@@ -197,7 +201,7 @@ public class LineBotController {
 //				System.out.println(dateNow.format(nowDate));
 //				this.reply(replyToken, Arrays.asList(new TextMessage(
 //						dateNow.format("วันนี้วันที่" + "  " + (nowDate) + "\n" + "วันหยุดที่จะมามึงคือ" + "\n"))));
-
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 
