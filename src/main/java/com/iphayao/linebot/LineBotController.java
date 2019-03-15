@@ -74,7 +74,6 @@ import java.util.Date;
 @ComponentScan
 @LineMessageHandler
 
-
 public class LineBotController {
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
@@ -82,7 +81,7 @@ public class LineBotController {
 	@Autowired
 	private LineRepository lineRepo;
 
-//	private status userLog.setStatusBot(status.DEFAULT); // Default status
+	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
 	@EventMapping
@@ -125,7 +124,9 @@ public class LineBotController {
 		}
 
 	}
-	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");//----------------------------------------------------------------------------DateNow
+
+	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");// ----------------------------------------------------------------------------DateNow
+
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 
@@ -163,49 +164,45 @@ public class LineBotController {
 				break;
 
 			}
-			// ------------------------------------------------------------Get all  Holidays------------------------------------------------------------------------
+			// ------------------------------------------------------------Get
+			// all
+			// Holidays------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				
+				userLog.setStatusBot(status.DEFAULT);
 				Stack<String> holi_list = new Stack<>();
 
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					
-					holi_list.push("\n"+holi.getDate_holiday() + "  " + holi.getName_holiday());
-					
+
+					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
+
 				});
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
-				Imr =Imr.replace("]","");
+				Imr = Imr.replace("]", "");
 				Imr = Imr.replace(",", "");
-				this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^"+"\n"+Imr)));
+				
+				
+				
+				Date nowDate = new Date();
+				System.out.println(dateNow.format(nowDate));
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						dateNow.format("วันนี้วันที่" + "  " + (nowDate) + "\n" + "วันหยุดที่จะมามึงคือ" + "\n"))));
+				
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + Imr)));
 
 				System.out.println("Wait status DEFULT");
-		
 
 				System.out.println("Holiday list");
-				
-			//------------------------------------------------------------------------------------------------------------------------------------Date now
 
+				// ------------------------------------------------------------------------------------------------------------------------------------Date now
+				// now
 
-			   
-
-			        Date nowDate = new Date();
-			        System.out.println(dateNow.format(nowDate));
-			        this.reply(replyToken, Arrays.asList(new TextMessage(dateNow.format("วันนี้วันที่"+"  "+(nowDate)+"\n"+"วันหยุดที่จะมามึงคือ"+"\n"))));
-
-			       
-			    
 				
 				
-				
-				
-				
-				
-				
-				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 
@@ -353,9 +350,11 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.FINDCONFIRM);
 			} else {
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
-						new TextMessage("กรอก รหัสพนักงาน")));
+				this.reply(replyToken,
+						Arrays.asList(
+								new TextMessage(
+										"ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
+								new TextMessage("กรอก รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
 			}
 
