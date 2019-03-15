@@ -155,7 +155,6 @@ public class LineBotController {
 			}
 			// ------------------------------------------------------------------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณารอซักครู่.. นะค่ะ")));
 				
 				Stack<String> holi_list = new Stack<>();
 
@@ -168,7 +167,7 @@ public class LineBotController {
 					
 				});
 				String Imr = holi_list.toString();
-				this.reply(replyToken, Arrays.asList(new TextMessage(Imr)));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^"+"\n"+Imr)));
 
 				System.out.println("Wait status DEFULT");
 				userLog.setStatusBot(status.DEFAULT);
