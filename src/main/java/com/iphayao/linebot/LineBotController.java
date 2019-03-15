@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -154,17 +155,16 @@ public class LineBotController {
 			}
 			//------------------------------------------------------------------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				
+				Stack<String> holi_list = new Stack<>();
 				System.out.println("Not here");
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					
-					System.out.println("ควาย!");
-					
+					holi_list.push(holi.getDate_holiday());
+					holi_list.push(holi.getNname_holiday());
 					//this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage(holi.getYear_holiday()+" "+holi.getDate_holiday()+" "+holi.getName_holiday())));
-					
+					System.out.println(holi_list);
 				});
 				
 				System.out.print("Wait status DEFULT");
