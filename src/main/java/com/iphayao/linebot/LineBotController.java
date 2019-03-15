@@ -167,6 +167,7 @@ public class LineBotController {
 					holi_list.push(holi.getDate_holiday()+"  "+holi.getName_holiday());
 					String Imr = holi_list.toString();
 					System.out.println(Imr);
+					this.reply(replyToken, Arrays.asList(new TextMessage(Imr)));
 					
 					
 				});
