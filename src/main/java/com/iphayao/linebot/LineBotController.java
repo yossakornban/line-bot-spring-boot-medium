@@ -194,6 +194,7 @@ public class LineBotController {
 
 			        Date nowDate = new Date();
 			        System.out.println(dateNow.format(nowDate));
+			        this.reply(replyToken, Arrays.asList(new TextMessage(dateNow.format("วันนี้วันที่"+"  "+(nowDate)+"\n"+"วันหยุดที่จะมามึงคือ"+"\n"))));
 
 			       
 			    
