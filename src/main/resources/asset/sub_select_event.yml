@@ -14,7 +14,7 @@ areas:
   action:
     type: message
     label: profile
-    text: 'ขอลาหยุดครับผม'
+    text: 'ย้อนกลับโว้ย'
 -
   bounds:
     x: 1251

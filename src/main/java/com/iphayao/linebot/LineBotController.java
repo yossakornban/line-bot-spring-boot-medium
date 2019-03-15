@@ -204,6 +204,14 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+			
+			case "ย้อนกลับโว๊ย" :{
+				String pathYamlHome = "asset/select_event.yml";
+				String pathImageHome = "asset/select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
 
 			case "profile": {
 				String userId = event.getSource().getUserId();
