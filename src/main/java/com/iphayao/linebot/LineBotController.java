@@ -155,7 +155,8 @@ public class LineBotController {
 			}
 			// ------------------------------------------------------------------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณารอซักครู่.. นะค่ะ")));
+				
 				Stack<String> holi_list = new Stack<>();
 
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
@@ -166,7 +167,6 @@ public class LineBotController {
 					holi_list.push("\n"+holi.getDate_holiday() + "  " + holi.getName_holiday());
 					
 				});
-
 				String Imr = holi_list.toString();
 				this.reply(replyToken, Arrays.asList(new TextMessage(Imr)));
 
