@@ -62,9 +62,19 @@ import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+
 @Slf4j
 @ComponentScan
 @LineMessageHandler
+
+
 public class LineBotController {
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
@@ -115,7 +125,7 @@ public class LineBotController {
 		}
 
 	}
-
+	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");//----------------------------------------------------------------------------DateNow
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 
@@ -153,7 +163,7 @@ public class LineBotController {
 				break;
 
 			}
-			// ------------------------------------------------------------------------------------------------------------------------------------
+			// ------------------------------------------------------------Get all  Holidays------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
 				
 				Stack<String> holi_list = new Stack<>();
@@ -176,6 +186,24 @@ public class LineBotController {
 		
 
 				System.out.println("Holiday list");
+				
+			//------------------------------------------------------------------------------------------------------------------------------------Date now
+
+
+			   
+
+			        Date nowDate = new Date();
+			        System.out.println(dateNow.format(nowDate));
+
+			       
+			    
+				
+				
+				
+				
+				
+				
+				
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
