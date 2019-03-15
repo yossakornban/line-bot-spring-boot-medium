@@ -166,7 +166,8 @@ public class LineBotController {
 					
 					
 					System.out.println(holi_list);
-					//this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage(holi.getYear_holiday()+" "+holi.getDate_holiday()+" "+holi.getName_holiday())));
+					this.reply(replyToken, Arrays.asList(new TextMessage(holi_list.peek())));
+					
 					
 				});
 				
