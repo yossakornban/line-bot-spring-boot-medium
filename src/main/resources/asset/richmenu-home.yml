@@ -6,6 +6,7 @@ name: Home
 chatBarText: 'เลือกรายการที่ต้องการ'
 areas:
 -
+
   bounds:
     x: 0
     y: 0
