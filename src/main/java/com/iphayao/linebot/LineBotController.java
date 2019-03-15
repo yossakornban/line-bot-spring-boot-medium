@@ -176,6 +176,7 @@ public class LineBotController {
 				
 				
 			
+				this.reply(replyToken, Arrays.asList(new TextMessage(GGG)));
 				
 				
 				
