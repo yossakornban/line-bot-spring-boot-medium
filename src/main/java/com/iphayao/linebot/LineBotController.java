@@ -168,7 +168,7 @@ public class LineBotController {
 			// all
 			// Holidays------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				userLog.setStatusBot(status.DEFAULT);
+				
 				Stack<String> holi_list = new Stack<>();
 
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
@@ -202,7 +202,7 @@ public class LineBotController {
 				// now
 
 				
-				
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 
