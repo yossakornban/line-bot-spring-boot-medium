@@ -162,7 +162,7 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push(holi.getDate_holiday());
-					holi_list.push(holi.getNname_holiday());
+					holi_list.push(holi.getName_holiday());
 					//this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage(holi.getYear_holiday()+" "+holi.getDate_holiday()+" "+holi.getName_holiday())));
 					System.out.println(holi_list);
 				});

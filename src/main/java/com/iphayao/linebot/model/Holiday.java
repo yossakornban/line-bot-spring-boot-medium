@@ -22,8 +22,9 @@ public class Holiday {
 	}
 	public void setName_holiday(String name_holiday) {
 		this.name_holiday = name_holiday;
-	}
+	} 
 
 
 
 }
+ 
