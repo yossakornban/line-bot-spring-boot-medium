@@ -153,60 +153,29 @@ public class LineBotController {
 				break;
 
 			}
-			//------------------------------------------------------------------------------------------------------------------------------------
+			// ------------------------------------------------------------------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				String list_date_holiday_group ;
+				String list_date_holiday_group;
 				Stack<String> holi_list = new Stack<>();
-				
-				
-				
+
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push(holi.getDate_holiday()+"  "+holi.getName_holiday());
-					
+					holi_list.push(holi.getDate_holiday() + "  " + holi.getName_holiday());
+
 				});
-				
+
 				String Imr = holi_list.toString();
-				System.out.println("String is :"+Imr);
-				String GGG = Imr;
-				System.out.println(GGG);
-				
-				
-				
-			
-				this.reply(replyToken, Arrays.asList(new TextMessage(GGG)));
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				this.reply(replyToken, Arrays.asList(new TextMessage(Imr)));
+
 				System.out.println("Wait status DEFULT");
 				userLog.setStatusBot(status.DEFAULT);
-		
-					System.out.println("Holiday list");
-					break;
-				}
-			
-			
- 
+
+				System.out.println("Holiday list");
+				break;
+			}
+
 			case "profile": {
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
