@@ -166,7 +166,8 @@ public class LineBotController {
 					modelMapper.map(record, holi);
 					holi_list.push(holi.getDate_holiday()+"  "+holi.getName_holiday());
 					
-				
+					this.reply(replyToken, Arrays.asList(new TextMessage(Stack(holi_list))));
+					
 					
 				});
 				System.out.println(holi_list);
@@ -357,6 +358,11 @@ public class LineBotController {
 
 		userMap.put(event.getSource().getSenderId(), userLog);
 
+	}
+
+	private String Stack(Stack<String> holi_list) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private void replyText(@NonNull String replyToken, @NonNull String message) {
