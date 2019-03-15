@@ -155,7 +155,7 @@ public class LineBotController {
 			}
 			// ------------------------------------------------------------------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				String list_date_holiday_group;
+				
 				Stack<String> holi_list = new Stack<>();
 
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
@@ -163,11 +163,11 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push(holi.getDate_holiday() + "  " + holi.getName_holiday());
-
 				});
 
 				String Imr = holi_list.toString();
 				this.reply(replyToken, Arrays.asList(new TextMessage(Imr)));
+				System.out.println();
 
 				System.out.println("Wait status DEFULT");
 				userLog.setStatusBot(status.DEFAULT);
