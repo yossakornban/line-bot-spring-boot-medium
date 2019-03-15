@@ -166,7 +166,7 @@ public class LineBotController {
 					
 					
 					System.out.println(holi_list);
-					this.reply(replyToken, Arrays.asList(new TextMessage(holi_list.peek())));
+					this.reply(replyToken, Arrays.asList(new TextMessage(((holi_list.pop())))));
 					
 					
 				});
