@@ -165,9 +165,11 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push(holi.getDate_holiday()+"  "+holi.getName_holiday());
-					System.out.println(holi_list);
-					System.out.println(holi_list.peek());
-					System.out.println(holi_list.toString());
+					//System.out.println(holi_list);---------------------------------------------------------nice
+					//System.out.println(holi_list.peek());  not work!
+					//System.out.println(holi_list.toString());------------------------------------------------nice
+					this.reply(replyToken, Arrays.asList(new TextMessage(holi_list.toString())));
+					
 				});
 				
 				System.out.print("Wait status DEFULT");
