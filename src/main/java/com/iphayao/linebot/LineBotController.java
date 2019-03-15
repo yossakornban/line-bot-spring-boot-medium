@@ -171,9 +171,7 @@ public class LineBotController {
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				
-				
-				
+
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
@@ -194,23 +192,22 @@ public class LineBotController {
 
 				System.out.println("Holiday list");
 
-				// ------------------------------------------------------------------------------------------------------------------------------------Date now
+				// ------------------------------------------------------------------------------------------------------------------------------------Date
 				// now
-
-//				Date nowDate = new Date();
-//				System.out.println(dateNow.format(nowDate));
-//				this.reply(replyToken, Arrays.asList(new TextMessage(
-//						dateNow.format("วันนี้วันที่" + "  " + (nowDate) + "\n" + "วันหยุดที่จะมามึงคือ" + "\n"))));
+				// now
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			
-			case "ย้อนกลับโว้ย" :{
+			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ":{
+				this.reply(replyToken, Arrays.asList(new TextMessage("วันโพ่งง!")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			case "ย้อนกลับโว้ย": {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("กลับ มาให้ เเล้วไอ้ชาติหมา!")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("กลับ มาให้ เเล้วไอ้ชาติหมา!")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}

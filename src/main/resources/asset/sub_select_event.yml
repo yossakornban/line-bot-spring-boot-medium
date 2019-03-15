@@ -3,7 +3,7 @@ size:
   height: 1686
 selected: false
 name: Home
-chatBarText: 'ให้ช่วยอะไร คะ?'
+chatBarText: 'เลือก เมนูเลยคะ?'
 areas:
 -
   bounds:
@@ -24,4 +24,4 @@ areas:
   action:
     type: message
     label: echo
-    text: 'ขอทราบวันหยุดประจำปีค่ะ'
+    text: 'ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ'
