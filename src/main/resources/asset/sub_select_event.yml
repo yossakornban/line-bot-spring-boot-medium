@@ -1,0 +1,27 @@
+size:
+  width: 2500
+  height: 1686
+selected: false
+name: Home
+chatBarText: 'ให้ช่วยอะไร คะ?'
+areas:
+-
+  bounds:
+    x: 0
+    y: 0
+    width: 1250
+    height: 1686
+  action:
+    type: message
+    label: profile
+    text: 'ขอลาหยุดครับผม'
+-
+  bounds:
+    x: 1251
+    y: 0
+    width: 1249
+    height: 1686
+  action:
+    type: message
+    label: echo
+    text: 'ขอทราบวันหยุดประจำปีค่ะ'

@@ -168,7 +168,7 @@ public class LineBotController {
 			// all
 			// Holidays------------------------------------------------------------------------
 			case "ขอทราบวันหยุดประจำปีค่ะ": {
-				
+				userLog.setStatusBot(status.DEFAULT);
 				Stack<String> holi_list = new Stack<>();
 
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
@@ -183,14 +183,6 @@ public class LineBotController {
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
 				Imr = Imr.replace(",", "");
-				
-				
-				
-				Date nowDate = new Date();
-				System.out.println(dateNow.format(nowDate));
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						dateNow.format("วันนี้วันที่" + "  " + (nowDate) + "\n" + "วันหยุดที่จะมามึงคือ" + "\n"))));
-				
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + Imr)));
 
@@ -201,8 +193,11 @@ public class LineBotController {
 				// ------------------------------------------------------------------------------------------------------------------------------------Date now
 				// now
 
-				
-				userLog.setStatusBot(status.DEFAULT);
+//				Date nowDate = new Date();
+//				System.out.println(dateNow.format(nowDate));
+//				this.reply(replyToken, Arrays.asList(new TextMessage(
+//						dateNow.format("วันนี้วันที่" + "  " + (nowDate) + "\n" + "วันหยุดที่จะมามึงคือ" + "\n"))));
+
 				break;
 			}
 
