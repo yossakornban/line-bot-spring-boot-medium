@@ -171,7 +171,12 @@ public class LineBotController {
 					
 					
 				});
+				String Imr = holi_list.toString();
 				System.out.println(holi_list);
+				this.push(replyToken, Arrays.asList(new TextMessage(holi_list.toString())));
+				this.push(replyToken, Arrays.asList(new TextMessage(Imr)));
+				
+				
 				System.out.print("Wait status DEFULT");
 				userLog.setStatusBot(status.DEFAULT);
 		
