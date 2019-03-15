@@ -188,18 +188,17 @@ public class LineBotController {
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + Imr)));
 
-				System.out.println("Wait status DEFULT");
+				
 
-				System.out.println("Holiday list");
-
-				// ------------------------------------------------------------------------------------------------------------------------------------Date
-				// now
-				// now
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ":{
-				this.reply(replyToken, Arrays.asList(new TextMessage("วันโพ่งง!")));
+				
+				
+				Date nowDate = new Date();
+				System.out.println(dateNow.format(nowDate));
+				this.reply(replyToken, Arrays.asList(new TextMessage(dateNow.format(nowDate))));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
