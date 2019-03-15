@@ -3,10 +3,9 @@ size:
   height: 1686
 selected: false
 name: Home
-chatBarText: 'เลือกรายการที่ต้องการ'
+chatBarText: 'Menu Eiei'
 areas:
 -
-
   bounds:
     x: 0
     y: 0
