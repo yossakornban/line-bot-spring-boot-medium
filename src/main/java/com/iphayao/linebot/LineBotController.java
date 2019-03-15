@@ -167,7 +167,7 @@ public class LineBotController {
 					holi_list.push(holi.getDate_holiday()+"  "+holi.getName_holiday());
 					//System.out.println(holi_list);---------------------------------------------------------nice
 					//System.out.println(holi_list.peek());  not work!
-					//System.out.println(holi_list.toString());------------------------------------------------nice
+					System.out.println(holi_list.toString());//------------------------------------------------nice
 					this.reply(replyToken, Arrays.asList(new TextMessage(holi_list.toString())));
 					
 				});
