@@ -177,6 +177,7 @@ public class LineBotController {
 				}
 			
 			
+			
  
 			case "profile": {
 				String userId = event.getSource().getUserId();
