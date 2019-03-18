@@ -120,6 +120,7 @@ public class LineRepository {
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 
+			
 			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());

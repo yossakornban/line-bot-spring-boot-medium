@@ -204,13 +204,15 @@ public class LineBotController {
 					holiday_soon.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
-				String Imr = holiday_soon.toString();
-				Imr = Imr.replace("[", "");
-				Imr = Imr.replace("]", "");
-				Imr = Imr.replace(",", "");
+				System.out.print(soon_all);
+				String show_soon = holiday_soon.toString();
+				show_soon = show_soon.replace("[", "");
+				show_soon = show_soon.replace("]", "");
+				show_soon = show_soon.replace(",", "");
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + Imr)));
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + show_soon)));
 
+				
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
