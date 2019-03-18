@@ -7,14 +7,15 @@ import lombok.Data;
 
 public class Holiday {
 
-	private String date_holiday;
+	private Date date_holiday;
 	private String name_holiday;
 	
 	
-	public String getDate_holiday() {
+ 
+	public Date getDate_holiday() {
 		return date_holiday;
 	}
-	public void setDate_holiday(String date_holiday) {
+	public void setDate_holiday(Date date_holiday) {
 		this.date_holiday = date_holiday;
 	}
 	public String getName_holiday() {

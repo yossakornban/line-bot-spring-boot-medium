@@ -194,13 +194,13 @@ public class LineBotController {
 			// ----------------------------------------------------------------------------------------------------------------Find
 			// Three day holiday
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
-				ArrayList <String> list = null ; 
+				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.ThreeDay_Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 
-					list.add("\n"+holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n"+holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
 				String threeday = holiday_all.toString();
@@ -216,7 +216,7 @@ public class LineBotController {
 				threeday =threeday.replace("-", "/");
 				Date nowDate = new Date();
 				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
-						+ "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" +"\n"+list)));
+						+ "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" +"\n"+threeday)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
