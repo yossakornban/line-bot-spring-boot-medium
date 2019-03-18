@@ -25,24 +25,21 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @Data
 public class LineRepository {
-	
+
 	public class Model {
 
 		public String profileCode;
 		public String profileDesc;
-		public Boolean active;  
-		private String createdProgram; 
+		public Boolean active;
+		private String createdProgram;
 		private String updatedProgram;
-		  
-}
+
+	}
 
 	@Autowired
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
-
-	
-	
 
 	public int register(UserLog userLog) {
 		int aaa = 0;
@@ -57,19 +54,19 @@ public class LineRepository {
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
 
-			 aaa = jdbcTemplate.update(stb.toString(), parameters);
+			aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
-//					(stb.toString(), parameters,
-//					new BeanPropertyRowMapper<Entity>(Entity.class));
+			// (stb.toString(), parameters,
+			// new BeanPropertyRowMapper<Entity>(Entity.class));
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return aaa;
 	}
-	
+
 	public String findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;
-//		List<Map<String, Object>> result = null;
+		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
@@ -80,12 +77,12 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", empCode);
 
-			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 
-			 if (result.size() == 0) {
-				 return null;
-			 }
-			 
+			if (result.size() == 0) {
+				return null;
+			}
+
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
@@ -94,7 +91,7 @@ public class LineRepository {
 
 	public ArrayList<Map<String, Object>> holidayList() {
 		ArrayList<Map<String, Object>> result = null;
-//		List<Map<String, Object>> result = null;
+		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
@@ -103,35 +100,34 @@ public class LineRepository {
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 
-			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return result;
 	}
-	
-	public ArrayList<Map<String, Object>> ThreeDay_Holiday_Soon(){
+
+	public ArrayList<Map<String, Object>> Holiday_Soon() {
 		ArrayList<Map<String, Object>> result = null;
+		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append("select name_holiday, to_date(date_holiday, 'dd/mm/yyyy') from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date limit 3");
+			stb.append(" SELECT * FROM holiday ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 
-			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return result;
 	}
-	 
 
-	
 	public ArrayList<Map<String, Object>> list() {
 		ArrayList<Map<String, Object>> result = null;
-//		List<Map<String, Object>> result = null;
+		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
@@ -140,11 +136,10 @@ public class LineRepository {
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 
-			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return result;
 	}
 }
-

@@ -195,15 +195,14 @@ public class LineBotController {
 			// Three day holiday
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.ThreeDay_Holiday_Soon();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 
-					holi_list.push("\n" + holi.getDate_holiday().toString()+ "  " + holi.getName_holiday());
+					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
-				
 				
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holi_list)));
