@@ -110,17 +110,17 @@ public class LineRepository {
 		return result;
 	}
 	
-	public ArrayList<Map<String, Object>> ThreeDay_Holiday_Soon(){
+	public ArrayList<Map<String, Object>> Holiday_soon() {
 		ArrayList<Map<String, Object>> result = null;
+//		List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append("select to_date(date_holiday, 'dd/mm/yyyy'),name_holiday from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date  limit 5");
+			stb.append(" select to_date(date_holiday, 'dd/mm/yyyy'),name_holiday from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date  limit 3 ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 
-			
 			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
