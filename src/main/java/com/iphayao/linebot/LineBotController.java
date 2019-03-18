@@ -203,7 +203,7 @@ public class LineBotController {
 					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
-				String threeday = holiday_all.toString();
+				String threeday = holi_list.toString();
 				threeday =threeday.replace("[", "");
 				threeday =threeday.replace("{", "");
 				threeday =threeday.replace("name_holiday=", "");
