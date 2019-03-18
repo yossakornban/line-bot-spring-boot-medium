@@ -201,7 +201,7 @@ public class LineBotController {
 					Holiday_date_NotRemove holiday_date_type = new Holiday_date_NotRemove(); 
 					modelMapper.map(record, holiday_date_type);
 
-					holi_list_date_type.push("\n" + holiday_date_type.getDate_holiday_date() + "  " + holiday_date_type.getName_holiday_stirng());
+					holi_list_date_type.push("\n" + holiday_date_type.getDate_holiday() + "  " + holiday_date_type.getName_holiday());
 
 				});
 				
