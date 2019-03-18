@@ -11,7 +11,6 @@ public class Holiday {
 	private String name_holiday;
 	
 	
-	
 	public String getDate_holiday() {
 		return date_holiday;
 	}

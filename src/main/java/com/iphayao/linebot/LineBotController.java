@@ -191,7 +191,18 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+			// ----------------------------------------------------------------------------------------------------------------Find
+			// Three day holiday
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
+				Stack<String> holi_list = new Stack<>();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
+				holiday_all.forEach(record -> {
+					Holiday holi = new Holiday();
+					modelMapper.map(record, holi);
+
+					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
+
+				});
 
 				Date nowDate = new Date();
 				System.out.println(dateNow.format(nowDate));
@@ -200,6 +211,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+
 			case "ย้อนกลับโว้ย": {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
