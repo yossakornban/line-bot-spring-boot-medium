@@ -194,25 +194,29 @@ public class LineBotController {
 			// ----------------------------------------------------------------------------------------------------------------Find
 			// Three day holiday
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
+				Stack<String> holi_list = new Stack<>();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.ThreeDay_Holiday_Soon();
+				holiday_all.forEach(record -> {
+					Holiday holi = new Holiday();
+					modelMapper.map(record, holi);
 
-				Stack<String> holiday_soon = new Stack<>();
-				ArrayList<Map<String, Object>> soon_all = lineRepo.ThreeDay_Holiday_Soon();
-				soon_all.forEach(record -> {
-					Holiday getHolidaySoon = new Holiday();
-					modelMapper.map(record, getHolidaySoon);
-
-					holiday_soon.push("\n" + getHolidaySoon.getDate_holiday() + "  " + getHolidaySoon.getName_holiday());
+					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
-				System.out.print(soon_all);
-				String show_soon = holiday_soon.toString();
-				show_soon = show_soon.replace("[", "");
-				show_soon = show_soon.replace("]", "");
-				show_soon = show_soon.replace(",", "");
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + show_soon)));
-
-				
+				String threeday = holiday_all.toString();
+				threeday =threeday.replace("[", "");
+				threeday =threeday.replace("{", "");
+				threeday =threeday.replace("name_holiday=", "");
+				threeday =threeday.replace("}", "");
+				threeday =threeday.replace("]", "");
+				threeday =threeday.replace(",", "");
+				threeday =threeday.replace("(", "");
+				threeday =threeday.replace(")", "");
+				threeday =threeday.replace("to_date=", "");
+				threeday =threeday.replace("-", "/");
+				Date nowDate = new Date();
+				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
+						+ "\n" + "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" + "\n" +threeday)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -226,17 +230,6 @@ public class LineBotController {
 				break;
 			}
 
-			
-//			threeday =threeday.replace("[", "");
-//			threeday =threeday.replace("{", "");
-//			threeday =threeday.replace("name_holiday=", "");
-//			threeday =threeday.replace("}", "");
-//			threeday =threeday.replace("]", "");
-//			threeday =threeday.replace(",", "");
-//			threeday =threeday.replace("(", "");
-//			threeday =threeday.replace(")", "");
-//			threeday =threeday.replace("to_date=", "");
-//			threeday =threeday.replace("-", "/");
 			case "profile": {
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
