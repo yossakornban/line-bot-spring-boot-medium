@@ -212,7 +212,7 @@ public class LineBotController {
 						
 						
 			
-						Arrays.asList(new TextMessage("วีนที่ปัจจุบันคือ "+dateNow.format(nowDate)+ "\n" +"วันหยุดที่ไกล้จะถึงนี้ได้เเก่"+"\n"+ holi_list_date_type)));
+						Arrays.asList(new TextMessage("วีนที่ปัจจุบันคือ "+dateNow.format(nowDate)+ "\n" +"วันหยุดที่ไกล้จะถึงนี้ได้เเก่"+"\n"+ holiday_all+"\n")));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
