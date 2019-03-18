@@ -197,14 +197,14 @@ public class LineBotController {
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
 				
 				
-				Stack<String> holiday_soon = new Stack<>();
+				Stack<Object> holiday_soon = new Stack<>();
 				
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi_soon = new Holiday(); 
 					modelMapper.map(record, holiday_soon);
 
-					holiday_soon.push("\n" + holi_soon.getDate_holiday().toString() + "  " + holi_soon.getName_holiday());
+					holiday_soon.push("\n" + holi_soon.getDate_holiday() + "  " + holi_soon.getName_holiday());
 
 				});
 				final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");
