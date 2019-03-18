@@ -124,6 +124,7 @@ public class LineBotController {
 		}
 
 	}
+	
 
 	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");// ----------------------------------------------------------------------------DateNow
 
