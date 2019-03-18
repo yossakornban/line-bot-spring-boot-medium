@@ -197,7 +197,8 @@ public class LineBotController {
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
 				
 				
-				Stack<Object> holiday_soon = new Stack<>();
+				Stack<String> holiday_soon = new Stack<>();
+				
 				
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
