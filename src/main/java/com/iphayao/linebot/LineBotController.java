@@ -63,6 +63,7 @@ import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -205,6 +206,25 @@ public class LineBotController {
 				});
 				System.out.print("จะหาวันหยุด3วันล่าสุดตรงนี้นะ : "+holiday_all);
 				
+				ArrayList<String> dateStringList = new ArrayList<String>();
+			    ArrayList<Date> dateList = new ArrayList<Date>();
+			    Holiday holi = new Holiday();
+			    dateStringList.add(holi.getDate_holiday() + "  " + holi.getName_holiday());
+			  
+
+			    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd");
+
+			    for (String dateString : dateStringList) {
+			        try {
+			            dateList.add(simpleDateFormat.parse(dateString));
+			        } catch (ParseException e) {
+			            e.printStackTrace();
+			        }
+			    }
+
+			    for (Date datelr : dateList) {
+			        System.out.println("Dateแบบ TypeDate " + simpleDateFormat.format(datelr));
+			    }
 				
 				
 				

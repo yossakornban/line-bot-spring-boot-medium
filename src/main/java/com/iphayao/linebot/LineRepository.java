@@ -1,6 +1,7 @@
 package com.iphayao.linebot;
 
 import java.sql.Array;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -111,11 +112,11 @@ public class LineRepository {
 	}
 	
 		
-	
+	 
 
 	
 	public ArrayList<Map<String, Object>> list() {
-		ArrayList<Map<String, Object>> result = null;
+		ArrayList<Map<Date, Object>> result = null;
 //		List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
