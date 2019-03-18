@@ -203,6 +203,23 @@ public class LineBotController {
 					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
+				System.out.print("จะหาวันหยุด3วันล่าสุดตรงนี้นะ : "+holiday_all);
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 
 				Date nowDate = new Date();
 				System.out.println(dateNow.format(nowDate));
