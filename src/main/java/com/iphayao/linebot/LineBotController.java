@@ -204,7 +204,14 @@ public class LineBotController {
 
 				});
 				String threeday = holiday_all.toString();
-				//threeday =threeday.replace("", "");
+				threeday =threeday.replace("[", "");
+				threeday =threeday.replace("{", "");
+				threeday =threeday.replace("name_holiday=", "");
+				threeday =threeday.replace("}", "");
+				threeday =threeday.replace("]", "");
+				threeday =threeday.replace(",", "");
+				threeday =threeday.replace("(", "");
+				threeday =threeday.replace(")", "");
 				Date nowDate = new Date();
 				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
 						+ "\n" + "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" + "\n" +threeday)));
