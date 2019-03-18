@@ -199,7 +199,6 @@ public class LineBotController {
 				
 				Stack<String> holiday_soon = new Stack<>();
 				
-				
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi_soon = new Holiday(); 
@@ -212,8 +211,6 @@ public class LineBotController {
 				Date nowDate = new Date();
 				this.reply(replyToken,
 						
-						
-			
 						Arrays.asList(new TextMessage("วีนที่ปัจจุบันคือ "+dateNow.format(nowDate)+ "\n" +"วันหยุดที่ไกล้จะถึงนี้ได้เเก่"+"\n"+ holiday_soon)));
 
 				userLog.setStatusBot(status.DEFAULT);
