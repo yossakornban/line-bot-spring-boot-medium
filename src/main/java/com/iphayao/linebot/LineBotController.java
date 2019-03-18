@@ -199,24 +199,17 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>  DATE "+holi.getDate_holiday());
-					holi_list.push("\n"+holi.getDate_holiday() + "  " + holi.getName_holiday());
+
+					holi_list.push("\n" + holi.getDate_holiday().toString()+ "  " + holi.getName_holiday());
 
 				});
-				String threeday = holiday_all.toString();
-				threeday =threeday.replace("[", "");
-				threeday =threeday.replace("{", "");
-				threeday =threeday.replace("name_holiday=", "");
-				threeday =threeday.replace("}", "");
-				threeday =threeday.replace("]", "");
-				threeday =threeday.replace(",", "");
-				threeday =threeday.replace("(", "");
-				threeday =threeday.replace(")", "");
-				threeday =threeday.replace("to_date=", "");
-				threeday =threeday.replace("-", "/");
-				Date nowDate = new Date();
-				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
-						+ "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" +"\n"+holi_list)));
+				
+				Imr = Imr.replace("[", "");
+				Imr = Imr.replace("]", "");
+				Imr = Imr.replace(",", "");
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holi_list)));
+
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
