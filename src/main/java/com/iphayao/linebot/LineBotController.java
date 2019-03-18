@@ -206,7 +206,11 @@ public class LineBotController {
 
 				});
 				String day1 = holiday_all.get(0).toString();
+				String day2 = holiday_all.get(1).toString();
+				String day3 = holiday_all.get(2).toString();
 				System.out.print("Madman : " + day1);
+				System.out.print("Madman : " + day1);
+				System.out.print("Madman : " + day3);
 ;				
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holiday_all.get(0))));
