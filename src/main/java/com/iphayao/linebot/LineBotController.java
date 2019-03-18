@@ -126,7 +126,7 @@ public class LineBotController {
 	}
 
 	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");// ----------------------------------------------------------------------------DateNow
-
+	private static final DateFormat TH_Time = new SimpleDateFormat("dd/MM/yyy ");
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 
@@ -205,7 +205,9 @@ public class LineBotController {
 					
 
 				});
-				
+				String day1 = holiday_all.get(0).toString();
+				System.out.print("Madman : " + day1);
+;				
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holiday_all.get(0))));
 
