@@ -200,7 +200,7 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 
-					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + holi.getDate_holiday() + " gggg " + holi.getName_holiday());
 
 				});
 				String threeday = holiday_all.toString();
