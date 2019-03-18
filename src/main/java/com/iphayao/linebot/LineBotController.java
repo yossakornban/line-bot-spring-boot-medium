@@ -204,9 +204,7 @@ public class LineBotController {
 
 				});
 				
-				Imr = Imr.replace("[", "");
-				Imr = Imr.replace("]", "");
-				Imr = Imr.replace(",", "");
+				
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holi_list)));
 
