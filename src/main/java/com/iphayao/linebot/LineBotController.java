@@ -203,20 +203,11 @@ public class LineBotController {
 					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
-				String threeday = holi_list.toString();
-				threeday =threeday.replace("[", "");
-				threeday =threeday.replace("{", "");
-				threeday =threeday.replace("name_holiday=", "");
-				threeday =threeday.replace("}", "");
-				threeday =threeday.replace("]", "");
-				threeday =threeday.replace(",", "");
-				threeday =threeday.replace("(", "");
-				threeday =threeday.replace(")", "");
-				threeday =threeday.replace("to_date=", "");
-				threeday =threeday.replace("-", "/");
+				
 				Date nowDate = new Date();
 				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
-						+ "\n" + "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" + "\n" +threeday)));
+						+ "\n" + "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" + "\n" +holi_list.toString())));
+				System.out.println(holiday_all.toString());
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
