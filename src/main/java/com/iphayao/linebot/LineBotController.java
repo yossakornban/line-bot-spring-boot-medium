@@ -199,7 +199,7 @@ public class LineBotController {
 				
 				Stack<String> holi_list_date_type = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
-				holiday_all.forEach(record -> {
+				holi_list_date_type.forEach(record -> {
 					Holiday_date_NotRemove holiday_date_type = new Holiday_date_NotRemove(); 
 					modelMapper.map(record, holiday_date_type);
 
@@ -212,7 +212,7 @@ public class LineBotController {
 						
 						
 			
-						Arrays.asList(new TextMessage("วีนที่ปัจจุบันคือ "+dateNow.format(nowDate)+ "\n" +"วันหยุดที่ไกล้จะถึงนี้ได้เเก่"+"\n"+ holiday_all+"\n")));
+						Arrays.asList(new TextMessage("วีนที่ปัจจุบันคือ "+dateNow.format(nowDate)+ "\n" +"วันหยุดที่ไกล้จะถึงนี้ได้เเก่"+"\n"+ holi_list_date_type+"\n")));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
