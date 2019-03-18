@@ -1,7 +1,8 @@
 package com.iphayao.linebot.model;
 
-import java.sql.Date;
+
 import java.sql.ResultSet;
+import java.util.Date;
 
 import lombok.Data;
 
