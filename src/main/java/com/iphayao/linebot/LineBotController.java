@@ -195,6 +195,8 @@ public class LineBotController {
 			// ----------------------------------------------------------------------------------------------------------------Find
 			// Three day holiday
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
+				
+				
 				Stack<String> holi_list_date_type = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
@@ -204,9 +206,13 @@ public class LineBotController {
 					holi_list_date_type.push("\n" + holiday_date_type.getDate_holiday() + "  " + holiday_date_type.getName_holiday());
 
 				});
-				
+				final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");
+				Date nowDate = new Date();
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holi_list_date_type)));
+						
+						
+			
+						Arrays.asList(new TextMessage("วีนที่ปัจจุบันคือ "+dateNow.format(nowDate)+ "\n" +"วันหยุดที่ไกล้จะถึงนี้ได้เเก่"+"\n"+ holi_list_date_type)));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
