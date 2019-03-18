@@ -200,10 +200,10 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 
-					holi_list.push(holi.getDate_holiday() + "  " + holi.getName_holiday()+"      ");
+					holi_list.push("\n"+holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
-				String threeday = holiday_all.toString();
+				String threeday = holi_list.toString();
 				threeday =threeday.replace("[", "");
 				threeday =threeday.replace("{", "");
 				threeday =threeday.replace("name_holiday=", "");
@@ -216,7 +216,7 @@ public class LineBotController {
 				threeday =threeday.replace("-", "/");
 				Date nowDate = new Date();
 				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
-						+ "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" +"   "+threeday)));
+						+ "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" +"\n"+threeday)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
