@@ -212,6 +212,7 @@ public class LineBotController {
 				threeday =threeday.replace(",", "");
 				threeday =threeday.replace("(", "");
 				threeday =threeday.replace(")", "");
+				threeday =threeday.replace("to_date=", "");
 				Date nowDate = new Date();
 				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
 						+ "\n" + "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" + "\n" +threeday)));
