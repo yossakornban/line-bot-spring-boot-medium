@@ -32,7 +32,6 @@ import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Employee;
 import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.Holiday;
-import com.iphayao.linebot.model.Holiday_date_NotRemove;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
 import com.linecorp.bot.client.LineMessagingClient;
@@ -195,21 +194,18 @@ public class LineBotController {
 			// ----------------------------------------------------------------------------------------------------------------Find
 			// Three day holiday
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
-				
-				
-				Stack<String> holiday_soon = new Stack<>();
+				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
-					Holiday holi_soon = new Holiday(); 
-					modelMapper.map(record, holiday_soon);
+					Holiday holi = new Holiday();
+					modelMapper.map(record, holi);
 
-					holiday_soon.push("\n" + holi_soon.getDate_holiday() + "  " + holi_soon.getName_holiday());
+					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
-				final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");
-				Date nowDate = new Date();
+				
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("วีนที่ปัจจุบันคือ "+dateNow.format(nowDate)+ "\n" +"วันหยุดที่ไกล้จะถึงนี้ได้เเก่"+"\n"+ holiday_soon)));
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holi_list)));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
