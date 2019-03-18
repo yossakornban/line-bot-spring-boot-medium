@@ -198,7 +198,7 @@ public class LineBotController {
 				
 				Date nowDate = new Date();
 				System.out.println(dateNow.format(nowDate));
-				this.reply(replyToken, Arrays.asList(new TextMessage(dateNow.format(nowDate))));
+				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :"+dateNow.format(nowDate)+"\n"+"วันหยุดที่จะภึงเร็วๆนนี้คือ"+"\n"+"3วันอันดับล่าสุดตรงนี้เลยเพ่")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
