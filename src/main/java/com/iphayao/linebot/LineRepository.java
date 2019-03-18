@@ -110,14 +110,13 @@ public class LineRepository {
 		return result;
 	}
 	
-	public ArrayList<Map<String, Object>> Holiday_soon() {
+	public ArrayList<Map<String, Object>> ThreeDay_Holiday_Soon(){
 		ArrayList<Map<String, Object>> result = null;
-//		List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" select to_date(date_holiday, 'dd/mm/yyyy'),name_holiday from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date  limit 3 ");
+			stb.append("select name_holiday, to_date(date_holiday, 'dd/mm/yyyy') from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date limit 3");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 
