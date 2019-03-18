@@ -207,7 +207,7 @@ public class LineBotController {
 				});
 				
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holiday_all)));
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holiday_all.get(0))));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
