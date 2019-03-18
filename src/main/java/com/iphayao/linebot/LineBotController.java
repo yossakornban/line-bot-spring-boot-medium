@@ -216,7 +216,7 @@ public class LineBotController {
 				threeday =threeday.replace("-", "/");
 				Date nowDate = new Date();
 				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
-						+ "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" +"\n"+threeday)));
+						+ "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" +"\n"+holi_list)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
