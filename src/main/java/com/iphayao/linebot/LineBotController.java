@@ -203,9 +203,9 @@ public class LineBotController {
 					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
-
+				String threeday = holiday_all.toString();
+				//threeday =threeday.replace("", "");
 				Date nowDate = new Date();
-				System.out.println(dateNow.format(nowDate));
 				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
 						+ "\n" + "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" + "\n" +holiday_all)));
 				userLog.setStatusBot(status.DEFAULT);
