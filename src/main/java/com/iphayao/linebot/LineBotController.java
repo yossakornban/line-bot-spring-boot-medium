@@ -63,7 +63,6 @@ import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -196,7 +195,7 @@ public class LineBotController {
 			// Three day holiday
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.ThreeDay_Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
@@ -204,47 +203,11 @@ public class LineBotController {
 					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 
 				});
-				System.out.print("จะหาวันหยุด3วันล่าสุดตรงนี้นะ : "+holiday_all);
-				
-				ArrayList<String> dateStringList = new ArrayList<String>();
-			    ArrayList<Date> dateList = new ArrayList<Date>();
-			    Holiday holi = new Holiday();
-			    dateStringList.add(holi.getDate_holiday() + "  " + holi.getName_holiday());
-			  
-
-			    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd");
-
-			    for (String dateString : dateStringList) {
-			        try {
-			            dateList.add(simpleDateFormat.parse(dateString));
-			        } catch (ParseException e) {
-			            e.printStackTrace();
-			        }
-			    }
-
-			    for (Date datelr : dateList) {
-			        System.out.println("Dateแบบ TypeDate " + simpleDateFormat.format(datelr));
-			    }
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 
 				Date nowDate = new Date();
 				System.out.println(dateNow.format(nowDate));
 				this.reply(replyToken, Arrays.asList(new TextMessage("วันที่ปัจจุบันคือ :" + dateNow.format(nowDate)
-						+ "\n" + "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" + "\n" + "3วันอันดับล่าสุดตรงนี้เลยเพ่")));
+						+ "\n" + "วันหยุดที่จะภึงเร็วๆนนี้ได้เเก่" + "\n" +holiday_all)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}

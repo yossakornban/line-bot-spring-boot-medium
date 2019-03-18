@@ -110,7 +110,22 @@ public class LineRepository {
 		return result;
 	}
 	
-		
+	public ArrayList<Map<String, Object>> ThreeDay_Holiday_Soon(){
+		ArrayList<Map<String, Object>> result = null;
+		try {
+			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			stb = new StringBuilder();
+
+			stb.append("SELECT name_holiday, to_date(date_holiday, 'dd/mm/yyyy') FROM holiday WHERE to_date(date_holiday, 'dd/mm/yyyy') BETWEEN now() and to_date('31/12/2019', 'dd/mm/yyyy') ORDER BY to_date limit 3");
+
+			MapSqlParameterSource parameters = new MapSqlParameterSource();
+
+			 result  = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+		} catch (EmptyResultDataAccessException ex) {
+			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+		}
+		return result;
+	}
 	 
 
 	
