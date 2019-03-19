@@ -14,7 +14,7 @@ areas:
   action:
     type: message
     label: profile
-    text: 'ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ ค่ะ'
+    text: 'ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ'
 -
   bounds:
     x: 0
@@ -24,7 +24,7 @@ areas:
   action:
     type: message
     label: echo
-    text: 'ย้อนกลับ ค่ะ'
+    text: 'ย้อนกลับค่ะ'
     
 -
   bounds:
@@ -35,4 +35,4 @@ areas:
   action:
     type: message
     label: raider
-    text: 'ขอทราบวันหยุด ทั้งหมดภายในปีนี้ ค่ะ'
+    text: 'ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ'

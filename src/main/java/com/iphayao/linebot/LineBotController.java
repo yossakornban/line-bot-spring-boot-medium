@@ -145,7 +145,7 @@ public class LineBotController {
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
-		String empName = lineRepo.findEmp(text.toString());
+		String empName = lineRepo.findEmp(text.toString());//------------------------------------------------------------String not call
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -223,7 +223,7 @@ public class LineBotController {
 			}
 			
 			
-			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ ค่ะ": {
+			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 				
 			
 				Stack<String> holi_list = new Stack<>();
@@ -249,7 +249,7 @@ public class LineBotController {
 			
 			// ----------------------------------------------------------------------------------------------------------------Find
 			// Three day holiday
-			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ ค่ะ": {
+			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
@@ -351,7 +351,7 @@ public class LineBotController {
 				break;
 			}
 
-			case "ย้อนกลับ ค่ะ": {
+			case "ย้อนกลับค่ะ": {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
@@ -522,7 +522,7 @@ public class LineBotController {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีค่ะ คุณ  "+empName+"\n"+"กรุณา  เลือกเมนูที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  "+"\n"+"กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
 				break;
 			}
 			case "No": {
@@ -610,7 +610,6 @@ public class LineBotController {
 	private static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString();
 	}
-
 	@Value
 	public static class DownloadedContent {
 		Path path;
