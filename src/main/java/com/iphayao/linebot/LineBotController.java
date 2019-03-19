@@ -227,7 +227,7 @@ public class LineBotController {
 			
 			// ----------------------------------------------------------------------------------------------------------------Find
 			// Three day holiday
-			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
+			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ ค่ะ": {
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
@@ -329,11 +329,11 @@ public class LineBotController {
 				break;
 			}
 
-			case "ย้อนกลับโว้ย": {
+			case "ย้อนกลับ ค่ะ": {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("กลับ มาให้ เเล้วไอ้ชาติหมา!")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือก เมนู ได้เลยค่ะ")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
