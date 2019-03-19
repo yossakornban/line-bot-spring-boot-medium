@@ -70,6 +70,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.iphayao.LineApplication;
+
 @Slf4j
 @ComponentScan
 @LineMessageHandler
@@ -290,7 +292,7 @@ public class LineBotController {
 
 				
 				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"วันที่ปัจจุบัน คือ :"+" " +dateNow.format(nowDate)+ "\n" +"\n"+"วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ "+"\n"+ day1 + "\n" + day2 + "\n" + day3)));
+						"วันที่ปัจจุบัน คือ :"+" " +dateNow.format(nowDate)+ "\n" +"วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ "+"\n"+ day1 + "\n" + day2 + "\n" + day3)));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
@@ -544,7 +546,7 @@ public class LineBotController {
 
 	private static DownloadedContent createTempFile(String ext) {
 		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
-		Path tempFile = Application.downloadedContentDir.resolve(fileName);
+		Path tempFile = LineApplication.downloadedContentDir.resolve(fileName);
 		tempFile.toFile().deleteOnExit();
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 
