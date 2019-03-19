@@ -208,6 +208,10 @@ public class LineBotController {
 				String day1 = holiday_all.get(0).toString();
 				String day2 = holiday_all.get(1).toString();
 				String day3 = holiday_all.get(2).toString();
+				
+				day1 = day1.replace("2019-04-15","15/04/2019");
+				
+				
 				day1 = day1.replace("{", "");
 				day1 = day1.replace("}", "");
 				day1 = day1.replace("to_date=", "");
@@ -226,6 +230,8 @@ public class LineBotController {
 				day3 = day3.replace("name_holiday=", " ");
 				day3 = day3.replace("=", "");
 				day3 = day3.replace(",", " ");
+				
+				
 				
 ;				
 				this.reply(replyToken,
