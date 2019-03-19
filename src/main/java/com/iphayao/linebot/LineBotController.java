@@ -128,11 +128,12 @@ public class LineBotController {
 	}
 
 	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");// ----------------------------------------------------------------------------DateNow
-	private static final DateFormat TH_Time = new SimpleDateFormat("dd/MM/yyy ");
+
 
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
+		
 
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
@@ -174,8 +175,25 @@ public class LineBotController {
 				break;
 
 			}
-			// ------------------------------------------------------------Get
-			// all
+			case "ควย": {
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ควยพ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
+
+						
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+
+			}
+			case "สัส": {
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("สัส !พ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
+
+						
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+
+			}
+		
 			// Holidays------------------------------------------------------------------------
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
@@ -497,7 +515,6 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
-				
 				
 				System.out.print("ไอ้ควายเก่ง"+empName);
 				lineRepo.register(userLog);
