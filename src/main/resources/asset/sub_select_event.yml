@@ -10,12 +10,23 @@ areas:
     x: 0
     y: 0
     width: 1250
-    height: 1686
+    height: 843
   action:
     type: message
     label: profile
-    text: 'ย้อนกลับโว้ย'
+    text: 'ขอทราบ วันหยุดที่จะมาถึงเร็วๆนี้ค่ะ'
 -
+  bounds:
+    x: 0
+    y: 844
+    width: 1249
+    height: 843
+  action:
+    type: message
+    label: echo
+    text: 'ย้อนกลับ ค่ะ'
+    
+    -
   bounds:
     x: 1251
     y: 0
@@ -24,4 +35,4 @@ areas:
   action:
     type: message
     label: echo
-    text: 'ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ'
+    text: 'ขอทราบวันหยุด ทั้งหมดภายในปีนี้ ค่ะ'
