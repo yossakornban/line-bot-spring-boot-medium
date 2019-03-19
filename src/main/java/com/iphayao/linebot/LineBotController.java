@@ -143,7 +143,7 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-															// not call
+															
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -476,7 +476,7 @@ public class LineBotController {
 
 			if (empName != null) {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
-						new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
+						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken, templateMessage);
@@ -492,7 +492,7 @@ public class LineBotController {
 
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
-			case "Yes": {
+			case "ใช่": {
 
 				System.out.print("ไอ้ควายเก่ง" + empName);
 				lineRepo.register(userLog);
@@ -504,7 +504,7 @@ public class LineBotController {
 						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
 				break;
 			}
-			case "No": {
+			case "ไม่ใช่": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
