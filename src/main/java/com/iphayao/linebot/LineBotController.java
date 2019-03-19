@@ -127,6 +127,7 @@ public class LineBotController {
 
 	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");// ----------------------------------------------------------------------------DateNow
 	private static final DateFormat TH_Time = new SimpleDateFormat("dd/MM/yyy ");
+
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 
@@ -200,18 +201,73 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
-					
-				
-					
 
 				});
 				String day1 = holiday_all.get(0).toString();
 				String day2 = holiday_all.get(1).toString();
 				String day3 = holiday_all.get(2).toString();
-				
-				day1 = day1.replace("2019-04-15","15/04/2019");
-				
-				
+
+				day1 = day1.replace("2019-01-01", "01/01/2019");
+				day1 = day1.replace("2019-02-05", "05/02/2019");
+				day1 = day1.replace("2019-02-19", "19/02/2019");
+				day1 = day1.replace("2019-04-15", "15/04/2019");
+				day1 = day1.replace("2019-04-16", "16/04/2019");
+				day1 = day1.replace("2019-05-01", "01/05/2019");
+				day1 = day1.replace("2019-07-20", "20/07/2019");
+				day1 = day1.replace("2019-07-29", "29/07/2019");
+				day1 = day1.replace("2019-08-12", "12/08/2019");
+				day1 = day1.replace("2019-10-14", "14/10/2019");
+				day1 = day1.replace("2019-10-23", "23/10/2019");
+				day1 = day1.replace("2019-12-5", "05/12/2019");
+				day1 = day1.replace("2019-12-10", "10/12/2019");
+				day1 = day1.replace("2019-12-31", "31/12/2019");
+
+				// -------------------------------------------------
+				day1 = day1.replace("2019-01-01", "01/01/2019");
+				day1 = day1.replace("2019-02-05", "05/02/2019");
+				day1 = day1.replace("2019-02-19", "19/02/2019");
+				day1 = day1.replace("2019-04-15", "15/04/2019");
+				day1 = day1.replace("2019-04-16", "16/04/2019");
+				day1 = day1.replace("2019-05-01", "01/05/2019");
+				day1 = day1.replace("2019-07-20", "20/07/2019");
+				day1 = day1.replace("2019-07-29", "29/07/2019");
+				day1 = day1.replace("2019-08-12", "12/08/2019");
+				day1 = day1.replace("2019-10-14", "14/10/2019");
+				day1 = day1.replace("2019-10-23", "23/10/2019");
+				day1 = day1.replace("2019-12-5", "05/12/2019");
+				day1 = day1.replace("2019-12-10", "10/12/2019");
+				day1 = day1.replace("2019-12-31", "31/12/2019");
+				// -------------------------------------------------
+				day2 = day2.replace("2019-01-01", "01/01/2019");
+				day2 = day2.replace("2019-02-05", "05/02/2019");
+				day2 = day2.replace("2019-02-19", "19/02/2019");
+				day2 = day2.replace("2019-04-15", "15/04/2019");
+				day2 = day2.replace("2019-04-16", "16/04/2019");
+				day2 = day2.replace("2019-05-01", "01/05/2019");
+				day2 = day2.replace("2019-07-20", "20/07/2019");
+				day2 = day2.replace("2019-07-29", "29/07/2019");
+				day2 = day2.replace("2019-08-12", "12/08/2019");
+				day2 = day2.replace("2019-10-14", "14/10/2019");
+				day2 = day2.replace("2019-10-23", "23/10/2019");
+				day2 = day2.replace("2019-12-5", "05/12/2019");
+				day2 = day2.replace("2019-12-10", "10/12/2019");
+				day2 = day2.replace("2019-12-31", "31/12/2019");
+				// -------------------------------------------------
+				day3 = day3.replace("2019-01-01", "01/01/2019");
+				day3 = day3.replace("2019-02-05", "05/02/2019");
+				day3 = day3.replace("2019-02-19", "19/02/2019");
+				day3 = day3.replace("2019-04-15", "15/04/2019");
+				day3 = day3.replace("2019-04-16", "16/04/2019");
+				day3 = day3.replace("2019-05-01", "01/05/2019");
+				day3 = day3.replace("2019-07-20", "20/07/2019");
+				day3 = day3.replace("2019-07-29", "29/07/2019");
+				day3 = day3.replace("2019-08-12", "12/08/2019");
+				day3 = day3.replace("2019-10-14", "14/10/2019");
+				day3 = day3.replace("2019-10-23", "23/10/2019");
+				day3 = day3.replace("2019-12-5", "05/12/2019");
+				day3 = day3.replace("2019-12-10", "10/12/2019");
+				day3 = day3.replace("2019-12-31", "31/12/2019");
+
 				day1 = day1.replace("{", "");
 				day1 = day1.replace("}", "");
 				day1 = day1.replace("to_date=", "");
@@ -230,12 +286,10 @@ public class LineBotController {
 				day3 = day3.replace("name_holiday=", " ");
 				day3 = day3.replace("=", "");
 				day3 = day3.replace(",", " ");
-				
-				
-				
-;				
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + day1+"\n"+day2+"\n"+day3)));
+
+				;
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + day1 + "\n" + day2 + "\n" + day3)));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
