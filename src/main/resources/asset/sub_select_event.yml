@@ -20,13 +20,13 @@ areas:
     x: 0
     y: 844
     width: 1249
-    height: 843
+    height: 842
   action:
     type: message
     label: echo
     text: 'ย้อนกลับ ค่ะ'
     
-    -
+-
   bounds:
     x: 1251
     y: 0
@@ -34,5 +34,5 @@ areas:
     height: 1686
   action:
     type: message
-    label: echo
+    label: raider
     text: 'ขอทราบวันหยุด ทั้งหมดภายในปีนี้ ค่ะ'
