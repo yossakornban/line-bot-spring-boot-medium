@@ -199,23 +199,24 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + holi.getDate_holiday().toString() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 					
 				
 					
 
 				});
-			
-				
-				
-				
-//				String day1 = holiday_all.get(0).toString();
-//				String day2 = holiday_all.get(1).toString();
-//				String day3 = holiday_all.get(2).toString();
+				String day1 = holiday_all.get(0).toString();
+				String day2 = holiday_all.get(1).toString();
+				String day3 = holiday_all.get(2).toString();
+				day1 = day1.replace("{", "");
+				day1 = day1.replace("}", "");
+				day1 = day1.replace("to_date=", "");
+				day1 = day1.replace("name_holiday=", " ");
+				day1 = day1.replace("=", "");
 				
 ;				
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holi_list)));
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + day1+"\n"+day2+"\n"+day3)));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
