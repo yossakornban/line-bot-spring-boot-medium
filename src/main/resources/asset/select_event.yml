@@ -24,4 +24,4 @@ areas:
   action:
     type: message
     label: echo
-    text: 'ขอทราบวันหยุดประจำปีค่ะ'
+    text: 'ขอทราบ ข้อมูลวันหยุดค่ะ'
