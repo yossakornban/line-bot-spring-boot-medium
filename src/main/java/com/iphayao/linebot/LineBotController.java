@@ -211,21 +211,21 @@ public class LineBotController {
 				day1 = day1.replace("{", "");
 				day1 = day1.replace("}", "");
 				day1 = day1.replace("to_date=", "");
-				day1 = day1.replace("name_holiday=", " ");
+				day1 = day1.replace("name_holiday=", "");
 				day1 = day1.replace("=", "");
-				day1 = day1.replace(",", "");
+				day1 = day1.replace(",", " ");
 				day2 = day2.replace("{", "");
 				day2 = day2.replace("}", "");
 				day2 = day2.replace("to_date=", "");
 				day2 = day2.replace("name_holiday=", " ");
 				day2 = day2.replace("=", "");
-				day2 = day2.replace(",", "");
+				day2 = day2.replace(",", " ");
 				day3 = day3.replace("{", "");
 				day3 = day3.replace("}", "");
 				day3 = day3.replace("to_date=", "");
 				day3 = day3.replace("name_holiday=", " ");
 				day3 = day3.replace("=", "");
-				day3 = day3.replace(",", "");
+				day3 = day3.replace(",", " ");
 				
 ;				
 				this.reply(replyToken,
