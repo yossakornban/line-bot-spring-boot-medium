@@ -198,6 +198,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+			
 			// ----------------------------------------------------------------------------------------------------------------Find
 			// Three day holiday
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
