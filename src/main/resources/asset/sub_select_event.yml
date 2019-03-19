@@ -14,7 +14,7 @@ areas:
   action:
     type: message
     label: profile
-    text: 'ขอทราบ วันหยุดที่จะมาถึงเร็วๆนี้ค่ะ'
+    text: 'ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ'
 -
   bounds:
     x: 0

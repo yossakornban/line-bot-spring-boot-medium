@@ -202,9 +202,7 @@ public class LineBotController {
 			
 			
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ ค่ะ": {
-				String pathYamlHome = "asset/sub_select_event.yml";
-				String pathImageHome = "asset/sub_select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				
 			
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
