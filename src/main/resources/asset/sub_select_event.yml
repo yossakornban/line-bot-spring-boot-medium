@@ -3,7 +3,7 @@ size:
   height: 1686
 selected: false
 name: Home
-chatBarText: 'เลือก เมนูเลยคะ?'
+chatBarText: 'เมนู'
 areas:
 -
   bounds:
