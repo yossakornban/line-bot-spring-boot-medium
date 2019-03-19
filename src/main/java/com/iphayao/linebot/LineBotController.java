@@ -222,6 +222,7 @@ public class LineBotController {
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
+				System.out.println("holiday_all");
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
