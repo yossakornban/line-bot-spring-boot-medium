@@ -130,6 +130,7 @@ public class LineBotController {
 	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");// ----------------------------------------------------------------------------DateNow
 	private static final DateFormat TH_Time = new SimpleDateFormat("dd/MM/yyy ");
 
+
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 
@@ -333,7 +334,7 @@ public class LineBotController {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือก เมนู ได้เลยค่ะ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ ^^")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -478,6 +479,7 @@ public class LineBotController {
 			if (empName != null) {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
+				
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.FINDCONFIRM);
@@ -493,14 +495,12 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
-				userLog.setEmpCode(text.toString());
-				String empName = lineRepo.findEmp(text.toString());
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีคค่ะ คุณ   "+empName+"\n"+"เชิญ เลือกเมนูที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ"+"\n"+"กรุณา  เลือกเมนูที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
 				break;
 			}
 			case "No": {
