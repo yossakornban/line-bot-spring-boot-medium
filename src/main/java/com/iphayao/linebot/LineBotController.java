@@ -197,6 +197,7 @@ public class LineBotController {
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
+				
 			}
 			
 			// ----------------------------------------------------------------------------------------------------------------Find
