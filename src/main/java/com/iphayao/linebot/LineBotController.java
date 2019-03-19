@@ -143,6 +143,8 @@ public class LineBotController {
 
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
+		userLog.setEmpCode(text.toString());
+		String empName = lineRepo.findEmp(text.toString());
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -474,8 +476,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.Q11);
 			}
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
-			userLog.setEmpCode(text.toString());
-			String empName = lineRepo.findEmp(text.toString());
+			
 			if (empName != null) {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
@@ -495,12 +496,15 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
+				
+				
+				System.out.print("ไอ้ควายเก่ง"+empName);
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ"+"\n"+"กรุณา  เลือกเมนูที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีค่ะ คุณ  "+empName+"\n"+"กรุณา  เลือกเมนูที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
 				break;
 			}
 			case "No": {
