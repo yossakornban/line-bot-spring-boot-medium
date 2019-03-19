@@ -164,6 +164,7 @@ public class LineBotController {
 				break;
 
 			}
+			
 			case "ขอลาหยุดครับผม": {
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ฟังชันก์นี้ยังไม่ได้ทำ ครับ So Sorry")));
