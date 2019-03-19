@@ -129,11 +129,8 @@ public class LineBotController {
 
 	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");// ----------------------------------------------------------------------------DateNow
 
-
-
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
-		
 
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
@@ -145,7 +142,8 @@ public class LineBotController {
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
-		String empName = lineRepo.findEmp(text.toString());//------------------------------------------------------------String not call
+		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
+															// not call
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -165,75 +163,64 @@ public class LineBotController {
 				break;
 
 			}
-			
-			case "ขอลาหยุดครับผม": {
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ฟังชันก์นี้ยังไม่ได้ทำ ครับ So Sorry")));
 
-						
+			case "ขอลาหยุดครับผม": {
+				this.reply(replyToken, Arrays.asList(new TextMessage("ฟังชันก์นี้ยังไม่ได้ทำ ครับ So Sorry")));
+
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 
 			}
 			case "ควย": {
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ควยพ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"ควยพ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
 
-						
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 
 			}
 			case "สัส": {
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("สัส !พ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"สัส !พ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
 
-						
-				userLog.setStatusBot(status.DEFAULT);
+				userLog.setStatusBot(status.FINDEMP);
 				break;
 
 			}
-		
+			case "ไอ้สัส": {
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"ไอ้สัส !พ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
+
+				userLog.setStatusBot(status.FINDEMP);
+				break;
+
+			}
+			case "ไอ้เหี้ย": {
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"พ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
+
+				userLog.setStatusBot(status.FINDEMP);
+				break;
+
+			}
+
 			// Holidays------------------------------------------------------------------------
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ ^^"
-						)));
-//				Stack<String> holi_list = new Stack<>();
-//				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
-//				holiday_all.forEach(record -> {
-//					Holiday holi = new Holiday();
-//					modelMapper.map(record, holi);
-//
-//					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
-//
-//				});
-//				String Imr = holi_list.toString();
-//				Imr = Imr.replace("[", "");
-//				Imr = Imr.replace("]", "");
-//				Imr = Imr.replace(",", "");
-//				this.reply(replyToken,
-//						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + Imr)));
-
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ ^^")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
-				
 			}
-			
-			
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
-				
-			
+
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-
 					holi_list.push("\n" + holi.getDate_holiday() + "  " + holi.getName_holiday());
-
 				});
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
@@ -241,14 +228,9 @@ public class LineBotController {
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + Imr)));
-
 				userLog.setStatusBot(status.DEFAULT);
 				break;
-				
 			}
-			
-			// ----------------------------------------------------------------------------------------------------------------Find
-			// Three day holiday
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
@@ -262,7 +244,6 @@ public class LineBotController {
 				String day1 = holiday_all.get(0).toString();
 				String day2 = holiday_all.get(1).toString();
 				String day3 = holiday_all.get(2).toString();
-
 				day1 = day1.replace("2019-01-01", "01/01/2019");
 				day1 = day1.replace("2019-02-05", "05/02/2019");
 				day1 = day1.replace("2019-02-19", "19/02/2019");
@@ -277,7 +258,6 @@ public class LineBotController {
 				day1 = day1.replace("2019-12-5", "05/12/2019");
 				day1 = day1.replace("2019-12-10", "10/12/2019");
 				day1 = day1.replace("2019-12-31", "31/12/2019");
-
 				// -------------------------------------------------
 				day1 = day1.replace("2019-01-01", "01/01/2019");
 				day1 = day1.replace("2019-02-05", "05/02/2019");
@@ -323,7 +303,6 @@ public class LineBotController {
 				day3 = day3.replace("2019-12-5", "05/12/2019");
 				day3 = day3.replace("2019-12-10", "10/12/2019");
 				day3 = day3.replace("2019-12-31", "31/12/2019");
-
 				day1 = day1.replace("{", "");
 				day1 = day1.replace("}", "");
 				day1 = day1.replace("to_date=", "");
@@ -343,10 +322,10 @@ public class LineBotController {
 				day3 = day3.replace("=", "");
 				day3 = day3.replace(",", " ");
 
-				
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"วันที่ปัจจุบัน คือ :"+" " +dateNow.format(nowDate)+ "\n"+"\n"+"วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ "+"\n"+ day1 + "\n" + day2 + "\n" + day3)));
-
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ :" + " " + dateNow.format(nowDate) + "\n"
+								+ "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + day1 + "\n" + day2 + "\n"
+								+ day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -359,7 +338,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-
 			case "profile": {
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
@@ -495,11 +473,11 @@ public class LineBotController {
 				userLog.setStatusBot(status.Q11);
 			}
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
-			
+
 			if (empName != null) {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
-				
+
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.FINDCONFIRM);
@@ -515,14 +493,15 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
-				
-				System.out.print("ไอ้ควายเก่ง"+empName);
+
+				System.out.print("ไอ้ควายเก่ง" + empName);
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ  "+"\n"+"กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
 				break;
 			}
 			case "No": {
@@ -610,6 +589,7 @@ public class LineBotController {
 	private static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString();
 	}
+
 	@Value
 	public static class DownloadedContent {
 		Path path;
