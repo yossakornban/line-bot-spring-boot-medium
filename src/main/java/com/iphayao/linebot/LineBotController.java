@@ -213,7 +213,7 @@ public class LineBotController {
 				System.out.print("Madman : " + day3);
 ;				
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holiday_all.get(0))));
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + holiday_all.get(0)+"\n"+holiday_all.get(1)+"/n"+holiday_all.get(2))));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
