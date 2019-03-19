@@ -160,8 +160,10 @@ public class LineBotController {
 
 			}
 			case "ขอลาหยุดครับผม": {
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ฟังชันก์นี้ยังไม่ได้ทำ ครับ So Sorry")));
 
-				System.out.println("Request to leaves");
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 
 			}
