@@ -180,7 +180,7 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ควยพ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
 
 						
-				userLog.setStatusBot(status.DEFAULT);
+				userLog.setStatusBot(status.FINDEMP);
 				break;
 
 			}
