@@ -247,25 +247,12 @@ public class LineBotController {
 				day1 = day1.replace("2019-01-01", "01/01/2019");
 				day1 = day1.replace("2019-02-05", "05/02/2019");
 				day1 = day1.replace("2019-02-19", "19/02/2019");
+				day1 = day1.replace("2019-02-08", "08/02/2019");
 				day1 = day1.replace("2019-04-15", "15/04/2019");
 				day1 = day1.replace("2019-04-16", "16/04/2019");
 				day1 = day1.replace("2019-05-01", "01/05/2019");
 				day1 = day1.replace("2019-07-20", "20/07/2019");
-				day1 = day1.replace("2019-07-29", "29/07/2019");
-				day1 = day1.replace("2019-08-12", "12/08/2019");
-				day1 = day1.replace("2019-10-14", "14/10/2019");
-				day1 = day1.replace("2019-10-23", "23/10/2019");
-				day1 = day1.replace("2019-12-5", "05/12/2019");
-				day1 = day1.replace("2019-12-10", "10/12/2019");
-				day1 = day1.replace("2019-12-31", "31/12/2019");
-				// -------------------------------------------------
-				day1 = day1.replace("2019-01-01", "01/01/2019");
-				day1 = day1.replace("2019-02-05", "05/02/2019");
-				day1 = day1.replace("2019-02-19", "19/02/2019");
-				day1 = day1.replace("2019-04-15", "15/04/2019");
-				day1 = day1.replace("2019-04-16", "16/04/2019");
-				day1 = day1.replace("2019-05-01", "01/05/2019");
-				day1 = day1.replace("2019-07-20", "20/07/2019");
+				day1 = day1.replace("2019-07-16", "16/07/2019");
 				day1 = day1.replace("2019-07-29", "29/07/2019");
 				day1 = day1.replace("2019-08-12", "12/08/2019");
 				day1 = day1.replace("2019-10-14", "14/10/2019");
@@ -277,10 +264,12 @@ public class LineBotController {
 				day2 = day2.replace("2019-01-01", "01/01/2019");
 				day2 = day2.replace("2019-02-05", "05/02/2019");
 				day2 = day2.replace("2019-02-19", "19/02/2019");
+				day2 = day2.replace("2019-02-08", "08/02/2019");
 				day2 = day2.replace("2019-04-15", "15/04/2019");
 				day2 = day2.replace("2019-04-16", "16/04/2019");
 				day2 = day2.replace("2019-05-01", "01/05/2019");
 				day2 = day2.replace("2019-07-20", "20/07/2019");
+				day2 = day2.replace("2019-07-16", "16/07/2019");
 				day2 = day2.replace("2019-07-29", "29/07/2019");
 				day2 = day2.replace("2019-08-12", "12/08/2019");
 				day2 = day2.replace("2019-10-14", "14/10/2019");
@@ -292,10 +281,12 @@ public class LineBotController {
 				day3 = day3.replace("2019-01-01", "01/01/2019");
 				day3 = day3.replace("2019-02-05", "05/02/2019");
 				day3 = day3.replace("2019-02-19", "19/02/2019");
+				day3 = day3.replace("2019-02-08", "08/02/2019");
 				day3 = day3.replace("2019-04-15", "15/04/2019");
 				day3 = day3.replace("2019-04-16", "16/04/2019");
 				day3 = day3.replace("2019-05-01", "01/05/2019");
 				day3 = day3.replace("2019-07-20", "20/07/2019");
+				day3 = day3.replace("2019-07-16", "16/07/2019");
 				day3 = day3.replace("2019-07-29", "29/07/2019");
 				day3 = day3.replace("2019-08-12", "12/08/2019");
 				day3 = day3.replace("2019-10-14", "14/10/2019");
@@ -303,6 +294,8 @@ public class LineBotController {
 				day3 = day3.replace("2019-12-5", "05/12/2019");
 				day3 = day3.replace("2019-12-10", "10/12/2019");
 				day3 = day3.replace("2019-12-31", "31/12/2019");
+				// -------------------------------------------------
+
 				day1 = day1.replace("{", "");
 				day1 = day1.replace("}", "");
 				day1 = day1.replace("to_date=", "");
