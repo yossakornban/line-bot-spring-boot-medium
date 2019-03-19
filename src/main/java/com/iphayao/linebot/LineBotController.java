@@ -195,6 +195,7 @@ public class LineBotController {
 			// ----------------------------------------------------------------------------------------------------------------Find
 			// Three day holiday
 			case "ขอทราบวันหยุดที่จะมาถึงเร็วๆนี้ ค่ะ": {
+				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
@@ -287,9 +288,9 @@ public class LineBotController {
 				day3 = day3.replace("=", "");
 				day3 = day3.replace(",", " ");
 
-				;
+				
 				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + day1 + "\n" + day2 + "\n" + day3)));
+						"วันที่ปัจจุบัน คือ :"+" " +dateNow.format(nowDate)+ "\n" +"วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ "+ day1 + "\n" + day2 + "\n" + day3)));
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
