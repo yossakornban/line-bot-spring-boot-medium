@@ -96,7 +96,7 @@ public class LineRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" select * from holiday order by Number ");
+			stb.append(" select * from holiday order by number_event ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 
