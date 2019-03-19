@@ -25,3 +25,4 @@ areas:
     type: message
     label: echo
     text: 'ขอทราบ ข้อมูลวันหยุดค่ะ'
+    
