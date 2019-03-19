@@ -247,7 +247,7 @@ public class LineBotController {
 				day1 = day1.replace("2019-01-01", "01/01/2019");
 				day1 = day1.replace("2019-02-05", "05/02/2019");
 				day1 = day1.replace("2019-02-19", "19/02/2019");
-				day1 = day1.replace("2019-02-08", "08/02/2019");
+				day1 = day1.replace("2019-04-08", "08/04/2019");
 				day1 = day1.replace("2019-04-15", "15/04/2019");
 				day1 = day1.replace("2019-04-16", "16/04/2019");
 				day1 = day1.replace("2019-05-01", "01/05/2019");
