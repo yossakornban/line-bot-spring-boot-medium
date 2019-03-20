@@ -209,7 +209,7 @@ public class LineBotController {
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ ^^")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -229,7 +229,7 @@ public class LineBotController {
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
 						Arrays.asList(
-								new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ ^^" + "\n" + Imr)));
+								new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  😊" + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -320,8 +320,8 @@ public class LineBotController {
 
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNow.format(nowDate) + "\n"
-								+ "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" +"😎"+day1 + "\n" + day2 + "\n"
-								+ day3)));
+								+ "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" +"😎 "+day1 + "\n" +"😎 "+ day2 + "\n"
+								+ "😎 "+day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -330,7 +330,7 @@ public class LineBotController {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ ^^")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -502,7 +502,7 @@ public class LineBotController {
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ ^^")));
+						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ  😊")));
 				break;
 			}
 			case "ไม่ใช่": {
