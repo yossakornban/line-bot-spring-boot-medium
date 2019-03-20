@@ -458,7 +458,7 @@ public class LineBotController {
 			switch (text) {
 			
 			case "ลากิจครับ": {
-				System.out.println(dateNow.format("วันที่ปัจจุบันในลากิจ :"+nowDate));
+				System.out.println("วันที่ปัจจุบันในลากิจ :"+dateNow.format(nowDate));
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
@@ -520,7 +520,7 @@ public class LineBotController {
 										new MessageAction("ลาพักร้อน", "รอ Flow ลาหักร้อนครับ")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
-				userLog.setStatusBot(status.Q11);
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
