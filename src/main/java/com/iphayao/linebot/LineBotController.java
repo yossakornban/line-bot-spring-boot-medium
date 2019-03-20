@@ -220,7 +220,7 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" +"😁"+ holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" +"➤ "+ holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 				System.out.println("holiday_all");
 				String Imr = holi_list.toString();
@@ -229,7 +229,7 @@ public class LineBotController {
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
 						Arrays.asList(
-								new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  ➤" + "\n" + Imr)));
+								new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -243,7 +243,6 @@ public class LineBotController {
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + holi.getDate_holiday() + "   " + holi.getName_holiday());
 
-					
 				});
 				String day1 = holiday_all.get(0).toString();
 				String day2 = holiday_all.get(1).toString();
