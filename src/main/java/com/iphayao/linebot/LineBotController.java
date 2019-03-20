@@ -241,7 +241,7 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + holi.getDate_holiday() + " :  " + holi.getName_holiday());
+					holi_list.push("\n" + holi.getDate_holiday() + "   " + holi.getName_holiday());
 
 				});
 				String day1 = holiday_all.get(0).toString();
