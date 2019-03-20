@@ -164,13 +164,7 @@ public class LineBotController {
 
 			}
 
-			case "ขอลาหยุดครับผม": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("ฟังชันก์นี้ยังไม่ได้ทำ ครับ So Sorry")));
-
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-
-			}
+			
 			case "ควย": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"ควยพ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
@@ -354,12 +348,23 @@ public class LineBotController {
 			case "leave": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
+						"ประเภทการลา", "กรุณาเลือก ประเภทการล ด้วยค่ะ", Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
+								new MessageAction("ลาป่วย", "ลาป่วยครับ"), new MessageAction("ลาพักร้อน", "ลาหักร้อนครับ")))));
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
+				userLog.setStatusBot(status.Q11);
+				break;
+			}
+			case "ขอลาหยุดครับผม" :{
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
 						"ประเภทการลา", "กรุณาเลือก", Arrays.asList(new MessageAction("ลากิจ", "1"),
 								new MessageAction("ลาป่วย", "2"), new MessageAction("ลาพักร้อน", "3")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
 				break;
+				
 			}
 			case "help": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
