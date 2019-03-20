@@ -229,7 +229,7 @@ public class LineBotController {
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
 						Arrays.asList(
-								new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  😁" + "\n" + Imr)));
+								new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  ➤" + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -320,8 +320,8 @@ public class LineBotController {
 
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNow.format(nowDate) + "\n"
-								+ "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" +"😎 "+day1 + "\n" +"😎 "+ day2 + "\n"
-								+ "😎 "+day3)));
+								+ "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" +"➤ "+day1 + "\n" +"➤ "+ day2 + "\n"
+								+ "➤ "+day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
