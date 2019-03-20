@@ -128,7 +128,7 @@ public class LineBotController {
 
 	}
 
-	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");
+	private static final DateFormat dateNow = new SimpleDateFormat("yyyy/mm/dd ");
 	Date nowDate = new Date();
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
@@ -467,7 +467,7 @@ public class LineBotController {
 								Arrays.asList(
 
 										new DatetimePickerAction("Date", "action=sel&only=date", "date",
-												dateNow.format(nowDate), dateNow.format(nowDate), dateNow.format(nowDate))))));
+												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
 
