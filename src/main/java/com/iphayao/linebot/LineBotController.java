@@ -128,9 +128,9 @@ public class LineBotController {
 
 	}
 
-	
 	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");
 	Date nowDate = new Date();
+
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 
@@ -145,7 +145,7 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-		
+
 		;
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -454,27 +454,23 @@ public class LineBotController {
 
 			}
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
-			
+
 			switch (text) {
-			
+//------------------------------------------------------------------------------------------------------------------Focus
 			case "ลากิจครับ": {
-				System.out.println("วันที่ปัจจุบันในลากิจ :"+dateNow.format(nowDate));
+				System.out.println("วันที่ปัจจุบันในลากิจ :" + dateNow.format(nowDate));
 				String imageUrl = createUri("/static/buttons/1040.jpg");
-				
+
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
-					
+
 						new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime",
 								Arrays.asList(
-										
-										
-										new DatetimePickerAction("Date", "action=sel&only=date", "date", dateNow.format(nowDate),
-												"2100-12-31", "1900-01-01")
-										))));
+
+										new DatetimePickerAction("Date", "action=sel&only=date", "date",
+												dateNow.format(nowDate), dateNow.format(nowDate), dateNow.format(nowDate))))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
-				
-				
-				
+
 				log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
