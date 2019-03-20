@@ -506,7 +506,7 @@ public class LineBotController {
 				break;
 			}
 			case "ไม่ใช่": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน ของตัวเองให้ถูกต้อง"+"\n"+"เพื่อยืนยันตัวตนค่ะ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน ของตัวเองให้ถูกต้อง"+"\n"+"เพื่อยืนยันตัวตนอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
