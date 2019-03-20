@@ -444,19 +444,18 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 			switch (text) {
 			case "1": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("รอฟงัชันก์ ลากิจ")));
+				
 				log.info("Return echo message %s : %s", replyToken, text);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "2": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("รอฟังชันก์ ลาป่วย")));
 				log.info("Return echo message %s : %s", replyToken, text);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "3": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("รอฟังชันก์ ลาพักร้อน")));
+
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
