@@ -15,7 +15,8 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -127,8 +128,9 @@ public class LineBotController {
 
 	}
 
-	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");// ----------------------------------------------------------------------------DateNow
-
+	
+	private static final DateFormat dateNow = new SimpleDateFormat("dd/MM/yyy ");
+	Date nowDate = new Date();
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 
@@ -143,7 +145,8 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-
+		
+		;
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
@@ -451,15 +454,19 @@ public class LineBotController {
 
 			}
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
+			
 			switch (text) {
+			
 			case "ลากิจครับ": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
+				
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
 					
 						new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime",
 								Arrays.asList(
 										
-										new DatetimePickerAction("Date", "action=sel&only=date", "date", "2017-06-18",
+										
+										new DatetimePickerAction("Date", "action=sel&only=date", "date", dateNow.format(nowDate),
 												"2100-12-31", "1900-01-01")
 										))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
