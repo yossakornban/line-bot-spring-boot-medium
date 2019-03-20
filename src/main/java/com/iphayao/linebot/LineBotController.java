@@ -453,10 +453,17 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 			switch (text) {
 			case "ลากิจครับ": {
-				
-				
-				
-				
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
+
+						new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime",
+								Arrays.asList(
+
+										new DatetimePickerAction("Time", "action=sel&only=time", "time", "06:15",
+												"23:59", "00:00")))));
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
+
 				log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
