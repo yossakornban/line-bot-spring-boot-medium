@@ -128,7 +128,7 @@ public class LineBotController {
 
 	}
 
-	private static final DateFormat dateNow = new SimpleDateFormat("yyyy/mm/dd ");
+	private static final DateFormat dateNow = new SimpleDateFormat("yyy/mm/dd");
 	Date nowDate = new Date();
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
