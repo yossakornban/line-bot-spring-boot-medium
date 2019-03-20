@@ -147,7 +147,7 @@ public class LineBotController {
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
-			case "register": {
+			case "ลงทะเบียน": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
@@ -373,7 +373,7 @@ public class LineBotController {
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 			}
-			case "Flex Back": {
+			case "สอบถามข้อมูลทั่วไปค่ะ": {
 
 				RichMenuHelper.deleteRichMenu(lineMessagingClient, userLog.getUserID());
 				break;
