@@ -365,6 +365,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.Q11);
 				break;
 				
+				
 			}
 			case "help": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
