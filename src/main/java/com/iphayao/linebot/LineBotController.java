@@ -229,7 +229,7 @@ public class LineBotController {
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
 						Arrays.asList(
-								new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  😊" + "\n" + Imr)));
+								new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  😁" + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
