@@ -54,4 +54,4 @@ areas:
   action:
     type: message
     label: unlink
-    text: 'สอบถามข้อมูลทั่วไปค่ะ'
+    text: 'สอบถาม ข้อมูลทั่วไป'
