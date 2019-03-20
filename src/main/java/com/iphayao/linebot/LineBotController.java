@@ -463,10 +463,10 @@ public class LineBotController {
 
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
 
-						new CarouselColumn(imageUrl, "วันลา เริ่มต้น", "กรุณา รุบุวันลาเริ่มต้น",
+						new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime",
 								Arrays.asList(
 
-										new DatetimePickerAction("Date", "action=sel&only=date", "กำหนดวัน",
+										new DatetimePickerAction("String", "action=sel&only=date", "date",
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
