@@ -455,10 +455,10 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 			switch (text) {
 			case "ลากิจครับ": {
-				log.info("Return echo message %s : %s", replyToken, text);
+				
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
 				Date date = new Date();
-				System.out.println(formatter.format(date));
+				System.out.println("วันที่ปัจจุบันในลากิจ :"+formatter.format(date));
 
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(
@@ -469,6 +469,7 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 			
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
+				log.info("Return echo message %s : %s", replyToken, text);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
