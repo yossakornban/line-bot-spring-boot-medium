@@ -143,12 +143,12 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-															
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน"+"\n"+"เพื่อยืนยันตัวตนค่ะ")));
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
@@ -164,7 +164,6 @@ public class LineBotController {
 
 			}
 
-			
 			case "ควย": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"ควยพ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
@@ -208,13 +207,13 @@ public class LineBotController {
 				break;
 			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
-				
+
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" +"➤ "+ holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 				System.out.println("holiday_all");
 				String Imr = holi_list.toString();
@@ -222,12 +221,11 @@ public class LineBotController {
 				Imr = Imr.replace("]", "");
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
-						Arrays.asList(
-								new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Imr)));
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			
+
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
@@ -314,8 +312,8 @@ public class LineBotController {
 
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNow.format(nowDate) + "\n"
-								+ "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" +"➤ "+day1 + "\n" +"➤ "+ day2 + "\n"
-								+ "➤ "+day3)));
+								+ "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ " + day2
+								+ "\n" + "➤ " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -347,25 +345,28 @@ public class LineBotController {
 			}
 			case "leave": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
-						"ประเภทการลา", "กรุณาเลือก ประเภทการล ด้วยค่ะ", Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
-								new MessageAction("ลาป่วย", "ลาป่วยครับ"), new MessageAction("ลาพักร้อน", "ลาหักร้อนครับ")))));
+				CarouselTemplate carouselTemplate = new CarouselTemplate(
+						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
+								Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
+										new MessageAction("ลาป่วย", "ลาป่วยครับ"),
+										new MessageAction("ลาพักร้อน", "ลาหักร้อนครับ")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
 				break;
 			}
-			case "ขอลาหยุดครับผม" :{
+			case "ขอลาหยุดครับผม": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
-						"ประเภทการลา", "กรุณาเลือก ประเภทการล ด้วยค่ะ", Arrays.asList(new MessageAction("ลากิจ", "รอ Flow ของลากิจครับ"),
-								new MessageAction("ลาป่วย", "รอ Flow ลาป่วยครับ"), new MessageAction("ลาพักร้อน", "รอ Flow ลาหักร้อนครับ")))));
+				CarouselTemplate carouselTemplate = new CarouselTemplate(
+						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
+								Arrays.asList(new MessageAction("ลากิจ", "รอ Flow ของลากิจครับ"),
+										new MessageAction("ลาป่วย", "รอ Flow ลาป่วยครับ"),
+										new MessageAction("ลาพักร้อน", "รอ Flow ลาหักร้อนครับ")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
 				break;
-				
-				
+
 			}
 			case "help": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
@@ -450,7 +451,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 			switch (text) {
 			case "1": {
-				
+
 				log.info("Return echo message %s : %s", replyToken, text);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
@@ -465,11 +466,33 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+
+			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
+
+				Stack<String> holi_list = new Stack<>();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
+				holiday_all.forEach(record -> {
+					Holiday holi = new Holiday();
+					modelMapper.map(record, holi);
+					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+				});
+				System.out.println("holiday_all");
+				String Imr = holi_list.toString();
+				Imr = Imr.replace("[", "");
+				Imr = Imr.replace("]", "");
+				Imr = Imr.replace(",", "");
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Imr)));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
 			default:
 				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
-						"ประเภทการลา", "กรุณาเลือก ประเภทการล ด้วยค่ะ", Arrays.asList(new MessageAction("ลากิจ", "รอ Flow ของลากิจครับ"),
-								new MessageAction("ลาป่วย", "รอ Flow ลาป่วยครับ"), new MessageAction("ลาพักร้อน", "รอ Flow ลาหักร้อนครับ")))));
+				CarouselTemplate carouselTemplate = new CarouselTemplate(
+						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
+								Arrays.asList(new MessageAction("ลากิจ", "รอ Flow ของลากิจครับ"),
+										new MessageAction("ลาป่วย", "รอ Flow ลาป่วยครับ"),
+										new MessageAction("ลาพักร้อน", "รอ Flow ลาหักร้อนครับ")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
@@ -485,16 +508,12 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.FINDCONFIRM);
 			} else {
-				this.reply(replyToken,
-						Arrays.asList(
-								new TextMessage(
-										
-										"ไม่มีข้อมูลพนักงานเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
-								new TextMessage("กรุณากรอก รหัสพนักงาน ให้ถูกต้อง"+"\n"+"เพื่อยืนยันตัวตนอีกครั้งค่ะ"))
-						);
-		;
-				
-				
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+
+						"ไม่มีข้อมูลพนักงานเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
+						new TextMessage("กรุณากรอก รหัสพนักงาน ให้ถูกต้อง" + "\n" + "เพื่อยืนยันตัวตนอีกครั้งค่ะ")));
+				;
+
 				userLog.setStatusBot(status.FINDEMP);
 			}
 
@@ -513,7 +532,8 @@ public class LineBotController {
 				break;
 			}
 			case "ไม่ใช่": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน ของตัวเองให้ถูกต้อง"+"\n"+"เพื่อยืนยันตัวตนอีกครั้งค่ะ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"กรุณากรอก รหัสพนักงาน ของตัวเองให้ถูกต้อง" + "\n" + "เพื่อยืนยันตัวตนอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
