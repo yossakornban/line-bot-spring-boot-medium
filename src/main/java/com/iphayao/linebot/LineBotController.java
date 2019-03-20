@@ -480,13 +480,10 @@ public class LineBotController {
 				this.reply(replyToken,
 						Arrays.asList(
 								new TextMessage(
-										"ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
+										"ไม่มีข้อมูลพนักงานเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
 								new TextMessage("กรุณากรอก รหัสพนักงาน อีกครั้ง ให้ถูกต้อง"+"\n"+"เพื่อยืนยันตัวตนอีกครั้งค่ะ")));
-				this.reply(replyToken, new StickerMessage("2", "17"));
-				this.reply(replyToken, new StickerMessage("3", "17"));
-				this.reply(replyToken, new StickerMessage("4", "17"));
-				this.reply(replyToken, new StickerMessage("5", "17"));
-				this.reply(replyToken, new StickerMessage("6", "17"));
+				this.reply(replyToken, new StickerMessage("1", "18"));
+				
 				
 				userLog.setStatusBot(status.FINDEMP);
 			}
