@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -453,8 +455,19 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 			switch (text) {
 			case "ลากิจครับ": {
-
 				log.info("Return echo message %s : %s", replyToken, text);
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+				Date date = new Date();
+				System.out.println(formatter.format(date));
+
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(
+						Arrays.asList(new CarouselColumn(imageUrl, "Datetime Picker",
+								"Please select a date, time or datetime", Arrays.asList(new DatetimePickerAction("Date",
+										"action=sel&only=date", "date", formatter.format(date), "2100-12-31", "1900-01-01")))));
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
+			
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
