@@ -148,7 +148,7 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน"+"\n"+"เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
@@ -373,7 +373,7 @@ public class LineBotController {
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 			}
-			case "สอบถามข้อมูลทั่วไปค่ะ": {
+			case "สอบถาม ข้อมูลทั่วไป": {
 
 				RichMenuHelper.deleteRichMenu(lineMessagingClient, userLog.getUserID());
 				break;
@@ -481,7 +481,7 @@ public class LineBotController {
 						Arrays.asList(
 								new TextMessage(
 										"ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
-								new TextMessage("กรุณา..หรอก รหัสพนักงาน"+"\n"+"เพื่อยืนยันตัวตนค่ะ")));
+								new TextMessage("กรุณากรอก รหัสพนักงาน"+"\n"+"เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 			}
 
@@ -500,7 +500,7 @@ public class LineBotController {
 				break;
 			}
 			case "ไม่ใช่": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("พิมพ์ รหัสพนักงาน")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน"+"\n"+"เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
