@@ -228,7 +228,8 @@ public class LineBotController {
 				Imr = Imr.replace("]", "");
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + Imr)));
+						Arrays.asList(new TextMessage("กรุณา รอซักครู่.... ค่ะ^^"),
+								new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
