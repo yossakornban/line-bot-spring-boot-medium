@@ -481,7 +481,7 @@ public class LineBotController {
 						Arrays.asList(
 								new TextMessage(
 										"ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
-								new TextMessage("กรอก รหัสพนักงาน")));
+								new TextMessage("กรุณา..หรอก รหัสพนักงาน"+"\n"+"เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 			}
 
