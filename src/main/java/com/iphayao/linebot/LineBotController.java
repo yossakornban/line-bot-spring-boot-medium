@@ -469,7 +469,7 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 			
 			
-				log.info("Return echo message %s : %s", replyToken, text);
+			
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
