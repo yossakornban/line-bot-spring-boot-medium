@@ -343,25 +343,27 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "leave": {
+			// case "leave": {
+			// String imageUrl = createUri("/static/buttons/1040.jpg");
+			// CarouselTemplate carouselTemplate = new CarouselTemplate(
+			// Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา",
+			// "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
+			// Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
+			// new MessageAction("ลาป่วย", "ลาป่วยครับ"),
+			// new MessageAction("ลาพักร้อน", "ลาหักร้อนครับ")))));
+			// TemplateMessage templateMessage = new TemplateMessage("Carousel
+			// alt text", carouselTemplate);
+			// this.reply(replyToken, templateMessage);
+			// userLog.setStatusBot(status.Q11);
+			// break;
+			// }
+			case "ขอลาหยุดครับผม": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(
 						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
 								Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
 										new MessageAction("ลาป่วย", "ลาป่วยครับ"),
-										new MessageAction("ลาพักร้อน", "ลาหักร้อนครับ")))));
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
-				userLog.setStatusBot(status.Q11);
-				break;
-			}
-			case "ขอลาหยุดครับผม": {
-				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(
-						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
-								Arrays.asList(new MessageAction("ลากิจ", "รอ Flow ของลากิจครับ"),
-										new MessageAction("ลาป่วย", "รอ Flow ลาป่วยครับ"),
-										new MessageAction("ลาพักร้อน", "รอ Flow ลาหักร้อนครับ")))));
+										new MessageAction("ลาพักร้อน", "ลาพักร้อนครับ")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
@@ -450,19 +452,21 @@ public class LineBotController {
 			}
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 			switch (text) {
-			case "1": {
+			case "ลากิจครับ": {
 
 				log.info("Return echo message %s : %s", replyToken, text);
+				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "2": {
+			case "ลาป่วยครับ": {
 				log.info("Return echo message %s : %s", replyToken, text);
+				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนาน ลาป่วย")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "3": {
-
+			case "ลาพักร้อนครับ": {
+				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนาน พักร้อน")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
