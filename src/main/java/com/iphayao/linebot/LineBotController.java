@@ -468,7 +468,7 @@ public class LineBotController {
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
 			
-				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
+			
 				log.info("Return echo message %s : %s", replyToken, text);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
