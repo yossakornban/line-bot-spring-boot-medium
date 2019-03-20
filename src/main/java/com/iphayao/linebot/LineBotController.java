@@ -214,7 +214,7 @@ public class LineBotController {
 				break;
 			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
-
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณา รอซักครู่.... ค่ะ^^")));
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
@@ -228,7 +228,7 @@ public class LineBotController {
 				Imr = Imr.replace("]", "");
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("กรุณา รอซักครู่.... ค่ะ^^"),
+						Arrays.asList(
 								new TextMessage("ข้อมูลวันหยุดประจำปี ได้เเล้วค่ะ ^^" + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
