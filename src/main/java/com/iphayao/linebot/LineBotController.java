@@ -358,8 +358,8 @@ public class LineBotController {
 			case "ขอลาหยุดครับผม" :{
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
-						"ประเภทการลา", "กรุณาเลือก", Arrays.asList(new MessageAction("ลากิจ", "1"),
-								new MessageAction("ลาป่วย", "2"), new MessageAction("ลาพักร้อน", "3")))));
+						"ประเภทการลา", "กรุณาเลือก ประเภทการล ด้วยค่ะ", Arrays.asList(new MessageAction("ลากิจ", "รอ Flow ของลากิจครับ"),
+								new MessageAction("ลาป่วย", "รอ Flow ลาป่วยครับ"), new MessageAction("ลาพักร้อน", "รอ Flow ลาหักร้อนครับ")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
