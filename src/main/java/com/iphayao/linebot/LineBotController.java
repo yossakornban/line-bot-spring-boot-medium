@@ -477,7 +477,7 @@ public class LineBotController {
 				
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				String Imr = templateMessage.toString();
-				System.out.print("Text Data"+replyToken);
+				System.out.print("Text Data"+Imr);
 				this.reply(replyToken, templateMessage);
 
 				//log.info("Return echo message %s : %s", replyToken, text);
