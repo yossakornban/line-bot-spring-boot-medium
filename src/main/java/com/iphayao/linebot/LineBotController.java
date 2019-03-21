@@ -456,7 +456,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 
 			switch (text) {
-			// ------------------------------------------------------------------------------------------------------------------Focus
+//------------------------------------------------------------------------------------------------------------------Focus
 			case "ลากิจครับ": {
 				System.out.println("วันที่ปัจจุบันในลากิจ :" + dateNow.format(nowDate));
 				String imageUrl = createUri("/static/buttons/1040.jpg");
@@ -468,17 +468,15 @@ public class LineBotController {
 
 										new DatetimePickerAction("กำหนดวัน", "วันลาเริ่มต้นของคุณคือ ", "date",
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
-
+				
+				
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				String Imr = templateMessage.toString();
-				Imr = Imr.replace(
-						"TemplateMessage(altText=Carousel alt text, template=CarouselTemplate(columns=[CarouselColumn(thumbnailImageUrl=https://linebot-ss.herokuapp.com/static/buttons/1040.jpg, imageBackgroundColor=null, title=",
-						"");
-				System.out.print(Imr);
-				//this.reply(replyToken, templateMessage);
+				System.out.print("Text Data"+replyToken);
+				this.reply(replyToken, templateMessage);
 
-				// log.info("Return echo message %s : %s", replyToken, text);
-				this.reply(replyToken, Arrays.asList(new TextMessage(Imr)));
+				//log.info("Return echo message %s : %s", replyToken, text);
+				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
