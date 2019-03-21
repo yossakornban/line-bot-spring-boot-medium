@@ -134,7 +134,10 @@ public class LineBotController {
 	}
 
 	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
+	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
+
+	
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
@@ -319,7 +322,7 @@ public class LineBotController {
 				day3 = day3.replace(",", " ");
 
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNow.format(nowDate) + "\n"
+						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate) + "\n"
 								+ "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ " + day2
 								+ "\n" + "➤ " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
