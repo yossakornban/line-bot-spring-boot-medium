@@ -477,14 +477,16 @@ public class LineBotController {
 				
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				
-				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
+				
 				this.reply(replyToken, templateMessage);
 				String Imr = templateMessage.toString();
 				System.out.print("Text Data"+Imr);
+				
 
 				//log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
+				System.out.println("สถานะ Status : "+status.DEFAULT);
 				break;
 			}
 			case "ลาป่วยครับ": {
