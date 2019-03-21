@@ -97,7 +97,7 @@ public class LineBotController {
 	@EventMapping
 	public void handlePostbackEvent(PostbackEvent event) {
 		String replyToken = event.getReplyToken();
-		this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param "
+		this.replyText(replyToken, "" + event.getPostbackContent().getData() + " "
 				+ event.getPostbackContent().getParams().toString());
 	}
 
@@ -458,7 +458,7 @@ public class LineBotController {
 			switch (text) {
 //------------------------------------------------------------------------------------------------------------------Focus
 			case "ลากิจครับ": {
-				System.out.println("วันที่ปัจจุบันในลากิจ :" + dateNow.format(nowDate));
+				
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
