@@ -471,8 +471,7 @@ public class LineBotController {
 				
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				String dateStart = templateMessage.toString();
-				this.reply(replyToken, Arrays.asList(new TextMessage(dateStart)));
-				//this.reply(replyToken, dateStart);
+				this.replyText(replyToken, dateStart);
 
 				log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
