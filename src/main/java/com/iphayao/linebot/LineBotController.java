@@ -133,7 +133,7 @@ public class LineBotController {
 
 	}
 
-	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
+	private static final DateFormat dateNow = new SimpleDateFormat("dd/mm/yyyy");
 	Date nowDate = new Date();
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
@@ -471,7 +471,7 @@ public class LineBotController {
 						new CarouselColumn(imageUrl, "เริ่มต้น วันลา", "กรุณา กำหนดวันลา เริ่มต้นด้วยค่ะ",
 								Arrays.asList(
 
-										new DatetimePickerAction("กำหนดวัน", "วันลาเริ่มต้นของคุณคือ ", "string",
+										new DatetimePickerAction("กำหนดวัน", "วันลาเริ่มต้นของคุณคือ ", "date",
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
 				
 				
@@ -486,7 +486,6 @@ public class LineBotController {
 				//log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
-				System.out.println("สถานะ Status : "+status.DEFAULT);
 				break;
 			}
 			case "ลาป่วยครับ": {
