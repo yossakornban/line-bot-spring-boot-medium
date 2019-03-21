@@ -133,7 +133,7 @@ public class LineBotController {
 
 	}
 
-	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
+	private static final DateFormat dateNow = new SimpleDateFormat("dd-MM-yyyy");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
@@ -474,7 +474,7 @@ public class LineBotController {
 						new CarouselColumn(imageUrl, "เริ่มต้น วันลา", "กรุณา กำหนดวันลา เริ่มต้นด้วยค่ะ",
 								Arrays.asList(
 
-										new DatetimePickerAction("กำหนดวัน", "วันลาเริ่มต้นของคุณคือ ", "date",
+										new DatetimePickerAction("กำหนดวัน", "วันลา  เริ่มต้นของคุณคือ ", "date.format(dateNow)",
 												dateNow.format(nowDate), "2100-12-31", dateNow.format(nowDate))))));
 				
 				
