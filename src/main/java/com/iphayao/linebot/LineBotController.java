@@ -470,7 +470,7 @@ public class LineBotController {
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
 				
 				TemplateMessage templateMessageStart = new TemplateMessage("Carousel alt text", leave_start);
-				this.reply(replyToken, templateMessageStart);
+			
 				
 				
 				CarouselTemplate leave_end = new CarouselTemplate(Arrays.asList(
@@ -481,7 +481,9 @@ public class LineBotController {
 										new DatetimePickerAction("กำหนดวัน", "วันลาสิ้นสุดของคุณคือ ", "date",
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
 				TemplateMessage templateMessageEnd = new TemplateMessage("Carousel alt text", leave_end);
+				this.reply(replyToken, templateMessageStart);
 				this.reply(replyToken, templateMessageEnd);
+				
 
 				log.info("Return echo message %s : %s", replyToken, text);
 				
