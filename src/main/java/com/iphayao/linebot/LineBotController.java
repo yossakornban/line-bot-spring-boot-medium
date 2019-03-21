@@ -470,8 +470,8 @@ public class LineBotController {
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
 				
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				String dateStart = templateMessage.toString();
-				this.replyText(replyToken, dateStart);
+				
+				this.reply(replyToken, templateMessage);
 
 				log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
