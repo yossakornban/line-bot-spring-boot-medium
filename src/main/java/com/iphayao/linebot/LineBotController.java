@@ -468,8 +468,11 @@ public class LineBotController {
 
 										new DatetimePickerAction("กำหนดวัน", "วันลาเริ่มต้นของคุณคือ ", "date",
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
+				
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
+				String dateStart = templateMessage.toString();
+				this.reply(replyToken, Arrays.asList(new TextMessage(dateStart)));
+				//this.reply(replyToken, dateStart);
 
 				log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
