@@ -472,7 +472,7 @@ public class LineBotController {
 				
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				String Imr = templateMessage.toString();
-				System.out.print(Imr);
+				System.out.print("Test before Replace"+Imr);
 				this.reply(replyToken, templateMessage);
 
 				//log.info("Return echo message %s : %s", replyToken, text);
