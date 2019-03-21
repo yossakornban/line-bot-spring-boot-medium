@@ -133,7 +133,7 @@ public class LineBotController {
 
 	}
 
-	private static final DateFormat dateNow = new SimpleDateFormat("dd-MM-yyyy");
+	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
