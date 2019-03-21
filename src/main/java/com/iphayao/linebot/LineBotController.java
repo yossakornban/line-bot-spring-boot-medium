@@ -97,7 +97,7 @@ public class LineBotController {
 	@EventMapping
 	public void handlePostbackEvent(PostbackEvent event) {
 		String replyToken = event.getReplyToken();
-		this.replyText(replyToken, "" + event.getPostbackContent().getData().toString() + " "
+		this.replyText(replyToken, "" + event.getPostbackContent().getData().replace("{date=", "").toString() + " "
 				+ event.getPostbackContent().getParams().toString());
 	}
 //	public void handlePostbackEvent(PostbackEvent event) {
@@ -474,7 +474,7 @@ public class LineBotController {
 						new CarouselColumn(imageUrl, "เริ่มต้น วันลา", "กรุณา กำหนดวันลา เริ่มต้นด้วยค่ะ",
 								Arrays.asList(
 
-										new DatetimePickerAction("กำหนดวัน", "วันลา  เริ่มต้นของคุณคือ ", "date.format(dateNow)",
+										new DatetimePickerAction("กำหนดวัน", "วันลา  เริ่มต้นของคุณคือ ", "date",
 												dateNow.format(nowDate), "2100-12-31", dateNow.format(nowDate))))));
 				
 				
