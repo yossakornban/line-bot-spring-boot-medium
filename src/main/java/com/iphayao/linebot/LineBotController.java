@@ -461,7 +461,7 @@ public class LineBotController {
 				System.out.println("วันที่ปัจจุบันในลากิจ :" + dateNow.format(nowDate));
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 
-				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
+				CarouselTemplate leave_start = new CarouselTemplate(Arrays.asList(
 
 						new CarouselColumn(imageUrl, "เริ่มต้น วันลา", "กรุณา กำหนดวันลา เริ่มต้นด้วยค่ะ",
 								Arrays.asList(
@@ -469,11 +469,22 @@ public class LineBotController {
 										new DatetimePickerAction("กำหนดวัน", "วันลาเริ่มต้นของคุณคือ ", "date",
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
 				
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
+				TemplateMessage templateMessageStart = new TemplateMessage("Carousel alt text", leave_start);
+				this.reply(replyToken, templateMessageStart);
+				
+				
+				CarouselTemplate leave_end = new CarouselTemplate(Arrays.asList(
+
+						new CarouselColumn(imageUrl, "สิ้นสุด วันลา", "กรุณา กำหนดวันลาสิ้นสุดด้วยค่ะ",
+								Arrays.asList(
+
+										new DatetimePickerAction("กำหนดวัน", "วันลาสิ้นสุดของคุณคือ ", "date",
+												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
+				TemplateMessage templateMessageEnd = new TemplateMessage("Carousel alt text", leave_end);
+				this.reply(replyToken, templateMessageEnd);
 
 				log.info("Return echo message %s : %s", replyToken, text);
-				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
+				
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
