@@ -98,7 +98,7 @@ public class LineBotController {
 	public void handlePostbackEvent(PostbackEvent event) {
 		String replyToken = event.getReplyToken();
 			   replyToken = replyToken.replace("date", "");
-		this.replyText(replyToken,event.getPostbackContent().getData().toString() 
+		this.replyText(replyToken,event.getPostbackContent().getData().toString() .replace("date", "")
 				+ event.getPostbackContent().getParams().toString());
 	}
 //	public void handlePostbackEvent(PostbackEvent event) {
@@ -471,16 +471,17 @@ public class LineBotController {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
-
+	
 						new CarouselColumn(imageUrl, "เริ่มต้น วันลา", "กรุณา กำหนดวันลา เริ่มต้นด้วยค่ะ",
 								Arrays.asList(
 
 										new DatetimePickerAction("กำหนดวัน", "วันลา  เริ่มต้นของคุณคือ ", "date",
-												dateNow.format(nowDate), "2100-12-31", dateNow.format(nowDate))))));
-				
+												dateNow.format(nowDate), "2100-12-31", dateNow.format(nowDate)
+												)))));
+	
 				
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				
+							
 				
 				this.reply(replyToken, templateMessage);
 				String Imr = templateMessage.toString();
