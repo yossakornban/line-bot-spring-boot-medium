@@ -456,7 +456,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 
 			switch (text) {
-//------------------------------------------------------------------------------------------------------------------Focus
+			// ------------------------------------------------------------------------------------------------------------------Focus
 			case "ลากิจครับ": {
 				System.out.println("วันที่ปัจจุบันในลากิจ :" + dateNow.format(nowDate));
 				String imageUrl = createUri("/static/buttons/1040.jpg");
@@ -468,24 +468,22 @@ public class LineBotController {
 
 										new DatetimePickerAction("กำหนดวัน", "วันลาเริ่มต้นของคุณคือ ", "date",
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
-				
+
 				TemplateMessage templateMessageStart = new TemplateMessage("Carousel alt text", leave_start);
-			
-				
-				
+				this.reply(replyToken, templateMessageStart);
+
 				CarouselTemplate leave_end = new CarouselTemplate(Arrays.asList(
 
-						new CarouselColumn(imageUrl, "สิ้นสุด วันลา", "กรุณา กำหนดวันลาสิ้นสุดด้วยค่ะ",
-								Arrays.asList(
+						new CarouselColumn(imageUrl, "สิ้นสุด วันลา", "กรุณา กำหนดวันลาสิ้นสุดด้วยค่ะ", Arrays.asList(
 
-										new DatetimePickerAction("กำหนดวัน", "วันลาสิ้นสุดของคุณคือ ", "date",
-												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
+								new DatetimePickerAction("กำหนดวัน", "วันลาสิ้นสุดของคุณคือ ", "date",
+										dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
 				TemplateMessage templateMessageEnd = new TemplateMessage("Carousel alt text", leave_end);
-			
-				
+
+				this.reply(replyToken, templateMessageEnd);
 
 				log.info("Return echo message %s : %s", replyToken, text);
-				
+
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
