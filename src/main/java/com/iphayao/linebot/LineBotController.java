@@ -475,7 +475,7 @@ public class LineBotController {
 						new CarouselColumn(imageUrl, "วันลา  เริ่มต้น ", "กรุณา กำหนดวันลา เริ่มต้นด้วยค่ะ"+"\n"+"(ไม่สามารถเกลับมาเเก้ไขได้!!)",
 								Arrays.asList(
 
-										new DatetimePickerAction("กำหนดวัน", "วันลา  เริ่มต้นของคุณคือ ", "date",
+										new DatetimePickerAction("กำหนดวัน", "วันลา  เริ่มต้นของคุณคือ ", "",
 												dateNow.format(nowDate), "2100-12-31", dateNow.format(nowDate)
 												)))));
 	
