@@ -97,7 +97,8 @@ public class LineBotController {
 	@EventMapping
 	public void handlePostbackEvent(PostbackEvent event) {
 		String replyToken = event.getReplyToken();
-		this.replyText(replyToken, "" + event.getPostbackContent().getData().replace("{date=", "").toString() + " "
+			   replyToken = replyToken.replace("date", "");
+		this.replyText(replyToken,event.getPostbackContent().getData().toString() 
 				+ event.getPostbackContent().getParams().toString());
 	}
 //	public void handlePostbackEvent(PostbackEvent event) {
