@@ -465,8 +465,7 @@ public class LineBotController {
 
 						new CarouselColumn(imageUrl, "เริ่มต้น วันลา", "กรุณา กำหนดวันลา เริ่มต้นด้วยค่ะ",
 								Arrays.asList(
-
-										new DatetimePickerAction("กำหนดวัน", "วันลาเริ่มต้นของคุณคือ ", "date",
+										new DatetimePickerAction("กำหนดวัน", "วันลาเริ่มต้นของคุณคือ ", "",
 												dateNow.format(nowDate), "2100-12-31", "1900-01-01")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);

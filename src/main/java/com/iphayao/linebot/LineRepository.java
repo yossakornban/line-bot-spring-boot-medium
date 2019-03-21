@@ -53,7 +53,6 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-
 			aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 			// (stb.toString(), parameters,
