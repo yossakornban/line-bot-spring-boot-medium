@@ -450,7 +450,7 @@ public class LineBotController {
 			}
 			case "Vote": {
 				
-				String imageUrl = createUri("asset/kawpad.png");
+				String imageUrl = createUri("resources/asset/kawpad.png");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
 					
 						new CarouselColumn(imageUrl, "ข้าวผัด", "เพิ่มพลังความคิด วิตามีน B12 ให้โปรเเกรมเมอร์ ทีม Java",
