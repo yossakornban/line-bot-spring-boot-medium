@@ -46,6 +46,7 @@ public class LineRepository {
 		try {
 			
 			System.out.println("Test in try register");
+			System.out.println("User ID in Try Register is :"+userLog);
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
