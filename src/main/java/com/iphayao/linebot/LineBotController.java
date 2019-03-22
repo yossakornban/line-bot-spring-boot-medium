@@ -78,6 +78,8 @@ import com.iphayao.LineApplication;
 @LineMessageHandler
 
 public class LineBotController {
+	
+	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
@@ -137,7 +139,7 @@ public class LineBotController {
 	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
-
+	
 	
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
@@ -155,7 +157,7 @@ public class LineBotController {
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
 
-		;
+		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
@@ -558,8 +560,10 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
-
-				System.out.println("EmpName by raider Striker is : "+empName);
+				
+				//Emp code from findForm
+				String empNameFormFind = lineRepo.findEmp(text.toString());
+				System.out.println("EmpName by raider Striker is : "+empNameFormFind);
 				lineRepo.register(userLog);
 				System.out.println("USer Logs is : "+userLog);
 				String pathYamlHome = "asset/select_event.yml";
