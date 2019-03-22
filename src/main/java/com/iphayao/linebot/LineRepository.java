@@ -41,7 +41,7 @@ public class LineRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	public int register(UserLog userLog) {
+	public int register(UserLog userLog ) {
 		int aaa = 0;
 		try {
 			
@@ -59,6 +59,9 @@ public class LineRepository {
 			//parameters.addValue("paramName",userLog.getEmpName());
 			System.out.println("After get user Logs"+userLog.getUserID());
 			System.out.println("After get user Emo code "+userLog.getEmpCode());
+			System.out.println("After get user emp Name "+userLog.getEmpName);
+			
+			
 			
 			aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;

@@ -156,7 +156,7 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-
+		
 		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -541,9 +541,12 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 
 			if (empName != null) {
+		
+				lineRepo.register(userLog);
+			
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
-
+			
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.FINDCONFIRM);
@@ -562,8 +565,7 @@ public class LineBotController {
 			case "ใช่": {
 				
 				//Emp code from findForm
-				String empNameFormFind = lineRepo.findEmp(text.toString());
-				System.out.println("EmpName by raider Striker is : "+empNameFormFind);
+
 				lineRepo.register(userLog);
 				System.out.println("USer Logs is : "+userLog);
 				String pathYamlHome = "asset/select_event.yml";
