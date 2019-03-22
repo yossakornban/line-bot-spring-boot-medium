@@ -561,7 +561,7 @@ public class LineBotController {
 
 			
 				lineRepo.register(userLog);
-				System.out.println(userLog);
+				System.out.println("USer Logs is : "+userLog);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
