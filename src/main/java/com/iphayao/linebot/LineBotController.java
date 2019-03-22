@@ -448,6 +448,18 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
+			case "Vote": {
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
+					
+						new CarouselColumn(imageUrl, "ข้าวผัด", "เพิ่มพลังความคิด วิตามีน B12 ให้โปรเเกรมเมอร์",
+								Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+										new MessageAction("โหวต  ข้าวผัด", "ข้าวผัด ครับ")))));
+						
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
+				break;
+			}
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
@@ -555,11 +567,6 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
-
-				
-				
-				
-			
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
