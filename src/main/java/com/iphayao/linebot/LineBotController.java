@@ -559,12 +559,13 @@ public class LineBotController {
 			switch (text) {
 			case "ใช่": {
 
-				System.out.print("ไอ้ควายเก่ง" + empName);
+			
 				lineRepo.register(userLog);
-				userLog.setStatusBot(status.DEFAULT);
+				System.out.println(userLog);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				userLog.setStatusBot(status.DEFAULT);
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ  😊")));
 				break;
