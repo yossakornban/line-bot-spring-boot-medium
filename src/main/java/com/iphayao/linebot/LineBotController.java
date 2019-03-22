@@ -479,7 +479,6 @@ public class LineBotController {
 												dateNow.format(nowDate), "2100-12-31", dateNow.format(nowDate)
 												)))));
 	
-				
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 							
 				
