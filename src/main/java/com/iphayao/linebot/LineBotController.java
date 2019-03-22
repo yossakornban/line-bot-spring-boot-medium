@@ -559,7 +559,7 @@ public class LineBotController {
 			switch (text) {
 			case "ใช่": {
 
-			
+				System.out.println("EmpName by raider Striker is : "+empName);
 				lineRepo.register(userLog);
 				System.out.println("USer Logs is : "+userLog);
 				String pathYamlHome = "asset/select_event.yml";
