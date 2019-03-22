@@ -560,7 +560,7 @@ public class LineBotController {
 			case "ใช่": {
 
 			
-				lineRepo.register(userLog);
+				//lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
