@@ -46,7 +46,7 @@ public class LineRepository {
 		try {
 			
 			System.out.println("Test in try register");
-			System.out.println("User ID in Try Register is :"+userLog);
+			System.out.println("User ID in Try Register is :s"+userLog);
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
@@ -56,6 +56,8 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
+			System.out.println("After get user Logs"+userLog);
+			
 			aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 			// (stb.toString(), parameters,
