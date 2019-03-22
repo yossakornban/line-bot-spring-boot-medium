@@ -562,6 +562,7 @@ public class LineBotController {
 
 				
 				
+				
 			
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
