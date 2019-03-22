@@ -540,7 +540,7 @@ public class LineBotController {
 
 			if (empName != null) {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
-						new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
+						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken, templateMessage);
@@ -557,7 +557,7 @@ public class LineBotController {
 
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
-			case "Yes": {
+			case "ใช่": {
 
 			
 				lineRepo.register(userLog);
