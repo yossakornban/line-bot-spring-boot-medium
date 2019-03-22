@@ -56,6 +56,7 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
+			//parameters.addValue("paramName",userLog.getEmpName());
 			System.out.println("After get user Logs"+userLog.getUserID());
 			System.out.println("After get user Emo code "+userLog.getEmpCode());
 			
@@ -82,6 +83,7 @@ public class LineRepository {
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", empCode);
+			System.out.println("Emp code in FindEmps is : "+empCode);
 
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 
