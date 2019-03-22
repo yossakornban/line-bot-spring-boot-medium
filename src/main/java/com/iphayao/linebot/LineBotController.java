@@ -449,10 +449,10 @@ public class LineBotController {
 				break;
 			}
 			case "Vote": {
-				String imageUrl = createUri("asset/kawpad.yml");
+				String imageUrl = createUri("asset/kawpad.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
 					
-						new CarouselColumn(imageUrl, "ข้าวผัด", "เพิ่มพลังความคิด วิตามีน B12 ให้โปรเเกรมเมอร์",
+						new CarouselColumn(imageUrl, "ข้าวผัด", "เพิ่มพลังความคิด วิตามีน B12 ให้โปรเเกรมเมอร์ ทีม Java",
 								Arrays.asList(new MessageAction("เลือก  ข้าวผัด", "เลือก  ข้าวผัด ครับ"))),
 						new CarouselColumn(imageUrl, "ก๋วยเตี๋ยว", "เพิ่มพลังยกของ วิตามีน X-12 ทีม ดอทเน็ต",
 								Arrays.asList(new MessageAction("เลือก ก๋วยเตี๋ยว", "เลือก ก๋วยเตี๋ยว  ครับ"))),
