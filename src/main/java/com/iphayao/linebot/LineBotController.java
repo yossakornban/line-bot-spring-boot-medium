@@ -440,8 +440,8 @@ public class LineBotController {
 								Arrays.asList(
 										new DatetimePickerAction("Datetime", "action=sel", "datetime",
 												"2017-06-18T06:15", "2100-12-31T23:59", "1900-01-01T00:00"),
-										new DatetimePickerAction("Date", "action=sel&only=date", "date", "2017-06-18",
-												"2100-12-31", "1900-01-01"),
+										new DatetimePickerAction("Date", "action=sel&only=date", "date", "18-06-2017",
+												"31-12-2100", "01-01-1900"),
 										new DatetimePickerAction("Time", "action=sel&only=time", "time", "06:15",
 												"23:59", "00:00")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
@@ -483,13 +483,7 @@ public class LineBotController {
 							
 				
 				this.reply(replyToken, templateMessage);
-				String Imr = templateMessage.toString();
 			
-				new CarouselColumn(imageUrl, "hoge", "fuga",
-						Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
-								new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
-								new MessageAction("Say message", "Rice=米")));
-
 				//log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
