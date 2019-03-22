@@ -50,13 +50,14 @@ public class LineRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" UPDATE employee SET emp_emp_line_id = 'lineid'");
+			stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
 			stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-			System.out.println("After get user Logs"+userLog);
+			System.out.println("After get user Logs"+userLog.getUserID());
+			System.out.println("After get user Emo code "+userLog.getEmpCode());
 			
 			aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
