@@ -227,7 +227,7 @@ public class LineBotController {
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
-				System.out.println("holiday_all");
+				
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
@@ -485,8 +485,11 @@ public class LineBotController {
 				
 				this.reply(replyToken, templateMessage);
 				String Imr = templateMessage.toString();
-				System.out.print("Text Data"+Imr);
-				
+			
+				new CarouselColumn(imageUrl, "hoge", "fuga",
+						Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+								new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+								new MessageAction("Say message", "Rice=米")));
 
 				//log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
@@ -514,7 +517,7 @@ public class LineBotController {
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
-				System.out.println("holiday_all");
+			
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
@@ -644,6 +647,7 @@ public class LineBotController {
 			return tempFile;
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
+			
 		}
 	}
 
