@@ -559,7 +559,7 @@ public class LineBotController {
 			switch (text) {
 			case "ใช่": {
 
-				System.out.print("ไอ้ควายเก่ง" + empName);
+				
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
