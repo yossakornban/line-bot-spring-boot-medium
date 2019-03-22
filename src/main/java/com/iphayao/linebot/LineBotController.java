@@ -539,7 +539,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 
 			if (empName != null) {
-				lineRepo.register(userLog);
+				
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
@@ -560,8 +560,9 @@ public class LineBotController {
 			switch (text) {
 			case "ใช่": {
 
-			
-				lineRepo.register(userLog);
+				
+				
+			//	lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
