@@ -450,7 +450,7 @@ public class LineBotController {
 			}
 			case "Vote": {
 				
-				String imageUrl = createUri("resources/asset/kawpad.png");
+				String imageUrl = createUri("asset/kawpad.png");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
 					
 						new CarouselColumn(imageUrl, "ข้าวผัด", "เพิ่มพลังความคิด วิตามีน B12 ให้โปรเเกรมเมอร์ ทีม Java",
@@ -461,13 +461,12 @@ public class LineBotController {
 								Arrays.asList(new MessageAction("เลือก กะเพราหมูกรอบ", "เลือก  กะเพราหมูกรอบ  ครับ")))
 						
 						
-						
-						
 						));
 				
 						
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
+				System.out.println("1000"+carouselTemplate);
 				break;
 			}
 			default:
