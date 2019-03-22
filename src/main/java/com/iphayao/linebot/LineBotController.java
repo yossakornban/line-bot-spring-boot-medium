@@ -453,7 +453,7 @@ public class LineBotController {
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
 					
 						new CarouselColumn(imageUrl, "ข้าวผัด", "เพิ่มพลังความคิด วิตามีน B12 ให้โปรเเกรมเมอร์",
-								Arrays.asList(
+								Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
 										new MessageAction("โหวต  ข้าวผัด", "ข้าวผัด ครับ")))));
 						
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
