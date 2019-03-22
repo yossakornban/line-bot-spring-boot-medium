@@ -44,6 +44,8 @@ public class LineRepository {
 	public int register(UserLog userLog) {
 		int aaa = 0;
 		try {
+			
+			System.out.println("Test in try register");
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
