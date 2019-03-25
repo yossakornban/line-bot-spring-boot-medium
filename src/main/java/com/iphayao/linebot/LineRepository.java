@@ -72,6 +72,26 @@ public class LineRepository {
 		}
 		return aaa;
 	}
+	public String findFoods(String foodCode) {
+		ArrayList<Map<String, Object>> result = null;
+		// List<Map<String, Object>> result = null;
+		try {
+			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			stb = new StringBuilder();
+			stb.append(" select food_food_id , food_food_name from foods ");
+			stb.append(" WHERE emp_emp_code = :foodCode ");
+			MapSqlParameterSource parameters = new MapSqlParameterSource();
+			parameters.addValue("empcode", foodCode);
+			System.out.println("Emp code in FoodCode : "+foodCode);
+			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			if (result.size() == 0) {
+				return null;
+			}
+		} catch (EmptyResultDataAccessException ex) {
+			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+		}
+		return (String) result.get(0).get("emp_emp_name");
+	}
 	
 
 	public String findEmp(String empCode) {
@@ -80,73 +100,56 @@ public class LineRepository {
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-
 			stb.append(" SELECT emp_emp_name FROM employee ");
 			stb.append(" WHERE emp_emp_code = :empcode ");
-
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", empCode);
 			System.out.println("Emp code in FindEmps is : "+empCode);
-
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-
 			if (result.size() == 0) {
 				return null;
 			}
-
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return (String) result.get(0).get("emp_emp_name");
 	}
-
 	public ArrayList<Map<String, Object>> holidayList() {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-
 			stb.append(" select * from holiday order by number_event ");
-
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return result;
 	}
-
 	public ArrayList<Map<String, Object>> Holiday_Soon() {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-
 			stb.append(" select to_date(date_holiday, 'dd/mm/yyyy'),name_holiday from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date  limit 3 ");
-
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return result;
 	}
-
 	public ArrayList<Map<String, Object>> list() {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-
 			stb.append(" SELECT message FROM log_chat ");
-
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
