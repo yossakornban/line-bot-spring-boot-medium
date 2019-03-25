@@ -79,7 +79,7 @@ public class LineRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 			stb.append(" select food_food_id , food_food_name from foods ");
-			stb.append(" WHERE emp_emp_code = :foodCode ");
+			stb.append(" WHERE food_food_name = :foodCode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("foodCode", userLog.getEmpCode());
 			System.out.println("Emp code in findFoods : "+userLog.getEmpCode());
