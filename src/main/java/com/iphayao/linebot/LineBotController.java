@@ -450,10 +450,9 @@ public class LineBotController {
 			}
 			case "Vote": {
 			
-				lineRepo.findFoods(userLog);
+//				lineRepo.findFoods(userLog);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
 				userLog.setStatusBot(status.VOTE_FOODS);
-				
 				break;
 			}
 			default:
