@@ -460,7 +460,9 @@ public class LineBotController {
 						new CarouselColumn(imageUrl, "กระเพราหมูกรอบ", "เพิ่มพลังนอนหลับ  วิตามีน zzZZ ทีม Striker",
 								Arrays.asList(new MessageAction("เลือก กะเพราหมูกรอบ", "เลือก  กะเพราหมูกรอบ  ครับ"))),
 						new CarouselColumn(imageUrl, "ต้มยำ", "เพิ่มActive ทีมShadow killer",
-								Arrays.asList(new MessageAction("เลือก ต้มยำ", "เลือก  ต้มยำ  ครับ")))
+								Arrays.asList(new MessageAction("เลือก ต้มยำ", "เลือก  ต้มยำ  ครับ"))),
+						new CarouselColumn(imageUrl, "ไข่เจียว", "เพิ่มไขมัน อิอิ",
+								Arrays.asList(new MessageAction("เลือก ไข่ทอด", "เลือก  ไข่ทอด  ครับ")))
 						
 						
 						));
