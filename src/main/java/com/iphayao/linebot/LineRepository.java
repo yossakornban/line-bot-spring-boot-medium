@@ -82,7 +82,7 @@ public class LineRepository {
 			stb.append(" WHERE emp_emp_code = :foodCode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog);
-			System.out.println("Emp code in findFoods : "+userLog);
+			System.out.println("Emp code in findFoods : "+userLog.getEmpCode());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			if (result.size() == 0) {
 				return null;
