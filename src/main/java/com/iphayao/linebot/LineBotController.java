@@ -97,15 +97,16 @@ public class LineBotController {
 	@EventMapping
 	public void handlePostbackEvent(PostbackEvent event) {
 		String replyToken = event.getReplyToken();
-			   replyToken = replyToken.replace("date", "");
-		this.replyText(replyToken,event.getPostbackContent().getData().toString() .replace("date", "")
+		replyToken = replyToken.replace("date", "");
+		this.replyText(replyToken, event.getPostbackContent().getData().toString().replace("date", "")
 				+ event.getPostbackContent().getParams().toString());
 	}
-//	public void handlePostbackEvent(PostbackEvent event) {
-//		String replyToken = event.getReplyToken();
-//		this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param "
-//				+ event.getPostbackContent().getParams().toString());
-//	}
+	// public void handlePostbackEvent(PostbackEvent event) {
+	// String replyToken = event.getReplyToken();
+	// this.replyText(replyToken, "Got postback data " +
+	// event.getPostbackContent().getData() + ", param "
+	// + event.getPostbackContent().getParams().toString());
+	// }
 
 	@EventMapping
 	public void handleOtherEvent(Event event) {
@@ -138,8 +139,6 @@ public class LineBotController {
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
-	
-
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 
@@ -154,7 +153,7 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-	
+
 		;
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -227,7 +226,7 @@ public class LineBotController {
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
-				
+
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
@@ -323,9 +322,9 @@ public class LineBotController {
 				day3 = day3.replace(",", " ");
 
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate) + "\n"
-								+ "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ " + day2
-								+ "\n" + "➤ " + day3)));
+						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
+								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ "
+								+ day2 + "\n" + "➤ " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -449,8 +448,7 @@ public class LineBotController {
 				break;
 			}
 			case "Vote": {
-			
-			
+
 				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 				break;
@@ -459,20 +457,20 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 
-		} 
-		else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
+		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			case "112": {
+				userLog.setStatusBot(status.DEFAULT);
 				lineRepo.findFoods(userLog);
 				System.out.println("Dozan");
-				userLog.setStatusBot(status.DEFAULT);
+				
+				
 				break;
 			}
 			default:
-
+				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
-		}
-		else if (userLog.getStatusBot().equals(status.SAVE)) {
+		} else if (userLog.getStatusBot().equals(status.SAVE)) {
 			switch (text) {
 			case "cancel": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ยกเลิกสำเร็จ ")));
@@ -485,26 +483,25 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 
 			switch (text) {
-//------------------------------------------------------------------------------------------------------------------Focus
+			// ------------------------------------------------------------------------------------------------------------------Focus
 			case "ลากิจครับ": {
-				
+
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
-	
-						new CarouselColumn(imageUrl, "วันลา  เริ่มต้น ", "กรุณา กำหนดวันลา เริ่มต้นด้วยค่ะ"+"\n"+"(ไม่สามารถเกลับมาเเก้ไขได้!!)",
+
+						new CarouselColumn(imageUrl, "วันลา  เริ่มต้น ",
+								"กรุณา กำหนดวันลา เริ่มต้นด้วยค่ะ" + "\n" + "(ไม่สามารถเกลับมาเเก้ไขได้!!)",
 								Arrays.asList(
 
 										new DatetimePickerAction("กำหนดวัน", "วันลา  เริ่มต้นของคุณคือ ", "date",
-												dateNow.format(nowDate), "2100-12-31", dateNow.format(nowDate)
-												)))));
-	
+												dateNow.format(nowDate), "2100-12-31", dateNow.format(nowDate))))));
+
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-							
-				
+
 				this.reply(replyToken, templateMessage);
-			
-				//log.info("Return echo message %s : %s", replyToken, text);
+
+				// log.info("Return echo message %s : %s", replyToken, text);
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
@@ -530,7 +527,7 @@ public class LineBotController {
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
-			
+
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
@@ -655,7 +652,7 @@ public class LineBotController {
 			return tempFile;
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
-			
+
 		}
 	}
 
