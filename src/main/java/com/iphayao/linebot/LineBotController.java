@@ -430,7 +430,8 @@ public class LineBotController {
 
 
 				
-			
+				String holiday_all = lineRepo.findFoods(foodName);
+				System.out.print("Food name is "+holiday_all);
 				
 				
 				
