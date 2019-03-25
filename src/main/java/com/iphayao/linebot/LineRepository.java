@@ -68,7 +68,7 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	public String findFoods(String empCode) {
+	public String findFoods(String food) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
@@ -77,8 +77,8 @@ public class LineRepository {
 			stb.append(" select food_food_id , food_food_name from foods ");
 			stb.append(" WHERE food_food_name = :foodCode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("foodCode", empCode);
-			System.out.println("Emp code in findFoods : "+empCode);
+			parameters.addValue("foodCode", food);
+			System.out.println("Emp code in findFoods : "+food);
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			if (result.size() == 0) {
 				return null;
