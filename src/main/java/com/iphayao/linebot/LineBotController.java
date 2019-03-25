@@ -32,6 +32,7 @@ import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Employee;
 import com.iphayao.linebot.model.Entity;
+import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -153,7 +154,7 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-		String foodName = lineRepo.findFoods(text.toString());
+
 		
 		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
@@ -433,6 +434,16 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				lineRepo.findFoods(userLog);
 				System.out.println("Dozan");
+
+
+				Stack<String> food_vote = new Stack<>();
+				String Food_vote = lineRepo.findFoods(userLog);
+				food_vote.forEach(record -> {
+					Food food = new Food();
+					modelMapper.map(record, food);
+					food_vote.push("\n" + "➤ " + food.getFood_id() + "  " + food.getFood_name());
+					this.reply(replyToken, Arrays.asList(new TextMessage("")));
+				});
 				
 				
 				break;

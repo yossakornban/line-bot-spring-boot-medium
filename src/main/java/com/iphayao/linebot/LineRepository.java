@@ -68,7 +68,7 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	public String findFoods(String userLog) {
+	public String findFoods(UserLog userLog) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
