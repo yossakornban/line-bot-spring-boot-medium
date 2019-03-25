@@ -465,7 +465,7 @@ public class LineBotController {
 			switch (text) {
 			case "112": {
 				System.out.println("Dozan");
-				userLog.setStatusBot(status.VOTE_FOODS);
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			default:
