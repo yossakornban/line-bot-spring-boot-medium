@@ -56,13 +56,9 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-			//parameters.addValue("paramName",userLog.getEmpName());
 			System.out.println("After get user Logs"+userLog.getUserID());
 			System.out.println("After get user Emo code "+userLog.getEmpCode());
-		
-			
-			
-			
+
 			aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 			// (stb.toString(), parameters,
@@ -72,7 +68,7 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	public String findFoods(UserLog userLog) {
+	public String findFoods(String userLog) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
@@ -81,8 +77,8 @@ public class LineRepository {
 			stb.append(" select food_food_id , food_food_name from foods ");
 			stb.append(" WHERE food_food_name = :foodCode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("foodCode", userLog.getEmpCode());
-			System.out.println("Emp code in findFoods : "+userLog.getEmpCode());
+			parameters.addValue("foodCode", userLog);
+			System.out.println("Emp code in findFoods : "+userLog);
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			if (result.size() == 0) {
 				return null;
@@ -93,7 +89,6 @@ public class LineRepository {
 		return (String) result.get(0).get("food_food_name");
 	}
 	
-
 	public String findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;

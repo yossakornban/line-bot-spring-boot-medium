@@ -153,8 +153,9 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-
-		;
+		String foodName = lineRepo.findFoods(text.toString());
+		
+		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
@@ -175,38 +176,7 @@ public class LineBotController {
 
 			}
 
-			case "ควย": {
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"ควยพ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
-
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-
-			}
-			case "สัส": {
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"สัส !พ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
-
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-
-			}
-			case "ไอ้สัส": {
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"ไอ้สัส !พ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
-
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-
-			}
-			case "ไอ้เหี้ย": {
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"พ่อมึงดิ เดี๋ยวกูก็เอาปืนยิงหัวพ่อมึงหรอก ใส่รหัสพนักงานมา  แล้วทำห่าอะไรก็ทำไป!!!")));
-
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-
-			}
+		
 
 			// Holidays------------------------------------------------------------------------
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
