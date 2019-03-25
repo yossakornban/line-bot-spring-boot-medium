@@ -451,8 +451,7 @@ public class LineBotController {
 			case "Vote": {
 				
 				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
-				userLog.setStatusBot(status.DEFAULT);
-				
+				userLog.setStatusBot(status.VOTE_FOODS);
 				
 				break;
 			}
@@ -460,7 +459,11 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 
-		} else if (userLog.getStatusBot().equals(status.SAVE)) {
+		} 
+		else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
+			System.out.println("Hello Madman in VAote Status");
+		}
+		else if (userLog.getStatusBot().equals(status.SAVE)) {
 			switch (text) {
 			case "cancel": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ยกเลิกสำเร็จ ")));

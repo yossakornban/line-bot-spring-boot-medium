@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class UserLog {
 	
-	public enum status {DEFAULT, SAVE, Q11, FINDEMP, FINDCONFIRM ,SELECT_EVENT};
+	public enum status {DEFAULT, SAVE, Q11, FINDEMP, FINDCONFIRM ,SELECT_EVENT, VOTE_FOODS};
 	
 	
 	
