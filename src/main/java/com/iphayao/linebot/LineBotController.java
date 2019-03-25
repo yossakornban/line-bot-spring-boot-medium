@@ -152,6 +152,7 @@ public class LineBotController {
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
+		userLog.setFood(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
 		String foodName = lineRepo.findFoods(text.toString());
 		
@@ -428,16 +429,32 @@ public class LineBotController {
 			case "001": {
 				userLog.setStatusBot(status.DEFAULT);
 
+				
+				if (foodName != null) {
+					lineRepo.register(userLog);
+					ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + foodName + " หรือไม่ ?",
+							new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
+					TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+					this.reply(replyToken, templateMessage);
+					userLog.setStatusBot(status.FINDCONFIRM);
+				} else {
+					this.reply(replyToken, Arrays.asList(new TextMessage(
+
+							"ไม่มีข้อมูลพนักงานเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
+							new TextMessage("กรุณากรอก รหัสพนักงาน ให้ถูกต้อง" + "\n" + "เพื่อยืนยันตัวตนอีกครั้งค่ะ")));
+					;
+
+					userLog.setStatusBot(status.FINDEMP);
+				}
+				
+				
 				
 				String holiday_all = lineRepo.findFoods(foodName);
-				System.out.print("Food name is "+holiday_all);
+				System.out.println("Food name is "+holiday_all);
+		
 				
-				
-				
-				
-				
-				
+							
 				System.out.println("Dozan");
 				
 				
@@ -481,6 +498,7 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
+				
 			}
 			case "ลาป่วยครับ": {
 				log.info("Return echo message %s : %s", replyToken, text);
