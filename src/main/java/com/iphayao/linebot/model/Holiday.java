@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 
 import lombok.Data;
-
+@Data
 public class Holiday {
 
 	private String date_holiday;
