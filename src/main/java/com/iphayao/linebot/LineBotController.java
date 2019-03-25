@@ -154,7 +154,7 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-
+	
 		;
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -449,7 +449,8 @@ public class LineBotController {
 				break;
 			}
 			case "Vote": {
-				
+			
+				lineRepo.findFoods(userLog);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 				
