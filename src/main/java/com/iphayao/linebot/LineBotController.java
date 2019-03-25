@@ -155,6 +155,7 @@ public class LineBotController {
 		userLog.setFood(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
 		String foodName = lineRepo.findFoods(text.toString());
+		System.out.println("Raider Striker :"+foodName);
 		
 		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
@@ -268,7 +269,6 @@ public class LineBotController {
 				day3 = day3.replace("2019-12-10", "10/12/2019");
 				day3 = day3.replace("2019-12-31", "31/12/2019");
 				// -------------------------------------------------
-
 				day1 = day1.replace("{", "");
 				day1 = day1.replace("}", "");
 				day1 = day1.replace("to_date=", "");
@@ -287,7 +287,6 @@ public class LineBotController {
 				day3 = day3.replace("name_holiday=", " ");
 				day3 = day3.replace("=", "");
 				day3 = day3.replace(",", " ");
-
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
 								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ "
@@ -295,7 +294,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-
 			case "ย้อนกลับค่ะ": {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
@@ -346,7 +344,6 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
 				break;
-
 			}
 			case "help": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
@@ -362,11 +359,9 @@ public class LineBotController {
 				break;
 			}
 			case "สอบถาม ข้อมูลทั่วไป": {
-
 				RichMenuHelper.deleteRichMenu(lineMessagingClient, userLog.getUserID());
 				break;
 			}
-
 			case "Flex Restaurant": {
 				this.reply(replyToken, new RestaurantFlexMessageSupplier().get());
 				break;
@@ -415,7 +410,6 @@ public class LineBotController {
 				break;
 			}
 			case "Vote": {
-
 				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 				break;
@@ -423,13 +417,10 @@ public class LineBotController {
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
-
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			case "001": {
 				userLog.setStatusBot(status.DEFAULT);
-
-		
 				break;
 			}
 			default:
