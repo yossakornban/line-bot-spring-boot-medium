@@ -173,11 +173,7 @@ public class LineBotController {
 				});
 				userLog.setStatusBot(status.DEFAULT);
 				break;
-
 			}
-
-		
-
 			// Holidays------------------------------------------------------------------------
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
@@ -431,7 +427,17 @@ public class LineBotController {
 			switch (text) {
 			case "001": {
 				userLog.setStatusBot(status.DEFAULT);
-			
+
+
+				
+				String holiday_all = lineRepo.findFoods(foodName);
+				System.out.println("ไก่"+holiday_all);
+				
+				
+				
+				
+				
+				
 				System.out.println("Dozan");
 				
 				
