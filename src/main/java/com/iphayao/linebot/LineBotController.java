@@ -461,7 +461,14 @@ public class LineBotController {
 
 		} 
 		else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			System.out.println("Hello Madman in VAote Status");
+			switch (text) {
+			case "112": {
+				System.out.println("Dozan");
+				break;
+			}
+			default:
+
+			}
 		}
 		else if (userLog.getStatusBot().equals(status.SAVE)) {
 			switch (text) {
