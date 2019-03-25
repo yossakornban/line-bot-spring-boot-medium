@@ -458,7 +458,9 @@ public class LineBotController {
 						new CarouselColumn(imageUrl, "ก๋วยเตี๋ยว", "เพิ่มพลังยกของ วิตามีน X-12 ทีม ดอทเน็ต",
 								Arrays.asList(new MessageAction("เลือก ก๋วยเตี๋ยว", "เลือก ก๋วยเตี๋ยว  ครับ"))),
 						new CarouselColumn(imageUrl, "กระเพราหมูกรอบ", "เพิ่มพลังนอนหลับ  วิตามีน zzZZ ทีม Striker",
-								Arrays.asList(new MessageAction("เลือก กะเพราหมูกรอบ", "เลือก  กะเพราหมูกรอบ  ครับ")))
+								Arrays.asList(new MessageAction("เลือก กะเพราหมูกรอบ", "เลือก  กะเพราหมูกรอบ  ครับ"))),
+						new CarouselColumn(imageUrl, "ต้มยำ", "เพิ่มActive ทีมShadow killer",
+								Arrays.asList(new MessageAction("เลือก ต้มยำ", "เลือก  ต้มยำ  ครับ")))
 						
 						
 						));
