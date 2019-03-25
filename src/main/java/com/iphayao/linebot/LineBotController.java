@@ -430,12 +430,7 @@ public class LineBotController {
 
 
 				
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
-				holiday_all.forEach(record -> {
-					Holiday holi = new Holiday();
-					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
-				});
+			
 				
 				
 				
