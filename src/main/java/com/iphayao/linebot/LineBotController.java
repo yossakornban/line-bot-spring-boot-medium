@@ -459,7 +459,7 @@ public class LineBotController {
 
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
-			case "112": {
+			case "001": {
 				userLog.setStatusBot(status.DEFAULT);
 				lineRepo.findFoods(userLog);
 				System.out.println("Dozan");
