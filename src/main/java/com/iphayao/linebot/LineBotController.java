@@ -450,27 +450,10 @@ public class LineBotController {
 			}
 			case "Vote": {
 				
-				String imageUrl = createUri("asset/kawpad.png");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
-					
-						new CarouselColumn(imageUrl, "ข้าวผัด", "เพิ่มพลังความคิด วิตามีน B12 ให้โปรเเกรมเมอร์ ทีม Java",
-								Arrays.asList(new MessageAction("เลือก  ข้าวผัด", "เลือก  ข้าวผัด ครับ"))),
-						new CarouselColumn(imageUrl, "ก๋วยเตี๋ยว", "เพิ่มพลังยกของ วิตามีน X-12 ทีม ดอทเน็ต",
-								Arrays.asList(new MessageAction("เลือก ก๋วยเตี๋ยว", "เลือก ก๋วยเตี๋ยว  ครับ"))),
-						new CarouselColumn(imageUrl, "กระเพราหมูกรอบ", "เพิ่มพลังนอนหลับ  วิตามีน zzZZ ทีม Striker",
-								Arrays.asList(new MessageAction("เลือก กะเพราหมูกรอบ", "เลือก  กะเพราหมูกรอบ  ครับ"))),
-						new CarouselColumn(imageUrl, "ต้มยำ", "เพิ่มActive ทีมShadow killer",
-								Arrays.asList(new MessageAction("เลือก ต้มยำ", "เลือก  ต้มยำ  ครับ"))),
-						new CarouselColumn(imageUrl, "ไข่เจียว", "เพิ่มไขมัน อิอิ",
-								Arrays.asList(new MessageAction("เลือก ไข่ทอด", "เลือก  ไข่ทอด  ครับ")))
-						
-						
-						));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
+				userLog.setStatusBot(status.DEFAULT);
 				
-						
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
-				System.out.println("1000"+carouselTemplate);
+				
 				break;
 			}
 			default:
