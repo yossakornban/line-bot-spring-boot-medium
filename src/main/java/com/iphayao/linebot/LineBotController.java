@@ -450,7 +450,7 @@ public class LineBotController {
 			}
 			case "Vote": {
 			
-//				lineRepo.findFoods(userLog);
+			
 				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 				break;
@@ -463,6 +463,7 @@ public class LineBotController {
 		else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			case "112": {
+				lineRepo.findFoods(userLog);
 				System.out.println("Dozan");
 				userLog.setStatusBot(status.DEFAULT);
 				break;
