@@ -152,11 +152,12 @@ public class LineBotController {
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
-		userLog.setFood(text.toString());
+		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
 		String foodName = lineRepo.findFoods(text.toString());
 		System.out.println("Raider Striker empName :"+empName);
 		System.out.println("Raider Striker foodName"+foodName);
+		System.out.println("FoodName iS "+userLog.getFoodName());
 		
 		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
