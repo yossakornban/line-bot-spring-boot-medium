@@ -153,7 +153,7 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
-		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
+		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
 	//	System.out.println("Raider Striker empName :"+empName);
 		System.out.println("Raider Striker foodName"+foodName);
@@ -178,7 +178,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			// Holidays------------------------------------------------------------------------
+			
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
@@ -423,8 +423,8 @@ public class LineBotController {
 			switch (text) {
 
 			case "001": {
-				String  FoodName = lineRepo.findFoods(foodName);
-				System.out.println(FoodName);
+				
+		
 				
 				
 			

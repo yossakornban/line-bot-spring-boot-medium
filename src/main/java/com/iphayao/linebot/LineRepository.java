@@ -69,7 +69,7 @@ public class LineRepository {
 		return aaa;
 	}
 	//-----------------------------------------------------------------------------Focus
-	public String findFoods(String foodId) {
+	public String findFoods(String foodId ) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
@@ -80,6 +80,7 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("foodCode", foodId);
 			System.out.println("Foods ID is  : "+foodId);
+			
 			
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			if (result.size() == 0) {

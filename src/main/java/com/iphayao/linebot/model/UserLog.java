@@ -37,5 +37,6 @@ public class UserLog {
 	private String empCode;
 	private String getempName;
 	private String foodName;
+	private String foodId;
 
 }
