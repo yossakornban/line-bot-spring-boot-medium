@@ -32,6 +32,7 @@ import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Employee;
 import com.iphayao.linebot.model.Entity;
+import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -154,7 +155,7 @@ public class LineBotController {
 		userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-		System.out.println("ที่ใส่ไปคือ :"+text);
+		
 		
 		
 		
@@ -424,8 +425,8 @@ public class LineBotController {
 				
 				
 				
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.findFoods();
-				
+				String XXX = lineRepo.findFoods(text);
+				System.out.print(XXX+"I am Emperor");
 				
 				
 				
