@@ -32,7 +32,6 @@ import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Employee;
 import com.iphayao.linebot.model.Entity;
-import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -155,6 +154,10 @@ public class LineBotController {
 		userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
+		String foodName = lineRepo.findFoods(text.toString());
+		System.out.println("Raider Striker empName :"+empName);
+		System.out.println("Raider Striker foodName"+foodName);
+		System.out.println("FoodName iS "+userLog.getFoodName());
 		
 		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
@@ -185,6 +188,7 @@ public class LineBotController {
 				break;
 			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
+
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
@@ -418,21 +422,18 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			
-			case "001": {
-				
-				System.out.println(text);
-				
 			
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			case "001": {
+			
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
