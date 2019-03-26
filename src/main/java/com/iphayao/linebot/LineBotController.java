@@ -78,7 +78,7 @@ import com.iphayao.LineApplication;
 @LineMessageHandler
 
 public class LineBotController {
-	
+
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
@@ -156,10 +156,9 @@ public class LineBotController {
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
-		System.out.println("Raider Striker foodName"+foodName);
-		System.out.println("FoodName iS "+userLog.getFoodName());
-		
-		
+		System.out.println("Raider Striker foodName" + foodName);
+		System.out.println("FoodName iS " + userLog.getFoodName());
+
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
@@ -178,7 +177,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			
+
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
@@ -321,8 +320,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			
-			
+
 			// case "leave": {
 			// String imageUrl = createUri("/static/buttons/1040.jpg");
 			// CarouselTemplate carouselTemplate = new CarouselTemplate(
@@ -348,7 +346,7 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
 				break;
-				
+
 			}
 			case "help": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
@@ -424,11 +422,9 @@ public class LineBotController {
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
-
 			case "001": {
-				
-		System.out.print("Food Name in 001 is :"+foodName);
-				
+				System.out.print("Food Name in 001 is :" + foodName);
+
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -470,7 +466,7 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("หนุกหนานลากิจ")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
-				
+
 			}
 			case "ลาป่วยครับ": {
 				log.info("Return echo message %s : %s", replyToken, text);
@@ -535,9 +531,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.FINDEMP);
 			}
 
-			
-			
-			
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
