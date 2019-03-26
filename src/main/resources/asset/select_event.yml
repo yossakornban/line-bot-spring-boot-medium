@@ -28,12 +28,12 @@ areas:
     
 -
   bounds:
-    x: 1451
-    y: 0
+    x: 0
+    y: 1451
     width: 2500
     height: 434
   action:
     type: message
-    label: echo
+    label: Madman
     text: 'โหวตอาหาร จร้าา'
     

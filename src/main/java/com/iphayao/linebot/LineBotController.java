@@ -344,7 +344,9 @@ public class LineBotController {
 										new MessageAction("ลาพักร้อน", "ลาพักร้อนครับ")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
-				userLog.setStatusBot(status.Q11);
+				
+				//userLog.setStatusBot(status.Q11);
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 
 			}
