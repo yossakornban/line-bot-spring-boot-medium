@@ -435,16 +435,15 @@ public class LineBotController {
 			// TextMessage("ไม่เข้าใจคำสั่ง")));
 			// }
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			switch (text) {
-			case "001": {
+			
+			if(text != null && text == userLog.getFoodName()){
 				this.reply(replyToken, Arrays.asList(new TextMessage("คุณได้โหวต  "+"\n"+"( "+foodName+"  )"+"\n"+"เรียบร้อยเเล้วค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
-				
-				break;
-			}
-			default:
+			}else{
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่พบรายาร หาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
+				userLog.setStatusBot(status.VOTE_FOODS);
 			}
+
 		} else if (userLog.getStatusBot().equals(status.SAVE)) {
 			switch (text) {
 			case "cancel": {
