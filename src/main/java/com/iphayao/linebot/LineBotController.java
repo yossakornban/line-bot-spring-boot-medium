@@ -437,8 +437,9 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			case "001": {
-				System.out.print("Bigshow");
-				userLog.setStatusBot(status.DEFAULT);
+				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
+				userLog.setStatusBot(status.VOTE_FOODS);
+				
 				break;
 			}
 			default:
