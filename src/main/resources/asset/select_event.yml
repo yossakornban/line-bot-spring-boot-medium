@@ -26,3 +26,14 @@ areas:
     label: echo
     text: 'ขอทราบ ข้อมูลวันหยุดค่ะ'
     
+    -
+  bounds:
+    x: 1451
+    y: 0
+    width: 2500
+    height: 434
+  action:
+    type: message
+    label: echo
+    text: 'โหวตอาหาร จร้าา'
+    
