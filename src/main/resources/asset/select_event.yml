@@ -26,7 +26,7 @@ areas:
     label: echo
     text: 'ขอทราบ ข้อมูลวันหยุดค่ะ'
     
-    -
+-
   bounds:
     x: 1451
     y: 0
