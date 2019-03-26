@@ -437,7 +437,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			
 			 if(foodName == null){
-				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่พบรายาร หาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 			}else if(text != null && text == userLog.getFoodName()){
 				this.reply(replyToken, Arrays.asList(new TextMessage("คุณได้โหวต  "+"\n"+"( "+foodName+"  )"+"\n"+"เรียบร้อยเเล้วค่ะ")));
