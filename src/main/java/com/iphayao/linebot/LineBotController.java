@@ -78,6 +78,7 @@ import com.iphayao.LineApplication;
 @LineMessageHandler
 
 public class LineBotController {
+	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
@@ -155,7 +156,6 @@ public class LineBotController {
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
-	//	System.out.println("Raider Striker empName :"+empName);
 		System.out.println("Raider Striker foodName"+foodName);
 		System.out.println("FoodName iS "+userLog.getFoodName());
 		
@@ -321,6 +321,8 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+			
+			
 			// case "leave": {
 			// String imageUrl = createUri("/static/buttons/1040.jpg");
 			// CarouselTemplate carouselTemplate = new CarouselTemplate(
@@ -346,6 +348,7 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
 				break;
+				
 			}
 			case "help": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
@@ -424,10 +427,8 @@ public class LineBotController {
 
 			case "001": {
 				
-		
+		System.out.print("Food Name in 001 is :"+foodName);
 				
-				
-			
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
