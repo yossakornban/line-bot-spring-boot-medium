@@ -87,7 +87,8 @@ public class LineRepository {
 				return null;
 			}
 		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+			//log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+			System.out.println("No order Id ");
 		}
 		return (String) result.get(0).get("food_food_name");
 	}
