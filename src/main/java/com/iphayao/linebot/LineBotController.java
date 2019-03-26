@@ -423,7 +423,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			case "001": {
-				System.out.print("Food Name in 001 is :" + foodName);
+				System.out.print("Bigshow");
 
 				userLog.setStatusBot(status.DEFAULT);
 				break;
