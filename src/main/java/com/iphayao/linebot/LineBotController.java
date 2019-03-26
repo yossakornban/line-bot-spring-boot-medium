@@ -154,7 +154,7 @@ public class LineBotController {
 		userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-
+		System.out.println("ที่ใส่ไปคือ :"+text);
 		
 		
 		
@@ -424,7 +424,7 @@ public class LineBotController {
 				
 				
 				
-				
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.findFoods();
 				
 				
 				
