@@ -154,9 +154,9 @@ public class LineBotController {
 		userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-		String foodName = lineRepo.findFoods(text.toString());
+		String foodName55 = lineRepo.findFoods(text.toString());
 		System.out.println("Raider Striker empName :"+empName);
-		System.out.println("Raider Striker foodName"+foodName);
+		System.out.println("Raider Striker foodName"+foodName55);
 		System.out.println("FoodName iS "+userLog.getFoodName());
 		
 		
@@ -422,6 +422,24 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			case "001": {
+				
+				
+				
+				
+				//ArrayList<Map<String, Object>> holiday_all = lineRepo.findFoods();
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
