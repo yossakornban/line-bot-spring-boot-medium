@@ -443,7 +443,7 @@ public class LineBotController {
 				break;
 			}
 			default:
-				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่พบรายาร หาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 			}
 		} else if (userLog.getStatusBot().equals(status.SAVE)) {
 			switch (text) {
