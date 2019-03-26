@@ -437,7 +437,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			case "001": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("คุณได้โหวต  "+foodName+"\n"+"เรียบร้อยเเล้วค่ะ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("คุณได้โหวต  "+"\n"+"( "+foodName+"  )"+"\n"+"เรียบร้อยเเล้วค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 				
 				break;
