@@ -423,7 +423,8 @@ public class LineBotController {
 			switch (text) {
 
 			case "001": {
-				
+				String  FoodName = lineRepo.findFoods(foodName);
+				System.out.println(FoodName);
 				
 				
 			
