@@ -68,7 +68,6 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	
 	//-----------------------------------------------------------------------------Focus
 	public String findFoods(String food) {
 		ArrayList<Map<String, Object>> result = null;
@@ -81,6 +80,7 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("foodCode", food);
 			System.out.println("Emp code in findFoods : "+food);
+			
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			if (result.size() == 0) {
 				return null;
@@ -90,7 +90,6 @@ public class LineRepository {
 		}
 		return (String) result.get(0).get("food_food_name");
 	}
-	
 	public String findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -154,3 +153,5 @@ public class LineRepository {
 		return result;
 	}
 }
+
+

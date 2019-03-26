@@ -155,10 +155,6 @@ public class LineBotController {
 		userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
-		
-		
-		
-		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
@@ -420,15 +416,12 @@ public class LineBotController {
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
+			
 			case "001": {
 				
+				System.out.println(text);
 				
-				
-				
-				String XXX = lineRepo.findFoods(text);
-				System.out.print(XXX+"I am Emperor");
-				
-				
+			
 				
 				
 				
