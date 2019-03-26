@@ -424,7 +424,6 @@ public class LineBotController {
 			switch (text) {
 			case "001": {
 				System.out.print("Bigshow");
-
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
