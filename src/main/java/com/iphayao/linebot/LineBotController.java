@@ -155,6 +155,8 @@ public class LineBotController {
 		userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
+		
+		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
@@ -183,7 +185,6 @@ public class LineBotController {
 				break;
 			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
-
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
