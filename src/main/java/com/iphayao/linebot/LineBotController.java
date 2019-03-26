@@ -344,8 +344,8 @@ public class LineBotController {
 										new MessageAction("ลาพักร้อน", "ลาพักร้อนครับ")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
-				
-				//userLog.setStatusBot(status.Q11);
+
+				// userLog.setStatusBot(status.Q11);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 
@@ -414,7 +414,8 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
-			case "Vote": {
+
+			case "โหวตอาหาร จร้าา": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 				break;
@@ -422,6 +423,17 @@ public class LineBotController {
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
+
+			// case "Vote": {
+			// this.reply(replyToken, Arrays.asList(new TextMessage("ใส่
+			// หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ 👍")));
+			// userLog.setStatusBot(status.VOTE_FOODS);
+			// break;
+			// }
+			// default:
+			// this.reply(replyToken, Arrays.asList(new
+			// TextMessage("ไม่เข้าใจคำสั่ง")));
+			// }
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			case "001": {
