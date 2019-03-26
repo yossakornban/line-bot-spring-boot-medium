@@ -526,6 +526,9 @@ public class LineBotController {
 				userLog.setStatusBot(status.FINDEMP);
 			}
 
+			
+			
+			
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
