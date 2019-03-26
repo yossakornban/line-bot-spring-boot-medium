@@ -421,18 +421,11 @@ public class LineBotController {
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 			case "001": {
+				
+				
+				
 			
 				userLog.setStatusBot(status.DEFAULT);
 				break;

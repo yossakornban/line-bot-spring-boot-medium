@@ -75,7 +75,7 @@ public class LineRepository {
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-			stb.append(" select food_food_id , food_food_name from foods ");
+			stb.append(" food_food_name from foods ");
 			stb.append(" WHERE food_food_name = :foodCode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("foodCode", food);
