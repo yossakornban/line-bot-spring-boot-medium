@@ -68,6 +68,8 @@ public class LineRepository {
 		}
 		return aaa;
 	}
+	
+	//-----------------------------------------------------------------------------Focus
 	public String findFoods(String food) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;

@@ -156,6 +156,7 @@ public class LineBotController {
 		String empName = lineRepo.findEmp(text.toString());// ------------------------------------------------------------String
 		String foodName = lineRepo.findFoods(text.toString());
 		System.out.println("Raider Striker :"+foodName);
+		System.out.println("Raider Striker foodName"+foodName);
 		
 		
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
