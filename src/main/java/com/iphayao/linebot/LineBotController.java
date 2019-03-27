@@ -160,8 +160,10 @@ public class LineBotController {
 		System.out.println("Raider Striker foodName" + foodName);
 		System.out.println("FoodName iS " + userLog.getFoodName());
 		System.out.println("The Employee Name is :"+empName);
-		String nameUser = empName;
-		System.out.print("nameUser for find in database is  : "+nameUser);
+		
+		
+		
+		
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -420,7 +422,7 @@ public class LineBotController {
 			}
 
 			case "โหวตอาหาร จร้าา": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ  👍")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  👍")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 				break;
 			}
@@ -430,7 +432,7 @@ public class LineBotController {
 
 			// case "Vote": {
 			// this.reply(replyToken, Arrays.asList(new TextMessage("ใส่
-			// หมายเลขอาหาร ที่ต้องการโหวดได้เลยค่ะ 👍")));
+			// หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ 👍")));
 			// userLog.setStatusBot(status.VOTE_FOODS);
 			// break;
 			// }
