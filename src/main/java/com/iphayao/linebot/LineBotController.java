@@ -437,7 +437,7 @@ public class LineBotController {
 			// TextMessage("ไม่เข้าใจคำสั่ง")));
 			// }
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			if (foodName == "ขอทราบ ข้อมูลวันหยุดค่" ){
+			if (userLog.getFoodName() == "ขอทราบ ข้อมูลวันหยุดค่ะ" ){
 				System.out.println("Raide MADAM iNCOMMING!!");
 				
 			}
