@@ -158,6 +158,7 @@ public class LineBotController {
 		String foodName = lineRepo.findFoods(text.toString());
 		System.out.println("Raider Striker foodName" + foodName);
 		System.out.println("FoodName iS " + userLog.getFoodName());
+		System.out.println("The Employee Name is :"+empName);
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -435,18 +436,19 @@ public class LineBotController {
 			// TextMessage("ไม่เข้าใจคำสั่ง")));
 			// }
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			
-			 if(foodName == null){
-				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
-			
-				
-				
+
+			if (foodName == null) {
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
+
 				userLog.setStatusBot(status.VOTE_FOODS);
-			}else if(text != null && text == userLog.getFoodName()){
-				this.reply(replyToken, Arrays.asList(new TextMessage("คุณได้โหวต  "+"\n"+"( "+foodName+"  )"+"\n"+"เรียบร้อยเเล้วค่ะ")));
-			
+			} else if (text != null && text == userLog.getFoodName()) {
+
+				this.reply(replyToken, Arrays.asList(
+						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
+
 				userLog.setStatusBot(status.VOTE_FOODS);
-			}else{
+			} else {
 				this.reply(replyToken, Arrays.asList(new TextMessage("นอน โว้ยยยย")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 			}
