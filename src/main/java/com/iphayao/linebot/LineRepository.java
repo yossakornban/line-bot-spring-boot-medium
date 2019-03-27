@@ -44,7 +44,7 @@ public class LineRepository {
 	public int register(UserLog userLog ) {
 		int aaa = 0;
 		try {
-			
+			System.out.println("กาโว กาโว กาโว");
 			System.out.println("Test in try register");
 			System.out.println("User ID in Try Register is :s"+userLog);
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -91,6 +91,9 @@ public class LineRepository {
 	
 		}
 		return (String) result.get(0).get("food_food_name");
+	}
+	public void saveFoods(){
+		
 	}
 	public String findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;

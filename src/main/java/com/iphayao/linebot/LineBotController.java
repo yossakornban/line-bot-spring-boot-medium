@@ -161,10 +161,6 @@ public class LineBotController {
 		System.out.println("FoodName iS " + userLog.getFoodName());
 		System.out.println("The Employee Name is :"+empName);
 		
-		
-		
-		
-
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
