@@ -114,6 +114,7 @@ public class LineBotController {
 		log.info("Received message(Ignored): {}", event);
 	}
 
+	
 	@EventMapping
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
 		log.info(event.toString());
