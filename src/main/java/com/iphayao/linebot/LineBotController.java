@@ -160,6 +160,8 @@ public class LineBotController {
 		System.out.println("Raider Striker foodName" + foodName);
 		System.out.println("FoodName iS " + userLog.getFoodName());
 		System.out.println("The Employee Name is :"+empName);
+		String nameUser = empName;
+		System.out.print("nameUser for find in database is  : "+nameUser);
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
