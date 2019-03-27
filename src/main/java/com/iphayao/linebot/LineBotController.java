@@ -437,11 +437,22 @@ public class LineBotController {
 			// TextMessage("ไม่เข้าใจคำสั่ง")));
 			// }
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			if (foodName == "ขอทราบ ข้อมูลวันหยุดค่ะ" ){
-				System.out.println("Here");
-				
-			}
-			else if (foodName == null) {
+		 if (foodName == null) {
+			 
+			 switch (text) {
+				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
+					System.out.println("Raider MADMAN");
+					userLog.setStatusBot(status.DEFAULT);
+					String pathYamlHome = "asset/select_event.yml";
+					String pathImageHome = "asset/select_event.jpg";
+					RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+					this.reply(replyToken, Arrays.asList(new TextMessage(
+							"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ  😊")));
+					break;
+				}
+			 }
+			 
+			 
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 
