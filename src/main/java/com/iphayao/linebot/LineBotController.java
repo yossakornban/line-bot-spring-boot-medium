@@ -444,9 +444,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.VOTE_FOODS);
 			}else if(text != null && text == userLog.getFoodName()){
 				this.reply(replyToken, Arrays.asList(new TextMessage("คุณได้โหวต  "+"\n"+"( "+foodName+"  )"+"\n"+"เรียบร้อยเเล้วค่ะ")));
-				if(text=="ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ"){
-					System.out.println("ได้เเบ้วเว้ยยยยย!!!");
-				}
+			
 				userLog.setStatusBot(status.VOTE_FOODS);
 			}else{
 				this.reply(replyToken, Arrays.asList(new TextMessage("นอน โว้ยยยย")));
