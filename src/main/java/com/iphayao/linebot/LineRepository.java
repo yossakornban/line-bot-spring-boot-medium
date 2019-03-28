@@ -82,9 +82,9 @@ public class LineRepository {
 			parameters.addValue("empcode", string);
 			parameters.addValue("lineid", string);
 			
-			System.out.println("HHH : "+string);
 			
-		
+			
+			
 			
 			
 		
