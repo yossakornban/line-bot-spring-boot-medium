@@ -87,7 +87,6 @@ public class LineRepository {
 			parameters.addValue("foodId", string);
 			
 			
-			System.out.println("EmpCode and DateNow"+string+"  "+dateFormat.format(date));
 			
 			
 	     
