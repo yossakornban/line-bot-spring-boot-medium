@@ -157,6 +157,7 @@ public class LineBotController {
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
+		String xxx = userLog.getEmpCode();
 		
 		
 		System.out.println("Raider Striker foodName" + foodName);
@@ -468,7 +469,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.VOTE_FOODS);
 			} else if (text != null && text == userLog.getFoodName()) {
 				//-----------------------------------------------------------------------------------------------------------Focus
-				lineRepo.saveFood(userLog.getEmpCode());
+				System.out.println("XXX is :"+xxx);
 				
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
