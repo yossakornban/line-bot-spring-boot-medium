@@ -67,7 +67,33 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	//-----------------------------------------------------------------------------Focus
+	public int saveFood(UserLog userLog){
+	
+		int aaa = 0;
+		try {
+			
+			System.out.println("Test in try save food");
+			System.out.println("User ID in Try SaveFoods is :s"+userLog);
+			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			stb = new StringBuilder();
+
+			stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
+			stb.append(" WHERE emp_emp_code = :empcode ");
+
+			MapSqlParameterSource parameters = new MapSqlParameterSource();
+			parameters.addValue("empcode", userLog.getEmpCode());
+			parameters.addValue("lineid", userLog.getUserID());
+			
+
+			aaa = jdbcTemplate.update(stb.toString(), parameters);
+			return aaa;
+			// (stb.toString(), parameters,
+			// new BeanPropertyRowMapper<Entity>(Entity.class));
+		} catch (EmptyResultDataAccessException ex) {
+			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+		}
+		return aaa;
+	}
 	public String findFoods(String foodId ) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;

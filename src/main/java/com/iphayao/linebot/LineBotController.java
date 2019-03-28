@@ -148,7 +148,9 @@ public class LineBotController {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
+
 		System.out.println("+++++ " + userMap.get(event.getSource().getSenderId()).toString());
+
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setEmpCode(text.toString());
@@ -168,7 +170,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
-			
 			case "list": {
 				ArrayList<Map<String, Object>> list = lineRepo.list();
 				list.forEach(record -> {
@@ -549,8 +550,8 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 
 			if (empName != null) {
-				lineRepo.saveFood(userLog);
-				lineRepo.register(userLog);
+							lineRepo.register(userLog);
+							lineRepo.saveFood(userLog);
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
