@@ -153,7 +153,7 @@ public class LineBotController {
 
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
-		userLog.setEmpCode(text.toString());
+		//userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
@@ -585,6 +585,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
+				userLog.setEmpCode(text.toString());
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
