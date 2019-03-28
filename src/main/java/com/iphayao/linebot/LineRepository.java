@@ -69,7 +69,7 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	public int saveFood(UserLog userLog, String keepUserId){
+	public int saveFood(UserLog userLog){
 	
 		int aaa = 0;
 		try {
@@ -86,6 +86,9 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
+			
+			
+			final String keepUserId = userLog.getUserID();
 			System.out.println("heepUserId in saveFood is :"+keepUserId);
 			
 			
