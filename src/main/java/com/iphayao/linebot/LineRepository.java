@@ -96,7 +96,6 @@ public class LineRepository {
 		int aaa = 0;
 		try {
 			
-			
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
