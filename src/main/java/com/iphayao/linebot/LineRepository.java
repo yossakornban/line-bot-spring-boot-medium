@@ -33,8 +33,10 @@ public class LineRepository {
 		public Boolean active;
 		private String createdProgram;
 		private String updatedProgram;
+		
 
 	}
+	
 
 	@Autowired
 	private DataSource dataSource;
@@ -67,7 +69,7 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	public int saveFood(UserLog userLog){
+	public int saveFood(UserLog userLog, String keepUserId){
 	
 		int aaa = 0;
 		try {
@@ -78,13 +80,17 @@ public class LineRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
-			stb.append(" WHERE emp_emp_code = :empcode ");
+		//	stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
+		//	stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-			final String keepUserId = userLog.getEmpCode();
+			keepUserId = userLog.getEmpCode();
+			
+		
+			
+			
 			System.out.println("Keep id is :"+keepUserId);
 		    aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
@@ -181,6 +187,7 @@ public class LineRepository {
 		}
 		return result;
 	}
+	
 }
 
 

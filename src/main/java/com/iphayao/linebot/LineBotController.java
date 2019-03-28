@@ -437,6 +437,12 @@ public class LineBotController {
 			// this.reply(replyToken, Arrays.asList(new
 			// TextMessage("ไม่เข้าใจคำสั่ง")));
 			// }
+			
+			
+			
+			
+			
+
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 		 if (foodName == null) {
 			 
@@ -457,6 +463,7 @@ public class LineBotController {
 
 				userLog.setStatusBot(status.VOTE_FOODS);
 			} else if (text != null && text == userLog.getFoodName()) {
+				//-----------------------------------------------------------------------------------------------------------Focus
 
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
@@ -480,7 +487,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 
 			switch (text) {
-			// ------------------------------------------------------------------------------------------------------------------Focus
+			
 			case "ลากิจครับ": {
 
 				String imageUrl = createUri("/static/buttons/1040.jpg");
@@ -551,7 +558,8 @@ public class LineBotController {
 
 			if (empName != null) {
 							lineRepo.register(userLog);
-							lineRepo.saveFood(userLog);
+							lineRepo.saveFood(userLog, foodName);
+							System.out.println("linkinlark : "+foodName);
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
