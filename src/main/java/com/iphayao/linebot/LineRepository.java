@@ -83,9 +83,9 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-			
-
-			aaa = jdbcTemplate.update(stb.toString(), parameters);
+			final String keepUserId = userLog.getEmpCode();
+			System.out.println("Keep id is :"+keepUserId);
+		    aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 			// (stb.toString(), parameters,
 			// new BeanPropertyRowMapper<Entity>(Entity.class));
