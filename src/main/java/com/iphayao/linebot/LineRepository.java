@@ -81,7 +81,10 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", string);
 			parameters.addValue("lineid", string);
-			System.out.println("SaveFood UserId is : "+string);
+			UserLog sss =new UserLog();
+			String ssss = sss.getEmpCode();
+			System.out.println("SSSS is : "+ssss);
+			
 			
 			
 		
