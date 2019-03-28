@@ -168,6 +168,7 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ลงทะเบียน": {
+				
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
@@ -561,7 +562,7 @@ public class LineBotController {
 				break;
 			}
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
-
+			userLog.setEmpCode(text.toString());
 			if (empName != null) {
 							lineRepo.register(userLog);
 							lineRepo.saveFood(userLog);
@@ -585,7 +586,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
-				userLog.setEmpCode(text.toString());
+				
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
