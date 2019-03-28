@@ -565,7 +565,7 @@ public class LineBotController {
 			userLog.setEmpCode(text.toString());
 			if (empName != null) {
 							lineRepo.register(userLog);
-							lineRepo.saveFood(userLog);
+						
 							
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
