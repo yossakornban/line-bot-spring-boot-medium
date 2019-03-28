@@ -81,9 +81,9 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", string);
 			parameters.addValue("lineid", string);
-			UserLog sss =new UserLog();
-			String hhh = sss.getEmpCode();
-			System.out.println("HHH is : "+hhh);
+			
+			System.out.println("HHH : "+string);
+			
 		
 			
 			
