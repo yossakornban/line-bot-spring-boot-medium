@@ -47,8 +47,7 @@ public class LineRepository {
 		int aaa = 0;
 		try {
 			
-			System.out.println("Test in try register");
-			System.out.println("User ID in Try Register is :s"+userLog);
+		
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
@@ -73,10 +72,6 @@ public class LineRepository {
 	
 		int aaa = 0;
 		try {
-			
-			
-			System.out.println("Test in try save food");
-			System.out.println("User ID in Try SaveFoods is :s"+userLog);
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
@@ -88,7 +83,7 @@ public class LineRepository {
 			parameters.addValue("lineid", userLog.getUserID());
 			
 			
-			final String keepUserId = userLog.getUserID();
+			final String keepUserId = userLog.getEmpCode();
 			System.out.println("heepUserId in saveFood is :"+keepUserId);
 			
 			
