@@ -1,7 +1,10 @@
 package com.iphayao.linebot;
 
 import java.sql.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -71,15 +74,20 @@ public class LineRepository {
 	
 		int aaa = 0;
 		try {
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = new Date();
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-		//	stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
-		//	stb.append(" WHERE emp_emp_code = :empcode ");
+			stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
+			stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", string);
-			parameters.addValue("lineid", string);
+			parameters.addValue("foodId", string);
+			
+			
+			System.out.println("EmpCode and DateNow"+string+"  "+dateFormat.format(date));
 			
 			
 	     
