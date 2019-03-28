@@ -157,6 +157,7 @@ public class LineBotController {
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
+		
 		System.out.println("Raider Striker foodName" + foodName);
 		System.out.println("FoodName iS " + userLog.getFoodName());
 		System.out.println("The Employee Name is :"+empName);
@@ -549,6 +550,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 
 			if (empName != null) {
+				lineRepo.saveFood(userLog);
 				lineRepo.register(userLog);
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
