@@ -56,8 +56,7 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-			System.out.println("After get user Logs"+userLog.getUserID());
-			System.out.println("After get user Emo code "+userLog.getEmpCode());
+			
 
 			aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
@@ -79,7 +78,7 @@ public class LineRepository {
 			stb.append(" WHERE food_food_id = :foodCode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("foodCode", foodId);
-			System.out.println("Foods ID is  : "+foodId);
+			
 			
 			
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
@@ -92,31 +91,7 @@ public class LineRepository {
 		}
 		return (String) result.get(0).get("food_food_name");
 	}
-	public int saveFood(UserLog userLog ) {
-		int aaa = 0;
-		try {
-			
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-
-			stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
-			stb.append(" WHERE emp_emp_code = :empcode ");
-
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("empcode", userLog.getEmpCode());
-			parameters.addValue("lineid", userLog.getUserID());
-			System.out.println("After get user Logs"+userLog.getUserID());
-			System.out.println("After get user Emo code "+userLog.getEmpCode());
-
-			aaa = jdbcTemplate.update(stb.toString(), parameters);
-			return aaa;
-			// (stb.toString(), parameters,
-			// new BeanPropertyRowMapper<Entity>(Entity.class));
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-		}
-		return aaa;
-	}
+	
 	public String findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
