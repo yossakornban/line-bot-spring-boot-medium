@@ -558,8 +558,8 @@ public class LineBotController {
 
 			if (empName != null) {
 							lineRepo.register(userLog);
-							lineRepo.saveFood(userLog, foodName);
-							System.out.println("linkinlark : "+foodName);
+							lineRepo.saveFood(userLog, text);
+							System.out.println("linkinlark : "+text);
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
