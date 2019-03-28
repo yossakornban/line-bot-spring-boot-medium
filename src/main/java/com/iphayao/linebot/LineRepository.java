@@ -82,7 +82,7 @@ public class LineRepository {
 			parameters.addValue("lineid", string);
 			
 			
-	System.out.println("Test Save Foods is : "+string.getEmpCode());
+	     
 
 		    aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
