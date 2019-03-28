@@ -86,7 +86,7 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-			keepUserId = userLog.getEmpCode();
+			System.out.println("heepUserId in saveFood is :"+keepUserId);
 			
 		
 			
