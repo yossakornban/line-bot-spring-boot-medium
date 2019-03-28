@@ -470,6 +470,8 @@ public class LineBotController {
 			} else if (text != null && text == userLog.getFoodName()) {
 				//-----------------------------------------------------------------------------------------------------------Focus
 				System.out.println("XXX is :"+xxx);
+				lineRepo.saveFood(userLog);
+
 				
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
@@ -564,7 +566,7 @@ public class LineBotController {
 
 			if (empName != null) {
 							lineRepo.register(userLog);
-							lineRepo.saveFood(userLog.getEmpCode());
+							
 							
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));

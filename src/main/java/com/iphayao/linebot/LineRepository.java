@@ -68,7 +68,7 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	public int saveFood(String string ){
+	public int saveFood(UserLog string ){
 	
 		int aaa = 0;
 		try {
