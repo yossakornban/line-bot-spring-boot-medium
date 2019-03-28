@@ -68,7 +68,7 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	public int saveFood(UserLog userLog){
+	public int saveFood(String string ){
 	
 		int aaa = 0;
 		try {
@@ -79,16 +79,16 @@ public class LineRepository {
 		//	stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("empcode", userLog.getEmpCode());
-			parameters.addValue("lineid", userLog.getUserID());
+			parameters.addValue("empcode", string);
+			parameters.addValue("lineid", string);
+			System.out.println("SaveFood UserId is : "+string);
 			
 			
-			final String keepUserId = userLog.getEmpCode();
-			System.out.println("heepUserId in saveFood is :"+keepUserId);
+		
 			
 			
 			
-			System.out.println("Keep id is :"+keepUserId);
+
 		    aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 			// (stb.toString(), parameters,
