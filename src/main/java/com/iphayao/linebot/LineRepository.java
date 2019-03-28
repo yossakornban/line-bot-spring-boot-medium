@@ -82,9 +82,9 @@ public class LineRepository {
 			parameters.addValue("empcode", string);
 			parameters.addValue("lineid", string);
 			UserLog sss =new UserLog();
-			String ssss = sss.getEmpCode();
-			System.out.println("SSSS is : "+ssss);
-			
+			String hhh = sss.getEmpCode();
+			System.out.println("HHH is : "+hhh);
+		
 			
 			
 		

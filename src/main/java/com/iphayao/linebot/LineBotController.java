@@ -157,12 +157,10 @@ public class LineBotController {
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
-		String xxx = userLog.getEmpCode();
+	
 		
 		
-		System.out.println("Raider Striker foodName" + foodName);
-		System.out.println("FoodName iS " + userLog.getFoodName());
-		System.out.println("The Employee Name is :"+empName);
+	
 		
 		
 		
@@ -469,8 +467,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.VOTE_FOODS);
 			} else if (text != null && text == userLog.getFoodName()) {
 				//-----------------------------------------------------------------------------------------------------------Focus
-				System.out.println("XXX is :"+xxx);
-				lineRepo.saveFood(userLog);
+				
 
 				
 				this.reply(replyToken, Arrays.asList(
