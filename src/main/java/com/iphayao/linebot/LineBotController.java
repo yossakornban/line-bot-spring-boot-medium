@@ -422,8 +422,6 @@ public class LineBotController {
 				break;
 			}
 
-			
-			
 			case "โหวตอาหาร จร้าา": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  👍")));
 				userLog.setStatusBot(status.VOTE_FOODS);
