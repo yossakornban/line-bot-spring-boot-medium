@@ -82,7 +82,7 @@ public class LineRepository {
 			Date date = new Date();
 			System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
-		    stb.append("INSERT INTO testadd(emp_id)  VALUES  (employeeid)");
+		    stb.append("INSERT INTO testadd (emp_id,food_id,date)  VALUES  (employeeid,foodIdVote,dateNow)");
 			//stb.append(" WHERE emp_emp_code = :empcode ");
 		    
 		    String employeeCode = string.getEmpCode();
@@ -93,7 +93,6 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("employeeid", employeeCode);
 			parameters.addValue("foodIdVote", FoodsIdVote);
-		
 			parameters.addValue("dateNow", dateFormat.format(date));
 			
 			System.out.println("empCode is :"+employeeCode);
