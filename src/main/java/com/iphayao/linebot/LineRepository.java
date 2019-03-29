@@ -4,6 +4,7 @@ import java.sql.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +87,11 @@ public class LineRepository {
 			parameters.addValue("empcode", string);
 			parameters.addValue("foodId", string);
 			
+			Calendar c = Calendar.getInstance();
+			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			String currentDate = df.format(c.getTime());
+			System.out.println("Date now is :"+currentDate);
+
 			
 			
 			
