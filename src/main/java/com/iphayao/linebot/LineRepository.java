@@ -73,7 +73,6 @@ public class LineRepository {
 	
 		int aaa = 0;
 		try {
-			
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
@@ -84,7 +83,7 @@ public class LineRepository {
 			
 			stb.append("insert into testadd(emp_id)  values(employeeCode)");
 			
-	   	    // stb.append("insert into testadd (emp_id,food_id,date)  values  (employeeid,foodIdVote,dateNow)");
+	   	     stb.append("insert into testadd (emp_id,food_id,date)  values  (:employeeCode,:foodIdVote,:dateNow)");
 			//stb.append(" WHERE emp_emp_code = :empcode ");
 		    
 		    String employeeCode = string.getEmpCode();
@@ -96,16 +95,10 @@ public class LineRepository {
 			parameters.addValue("employeeCode", employeeCode);
 			parameters.addValue("foodIdVote", FoodsIdVote);
 			parameters.addValue("dateNow", dateFormat.format(date));
-			
+		
 			System.out.println("empCode is :"+employeeCode);
 			System.out.println("foodId is : "+FoodsIdVote);
 		
-
-
-			
-			
-	     
-
 		    aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 			// (stb.toString(), parameters,
