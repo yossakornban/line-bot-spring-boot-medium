@@ -81,8 +81,10 @@ public class LineRepository {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
 			System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
+			
+			stb.append(" UPDATE testadd SET emp_id = :employeeid");
 
-		    stb.append("insert into testadd (emp_id,food_id,date)  values  (employeeid,foodIdVote,dateNow) ");
+	   	    // stb.append("insert into testadd (emp_id,food_id,date)  values  (employeeid,foodIdVote,dateNow)");
 			//stb.append(" WHERE emp_emp_code = :empcode ");
 		    
 		    String employeeCode = string.getEmpCode();
