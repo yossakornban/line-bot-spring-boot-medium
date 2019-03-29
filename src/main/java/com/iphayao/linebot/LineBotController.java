@@ -114,7 +114,6 @@ public class LineBotController {
 		log.info("Received message(Ignored): {}", event);
 	}
 
-	
 	@EventMapping
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
 		log.info(event.toString());
@@ -153,22 +152,29 @@ public class LineBotController {
 
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
-		//userLog.setEmpCode(text.toString());
+		// userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
-	
-		
-		
-	
-		
-		
-		
-		
+
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
+			case "ไอ้สัส": {
+
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
+				userLog.setStatusBot(status.FINDEMP);
+				break;
+			}
+			case "สวัสดี": {
+
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
+				userLog.setStatusBot(status.FINDEMP);
+				break;
+			}
 			case "ลงทะเบียน": {
-				
+
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
@@ -427,6 +433,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.VOTE_FOODS);
 				break;
 			}
+
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
@@ -441,36 +448,31 @@ public class LineBotController {
 			// this.reply(replyToken, Arrays.asList(new
 			// TextMessage("ไม่เข้าใจคำสั่ง")));
 			// }
-			
-			
-			
-			
-			
 
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-		 if (foodName == null) {
-			 
-			 switch (text) {
+			if (foodName == null) {
+
+				switch (text) {
 				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 					String pathYamlHome = "asset/sub_select_event.yml";
 					String pathImageHome = "asset/sub_select_event.jpg";
-					RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+					RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome,
+							userLog.getUserID());
 					this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
 					userLog.setStatusBot(status.DEFAULT);
 					break;
 				}
-			 }
-			 
-			 
+				}
+
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 
 				userLog.setStatusBot(status.VOTE_FOODS);
-				//-----------------------------------------------------------------------------------------------------------Focus
-			} else if (text != null && text == userLog.getFoodName()) { 
+				// -----------------------------------------------------------------------------------------------------------Focus
+			} else if (text != null && text == userLog.getFoodName()) {
 				userLog.setFoodId(text.toString());
-			//	System.out.println("Text in sert is : "+text);
-				
+				// System.out.println("Text in sert is : "+text);
+
 				lineRepo.saveFood(userLog);
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
@@ -494,7 +496,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.Q11)) {
 
 			switch (text) {
-			
+
 			case "ลากิจครับ": {
 
 				String imageUrl = createUri("/static/buttons/1040.jpg");
@@ -564,7 +566,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 			userLog.setEmpCode(text.toString());
 			if (empName != null) {
-								
+
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
