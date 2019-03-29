@@ -469,7 +469,7 @@ public class LineBotController {
 			} else if (text != null && text == userLog.getFoodName()) {
 				//-----------------------------------------------------------------------------------------------------------Focus
 			
-				
+				System.out.println("Text in sert is : "+text);
 				lineRepo.saveFood(userLog);
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
