@@ -86,9 +86,10 @@ public class LineRepository {
 			parameters.addValue("empcode", string);
 			parameters.addValue("foodId", string);
 			
-	System.out.println("Logs in saveFood is "+ string);
-		
-		
+			Calendar c = Calendar.getInstance();
+			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			String currentDate = df.format(c.getTime());
+			System.out.println("Date now is :"+currentDate);
 
 			
 			
