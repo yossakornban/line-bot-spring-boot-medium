@@ -86,7 +86,7 @@ public class LineRepository {
 			parameters.addValue("empcode", string);
 			parameters.addValue("foodId", string);
 			
-	
+	System.out.println("Logs in saveFood is "+ string);
 		
 		
 
