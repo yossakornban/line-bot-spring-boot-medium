@@ -471,7 +471,6 @@ public class LineBotController {
 			
 				
 				lineRepo.saveFood(userLog);
-				
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
 
