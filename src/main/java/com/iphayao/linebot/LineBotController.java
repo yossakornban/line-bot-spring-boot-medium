@@ -466,11 +466,10 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 
 				userLog.setStatusBot(status.VOTE_FOODS);
-			} else if (text != null && text == userLog.getFoodName()) {
 				//-----------------------------------------------------------------------------------------------------------Focus
-			
-				System.out.println("Text in sert is : "+text);
-				lineRepo.saveFood(userLog);
+			} else if (text != null && text == userLog.getFoodName()) { 
+			//	System.out.println("Text in sert is : "+text);
+			//	lineRepo.saveFood(userLog);
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
 
