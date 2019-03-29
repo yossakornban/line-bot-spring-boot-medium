@@ -37,20 +37,18 @@ public class LineRepository {
 		public Boolean active;
 		private String createdProgram;
 		private String updatedProgram;
-		
 
 	}
-	
 
 	@Autowired
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
-	
-	public int register(UserLog userLog ) {
+
+	public int register(UserLog userLog) {
 		int aaa = 0;
 		try {
-		
+
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
@@ -60,7 +58,6 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-			
 
 			aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
@@ -71,6 +68,7 @@ public class LineRepository {
 		}
 		return aaa;
 	}
+
 	public int saveFood(UserLog string ){
 	
 		int aaa = 0;
@@ -84,8 +82,8 @@ public class LineRepository {
 			Date date = new Date();
 			System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
-//			stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
-//			stb.append(" WHERE emp_emp_code = :empcode ");
+		    stb.append(" insert into 'test-ADD'(emp_id,food_id) values('empcode','foodId');");
+			//stb.append(" WHERE emp_emp_code = :empcode ");
 
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -111,7 +109,8 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-	public String findFoods(String foodId ) {
+
+	public String findFoods(String foodId) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
@@ -121,20 +120,18 @@ public class LineRepository {
 			stb.append(" WHERE food_food_id = :foodCode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("foodCode", foodId);
-			
-			
-			
+
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			if (result.size() == 0) {
 				return null;
 			}
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-	
+
 		}
 		return (String) result.get(0).get("food_food_name");
 	}
-	
+
 	public String findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -145,7 +142,7 @@ public class LineRepository {
 			stb.append(" WHERE emp_emp_code = :empcode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", empCode);
-			System.out.println("Emp code in FindEmps is : "+empCode);
+			System.out.println("Emp code in FindEmps is : " + empCode);
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			if (result.size() == 0) {
 				return null;
@@ -155,6 +152,7 @@ public class LineRepository {
 		}
 		return (String) result.get(0).get("emp_emp_name");
 	}
+
 	public ArrayList<Map<String, Object>> holidayList() {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -169,13 +167,15 @@ public class LineRepository {
 		}
 		return result;
 	}
+
 	public ArrayList<Map<String, Object>> Holiday_Soon() {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-			stb.append(" select to_date(date_holiday, 'dd/mm/yyyy'),name_holiday from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date  limit 3 ");
+			stb.append(
+					" select to_date(date_holiday, 'dd/mm/yyyy'),name_holiday from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date  limit 3 ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
@@ -183,6 +183,7 @@ public class LineRepository {
 		}
 		return result;
 	}
+
 	public ArrayList<Map<String, Object>> list() {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -197,7 +198,5 @@ public class LineRepository {
 		}
 		return result;
 	}
-	
+
 }
-
-
