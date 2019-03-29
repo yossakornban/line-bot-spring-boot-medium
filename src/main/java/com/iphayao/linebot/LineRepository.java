@@ -78,18 +78,24 @@ public class LineRepository {
 			
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
+			
+			Calendar c = Calendar.getInstance();
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			String currentDate = df.format(c.getTime());
+			System.out.println("Date now is :"+currentDate);
 
 //			stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
 //			stb.append(" WHERE emp_emp_code = :empcode ");
 
+
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("empcode", string);
-			parameters.addValue("foodId", string);
+			parameters.addValue("empcode", string.getEmpCode());
+			parameters.addValue("foodId", string.getFoodId());
+			parameters.addValue("dateNow", currentDate);
 			
-			Calendar c = Calendar.getInstance();
-			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			String currentDate = df.format(c.getTime());
-			System.out.println("Date now is :"+currentDate);
+			System.out.println("empCode is :"+string.getEmpCode());
+			System.out.println("foodId is : "+string.getFoodId());
+			System.out.println("dateNow is : "+currentDate);
 
 			
 			
