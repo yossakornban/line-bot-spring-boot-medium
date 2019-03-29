@@ -87,7 +87,7 @@ public class LineRepository {
 			parameters.addValue("foodId", string);
 			
 			Calendar c = Calendar.getInstance();
-			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			String currentDate = df.format(c.getTime());
 			System.out.println("Date now is :"+currentDate);
 
