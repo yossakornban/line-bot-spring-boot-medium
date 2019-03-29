@@ -82,7 +82,7 @@ public class LineRepository {
 			Date date = new Date();
 			System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 			
-			stb.append("insert into testadd(emp_id)  values(%employeeCode%)");
+			stb.append("insert into testadd(emp_id)  values(employeeCode)");
 			
 	   	    // stb.append("insert into testadd (emp_id,food_id,date)  values  (employeeid,foodIdVote,dateNow)");
 			//stb.append(" WHERE emp_emp_code = :empcode ");
