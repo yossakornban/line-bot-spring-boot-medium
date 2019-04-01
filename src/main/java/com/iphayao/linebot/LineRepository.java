@@ -83,7 +83,7 @@ public class LineRepository {
 			
 			
 			
-	   	     stb.append("insert into testadd (emp_id,food_id,date)  values  (:employeeCode,:foodIdVote,:dateNow)");
+	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote)  values  (:employeeCode,:foodIdVote,:dateNow)");
 			//stb.append(" WHERE emp_emp_code = :empcode ");
 		    
 		    String employeeCode = string.getEmpCode();
