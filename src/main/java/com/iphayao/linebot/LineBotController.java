@@ -450,8 +450,10 @@ public class LineBotController {
 			// }
 
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
+			
+			
 			if (foodName == null) {
-
+				//----------------------------------------------------------------Check Possibility Here ----------------Focus
 				switch (text) {
 				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 					String pathYamlHome = "asset/sub_select_event.yml";
@@ -468,7 +470,6 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 
 				userLog.setStatusBot(status.VOTE_FOODS);
-				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				userLog.setFoodId(text.toString());
 				// System.out.println("Text in sert is : "+text);

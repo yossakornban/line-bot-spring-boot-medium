@@ -79,26 +79,13 @@ public class LineRepository {
 			
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
-			System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
-			
-			
-			
 	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote)  values  (:employeeCode,:foodIdVote,:dateNow)");
 			//stb.append(" WHERE emp_emp_code = :empcode ");
-		    
 		    String employeeCode = string.getEmpCode();
 		    String FoodsIdVote = string.getFoodId();
-		    
-
-
-			
 			parameters.addValue("employeeCode", employeeCode);
 			parameters.addValue("foodIdVote", FoodsIdVote);
 			parameters.addValue("dateNow", dateFormat.format(date));
-		
-			System.out.println("empCode is :"+employeeCode);
-			System.out.println("foodId is : "+FoodsIdVote);
-		
 		    aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 			// (stb.toString(), parameters,
@@ -108,7 +95,6 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-
 	public String findFoods(String foodId) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -141,7 +127,6 @@ public class LineRepository {
 			stb.append(" WHERE emp_emp_code = :empcode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", empCode);
-			System.out.println("Emp code in FindEmps is : " + empCode);
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			if (result.size() == 0) {
 				return null;
