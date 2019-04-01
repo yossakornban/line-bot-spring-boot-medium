@@ -69,7 +69,6 @@ public class LineRepository {
 			keepCount = keepCount.replace("{","");
 			System.out.println("7777777777777777777 :"+keepCount);
 			if (result.size() == 0) {
-				
 				return null;
 			}
 		} catch (EmptyResultDataAccessException ex) {
