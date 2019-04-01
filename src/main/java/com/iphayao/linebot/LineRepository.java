@@ -62,7 +62,12 @@ public class LineRepository {
 			System.out.println("666666666666666666666"+result);
 			String keepCount = result.toString();
 		//	String ChangepPattern = keepCount.replace(arg0, arg1);
-			System.out.println("7777777777777777777"+keepCount);
+			keepCount = keepCount.replace("[","");
+			keepCount = keepCount.replace("]","");
+			keepCount = keepCount.replace("count=","");
+			keepCount = keepCount.replace("}","");
+			keepCount = keepCount.replace("{","");
+			System.out.println("7777777777777777777 :"+keepCount);
 			if (result.size() == 0) {
 				
 				return null;
