@@ -59,13 +59,16 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			System.out.println("666666666666666666666"+result);
 			if (result.size() == 0) {
+				
 				return null;
 			}
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
-		return (String) result.get(0).get("emp_emp_name");
+		return (String) result.get(0).get("count");
+		
 	}
 	
 	
