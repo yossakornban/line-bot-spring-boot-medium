@@ -454,6 +454,7 @@ public class LineBotController {
 			
 			if (foodName == null) {
 				//----------------------------------------------------------------Check Possibility Here ----------------Focus
+				System.out.print("User ID is : "+userLog.getEmpCode());
 				switch (text) {
 				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 					String pathYamlHome = "asset/sub_select_event.yml";
