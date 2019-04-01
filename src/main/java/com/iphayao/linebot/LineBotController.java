@@ -454,8 +454,7 @@ public class LineBotController {
 			
 			if (foodName == null) {
 				//----------------------------------------------------------------Check Possibility Here ----------------Focus
-				System.out.print("User ID is : "+userLog.getEmpCode());
-				System.out.println("Hello Madman");
+				
 				switch (text) {
 				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 					String pathYamlHome = "asset/sub_select_event.yml";
@@ -473,6 +472,8 @@ public class LineBotController {
 
 				userLog.setStatusBot(status.VOTE_FOODS);
 			} else if (text != null && text == userLog.getFoodName()) {
+				System.out.print("User ID is : "+userLog.getEmpCode());
+				System.out.println("Hello Madman");
 				userLog.setFoodId(text.toString());
 				// System.out.println("Text in sert is : "+text);
 
