@@ -59,16 +59,6 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			System.out.println("666666666666666666666"+result);
-			String keepCount = result.toString();
-		    String ChangepPattern;
-		    ChangepPattern = keepCount.replace("[","");
-		    ChangepPattern = keepCount.replace("]","");
-		    ChangepPattern = keepCount.replace("count=","");
-		    ChangepPattern = keepCount.replace("}","");
-		    ChangepPattern = keepCount.replace("{","");
-		    String TestChange = ChangepPattern;
-			System.out.println("7777777777777777777 :"+TestChange);
 			if (result.size() == 0) {
 				return null;
 			}
@@ -76,18 +66,7 @@ public class LineRepository {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return (String) result.get(0).get("count");
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public int register(UserLog userLog) {
 		int aaa = 0;
 		try {

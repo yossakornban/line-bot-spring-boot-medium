@@ -327,7 +327,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-
 			case "ขอลาหยุดครับผม": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(
@@ -341,7 +340,6 @@ public class LineBotController {
 				// userLog.setStatusBot(status.Q11);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
-
 			}
 			case "help": {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
@@ -631,7 +629,6 @@ public class LineBotController {
 			throw new UncheckedIOException(e);
 		}
 	}
-
 	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
 		log.info("Content-type: {}", response);
 		DownloadedContent tempFile = createTempFile(ext);
@@ -641,16 +638,13 @@ public class LineBotController {
 			return tempFile;
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
-
 		}
 	}
-
 	private static DownloadedContent createTempFile(String ext) {
 		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
 		Path tempFile = LineApplication.downloadedContentDir.resolve(fileName);
 		tempFile.toFile().deleteOnExit();
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
-
 	}
 
 	private static String createUri(String path) {
