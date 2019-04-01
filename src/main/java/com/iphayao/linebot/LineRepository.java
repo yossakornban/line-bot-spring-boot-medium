@@ -60,6 +60,9 @@ public class LineRepository {
 			parameters.addValue("empcode", userLog.getEmpCode());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			System.out.println("666666666666666666666"+result);
+			String keepCount = result.toString();
+		//	String ChangepPattern = keepCount.replace(arg0, arg1);
+			System.out.println("7777777777777777777"+keepCount);
 			if (result.size() == 0) {
 				
 				return null;
