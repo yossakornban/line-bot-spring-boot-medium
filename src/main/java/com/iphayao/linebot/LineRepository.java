@@ -70,10 +70,8 @@ public class LineRepository {
 	public int register(UserLog userLog) {
 		int aaa = 0;
 		try {
-
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-
 			stb.append(" UPDATE employee SET emp_emp_line_id = :lineid");
 			stb.append(" WHERE emp_emp_code = :empcode ");
 
@@ -90,7 +88,6 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-
 	public int saveFood(UserLog string ){
 	
 		int aaa = 0;
@@ -98,7 +95,6 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-			
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
 	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote)  values  (:employeeCode,:foodIdVote,:dateNow)");
