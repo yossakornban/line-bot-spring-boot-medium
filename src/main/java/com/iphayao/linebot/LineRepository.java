@@ -67,7 +67,8 @@ public class LineRepository {
 		    ChangepPattern = keepCount.replace("count=","");
 		    ChangepPattern = keepCount.replace("}","");
 		    ChangepPattern = keepCount.replace("{","");
-			System.out.println("7777777777777777777 :"+ChangepPattern);
+		    String TestChange = ChangepPattern;
+			System.out.println("7777777777777777777 :"+TestChange);
 			if (result.size() == 0) {
 				return null;
 			}
