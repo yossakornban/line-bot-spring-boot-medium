@@ -38,6 +38,6 @@ public class UserLog {
 	private String getempName;
 	private String foodName;
 	private String foodId;
-	private String vote_food_userid;
+
 
 }

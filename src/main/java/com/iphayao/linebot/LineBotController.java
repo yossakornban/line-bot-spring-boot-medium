@@ -102,13 +102,7 @@ public class LineBotController {
 		this.replyText(replyToken, event.getPostbackContent().getData().toString().replace("date", "")
 				+ event.getPostbackContent().getParams().toString());
 	}
-	// public void handlePostbackEvent(PostbackEvent event) {
-	// String replyToken = event.getReplyToken();
-	// this.replyText(replyToken, "Got postback data " +
-	// event.getPostbackContent().getData() + ", param "
-	// + event.getPostbackContent().getParams().toString());
-	// }
-
+	
 	@EventMapping
 	public void handleOtherEvent(Event event) {
 		log.info("Received message(Ignored): {}", event);
@@ -334,20 +328,6 @@ public class LineBotController {
 				break;
 			}
 
-			// case "leave": {
-			// String imageUrl = createUri("/static/buttons/1040.jpg");
-			// CarouselTemplate carouselTemplate = new CarouselTemplate(
-			// Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา",
-			// "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
-			// Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
-			// new MessageAction("ลาป่วย", "ลาป่วยครับ"),
-			// new MessageAction("ลาพักร้อน", "ลาหักร้อนครับ")))));
-			// TemplateMessage templateMessage = new TemplateMessage("Carousel
-			// alt text", carouselTemplate);
-			// this.reply(replyToken, templateMessage);
-			// userLog.setStatusBot(status.Q11);
-			// break;
-			// }
 			case "ขอลาหยุดครับผม": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(
@@ -438,18 +418,11 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 
-			// case "Vote": {
-			// this.reply(replyToken, Arrays.asList(new TextMessage("ใส่
-			// หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ 👍")));
-			// userLog.setStatusBot(status.VOTE_FOODS);
-			// break;
-			// }
-			// default:
-			// this.reply(replyToken, Arrays.asList(new
-			// TextMessage("ไม่เข้าใจคำสั่ง")));
-			// }
-
+			
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
+		
+			
+			
 			if (foodName == null) {
 
 				switch (text) {
@@ -471,8 +444,8 @@ public class LineBotController {
 				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				userLog.setFoodId(text.toString());
-				// System.out.println("Text in sert is : "+text);
-
+				
+				lineRepo.CountVote(userLog);
 				lineRepo.saveFood(userLog);
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));

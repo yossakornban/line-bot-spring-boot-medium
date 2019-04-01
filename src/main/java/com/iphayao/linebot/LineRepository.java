@@ -1,6 +1,9 @@
 package com.iphayao.linebot;
 
 import java.sql.Array;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +41,7 @@ public class LineRepository {
 		private String createdProgram;
 		private String updatedProgram;
 
+
 	}
 
 	@Autowired
@@ -45,17 +49,34 @@ public class LineRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 	
-	public int checkPossibility(int count , UserLog userLog){
-		
-		
-		
-		
-		
-		
-		
-		return 0;
+	public String CountVote (UserLog  userLog) {
+		ArrayList<Map<String, Object>> result = null;
+		// List<Map<String, Object>> result = null;
+		try {
+			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			stb = new StringBuilder();
+			stb.append(" select count(emp_emp_id) from employee_vote where emp_emp_id =:empcode ");
+			MapSqlParameterSource parameters = new MapSqlParameterSource();
+			parameters.addValue("empcode", userLog.getEmpCode());
+			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			if (result.size() == 0) {
+				return null;
+			}
+		} catch (EmptyResultDataAccessException ex) {
+			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+		}
+		return (String) result.get(0).get("emp_emp_name");
 	}
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public int register(UserLog userLog) {
 		int aaa = 0;
 		try {
@@ -91,7 +112,6 @@ public class LineRepository {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
 	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote)  values  (:employeeCode,:foodIdVote,:dateNow)");
-			//stb.append(" WHERE emp_emp_code = :empcode ");
 		    String employeeCode = string.getEmpCode();
 		    String FoodsIdVote = string.getFoodId();
 			parameters.addValue("employeeCode", employeeCode);
