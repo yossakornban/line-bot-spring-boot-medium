@@ -443,7 +443,7 @@ public class LineBotController {
 			} else if (text != null && text == userLog.getFoodName()) {
 				userLog.setFoodId(text.toString());
 				
-				lineRepo.CountVote(userLog);
+				//lineRepo.CountVote(userLog);
 				System.out.println("555555555555555555555555555555555"+userLog);
 				lineRepo.saveFood(userLog);
 				this.reply(replyToken, Arrays.asList(
