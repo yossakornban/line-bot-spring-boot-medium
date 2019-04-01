@@ -152,11 +152,10 @@ public class LineBotController {
 
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
+		// userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
-		String VoteNumber = lineRepo.checkpossilibity(userLog);
-		System.out.println("Raider Madman"+VoteNumber);
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -451,9 +450,8 @@ public class LineBotController {
 			// }
 
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			
-			
 			if (foodName == null) {
+
 				switch (text) {
 				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 					String pathYamlHome = "asset/sub_select_event.yml";
@@ -470,9 +468,11 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 
 				userLog.setStatusBot(status.VOTE_FOODS);
+				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
-				//----------------------------------------------------------------Check Possibility Here ----------------Focus
-				
+				userLog.setFoodId(text.toString());
+				// System.out.println("Text in sert is : "+text);
+
 				lineRepo.saveFood(userLog);
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));

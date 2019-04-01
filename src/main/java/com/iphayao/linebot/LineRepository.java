@@ -1,7 +1,6 @@
 package com.iphayao.linebot;
 
 import java.sql.Array;
-import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,25 +44,16 @@ public class LineRepository {
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
-
-	public String checkpossilibity(UserLog userLog) {
-		ArrayList<Map<String, Object>> result = null;
-		// List<Map<String, Object>> result = null;
-		try {
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-			stb.append("select count(emp_emp_id) from employee_vote where emp_emp_id =:Userid");
-			
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("Userid", userLog.getEmpCode());
-			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			if (result.size() == 0) {
-				return null;
-			}
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-		}
-		return (String) result.get(0).get("count");
+	
+	public int checkPossibility(){
+		
+		
+		
+		
+		
+		
+		
+		return 0;
 	}
 
 	public int register(UserLog userLog) {
@@ -90,25 +80,24 @@ public class LineRepository {
 		return aaa;
 	}
 
-	public int saveFood(UserLog string) {
-
+	public int saveFood(UserLog string ){
+	
 		int aaa = 0;
 		try {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-
+			
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
-			stb.append(
-					"insert into employee_vote (emp_emp_id,food_id,date_vote)  values  (:employeeCode,:foodIdVote,:dateNow)");
-			// stb.append(" WHERE emp_emp_code = :empcode ");
-			String employeeCode = string.getEmpCode();
-			String FoodsIdVote = string.getFoodId();
+	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote)  values  (:employeeCode,:foodIdVote,:dateNow)");
+			//stb.append(" WHERE emp_emp_code = :empcode ");
+		    String employeeCode = string.getEmpCode();
+		    String FoodsIdVote = string.getFoodId();
 			parameters.addValue("employeeCode", employeeCode);
 			parameters.addValue("foodIdVote", FoodsIdVote);
 			parameters.addValue("dateNow", dateFormat.format(date));
-			aaa = jdbcTemplate.update(stb.toString(), parameters);
+		    aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 			// (stb.toString(), parameters,
 			// new BeanPropertyRowMapper<Entity>(Entity.class));
@@ -117,7 +106,6 @@ public class LineRepository {
 		}
 		return aaa;
 	}
-
 	public String findFoods(String foodId) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -182,7 +170,7 @@ public class LineRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 			stb.append(
-
+					
 					" select to_date(date_holiday, 'dd/mm/yyyy'),name_holiday from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date  limit 3 ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
