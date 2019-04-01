@@ -45,7 +45,7 @@ public class LineRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 	
-	public int checkPossibility(){
+	public int checkPossibility(int count , UserLog userLog){
 		
 		
 		
