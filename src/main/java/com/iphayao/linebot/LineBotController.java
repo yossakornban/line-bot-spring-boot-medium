@@ -443,6 +443,7 @@ public class LineBotController {
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
+				
 				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				userLog.setFoodId(text.toString());
