@@ -38,6 +38,7 @@ public class UserLog {
 	private String getempName;
 	private String foodName;
 	private String foodId;
+	private Integer CountVout_CheckPossilibity;
 	
 	
 

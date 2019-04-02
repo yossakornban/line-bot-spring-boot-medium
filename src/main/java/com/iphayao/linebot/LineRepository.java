@@ -65,7 +65,7 @@ public class LineRepository {
 			String change2 = change1.replace("[{count=", "");
 			String change3  = change2.replace("}]", "");
 			int countVote = Integer.parseInt(change3);
-			System.out.println("IntegerVote is :"+countVote);
+			userLog.setCountVout_CheckPossilibity(countVote);
 			if (result.size() == 0) {
 				return null;
 			}
