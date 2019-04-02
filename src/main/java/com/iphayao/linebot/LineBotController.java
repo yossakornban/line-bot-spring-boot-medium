@@ -408,7 +408,6 @@ public class LineBotController {
 
 			case "โหวตอาหาร จร้าา": {
 				lineRepo.CountVote(userLog);
-				System.out.println("5555555555555555555555555555555555555");
 				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  👍")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 				break;

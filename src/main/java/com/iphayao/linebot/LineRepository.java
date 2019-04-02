@@ -48,7 +48,7 @@ public class LineRepository {
 	
 	
 	public  String CountVote(UserLog  userLog) {
-		System.out.println("9999999999999999999999999999999999");
+		
 		ArrayList<Map<String, Object>> result = null;
 		
 		// List<Map<String, Object>> result = null;
@@ -60,6 +60,7 @@ public class LineRepository {
 			parameters.addValue("empcode", userLog.getEmpCode());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			//userLog.setCountVote(userLog.getCountVote());
+			System.out.println("333333333333333333333333333333333333333333333"+result);
 			if (result.size() == 0) {
 				return null;
 			}
@@ -67,6 +68,7 @@ public class LineRepository {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return (String) result.get(0).get("emp_emp_id");
+	
 		
 
 		
