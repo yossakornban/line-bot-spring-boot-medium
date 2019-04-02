@@ -26,7 +26,7 @@ public class UserLog {
 	
 	public UserLog() {
 	}
-	private String countVote;
+	private Integer countVote;
 	private String userID;
 	private Integer leaveID;
 	private status statusBot;

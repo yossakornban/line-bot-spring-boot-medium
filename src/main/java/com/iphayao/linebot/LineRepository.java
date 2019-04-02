@@ -62,9 +62,9 @@ public class LineRepository {
 			String kkl = result.toString();
 			kkl.replace("[{count=", "");
 			kkl.replace("}]", "");
-		
+			int raider = Integer.parseInt(kkl);
 			
-			userLog.setCountVote(kkl);
+			userLog.setCountVote(raider);
 			System.out.println("333333333333333333333333333333333333333333333"+result);
 			
 			if (result.size() == 0) {
