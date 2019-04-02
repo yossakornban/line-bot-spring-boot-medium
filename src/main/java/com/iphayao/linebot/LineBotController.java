@@ -435,9 +435,11 @@ public class LineBotController {
 				userLog.setFoodId(text.toString());
 				lineRepo.saveFood(userLog);
 				String jjj = userLog.getCountVote();
+				String kkkk = jjj.replace("[{count=", "");
+					   kkkk = jjj.replace("}]", "");
 				System.out.println("1111111111111111111"+userLog.getCountVote());
 				
-				System.out.print("4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444 :"+jjj);
+				System.out.println("4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444 :"+kkkk);
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
