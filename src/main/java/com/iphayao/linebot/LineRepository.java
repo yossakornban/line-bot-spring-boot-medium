@@ -47,7 +47,7 @@ public class LineRepository {
 	private StringBuilder stb = null;
 	
 	
-	public  String CountVote (UserLog  userLog) {
+	public  String CountVote(UserLog  userLog) {
 		
 		ArrayList<Map<String, Object>> result = null;
 		
