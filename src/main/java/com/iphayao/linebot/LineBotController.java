@@ -448,6 +448,7 @@ public class LineBotController {
 				System.out.println("1111111111111111111"+userLog.getCountVote());
 				int hhh = Integer.parseInt(userLog.getCountVote());
 				System.out.print("4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444"+hhh);
+				
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
 
