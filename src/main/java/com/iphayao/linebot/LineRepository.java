@@ -102,6 +102,7 @@ public class LineRepository {
 		}
 		return aaa;
 	}
+	
 	public int saveFood(UserLog string ){
 		Calendar c = Calendar.getInstance();
 		int aaa = 0;
