@@ -50,8 +50,6 @@ public class LineRepository {
 	public String CountVote (UserLog  userLog) {
 		
 		ArrayList<Map<String, Object>> result = null;
-		
-		
 		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
