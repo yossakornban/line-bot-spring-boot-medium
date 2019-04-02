@@ -424,7 +424,7 @@ public class LineBotController {
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			
-			if(userLog.getCountVout_CheckPossilibity() >=10){
+			if(userLog.getCountVout_CheckPossilibity() >=5){
 				this.reply(replyToken, Arrays.asList(new TextMessage("คุณโหวตอาหารครบ 10 รายการเเล้วค่ะ รอโหวตในสัปดาห์หน้านะคะ ^.^")));
 				userLog.setStatusBot(status.DEFAULT);
 			}
