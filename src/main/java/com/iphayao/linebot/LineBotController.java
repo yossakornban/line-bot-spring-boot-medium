@@ -601,7 +601,6 @@ public class LineBotController {
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
-
 	private void push(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			lineMessagingClient.pushMessage(new PushMessage(replyToken, messages)).get();
@@ -609,7 +608,6 @@ public class LineBotController {
 			throw new RuntimeException(e);
 		}
 	}
-
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
@@ -617,7 +615,6 @@ public class LineBotController {
 			throw new RuntimeException(e);
 		}
 	}
-
 	private void system(String... args) {
 		ProcessBuilder processBuilder = new ProcessBuilder(args);
 		try {
@@ -631,7 +628,6 @@ public class LineBotController {
 			throw new UncheckedIOException(e);
 		}
 	}
-
 	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
 		log.info("Content-type: {}", response);
 		DownloadedContent tempFile = createTempFile(ext);
@@ -643,18 +639,15 @@ public class LineBotController {
 			throw new UncheckedIOException(e);
 		}
 	}
-
 	private static DownloadedContent createTempFile(String ext) {
 		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
 		Path tempFile = LineApplication.downloadedContentDir.resolve(fileName);
 		tempFile.toFile().deleteOnExit();
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 	}
-
 	private static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString();
 	}
-
 	@Value
 	public static class DownloadedContent {
 		Path path;
