@@ -408,8 +408,7 @@ public class LineBotController {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken,
 							Arrays.asList(new TextMessage(
-									"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่ค่ะ"
-											+ "\n" + "ขอบคุณค่ะ")));
+									"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					this.reply(replyToken,
@@ -444,7 +443,7 @@ public class LineBotController {
 			} else if (text != null && text == userLog.getFoodName()) {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays
-							.asList(new TextMessage("คุณโหวตอาหารครบ 10 รายการเเล้วค่ะ รอโหวตในสัปดาห์หน้านะคะ ^.^")));
+							.asList(new TextMessage("คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					userLog.setFoodId(text.toString());
