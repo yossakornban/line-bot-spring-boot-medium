@@ -53,11 +53,16 @@ public class LineRepository {
 		
 		// List<Map<String, Object>> result = null;
 		try {
+			Calendar c = Calendar.getInstance();   
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-			stb.append(" select count(emp_emp_id) from employee_vote where emp_emp_id =:empcode ");
+			stb.append(" select count(*) from employee_vote where emp_emp_id =:empcode  and week_of_year=:week_of_year    and  year_vote=:year_Vote ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
+			int weekOfYearInteger = c.get(Calendar.WEEK_OF_YEAR);
+			int yearInteger = c.get(Calendar.YEAR);
 			parameters.addValue("empcode", userLog.getEmpCode());
+			parameters.addValue("week_of_year", weekOfYearInteger);
+			parameters.addValue("year_Vote", yearInteger);
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			String kkl = result.toString();
 			userLog.setCountVote(kkl);
@@ -66,6 +71,7 @@ public class LineRepository {
 			String change3  = change2.replace("}]", "");
 			int countVote = Integer.parseInt(change3);
 			userLog.setCountVout_CheckPossilibity(countVote);
+			System.out.println("CountNew_FromVote5555555555555555555555"+countVote);
 			if (result.size() == 0) {
 				return null;
 			}
