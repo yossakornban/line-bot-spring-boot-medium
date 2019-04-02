@@ -102,7 +102,7 @@ public class LineBotController {
 		this.replyText(replyToken, event.getPostbackContent().getData().toString().replace("date", "")
 				+ event.getPostbackContent().getParams().toString());
 	}
-	
+
 	@EventMapping
 	public void handleOtherEvent(Event event) {
 		log.info("Received message(Ignored): {}", event);
@@ -155,15 +155,13 @@ public class LineBotController {
 			switch (text) {
 			case "ไอ้สัส": {
 
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
 			case "สวัสดี": {
 
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
@@ -407,8 +405,18 @@ public class LineBotController {
 			}
 			case "โหวตอาหาร จร้าา": {
 				lineRepo.CountVote(userLog);
-				this.reply(replyToken, Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  👍")));
-				userLog.setStatusBot(status.VOTE_FOODS);
+				if (userLog.getCountVout_CheckPossilibity() >= 10) {
+					this.reply(replyToken,
+							Arrays.asList(new TextMessage(
+									"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่ค่ะ"
+											+ "\n" + "ขอบคุณค่ะ")));
+					userLog.setStatusBot(status.DEFAULT);
+				} else {
+					this.reply(replyToken,
+							Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  👍")));
+					userLog.setStatusBot(status.VOTE_FOODS);
+				}
+
 				break;
 			}
 			default:
@@ -434,10 +442,6 @@ public class LineBotController {
 			} else if (text != null && text == userLog.getFoodName()) {
 				userLog.setFoodId(text.toString());
 				lineRepo.saveFood(userLog);
-				
-				System.out.println("1111111111111111111"+userLog.getCountVote());
-				
-				System.out.println("4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444 :"+userLog.getCountVout_CheckPossilibity());
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
@@ -618,6 +622,7 @@ public class LineBotController {
 			throw new UncheckedIOException(e);
 		}
 	}
+
 	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
 		log.info("Content-type: {}", response);
 		DownloadedContent tempFile = createTempFile(ext);
@@ -629,6 +634,7 @@ public class LineBotController {
 			throw new UncheckedIOException(e);
 		}
 	}
+
 	private static DownloadedContent createTempFile(String ext) {
 		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
 		Path tempFile = LineApplication.downloadedContentDir.resolve(fileName);
