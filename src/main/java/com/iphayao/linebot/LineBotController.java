@@ -446,7 +446,7 @@ public class LineBotController {
 				userLog.setFoodId(text.toString());
 				lineRepo.saveFood(userLog);
 				System.out.println("1111111111111111111"+userLog.getCountVote());
-				int hhh = Integer.parseInt(userLog.getCountVote());
+				int hhh = Integer.valueOf(userLog.getCountVote());
 				System.out.print("4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444"+hhh);
 				
 				this.reply(replyToken, Arrays.asList(
