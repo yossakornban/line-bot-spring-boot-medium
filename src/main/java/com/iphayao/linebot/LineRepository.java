@@ -60,11 +60,9 @@ public class LineRepository {
 			parameters.addValue("empcode", userLog.getEmpCode());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			String kkl = result.toString();
-			kkl.replace("[{count=", "");
-			kkl.replace("}]", "");
-			int raider = Integer.parseInt(kkl);
 			
-			userLog.setCountVote(raider);
+			
+			userLog.setCountVote(kkl);
 			System.out.println("333333333333333333333333333333333333333333333"+result);
 			
 			if (result.size() == 0) {
@@ -75,6 +73,10 @@ public class LineRepository {
 		}
 		return (String) result.get(0).get("emp_emp_id");
 	
+		
+
+		
+		
 	}
 	public int register(UserLog userLog) {
 		int aaa = 0;
