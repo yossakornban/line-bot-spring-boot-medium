@@ -66,7 +66,7 @@ public class LineRepository {
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
-		return (String) result.get(0).get("count");
+		return (String) result.get(0).get("emp_emp_id");
 		
 
 		
