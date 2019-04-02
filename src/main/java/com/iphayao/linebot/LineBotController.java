@@ -442,9 +442,7 @@ public class LineBotController {
 				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				userLog.setFoodId(text.toString());
-				
 				lineRepo.CountVote(userLog);
-			
 				lineRepo.saveFood(userLog);
 				System.out.println("1111111111111111111"+userLog.getCountVote());
 				this.reply(replyToken, Arrays.asList(

@@ -47,7 +47,7 @@ public class LineRepository {
 	private StringBuilder stb = null;
 	
 	
-	public String CountVote (UserLog  userLog) {
+	public  String CountVote (UserLog  userLog) {
 		
 		ArrayList<Map<String, Object>> result = null;
 		
@@ -59,8 +59,7 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			userLog.setCountVote(userLog.getCountVote());
-			
+			//userLog.setCountVote(userLog.getCountVote());
 			if (result.size() == 0) {
 				return null;
 			}
