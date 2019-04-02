@@ -423,12 +423,8 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			
-			if(userLog.getCountVout_CheckPossilibity() >=5){
-				this.reply(replyToken, Arrays.asList(new TextMessage("คุณโหวตอาหารครบ 10 รายการเเล้วค่ะ รอโหวตในสัปดาห์หน้านะคะ ^.^")));
-				userLog.setStatusBot(status.DEFAULT);
-			}
-			else if (foodName == null) {
+
+			if (foodName == null) {
 				switch (text) {
 				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 					String pathYamlHome = "asset/sub_select_event.yml";
@@ -443,14 +439,22 @@ public class LineBotController {
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
-				
+
 				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
-				userLog.setFoodId(text.toString());
-				lineRepo.saveFood(userLog);
-				this.reply(replyToken, Arrays.asList(
-						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
-				userLog.setStatusBot(status.VOTE_FOODS);
+
+				if (userLog.getCountVout_CheckPossilibity() >= 5) {
+					this.reply(replyToken, Arrays
+							.asList(new TextMessage("คุณโหวตอาหารครบ 10 รายการเเล้วค่ะ รอโหวตในสัปดาห์หน้านะคะ ^.^")));
+					userLog.setStatusBot(status.DEFAULT);
+				} else {
+					userLog.setFoodId(text.toString());
+					lineRepo.saveFood(userLog);
+					this.reply(replyToken, Arrays.asList(new TextMessage(
+							"คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
+					userLog.setStatusBot(status.VOTE_FOODS);
+				}
+
 			} else {
 				this.reply(replyToken, Arrays.asList(new TextMessage("นอน โว้ยยยย")));
 				userLog.setStatusBot(status.VOTE_FOODS);
