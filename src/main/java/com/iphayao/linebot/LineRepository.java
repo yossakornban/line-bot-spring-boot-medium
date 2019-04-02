@@ -97,19 +97,24 @@ public class LineRepository {
 		return aaa;
 	}
 	public int saveFood(UserLog string ){
-	
+		Calendar c = Calendar.getInstance();
 		int aaa = 0;
 		try {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
+			int weekOfYearInteger = c.get(Calendar.WEEK_OF_YEAR);
+			int yearInteger = c.get(Calendar.YEAR);
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
-	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote)  values  (:employeeCode,:foodIdVote,:dateNow)");
+	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote,week_of_year,year)  values  (:employeeCode,:foodIdVote,:dateNow,:week_of_year,:year)");
 		    String employeeCode = string.getEmpCode();
 		    String FoodsIdVote = string.getFoodId();
 			parameters.addValue("employeeCode", employeeCode);
 			parameters.addValue("foodIdVote", FoodsIdVote);
+			parameters.addValue("dateNow", dateFormat.format(date));
+			parameters.addValue("week_of_year", weekOfYearInteger);
+			parameters.addValue("year", yearInteger);
 			parameters.addValue("dateNow", dateFormat.format(date));
 		    aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
