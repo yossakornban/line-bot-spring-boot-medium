@@ -50,7 +50,7 @@ public class LineRepository {
 	public String CountVote (UserLog  userLog) {
 		
 		ArrayList<Map<String, Object>> result = null;
-		System.out.println("77777777777777777777777777777777"+result);
+		
 		
 		// List<Map<String, Object>> result = null;
 		try {
