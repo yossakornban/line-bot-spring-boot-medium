@@ -423,7 +423,12 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			if (foodName == null) {
+			
+			if(userLog.getCountVout_CheckPossilibity() >=10){
+				this.reply(replyToken, Arrays.asList(new TextMessage("คุณโหวตอาหารครบ 10 รายการเเล้วค่ะ รอโหวตในสัปดาห์หน้านะคะ ^.^")));
+				userLog.setStatusBot(status.DEFAULT);
+			}
+			else if (foodName == null) {
 				switch (text) {
 				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 					String pathYamlHome = "asset/sub_select_event.yml";
