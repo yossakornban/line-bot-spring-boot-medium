@@ -113,7 +113,7 @@ public class LineRepository {
 			int yearInteger = c.get(Calendar.YEAR);
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
-	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote,week_of_year,year)  values  (:employeeCode,:foodIdVote,:dateNow,:week_of_year,:year)");
+	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote,week_of_year,year_vote)  values  (:employeeCode,:foodIdVote,:dateNow,:week_of_year,:year)");
 		    String employeeCode = string.getEmpCode();
 		    String FoodsIdVote = string.getFoodId();
 			parameters.addValue("employeeCode", employeeCode);
