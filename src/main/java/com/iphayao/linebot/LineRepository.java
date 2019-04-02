@@ -59,9 +59,7 @@ public class LineRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			String count = result.toString();
-			int vote = Integer.parseInt(count);
-			System.out.println("888888888888888888888"+vote);
+			userLog.setCountVote(userLog.getCountVote());
 			
 			if (result.size() == 0) {
 				return null;
@@ -70,6 +68,7 @@ public class LineRepository {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return (String) result.get(0).get("count");
+		
 
 		
 		
