@@ -423,7 +423,7 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-
+			lineRepo.CountVote(userLog);
 			if (foodName == null) {
 				switch (text) {
 				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
@@ -442,7 +442,6 @@ public class LineBotController {
 
 				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
-
 				if (userLog.getCountVout_CheckPossilibity() >= 5) {
 					this.reply(replyToken, Arrays
 							.asList(new TextMessage("คุณโหวตอาหารครบ 10 รายการเเล้วค่ะ รอโหวตในสัปดาห์หน้านะคะ ^.^")));
