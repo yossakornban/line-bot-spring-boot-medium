@@ -441,7 +441,9 @@ public class LineBotController {
 				userLog.setStatusBot(status.VOTE_FOODS);
 				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
+				lineRepo.CountVote(userLog);
 				userLog.setFoodId(text.toString());
+				System.out.println("Raider Striker -------------------------------------");
 				
 				lineRepo.saveFood(userLog);
 				System.out.println("1111111111111111111"+userLog.getCountVote());
