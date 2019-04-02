@@ -442,7 +442,7 @@ public class LineBotController {
 
 				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
-				if (userLog.getCountVout_CheckPossilibity() >= 5) {
+				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays
 							.asList(new TextMessage("คุณโหวตอาหารครบ 10 รายการเเล้วค่ะ รอโหวตในสัปดาห์หน้านะคะ ^.^")));
 					userLog.setStatusBot(status.DEFAULT);
