@@ -434,14 +434,13 @@ public class LineBotController {
 			} else if (text != null && text == userLog.getFoodName()) {
 				userLog.setFoodId(text.toString());
 				lineRepo.saveFood(userLog);
-				String jjj = userLog.getCountVote();
-				String kkkk = jjj.replace("[{count=", "");
-				String lll  = kkkk.replace("}]", "");
-				
-				int imt = Integer.parseInt(lll);
+				String change1 = userLog.getCountVote();
+				String change2 = change1.replace("[{count=", "");
+				String change3  = change2.replace("}]", "");
+				int countVote = Integer.parseInt(change3);
 				System.out.println("1111111111111111111"+userLog.getCountVote());
 				
-				System.out.println("4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444 :"+imt);
+				System.out.println("4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444 :"+countVote);
 				this.reply(replyToken, Arrays.asList(
 						new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);

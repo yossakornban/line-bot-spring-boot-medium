@@ -61,7 +61,11 @@ public class LineRepository {
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			String kkl = result.toString();
 			userLog.setCountVote(kkl);
-			System.out.println("333333333333333333333333333333333333333333333"+result);
+			String change1 = userLog.getCountVote();
+			String change2 = change1.replace("[{count=", "");
+			String change3  = change2.replace("}]", "");
+			int countVote = Integer.parseInt(change3);
+			System.out.println("IntegerVote is :"+countVote);
 			if (result.size() == 0) {
 				return null;
 			}
