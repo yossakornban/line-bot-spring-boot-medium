@@ -35,5 +35,5 @@ areas:
   action:
     type: message
     label: Madman
-    text: 'โหวตอาหาร จร้าา'
+    text: 'โหวตอาหารประจำสัปดาห์ '
     
