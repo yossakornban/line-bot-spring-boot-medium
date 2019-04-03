@@ -191,7 +191,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "โหวตอาหาร": {
+			case "โหวตอาหารประจำสัปดาห์": {
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
