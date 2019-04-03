@@ -35,4 +35,4 @@ areas:
   action:
     type: message
     label: raider
-    text: 'โหวตอาหารประจำสัปดาห์'
+    text: 'โหวตอาหาร'
