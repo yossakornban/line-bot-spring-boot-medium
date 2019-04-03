@@ -153,9 +153,6 @@ public class LineBotController {
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
-			
-			
-			
 			case "ไอ้สัส": {
 
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
@@ -191,12 +188,6 @@ public class LineBotController {
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "โหวตอาหารประจำสัปดาห์ ": {
-				
-				this.reply(replyToken, Arrays.asList(new TextMessage("โหวตอาหารประจำสัปดาห์  ได้เลยค่ะ  😊")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -412,7 +403,10 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
-			
+			case "โหวตอาหารประจำสัปดาห์ ": {
+				Arrays.asList(new TextMessage("โหวตอาหารพร้อมใช้งาน"));
+				break;
+			}
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
