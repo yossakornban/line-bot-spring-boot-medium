@@ -86,7 +86,6 @@ public class LineRepository {
 			String change3  = change2.replace("}]", "");
 			int countVote = Integer.parseInt(change3);
 			userLog.setCountVout_CheckPossilibity(countVote);
-			System.out.println("CountNew_FromVote5555555555555555555555"+countVote);
 			if (result.size() == 0) {
 				return null;
 			}
