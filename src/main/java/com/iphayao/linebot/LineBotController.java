@@ -155,10 +155,7 @@ public class LineBotController {
 			switch (text) {
 			
 			
-			case "โหวตอาหารประจำสัปดาห์ ": {
-				System.out.println("โหวตอาหารประจำสัปดาห์ พร้อมใช้งานเเล้ว");
-				break;
-			}
+			
 			case "ไอ้สัส": {
 
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
@@ -194,6 +191,12 @@ public class LineBotController {
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			case "โหวตอาหารประจำสัปดาห์ ": {
+				
+				this.reply(replyToken, Arrays.asList(new TextMessage("โหวตอาหารประจำสัปดาห์  ได้เลยค่ะ  😊")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
