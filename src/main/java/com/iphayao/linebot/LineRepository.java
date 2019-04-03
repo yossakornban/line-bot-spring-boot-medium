@@ -46,11 +46,26 @@ public class LineRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 	
+	public ArrayList<Map<String, Object>> foodsList() {
+		ArrayList<Map<String, Object>> result = null;
+		// List<Map<String, Object>> result = null;
+		try {
+			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			stb = new StringBuilder();
+			stb.append("select food_food_id,food_food_name from foods");
+			MapSqlParameterSource parameters = new MapSqlParameterSource();
+			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+		} catch (EmptyResultDataAccessException ex) {
+			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+		}
+		return result;
+	}
+
+	
+	
 	
 	public  String CountVote(UserLog  userLog) {
-		
 		ArrayList<Map<String, Object>> result = null;
-		
 		// List<Map<String, Object>> result = null;
 		try {
 			Calendar c = Calendar.getInstance();   

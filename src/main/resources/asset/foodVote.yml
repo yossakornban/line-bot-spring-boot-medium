@@ -14,7 +14,7 @@ areas:
   action:
     type: message
     label: profile
-    text: 'ขอดูรายการอาหารค่ะ'
+    text: 'ขอดูรายการอาหารทั้งหมดค่ะ'
 -
   bounds:
     x: 0
