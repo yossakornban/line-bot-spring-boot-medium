@@ -14,7 +14,7 @@ areas:
   action:
     type: message
     label: profile
-    text: 'ขอดูรายการอาหารทั้งหมดค่ะ'
+    text: 'ขอดูรายการอาหารค่ะ'
 -
   bounds:
     x: 0
@@ -35,4 +35,4 @@ areas:
   action:
     type: message
     label: raider
-    text: 'โหวตอาหาร'
+    text: 'โหวตอาหารประจำสัปดาห์'
