@@ -457,7 +457,7 @@ public class LineBotController {
 					userLog.setFoodId(text.toString());
 					lineRepo.saveFood(userLog);
 					this.reply(replyToken, Arrays.asList(new TextMessage(
-							"คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "เรียบร้อยเเล้วค่ะ")));
+							"คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "ประจำสัปดาห์ที่ 01-07/05/2019"+"\n"+"เหลือสิทธ์ในการโหวตอีก 9 ครั้ง")));
 					userLog.setStatusBot(status.VOTE_FOODS);
 				}
 
