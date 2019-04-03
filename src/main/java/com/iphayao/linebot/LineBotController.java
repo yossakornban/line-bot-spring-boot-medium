@@ -157,9 +157,8 @@ public class LineBotController {
 			
 			case "โหวตอาหารประจำสัปดาห์ ": {
 				System.out.println("โหวตอาหารประจำสัปดาห์ พร้อมใช้งานเเล้ว");
-				
+				break;
 			}
-		
 			case "ไอ้สัส": {
 
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
