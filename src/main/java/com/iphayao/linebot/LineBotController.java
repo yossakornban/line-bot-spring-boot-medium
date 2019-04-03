@@ -411,7 +411,7 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
-			case "โหวตอาหาร จร้าา": {
+			case "โหวตอาหาร": {
 				lineRepo.CountVote(userLog);
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken,
