@@ -403,7 +403,7 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
-			case "โหวตอาหารประจำสัปดาห์ ": {
+			case "ฤฤฤฤฤฤฤฤฤ ": {
 				Arrays.asList(new TextMessage("โหวตอาหารพร้อมใช้งาน"));
 				break;
 			}
