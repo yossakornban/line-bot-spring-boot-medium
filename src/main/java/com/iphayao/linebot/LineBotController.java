@@ -144,9 +144,6 @@ public class LineBotController {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
-
-		System.out.println("+++++ " + userMap.get(event.getSource().getSenderId()).toString());
-
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
