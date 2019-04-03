@@ -33,6 +33,7 @@ import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Employee;
 import com.iphayao.linebot.model.Entity;
+import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -158,11 +159,11 @@ public class LineBotController {
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.foodsList();
 				holiday_all.forEach(record -> {
-					Holiday holi = new Holiday();
+					Food holi = new Food();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" +  holi.getFood_id() + "  " + holi.getFood_name());
 				});
 
 				String Imr = holi_list.toString();
