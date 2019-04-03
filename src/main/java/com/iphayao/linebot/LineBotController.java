@@ -191,6 +191,14 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+			case "โหวตอาหาร": {
+				String pathYamlHome = "asset/sub_select_event.yml";
+				String pathImageHome = "asset/sub_select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 
 				Stack<String> holi_list = new Stack<>();
@@ -403,8 +411,19 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
-			case "ฤฤฤฤฤฤฤฤฤ ": {
-				Arrays.asList(new TextMessage("โหวตอาหารพร้อมใช้งาน"));
+			case "โหวตอาหาร จร้าา": {
+				lineRepo.CountVote(userLog);
+				if (userLog.getCountVout_CheckPossilibity() >= 10) {
+					this.reply(replyToken,
+							Arrays.asList(new TextMessage(
+									"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
+					userLog.setStatusBot(status.DEFAULT);
+				} else {
+					this.reply(replyToken,
+							Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  👍")));
+					userLog.setStatusBot(status.VOTE_FOODS);
+				}
+
 				break;
 			}
 			default:
