@@ -500,7 +500,7 @@ public class LineBotController {
 					int limitVOte = 9;
 					int stopVote = limitVOte - userLog.getCountVout_CheckPossilibity();
 					this.reply(replyToken,
-							Arrays.asList(new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n"+"ประจำสัปดาห์ที่ "
+							Arrays.asList(new TextMessage("คุณโหวต  " + "\n" + "( " + foodName + "  )" + "\n"+"ประจำสัปดาห์ที่ "
 									+ DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(monday) + "-"
 									+ DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(sunday) + "/"
 									+ simpleDateformat.format(now) + "/" + c.get(Calendar.YEAR) + "\n"
