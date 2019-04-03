@@ -163,14 +163,13 @@ public class LineBotController {
 				foods_all.forEach(record -> {
 					Food holi = new Food();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" +  holi.getFood_id() + "  " + holi.getFood_name());
+					holi_list.push("\n" + holi.getFood_id() + "  " + holi.getFood_name());
 				});
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
 				Imr = Imr.replace(",", "");
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
+				this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -435,9 +434,8 @@ public class LineBotController {
 			case "โหวตอาหาร": {
 				lineRepo.CountVote(userLog);
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
-					this.reply(replyToken,
-							Arrays.asList(new TextMessage(
-									"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
+					this.reply(replyToken, Arrays.asList(new TextMessage(
+							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					this.reply(replyToken,
@@ -459,16 +457,15 @@ public class LineBotController {
 					Stack<String> holi_list = new Stack<>();
 					ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 					foods_all.forEach(record -> {
-						Food holi = new Food();
-						modelMapper.map(record, holi);
-						holi_list.push("\n" +  holi.getFood_id() + "  " + holi.getFood_name());
+						Food foods = new Food();
+						modelMapper.map(record, foods);
+						holi_list.push("\n" + foods.getFood_id() + "  " + foods.getFood_name());
 					});
 					String Imr = holi_list.toString();
 					Imr = Imr.replace("[", "");
 					Imr = Imr.replace("]", "");
 					Imr = Imr.replace(",", "");
-					this.reply(replyToken,
-							Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
+					this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
 					userLog.setStatusBot(status.VOTE_FOODS);
 					break;
 				}
@@ -480,32 +477,34 @@ public class LineBotController {
 				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
-					this.reply(replyToken, Arrays
-							.asList(new TextMessage("คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
+					this.reply(replyToken, Arrays.asList(new TextMessage(
+							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					userLog.setFoodId(text.toString());
 					lineRepo.saveFood(userLog);
 					Calendar c = Calendar.getInstance();
-					 Date now = new Date();
-					 SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM"); 
+					Date now = new Date();
+					SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM");
 					LocalDate today = LocalDate.now();
-				    // Go backward to get Monday
-				    LocalDate monday = today;
-				    while (monday.getDayOfWeek() != DayOfWeek.MONDAY)
-				    {
-				      monday = monday.minusDays(1);
-				    }
-				    // Go forward to get Sunday
-				    LocalDate sunday = today;
-				    while (sunday.getDayOfWeek() != DayOfWeek.SUNDAY)
-				    {
-				      sunday = sunday.plusDays(1);
-				    }
+					// Go backward to get Monday
+					LocalDate monday = today;
+					while (monday.getDayOfWeek() != DayOfWeek.MONDAY) {
+						monday = monday.minusDays(1);
+					}
+					// Go forward to get Sunday
+					LocalDate sunday = today;
+					while (sunday.getDayOfWeek() != DayOfWeek.SUNDAY) {
+						sunday = sunday.plusDays(1);
+					}
 					int limitVOte = 9;
 					int stopVote = limitVOte - userLog.getCountVout_CheckPossilibity();
-					this.reply(replyToken, Arrays.asList(new TextMessage(
-							"คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(monday)+"-"+DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(sunday)+"/"+simpleDateformat.format(now)+"/"+c.get(Calendar.YEAR)+"\n"+"เหลือสิทธ์ในการโหวตอีก"+stopVote+ "ครั้ง")));
+					this.reply(replyToken,
+							Arrays.asList(new TextMessage("คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n"+"ประจำสัปดาห์ที่ "
+									+ DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(monday) + "-"
+									+ DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(sunday) + "/"
+									+ simpleDateformat.format(now) + "/" + c.get(Calendar.YEAR) + "\n"
+									+ "เหลือสิทธ์ในการโหวตอีก" + stopVote + "ครั้ง")));
 					userLog.setStatusBot(status.VOTE_FOODS);
 				}
 
