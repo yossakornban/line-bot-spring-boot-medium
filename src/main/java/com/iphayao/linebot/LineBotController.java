@@ -456,9 +456,10 @@ public class LineBotController {
 				} else {
 					userLog.setFoodId(text.toString());
 					lineRepo.saveFood(userLog);
-					lineRepo.CountVote(userLog);
+					int limitVOte = 10;
+					int stopVote = limitVOte - userLog.getCountVout_CheckPossilibity();
 					this.reply(replyToken, Arrays.asList(new TextMessage(
-							"คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "ประจำสัปดาห์ที่ 01-07/05/2019"+"\n"+"เหลือสิทธ์ในการโหวตอีก"+userLog.getCountVout_CheckPossilibity()+ "ครั้ง")));
+							"คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "ประจำสัปดาห์ที่ 01-07/05/2019"+"\n"+"เหลือสิทธ์ในการโหวตอีก"+stopVote+ "ครั้ง")));
 					userLog.setStatusBot(status.VOTE_FOODS);
 				}
 
