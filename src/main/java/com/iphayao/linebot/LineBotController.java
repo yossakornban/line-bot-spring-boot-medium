@@ -454,12 +454,21 @@ public class LineBotController {
 			lineRepo.CountVote(userLog);
 			if (foodName == null) {
 				switch (text) {
-				case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-					String pathYamlHome = "asset/sub_select_event.yml";
-					String pathImageHome = "asset/sub_select_event.jpg";
-					RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome,
-							userLog.getUserID());
-					this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
+				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
+
+					Stack<String> holi_list = new Stack<>();
+					ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
+					foods_all.forEach(record -> {
+						Food holi = new Food();
+						modelMapper.map(record, holi);
+						holi_list.push("\n" +  holi.getFood_id() + "  " + holi.getFood_name());
+					});
+					String Imr = holi_list.toString();
+					Imr = Imr.replace("[", "");
+					Imr = Imr.replace("]", "");
+					Imr = Imr.replace(",", "");
+					this.reply(replyToken,
+							Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
 					userLog.setStatusBot(status.DEFAULT);
 					break;
 				}
