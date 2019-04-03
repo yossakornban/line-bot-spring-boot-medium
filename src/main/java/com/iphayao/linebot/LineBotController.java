@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
@@ -65,6 +66,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -456,10 +458,26 @@ public class LineBotController {
 				} else {
 					userLog.setFoodId(text.toString());
 					lineRepo.saveFood(userLog);
+					Calendar c = Calendar.getInstance();
+					 Date now = new Date();
+					 SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM"); 
+					LocalDate today = LocalDate.now();
+				    // Go backward to get Monday
+				    LocalDate monday = today;
+				    while (monday.getDayOfWeek() != DayOfWeek.MONDAY)
+				    {
+				      monday = monday.minusDays(1);
+				    }
+				    // Go forward to get Sunday
+				    LocalDate sunday = today;
+				    while (sunday.getDayOfWeek() != DayOfWeek.SUNDAY)
+				    {
+				      sunday = sunday.plusDays(1);
+				    }
 					int limitVOte = 9;
 					int stopVote = limitVOte - userLog.getCountVout_CheckPossilibity();
 					this.reply(replyToken, Arrays.asList(new TextMessage(
-							"คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + "ประจำสัปดาห์ที่ 01-07/05/2019"+"\n"+"เหลือสิทธ์ในการโหวตอีก"+stopVote+ "ครั้ง")));
+							"คุณได้โหวต  " + "\n" + "( " + foodName + "  )" + "\n" + DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(monday)+"-"+DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(sunday)+"/"+simpleDateformat.format(now)+"/"+c.get(Calendar.YEAR)+"\n"+"เหลือสิทธ์ในการโหวตอีก"+stopVote+ "ครั้ง")));
 					userLog.setStatusBot(status.VOTE_FOODS);
 				}
 
@@ -610,6 +628,7 @@ public class LineBotController {
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
+
 	private void push(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			lineMessagingClient.pushMessage(new PushMessage(replyToken, messages)).get();
@@ -617,6 +636,7 @@ public class LineBotController {
 			throw new RuntimeException(e);
 		}
 	}
+
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
@@ -624,6 +644,7 @@ public class LineBotController {
 			throw new RuntimeException(e);
 		}
 	}
+
 	private void system(String... args) {
 		ProcessBuilder processBuilder = new ProcessBuilder(args);
 		try {
@@ -637,6 +658,7 @@ public class LineBotController {
 			throw new UncheckedIOException(e);
 		}
 	}
+
 	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
 		log.info("Content-type: {}", response);
 		DownloadedContent tempFile = createTempFile(ext);
@@ -648,15 +670,18 @@ public class LineBotController {
 			throw new UncheckedIOException(e);
 		}
 	}
+
 	private static DownloadedContent createTempFile(String ext) {
 		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
 		Path tempFile = LineApplication.downloadedContentDir.resolve(fileName);
 		tempFile.toFile().deleteOnExit();
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 	}
+
 	private static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString();
 	}
+
 	@Value
 	public static class DownloadedContent {
 		Path path;
