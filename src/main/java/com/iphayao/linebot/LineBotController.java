@@ -469,7 +469,7 @@ public class LineBotController {
 					Imr = Imr.replace(",", "");
 					this.reply(replyToken,
 							Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
-					userLog.setStatusBot(status.DEFAULT);
+					userLog.setStatusBot(status.VOTE_FOODS);
 					break;
 				}
 				}
