@@ -170,7 +170,7 @@ public class LineBotController {
 				Imr = Imr.replace("]", "");
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n"+"หมายเลข                     ชื่ออาหาร"+"/n" + Imr)));
+						Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
