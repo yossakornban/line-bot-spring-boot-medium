@@ -192,8 +192,8 @@ public class LineBotController {
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
-				String pathYamlHome = "asset/sub_select_event.yml";
-				String pathImageHome = "asset/sub_select_event.jpg";
+				String pathYamlHome = "asset/foodVote.yml";
+				String pathImageHome = "asset/foodVote.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
 				userLog.setStatusBot(status.DEFAULT);
