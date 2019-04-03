@@ -153,6 +153,13 @@ public class LineBotController {
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
+			
+			
+			case "โหวตอาหารประจำสัปดาห์ ": {
+				System.out.println("โหวตอาหารประจำสัปดาห์ พร้อมใช้งานเเล้ว");
+				
+			}
+		
 			case "ไอ้สัส": {
 
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
@@ -403,21 +410,7 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
-			case "โหวตอาหาร จร้าา": {
-				lineRepo.CountVote(userLog);
-				if (userLog.getCountVout_CheckPossilibity() >= 10) {
-					this.reply(replyToken,
-							Arrays.asList(new TextMessage(
-									"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
-					userLog.setStatusBot(status.DEFAULT);
-				} else {
-					this.reply(replyToken,
-							Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  👍")));
-					userLog.setStatusBot(status.VOTE_FOODS);
-				}
-
-				break;
-			}
+			
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
