@@ -151,6 +151,7 @@ public class HolidayController {
 			System.out.println("In Switch Case");
 			switch (string) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
+				System.out.println("I am Emperor");
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
