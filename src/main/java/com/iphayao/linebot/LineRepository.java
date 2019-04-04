@@ -94,6 +94,8 @@ public class LineRepository {
 		}
 		return (String) result.get(0).get("emp_emp_id");
 	
+		
+		
 	}
 	public int register(UserLog userLog) {
 		int aaa = 0;
