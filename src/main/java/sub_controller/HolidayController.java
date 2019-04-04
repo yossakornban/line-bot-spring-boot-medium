@@ -151,7 +151,7 @@ public class HolidayController {
 			System.out.println("In Switch Case");
 			switch (string) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				System.out.println("I am Emperor");
+				System.out.println("I am Emperor"+string);
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
@@ -167,7 +167,6 @@ public class HolidayController {
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
-
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
