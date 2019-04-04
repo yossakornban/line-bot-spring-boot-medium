@@ -142,9 +142,6 @@ public class HolidayController {
 
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
-		System.out.println("You are in Holliday Controller -----------55555555555555555");
-		
-		System.out.println("111111111111111111111111111111111"+userLog);
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
@@ -157,7 +154,6 @@ public class HolidayController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (userLog.getTextInputFromUser()) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				System.out.println("Raider Striker :33333333333333333333333333333333");
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
@@ -166,7 +162,6 @@ public class HolidayController {
 				break;
 			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
-
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
