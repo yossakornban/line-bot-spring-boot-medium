@@ -61,9 +61,6 @@ public class LineRepository {
 		return result;
 	}
 
-	
-	
-	
 	public  String CountVote(UserLog  userLog) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
