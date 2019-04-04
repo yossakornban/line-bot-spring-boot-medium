@@ -64,6 +64,7 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import sub_controller.HolidayController;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -201,10 +202,14 @@ public class LineBotController {
 			}
 
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				String pathYamlHome = "asset/sub_select_event.yml";
-				String pathImageHome = "asset/sub_select_event.jpg";
+//				String pathYamlHome = "asset/sub_select_event.yml";
+//				String pathImageHome = "asset/sub_select_event.jpg";
 				userLog.setTextInputFromUser(text);
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				HolidayController sss = new HolidayController();
+				sss.handleTextContent(replyToken, event, content);
+				//RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				
+				
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
