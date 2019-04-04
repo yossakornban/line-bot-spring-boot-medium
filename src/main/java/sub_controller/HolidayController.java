@@ -141,7 +141,7 @@ public class HolidayController {
 	Date nowDate = new Date();
 
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
-		UserLog userLog = new UserLog();
+		UserLog userLog = userMap.get(event.getSource().getSenderId());
 		
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
@@ -150,11 +150,11 @@ public class HolidayController {
 		ModelMapper modelMapper = new ModelMapper();
 		
 		System.out.println(userLog.getTextInputFromUser()+"444444444444444444444444444444444444");
-	
+		
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (userLog.getTextInputFromUser()) {
-			case "111": {
+			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("Raider Striker :33333333333333333333333333333333");
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
@@ -173,7 +173,6 @@ public class HolidayController {
 					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
-				
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");

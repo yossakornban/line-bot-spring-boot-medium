@@ -175,9 +175,10 @@ public class LineBotController {
 											//--------------------------------Focus
 				System.out.println(userLog);
 				HolidayController hhh = new HolidayController();
+				userLog.setTextInputFromUser(text);
 				hhh.handleTextContent(foodName, event, content);
 				System.out.println(text);
-				userLog.setTextInputFromUser(text);
+				
 				//System.out.println("Input from user is :"+userLog.getTextInputFromUser());
 				userLog.setStatusBot(status.DEFAULT);
 				break;
