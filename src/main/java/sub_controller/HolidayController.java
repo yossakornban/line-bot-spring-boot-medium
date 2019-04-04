@@ -1,6 +1,5 @@
-package com.iphayao.linebot;
+package sub_controller;
 
-import sub_controller.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
@@ -25,6 +24,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
+import com.iphayao.linebot.LineBotController;
+import com.iphayao.linebot.LineRepository;
+import com.iphayao.linebot.LineBotController.DownloadedContent;
 import com.iphayao.linebot.flex.CatalogueFlexMessageSupplier;
 import com.iphayao.linebot.flex.NewsFlexMessageSupplier;
 import com.iphayao.linebot.flex.ReceiptFlexMessageSupplier;
@@ -81,7 +83,10 @@ import com.iphayao.LineApplication;
 @ComponentScan
 @LineMessageHandler
 
-public class LineBotController {
+
+
+public class HolidayController {
+
 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
@@ -202,9 +207,10 @@ public class LineBotController {
 			}
 
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-											//--------------------------------Focus
-				HolidayController hhh = new HolidayController();
-				hhh.getClass();
+				String pathYamlHome = "asset/sub_select_event.yml";
+				String pathImageHome = "asset/sub_select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -471,6 +477,7 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 
+				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
@@ -710,4 +717,6 @@ public class LineBotController {
 		Path path;
 		String uri;
 	}
+
+
 }

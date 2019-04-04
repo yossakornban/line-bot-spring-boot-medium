@@ -166,7 +166,6 @@ public class LineRepository {
 		}
 		return (String) result.get(0).get("food_food_name");
 	}
-
 	public String findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
