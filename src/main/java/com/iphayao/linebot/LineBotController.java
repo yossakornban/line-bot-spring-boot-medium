@@ -205,6 +205,8 @@ public class LineBotController {
 											//--------------------------------Focus
 				HolidayController hhh = new HolidayController();
 				System.out.println(text);
+				userLog.setTextInputFromUser(text);
+				System.out.println("Input from user is :"+userLog.getTextInputFromUser());
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}

@@ -39,6 +39,7 @@ public class UserLog {
 	private String foodName;
 	private String foodId;
 	private Integer CountVout_CheckPossilibity;
+	private String TextInputFromUser;
 	
 	
 
