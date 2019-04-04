@@ -142,9 +142,7 @@ public class HolidayController {
 
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
-		System.out.println("You are in Holliday Controller -----------55555555555555555");
-		System.out.println(userLog.getTextInputFromUser()+"9999999999999999999999999999999999999");
-		System.out.println("111111111111111111111111111111111"+userLog);
+		
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
@@ -152,6 +150,7 @@ public class HolidayController {
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 		userLog.setFoodName(text.toString());
+		System.out.println(userLog.getTextInputFromUser());
 		
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
