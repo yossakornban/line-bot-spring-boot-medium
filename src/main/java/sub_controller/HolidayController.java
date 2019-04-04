@@ -94,12 +94,7 @@ public class HolidayController {
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
-	@EventMapping
-	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
-		log.info(event.toString());
-		TextMessageContent message = event.getMessage();
-		handleTextContent(event.getReplyToken(), event, message);
-	}
+	
 
 	@EventMapping
 	public void handlePostbackEvent(PostbackEvent event) {
@@ -140,17 +135,17 @@ public class HolidayController {
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
-	public void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
+	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String string) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
-		String text = content.getText();
-		ModelMapper modelMapper = new ModelMapper();
-		userLog.setFoodName(text.toString());
-		System.out.println("7777777777"+userLog.getTextInputFromUser());
 		
+		ModelMapper modelMapper = new ModelMapper();
+		
+		System.out.println("7777777777"+string);
+		System.out.println(string);
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (userLog.getTextInputFromUser()) {

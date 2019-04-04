@@ -206,7 +206,7 @@ public class LineBotController {
 //				String pathImageHome = "asset/sub_select_event.jpg";
 				userLog.setTextInputFromUser(text);
 				HolidayController sss = new HolidayController();
-				sss.handleTextContent(replyToken, event, content);
+				sss.handleTextContent(replyToken, event, content ,userLog.getTextInputFromUser());
 				//RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				
 				
