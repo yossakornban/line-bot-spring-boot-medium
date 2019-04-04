@@ -208,7 +208,7 @@ public class LineBotController {
 				hhh.handleTextContent(foodName, event, content);
 				System.out.println(text);
 				userLog.setTextInputFromUser(text);
-				System.out.println("Input from user is :"+userLog.getTextInputFromUser());
+				//System.out.println("Input from user is :"+userLog.getTextInputFromUser());
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}

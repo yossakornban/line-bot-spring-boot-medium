@@ -147,10 +147,9 @@ public class HolidayController {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
-		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
-		userLog.setFoodName(text.toString());
-		System.out.println(userLog.getTextInputFromUser());
+		
+		System.out.println(userLog.getTextInputFromUser()+"444444444444444444444444444444444444");
 		
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
