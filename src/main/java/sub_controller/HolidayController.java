@@ -153,7 +153,7 @@ public class HolidayController {
 		
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
-			switch (userLog.getTextInputFromUser()) {
+			switch ("ขอทราบ ข้อมูลวันหยุดค่ะ") {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("Raider Striker :33333333333333333333333333333333");
 				String pathYamlHome = "asset/sub_select_event.yml";

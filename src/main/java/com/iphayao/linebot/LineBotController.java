@@ -171,8 +171,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-						
+			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {		
 				//--------------------------------Focus
 				userLog.setTextInputFromUser(text);
 				HolidayController hhh = new HolidayController();
