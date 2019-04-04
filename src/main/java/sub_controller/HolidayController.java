@@ -148,6 +148,7 @@ public class HolidayController {
 		System.out.println(string);
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
+			System.out.println("In Switch Case");
 			switch (string) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
