@@ -143,7 +143,7 @@ public class HolidayController {
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 		System.out.println("You are in Holliday Controller -----------55555555555555555");
-		
+		System.out.println(userLog.getTextInputFromUser()+"9999999999999999999999999999999999999");
 		System.out.println("111111111111111111111111111111111"+userLog);
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
@@ -154,7 +154,7 @@ public class HolidayController {
 		userLog.setFoodName(text.toString());
 		
 
-		
+		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (userLog.getTextInputFromUser()) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("Raider Striker :33333333333333333333333333333333");
@@ -285,7 +285,11 @@ public class HolidayController {
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
-		
+		}  else {
+			this.push(event.getSource().getSenderId(), Arrays.asList(new TextMessage("บอทหลับอยู่")));
+			this.reply(replyToken, new StickerMessage("1", "17"));
+		}
+
 		userMap.put(event.getSource().getSenderId(), userLog);
 
 	}
