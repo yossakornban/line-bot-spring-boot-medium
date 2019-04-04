@@ -140,7 +140,7 @@ public class HolidayController {
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
-	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
+	public void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 
 		if (userLog == null) {
