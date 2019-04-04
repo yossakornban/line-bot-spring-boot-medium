@@ -142,6 +142,7 @@ public class HolidayController {
 
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
+		System.out.println("You are in Holliday Controller -----------55555555555555555");
 
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
