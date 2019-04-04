@@ -204,7 +204,7 @@ public class LineBotController {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 											//--------------------------------Focus
 				HolidayController hhh = new HolidayController();
-				hhh.getClass();
+				hhh.handleTextMessage(null);
 				System.out.println(text);
 				userLog.setTextInputFromUser(text);
 				System.out.println("Input from user is :"+userLog.getTextInputFromUser());
