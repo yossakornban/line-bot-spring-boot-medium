@@ -136,7 +136,7 @@ public class HolidayController {
 
 	}
 
-	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
+	
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
@@ -173,6 +173,7 @@ public class HolidayController {
 					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
+				
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
@@ -289,7 +290,6 @@ public class HolidayController {
 		}
 
 		userMap.put(event.getSource().getSenderId(), userLog);
-
 	}
 
 	private void replyText(@NonNull String replyToken, @NonNull String message) {
