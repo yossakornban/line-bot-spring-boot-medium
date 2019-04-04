@@ -171,36 +171,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "ไอ้สัส": {
-
-				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
-			case "สวัสดี": {
-
-				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
-			case "ลงทะเบียน": {
-
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
-			case "list": {
-				ArrayList<Map<String, Object>> list = lineRepo.list();
-				list.forEach(record -> {
-					Entity en = new Entity();
-					modelMapper.map(record, en);
-					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
-				});
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 											//--------------------------------Focus
 				System.out.println(userLog);
@@ -337,23 +307,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "profile": {
-				String userId = event.getSource().getUserId();
-				if (userId != null) {
-					lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
-						if (throwable != null) {
-							this.replyText(replyToken, throwable.getMessage());
-							return;
-						}
-						this.reply(replyToken,
-								Arrays.asList(new TextMessage(
-										"Display name : " + profile.getDisplayName() + "\n Status message : "
-												+ profile.getStatusMessage() + "\n User ID : " + profile.getUserId())));
-					});
-				}
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
 			case "ขอลาหยุดครับผม": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(
@@ -368,13 +321,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "help": {
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"โปรดเลือกรายการ \n พิมพ์  profile : ดูข้อมูล Profile  \n พิมพ์  list : ดู Agenda \n พิมพ์  add : เพิ่ม Agenda")));
-				userLog.setStatusBot(status.DEFAULT);
-				;
-				break;
-			}
+			
 			case "Flex": {
 				String pathYamlHome = "asset/richmenu-home.yml";
 				String pathImageHome = "asset/richmenu-home.jpg";
