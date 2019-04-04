@@ -136,24 +136,26 @@ public class HolidayController {
 
 	}
 
-	
+	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
+		System.out.println("You are in Holliday Controller -----------55555555555555555");
 		
+		System.out.println("111111111111111111111111111111111"+userLog);
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
+		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
-		
-		System.out.println(userLog.getTextInputFromUser()+"444444444444444444444444444444444444");
+		userLog.setFoodName(text.toString());
 		
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
-			switch ("ขอทราบ ข้อมูลวันหยุดค่ะ") {
+			switch (userLog.getTextInputFromUser()) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("Raider Striker :33333333333333333333333333333333");
 				String pathYamlHome = "asset/sub_select_event.yml";
@@ -289,6 +291,7 @@ public class HolidayController {
 		}
 
 		userMap.put(event.getSource().getSenderId(), userLog);
+
 	}
 
 	private void replyText(@NonNull String replyToken, @NonNull String message) {

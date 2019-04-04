@@ -1,6 +1,5 @@
 package com.iphayao.linebot;
 
-import sub_controller.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
@@ -171,14 +170,41 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {		
-				//--------------------------------Focus
-				userLog.setTextInputFromUser(text);
-				HolidayController hhh = new HolidayController();
-				hhh.handleTextContent(foodName, event, content);
-				System.out.println("งงงงงง"+text);
-				
-				//System.out.println("Input from user is :"+userLog.getTextInputFromUser());
+			case "ไอ้สัส": {
+
+				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
+				userLog.setStatusBot(status.FINDEMP);
+				break;
+			}
+			case "สวัสดี": {
+
+				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
+				userLog.setStatusBot(status.FINDEMP);
+				break;
+			}
+			case "ลงทะเบียน": {
+
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
+				userLog.setStatusBot(status.FINDEMP);
+				break;
+			}
+			case "list": {
+				ArrayList<Map<String, Object>> list = lineRepo.list();
+				list.forEach(record -> {
+					Entity en = new Entity();
+					modelMapper.map(record, en);
+					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
+				});
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+
+			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
+				String pathYamlHome = "asset/sub_select_event.yml";
+				String pathImageHome = "asset/sub_select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -186,7 +212,7 @@ public class LineBotController {
 				String pathYamlHome = "asset/foodVote.yml";
 				String pathImageHome = "asset/foodVote.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😊")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -197,7 +223,7 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
@@ -294,8 +320,8 @@ public class LineBotController {
 				day3 = day3.replace(",", " ");
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
-								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ "
-								+ day2 + "\n" + "➤ " + day3)));
+								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
+								+ day2 + "\n" + "? " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -303,7 +329,24 @@ public class LineBotController {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  😁")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			case "profile": {
+				String userId = event.getSource().getUserId();
+				if (userId != null) {
+					lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
+						if (throwable != null) {
+							this.replyText(replyToken, throwable.getMessage());
+							return;
+						}
+						this.reply(replyToken,
+								Arrays.asList(new TextMessage(
+										"Display name : " + profile.getDisplayName() + "\n Status message : "
+												+ profile.getStatusMessage() + "\n User ID : " + profile.getUserId())));
+					});
+				}
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -321,7 +364,13 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			
+			case "help": {
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"โปรดเลือกรายการ \n พิมพ์  profile : ดูข้อมูล Profile  \n พิมพ์  list : ดู Agenda \n พิมพ์  add : เพิ่ม Agenda")));
+				userLog.setStatusBot(status.DEFAULT);
+				;
+				break;
+			}
 			case "Flex": {
 				String pathYamlHome = "asset/richmenu-home.yml";
 				String pathImageHome = "asset/richmenu-home.jpg";
@@ -362,11 +411,11 @@ public class LineBotController {
 						new CarouselColumn(imageUrl, "hoge", "fuga",
 								Arrays.asList(new URIAction("Go to line.me", "https://line.me"),
 										new URIAction("Go to line.me", "https://line.me"),
-										new PostbackAction("Say hello1", "hello こんにちは", "hello こんにちは"))),
+										new PostbackAction("Say hello1", "hello ?????", "hello ?????"))),
 						new CarouselColumn(imageUrl, "hoge", "fuga",
-								Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
-										new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
-										new MessageAction("Say message", "Rice=米"))),
+								Arrays.asList(new PostbackAction("? hello2", "hello ?????", "hello ?????"),
+										new PostbackAction("? hello2", "hello ?????", "hello ?????"),
+										new MessageAction("Say message", "Rice=?"))),
 						new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime",
 								Arrays.asList(
 										new DatetimePickerAction("Datetime", "action=sel", "datetime",
@@ -387,7 +436,7 @@ public class LineBotController {
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					this.reply(replyToken,
-							Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  👍")));
+							Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  ??")));
 					userLog.setStatusBot(status.VOTE_FOODS);
 				}
 
@@ -422,6 +471,7 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 
+				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
@@ -514,7 +564,7 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
@@ -567,7 +617,7 @@ public class LineBotController {
 				String pathImageHome = "asset/select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ  😊")));
+						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ  ??")));
 				break;
 			}
 			case "ไม่ใช่": {
