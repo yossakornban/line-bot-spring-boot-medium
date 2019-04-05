@@ -152,7 +152,24 @@ public class HolidayController {
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
 		String foodName = lineRepo.findFoods(text.toString());
-
+		switch (userInput) {
+		case "ขอดูรายการอาหารทั้งหมดค่ะ": {
+			System.out.println("In ขอดูรายการส้นตีนยนั่นน่ะ");
+			Stack<String> holi_list = new Stack<>();
+			ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
+			foods_all.forEach(record -> {
+				Food holi = new Food();
+				modelMapper.map(record, holi);
+				holi_list.push("\n" + holi.getFood_id() + "  " + holi.getFood_name());
+			});
+			String Imr = holi_list.toString();
+			Imr = Imr.replace("[", "");
+			Imr = Imr.replace("]", "");
+			Imr = Imr.replace(",", "");
+			this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
+			userLog.setStatusBot(status.DEFAULT);
+			break;
+		}
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			System.out.println("In Defalt Status");
 			switch (userInput) {
