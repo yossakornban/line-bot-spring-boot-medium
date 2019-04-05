@@ -146,6 +146,7 @@ public class HolidayController {
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
 		String text = userLog.getTextInputFromUser();
+		System.out.println(text);
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
