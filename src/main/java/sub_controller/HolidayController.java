@@ -140,6 +140,7 @@ public class HolidayController {
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text) throws IOException {
 		UserLog userLogHoliday = userMap.get(event.getSource().getSenderId());
 		String userInput = text;
+		System.out.println("Data from user Log :"+userLogHoliday.getTextInputFromUser());
 		
 		
 		ModelMapper modelMapper = new ModelMapper();
