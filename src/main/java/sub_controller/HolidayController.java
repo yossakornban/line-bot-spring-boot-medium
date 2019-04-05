@@ -149,7 +149,6 @@ public class HolidayController {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("UserLog in Holiday :"+userLogHoliday);
 				System.out.println("UserLog from setall() is :"+userLogHoliday);
-				
 				String pathYamlHome = "asset/foodVote.yml";
 				String pathImageHome = "asset/foodVote.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLogHoliday.getUserID());
