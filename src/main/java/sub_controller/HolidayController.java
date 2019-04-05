@@ -154,9 +154,11 @@ public class HolidayController {
 		String foodName = lineRepo.findFoods(text.toString());
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
-			switch (text) {
+			System.out.println("In Defalt Status");
+			switch (userInput) {
+			
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-
+				System.out.println("In ขอดูรายการส้นตีนยนั่นน่ะ");
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 				foods_all.forEach(record -> {
