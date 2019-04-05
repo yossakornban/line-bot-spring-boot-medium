@@ -172,12 +172,6 @@ public class HolidayController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "ไอ้สัส": {
-
-				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
 			case "สวัสดี": {
 
 				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));

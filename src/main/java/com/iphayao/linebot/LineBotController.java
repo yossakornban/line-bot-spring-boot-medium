@@ -205,13 +205,10 @@ public class LineBotController {
 //				String pathYamlHome = "asset/sub_select_event.yml";
 //				String pathImageHome = "asset/sub_select_event.jpg";
 				userLog.setTextInputFromUser(text);
+				System.out.prinln
 				HolidayController sss = new HolidayController();
 				sss.handleTextContent(replyToken, event, content);
 				//RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				
-				
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
