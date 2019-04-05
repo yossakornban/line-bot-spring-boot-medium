@@ -149,6 +149,7 @@ public class HolidayController {
 			System.out.println("In Defalt Status");
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
+				System.out.println("In ขอทราบรายกรส้นตีนไรนั่นน่ะ");
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
@@ -298,61 +299,7 @@ public class HolidayController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "ขอลาหยุดครับผม": {
-				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(
-						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
-								Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
-										new MessageAction("ลาป่วย", "ลาป่วยครับ"),
-										new MessageAction("ลาพักร้อน", "ลาพักร้อนครับ")))));
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
-
-				// userLog.setStatusBot(status.Q11);
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "help": {
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"โปรดเลือกรายการ \n พิมพ์  profile : ดูข้อมูล Profile  \n พิมพ์  list : ดู Agenda \n พิมพ์  add : เพิ่ม Agenda")));
-				userLog.setStatusBot(status.DEFAULT);
-				;
-				break;
-			}
-			case "Flex": {
-				String pathYamlHome = "asset/richmenu-home.yml";
-				String pathImageHome = "asset/richmenu-home.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				break;
-			}
-			case "สอบถาม ข้อมูลทั่วไป": {
-				RichMenuHelper.deleteRichMenu(lineMessagingClient, userLog.getUserID());
-				break;
-			}
-			case "Flex Restaurant": {
-				this.reply(replyToken, new RestaurantFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex Menu": {
-				this.reply(replyToken, new RestaurantMenuFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex Receipt": {
-				this.reply(replyToken, new ReceiptFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex News": {
-				this.reply(replyToken, new NewsFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex Ticket": {
-				this.reply(replyToken, new TicketFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex Catalogue": {
-				this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
-				break;
-			}
+			
 			case "carousel": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
