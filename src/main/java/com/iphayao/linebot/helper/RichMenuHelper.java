@@ -43,7 +43,6 @@ public class RichMenuHelper {
 
         return true;
     }
-
     public static boolean deleteRichMenu(LineMessagingClient client, String userId) {
         try {
             RichMenuIdResponse richMenuIdResponse = getUnchecked(client.getRichMenuIdOfUser(userId));
