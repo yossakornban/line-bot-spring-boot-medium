@@ -95,7 +95,7 @@ public class HolidayController {
 	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
 		log.info(event.toString());
 		TextMessageContent message = event.getMessage();
-		handleTextContent(event.getReplyToken(), event, message, null);
+		handleTextContent(event.getReplyToken(), event, message,"ef");
 	}
 
 	@EventMapping
