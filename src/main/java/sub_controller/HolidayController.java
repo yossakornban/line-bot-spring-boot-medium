@@ -129,15 +129,18 @@ public class HolidayController {
 	Date nowDate = new Date();
 
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text) throws IOException {
+		UserLog HHH = new UserLog();
 		UserLog userLogHoliday = userMap.get(event.getSource().getSenderId());
 		String userInput = text;
 		ModelMapper modelMapper = new ModelMapper();
-		// userLog.setEmpCode(text.toString());
 			System.out.println("User in put in userLogHoliday"+userLogHoliday);
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
+				System.out.println(HHH.getTextInputFromUser());
 				System.out.println("UserLog in Holiday :"+userLogHoliday);
 				System.out.println("UserLog from setall() is :"+userLogHoliday.getTextInputFromUser());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+				HHH.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {

@@ -136,6 +136,7 @@ public class LineBotController {
 
 	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
+	
 	Date nowDate = new Date();
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
@@ -200,7 +201,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 //				String pathYamlHome = "asset/sub_select_event.yml";
 //				String pathImageHome = "asset/sub_select_event.jpg";
