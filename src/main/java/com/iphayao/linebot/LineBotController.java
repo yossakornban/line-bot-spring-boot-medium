@@ -205,7 +205,7 @@ public class LineBotController {
 //				String pathYamlHome = "asset/sub_select_event.yml";
 //				String pathImageHome = "asset/sub_select_event.jpg";
 				userLog.setTextInputFromUser(text);
-				System.out.println();
+				System.out.println("Now Text Is :"+text);
 				HolidayController sss = new HolidayController();
 				sss.handleTextContent(replyToken, event, content);
 				//RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
