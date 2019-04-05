@@ -149,8 +149,10 @@ public class HolidayController {
 			System.out.println("In Defalt Status");
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				System.out.println("In ขอทราบรายกรส้นตีนไรนั่นน่ะ");
+				String pathYamlHome = "asset/foodVote.yml";
+				String pathImageHome = "asset/foodVote.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
