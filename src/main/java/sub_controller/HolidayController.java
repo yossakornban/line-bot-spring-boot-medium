@@ -138,7 +138,7 @@ public class HolidayController {
 	Date nowDate = new Date();
 
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text) throws IOException {
-		UserLog userLog = userMap.get(event.getSource().getSenderId());
+		UserLog userLogHoliday = userMap.get(event.getSource().getSenderId());
 		System.out.println("We are in here444444444444444444444444444");
 		String userInput = text;
 		
@@ -149,19 +149,19 @@ public class HolidayController {
 			System.out.println("In Defalt Status");
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				System.out.print("Imr :"+userLog);
+				System.out.print("Imr :"+userLogHoliday);
 				System.out.println("In ขอทราบรายกรส้นตีนไรนั่นน่ะ");
 				String pathYamlHome = "asset/foodVote.yml";
 				String pathImageHome = "asset/foodVote.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLogHoliday.getUserID());
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
 				String pathYamlHome = "asset/foodVote.yml";
 				String pathImageHome = "asset/foodVote.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLogHoliday.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLog.setStatusBot(status.DEFAULT);
+				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
@@ -180,7 +180,7 @@ public class HolidayController {
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Imr)));
-				userLog.setStatusBot(status.DEFAULT);
+				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
 			}
 
@@ -270,15 +270,15 @@ public class HolidayController {
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
 								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
 								+ day2 + "\n" + "? " + day3)));
-				userLog.setStatusBot(status.DEFAULT);
+				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "ย้อนกลับค่ะ": {
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLogHoliday.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLog.setStatusBot(status.DEFAULT);
+				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "profile": {
@@ -295,7 +295,7 @@ public class HolidayController {
 												+ profile.getStatusMessage() + "\n User ID : " + profile.getUserId())));
 					});
 				}
-				userLog.setStatusBot(status.DEFAULT);
+				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
 			}
 			
@@ -323,15 +323,15 @@ public class HolidayController {
 				break;
 			}
 			case "โหวตอาหาร": {
-				lineRepo.CountVote(userLog);
-				if (userLog.getCountVout_CheckPossilibity() >= 10) {
+				lineRepo.CountVote(userLogHoliday);
+				if (userLogHoliday.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
 							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
-					userLog.setStatusBot(status.DEFAULT);
+					userLogHoliday.setStatusBot(status.DEFAULT);
 				} else {
 					this.reply(replyToken,
 							Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  ??")));
-					userLog.setStatusBot(status.VOTE_FOODS);
+					userLogHoliday.setStatusBot(status.VOTE_FOODS);
 				}
 
 				break;
@@ -340,7 +340,7 @@ public class HolidayController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 		
-		userMap.put(event.getSource().getSenderId(), userLog);
+		userMap.put(event.getSource().getSenderId(), userLogHoliday);
 
 	}
 
