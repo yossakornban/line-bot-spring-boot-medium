@@ -95,7 +95,7 @@ public class HolidayController {
 	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
 		log.info(event.toString());
 		TextMessageContent message = event.getMessage();
-		handleTextContent(event.getReplyToken(), event, message);
+		handleTextContent(event.getReplyToken(), event, message, null);
 	}
 
 	@EventMapping
@@ -137,16 +137,16 @@ public class HolidayController {
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
-	public void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
+	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 		System.out.println("We are in here444444444444444444444444444");
-
+		String userInput = text;
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
-		String text = userLog.getTextInputFromUser();
-		System.out.println(text);
+		
+		System.out.println("777777777777777777777777777777"+userInput);
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
