@@ -205,7 +205,7 @@ public class LineBotController {
 //				String pathYamlHome = "asset/sub_select_event.yml";
 //				String pathImageHome = "asset/sub_select_event.jpg";
 				userLog.setTextInputFromUser(text);
-				System.out.println("Now Text Is :"+text);
+				System.out.println("User Input LoneBotController  :"+text);
 				HolidayController sss = new HolidayController();
 				sss.handleTextContent(replyToken, event, content , text);
 				//RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
@@ -214,7 +214,6 @@ public class LineBotController {
 			case "โหวตอาหารประจำสัปดาห์": {
 				String pathYamlHome = "asset/foodVote.yml";
 				String pathImageHome = "asset/foodVote.jpg";
-				System.out.println("4444444444444444444444444"+userLog.getTextInputFromUser());
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);

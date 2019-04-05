@@ -139,18 +139,16 @@ public class HolidayController {
 
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text) throws IOException {
 		UserLog userLogHoliday = userMap.get(event.getSource().getSenderId());
-		System.out.println("We are in here444444444444444444444444444");
 		String userInput = text;
 		
 		
-		System.out.println("777777777777777777777777777777"+userInput);
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
-			System.out.println("In Defalt Status");
+			System.out.println("User in put in userLogHoliday");
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				System.out.print("Imr :"+userLogHoliday);
-				System.out.println("In ขอทราบรายกรส้นตีนไรนั่นน่ะ");
+				System.out.print("UserLog in Holiday :"+userLogHoliday);
+				
 				String pathYamlHome = "asset/foodVote.yml";
 				String pathImageHome = "asset/foodVote.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLogHoliday.getUserID());
