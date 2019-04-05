@@ -147,7 +147,8 @@ public class HolidayController {
 			System.out.println("User in put in userLogHoliday");
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				System.out.print("UserLog in Holiday :"+userLogHoliday);
+				System.out.println("UserLog in Holiday :"+userLogHoliday);
+				System.out.println("UserLog from setall() is :"+userLogHoliday);
 				
 				String pathYamlHome = "asset/foodVote.yml";
 				String pathImageHome = "asset/foodVote.jpg";
