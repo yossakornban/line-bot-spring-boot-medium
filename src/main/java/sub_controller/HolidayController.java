@@ -144,7 +144,7 @@ public class HolidayController {
 		
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
-			System.out.println("User in put in userLogHoliday");
+			System.out.println("User in put in userLogHoliday"+userLogHoliday);
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("UserLog in Holiday :"+userLogHoliday);
