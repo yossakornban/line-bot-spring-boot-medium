@@ -158,6 +158,7 @@ public class HolidayController {
 			case "โหวตอาหารประจำสัปดาห์": {
 				String pathYamlHome = "asset/foodVote.yml";
 				String pathImageHome = "asset/foodVote.jpg";
+				System.out.print("Imr :"+userLog);
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
