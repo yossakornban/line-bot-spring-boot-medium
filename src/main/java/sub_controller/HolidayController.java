@@ -141,63 +141,13 @@ public class HolidayController {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 		System.out.println("We are in here444444444444444444444444444");
 		String userInput = text;
-		if (userLog == null) {
-			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
-			userMap.put(event.getSource().getSenderId(), userLog);
-		}
+		
 		
 		System.out.println("777777777777777777777777777777"+userInput);
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
-		userLog.setFoodName(text.toString());
-		String empName = lineRepo.findEmp(text.toString());
-		String foodName = lineRepo.findFoods(text.toString());
-
-		
 			System.out.println("In Defalt Status");
 			switch (userInput) {
-			
-			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-				System.out.println("In ขอดูรายการส้นตีนยนั่นน่ะ");
-				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
-				foods_all.forEach(record -> {
-					Food holi = new Food();
-					modelMapper.map(record, holi);
-					holi_list.push("\n" + holi.getFood_id() + "  " + holi.getFood_name());
-				});
-				String Imr = holi_list.toString();
-				Imr = Imr.replace("[", "");
-				Imr = Imr.replace("]", "");
-				Imr = Imr.replace(",", "");
-				this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "สวัสดี": {
-
-				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
-			case "ลงทะเบียน": {
-
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
-			case "list": {
-				ArrayList<Map<String, Object>> list = lineRepo.list();
-				list.forEach(record -> {
-					Entity en = new Entity();
-					modelMapper.map(record, en);
-					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
-				});
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
@@ -448,7 +398,6 @@ public class HolidayController {
 			if (foodName == null) {
 				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-
 					Stack<String> holi_list = new Stack<>();
 					ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 					foods_all.forEach(record -> {
