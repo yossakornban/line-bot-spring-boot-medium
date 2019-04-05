@@ -64,6 +64,7 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import sub_controller.HolidayController;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -201,16 +202,19 @@ public class LineBotController {
 			}
 
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				String pathYamlHome = "asset/sub_select_event.yml";
-				String pathImageHome = "asset/sub_select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLog.setStatusBot(status.DEFAULT);
+//				String pathYamlHome = "asset/sub_select_event.yml";
+//				String pathImageHome = "asset/sub_select_event.jpg";
+				userLog.setTextInputFromUser(text);
+				System.out.println("Now Text Is :"+text);
+				HolidayController sss = new HolidayController();
+				sss.handleTextContent(replyToken, event, content , text);
+				//RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
 				String pathYamlHome = "asset/foodVote.yml";
 				String pathImageHome = "asset/foodVote.jpg";
+				System.out.println("4444444444444444444444444"+userLog.getTextInputFromUser());
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
@@ -223,7 +227,7 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
