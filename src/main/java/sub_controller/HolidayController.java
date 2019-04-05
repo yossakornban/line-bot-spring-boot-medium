@@ -95,7 +95,7 @@ public class HolidayController {
 	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
 		log.info(event.toString());
 		TextMessageContent message = event.getMessage();
-		handleTextContent(event.getReplyToken(), event, message,"ef");
+		handleTextContent(event.getReplyToken(), event, message, null);
 	}
 
 	@EventMapping
@@ -150,8 +150,6 @@ public class HolidayController {
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("In ขอทราบรายกรส้นตีนไรนั่นน่ะ");
-	
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
