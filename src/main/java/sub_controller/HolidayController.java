@@ -97,7 +97,6 @@ public class HolidayController {
 		TextMessageContent message = event.getMessage();
 		handleTextContent(event.getReplyToken(), event, message, null);
 	}
-
 	@EventMapping
 	public void handlePostbackEvent(PostbackEvent event) {
 		String replyToken = event.getReplyToken();
@@ -105,34 +104,26 @@ public class HolidayController {
 		this.replyText(replyToken, event.getPostbackContent().getData().toString().replace("date", "")
 				+ event.getPostbackContent().getParams().toString());
 	}
-
 	@EventMapping
 	public void handleOtherEvent(Event event) {
 		log.info("Received message(Ignored): {}", event);
 	}
-
 	@EventMapping
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
 		log.info(event.toString());
 		ImageMessageContent content = event.getMessage();
 		String replyToken = event.getReplyToken();
-
 		try {
 			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
 			DownloadedContent jpg = saveContent("jpg", response);
 			DownloadedContent previewImage = createTempFile("jpg");
-
 			system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
-
 			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
-
 		} catch (InterruptedException | ExecutionException e) {
 			reply(replyToken, new TextMessage("Cannot get image: " + content));
 			throw new RuntimeException(e);
 		}
-
 	}
-
 	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
@@ -140,8 +131,6 @@ public class HolidayController {
 	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text) throws IOException {
 		UserLog userLogHoliday = userMap.get(event.getSource().getSenderId());
 		String userInput = text;
-		
-		
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
 			System.out.println("User in put in userLogHoliday"+userLogHoliday);
@@ -149,7 +138,6 @@ public class HolidayController {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("UserLog in Holiday :"+userLogHoliday);
 				System.out.println("UserLog from setall() is :"+userLogHoliday.getTextInputFromUser());
-				
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
@@ -161,7 +149,6 @@ public class HolidayController {
 				break;
 			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
-
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
@@ -169,7 +156,6 @@ public class HolidayController {
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
-
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
@@ -179,7 +165,6 @@ public class HolidayController {
 				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
 			}
-
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
@@ -188,7 +173,6 @@ public class HolidayController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + holi.getDate_holiday() + "   " + holi.getName_holiday());
-
 				});
 				String day1 = holiday_all.get(0).toString();
 				String day2 = holiday_all.get(1).toString();
@@ -294,7 +278,6 @@ public class HolidayController {
 				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
 			}
-			
 			case "carousel": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
@@ -329,32 +312,25 @@ public class HolidayController {
 							Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  ??")));
 					userLogHoliday.setStatusBot(status.VOTE_FOODS);
 				}
-
 				break;
 			}
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
-		
 		userMap.put(event.getSource().getSenderId(), userLogHoliday);
-
 	}
-
 	private void replyText(@NonNull String replyToken, @NonNull String message) {
 		if (replyToken.isEmpty()) {
 			throw new IllegalArgumentException("replyToken is not empty");
 		}
-
 		if (message.length() > 1000) {
 			message = message.substring(0, 1000 - 2) + "...";
 		}
 		this.reply(replyToken, new TextMessage(message));
 	}
-
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
-
 	private void push(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			lineMessagingClient.pushMessage(new PushMessage(replyToken, messages)).get();
@@ -362,7 +338,6 @@ public class HolidayController {
 			throw new RuntimeException(e);
 		}
 	}
-
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
@@ -370,7 +345,6 @@ public class HolidayController {
 			throw new RuntimeException(e);
 		}
 	}
-
 	private void system(String... args) {
 		ProcessBuilder processBuilder = new ProcessBuilder(args);
 		try {
@@ -384,7 +358,6 @@ public class HolidayController {
 			throw new UncheckedIOException(e);
 		}
 	}
-
 	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
 		log.info("Content-type: {}", response);
 		DownloadedContent tempFile = createTempFile(ext);
@@ -396,18 +369,15 @@ public class HolidayController {
 			throw new UncheckedIOException(e);
 		}
 	}
-
 	private static DownloadedContent createTempFile(String ext) {
 		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
 		Path tempFile = LineApplication.downloadedContentDir.resolve(fileName);
 		tempFile.toFile().deleteOnExit();
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 	}
-
 	private static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString();
 	}
-
 	@Value
 	public static class DownloadedContent {
 		Path path;
