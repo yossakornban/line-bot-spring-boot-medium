@@ -206,7 +206,7 @@ public class LineBotController {
 //				String pathImageHome = "asset/sub_select_event.jpg";
 				userLog.setTextInputFromUser(text);
 				System.out.println("User Input LoneBotController  :"+userLog.getTextInputFromUser());
-				System.out.println("replyToken is :"+replyToken +"___"+event+"___"+content+"___"+text);
+				
 				System.out.println("------------END LINEBOTCONTROLLER------------");
 				HolidayController sss = new HolidayController();
 				sss.handleTextContent(replyToken, event, content ,text);

@@ -137,10 +137,11 @@ public class HolidayController {
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("UserLog in Holiday :"+userLogHoliday+"ผิดหวัง");
+				System.out.println("replyToken is :"+replyToken +"___"+event+"___"+content+"___"+text);
 				System.out.println("UserLog from setall() is :"+userLogHoliday.getTextInputFromUser());
-				
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				System.out.println("Raider Mdamn Striker 002");
-		
+				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
