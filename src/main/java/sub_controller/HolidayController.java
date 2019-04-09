@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
@@ -77,6 +78,7 @@ import java.util.Date;
 import com.iphayao.LineApplication;
 
 @Slf4j
+@Service
 public class HolidayController {
 
 	@Autowired
