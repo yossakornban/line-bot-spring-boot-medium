@@ -80,6 +80,7 @@ import com.iphayao.LineApplication;
 @ComponentScan
 @LineMessageHandler
 
+
 public class LineBotController {
 
 	@Autowired
