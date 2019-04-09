@@ -209,6 +209,7 @@ public class LineBotController {
 				System.out.println("------------END LINEBOTCONTROLLER------------");
 				HolidayController sss = new HolidayController();
 				sss.handleTextContent(replyToken, event, content ,text);
+				System.out.println("replyToken is :"+replyToken +"___"+event+"___"+content+"___"+text);
 				//RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				break;
 			}
