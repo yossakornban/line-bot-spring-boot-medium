@@ -137,8 +137,6 @@ public class HolidayController {
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("UserLog in Holiday :"+userLogHoliday+"ผิดหวัง");
-				System.out.println("UserLog from setall() is :"+userLogHoliday.getTextInputFromUser());
-				
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
