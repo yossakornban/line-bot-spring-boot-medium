@@ -101,6 +101,7 @@ public class HolidayController {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
+				
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLogHoliday.getUserID());
 				System.out.println("UserLog in Holiday :"+userLogHoliday+"ผิดหวัง");
 				System.out.println("replyToken is :"+replyToken +"___"+event+"___"+content+"___"+text);

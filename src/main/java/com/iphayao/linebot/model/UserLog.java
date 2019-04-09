@@ -41,7 +41,7 @@ public class UserLog {
 	private Integer CountVout_CheckPossilibity;
 	private String TextInputFromUser;
 	
-	
+	//➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤
 
 
 }
