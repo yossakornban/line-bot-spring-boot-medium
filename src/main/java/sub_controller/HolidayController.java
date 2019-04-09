@@ -95,7 +95,7 @@ public class HolidayController {
 	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
 		log.info(event.toString());
 		TextMessageContent message = event.getMessage();
-		handleTextContent(event.getReplyToken(), event, message, null);
+		handleTextContent(event.getReplyToken(), event, message, null, null);
 	}
 	@EventMapping
 	public void handlePostbackEvent(PostbackEvent event) {
@@ -128,7 +128,7 @@ public class HolidayController {
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
-	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text) throws IOException {
+	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text, UserLog userLog) throws IOException {
 		
 		UserLog userLogHoliday = userMap.get(event.getSource().getSenderId());
 		String userInput = text;
@@ -136,7 +136,7 @@ public class HolidayController {
 			System.out.println("User in put in userLogHoliday"+userLogHoliday);
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				System.out.println("UserLog in Holiday :"+userLogHoliday+"ผิดหวัง");
+				System.out.println("UserLog in Holiday :"+userLog+"ผิดหวัง");
 				System.out.println("UserLog from setall() is :"+userLogHoliday.getTextInputFromUser());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				System.out.println("Raider Mdamn Striker 002");
