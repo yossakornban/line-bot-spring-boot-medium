@@ -105,6 +105,7 @@ public class HolidayController {
 				System.out.println("ก่อรการเเจ้งเชิญเลือกรายการ");
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLogHoliday.setStatusBot(status.DEFAULT);
+				System.out.println("หลังการ Set DEFAULT");
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
