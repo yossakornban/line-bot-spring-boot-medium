@@ -218,68 +218,7 @@ public class HolidayController {
 								+ day2 + "\n" + "? " + day3)));
 				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
-			}
-			case "ย้อนกลับค่ะ": {
-				String pathYamlHome = "asset/select_event.yml";
-				String pathImageHome = "asset/select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLogHoliday.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLogHoliday.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "profile": {
-				String userId = event.getSource().getUserId();
-				if (userId != null) {
-					lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
-						if (throwable != null) {
-							this.replyText(replyToken, throwable.getMessage());
-							return;
-						}
-						this.reply(replyToken,
-								Arrays.asList(new TextMessage(
-										"Display name : " + profile.getDisplayName() + "\n Status message : "
-												+ profile.getStatusMessage() + "\n User ID : " + profile.getUserId())));
-					});
-				}
-				userLogHoliday.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "carousel": {
-				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
-						new CarouselColumn(imageUrl, "hoge", "fuga",
-								Arrays.asList(new URIAction("Go to line.me", "https://line.me"),
-										new URIAction("Go to line.me", "https://line.me"),
-										new PostbackAction("Say hello1", "hello ?????", "hello ?????"))),
-						new CarouselColumn(imageUrl, "hoge", "fuga",
-								Arrays.asList(new PostbackAction("? hello2", "hello ?????", "hello ?????"),
-										new PostbackAction("? hello2", "hello ?????", "hello ?????"),
-										new MessageAction("Say message", "Rice=?"))),
-						new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime",
-								Arrays.asList(
-										new DatetimePickerAction("Datetime", "action=sel", "datetime",
-												"2017-06-18T06:15", "2100-12-31T23:59", "1900-01-01T00:00"),
-										new DatetimePickerAction("Date", "action=sel&only=date", "date", "18-06-2017",
-												"31-12-2100", "01-01-1900"),
-										new DatetimePickerAction("Time", "action=sel&only=time", "time", "06:15",
-												"23:59", "00:00")))));
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
-				break;
-			}
-			case "โหวตอาหาร": {
-				lineRepo.CountVote(userLogHoliday);
-				if (userLogHoliday.getCountVout_CheckPossilibity() >= 10) {
-					this.reply(replyToken, Arrays.asList(new TextMessage(
-							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
-					userLogHoliday.setStatusBot(status.DEFAULT);
-				} else {
-					this.reply(replyToken,
-							Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  ??")));
-					userLogHoliday.setStatusBot(status.VOTE_FOODS);
-				}
-				break;
-			}
+			}		
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
