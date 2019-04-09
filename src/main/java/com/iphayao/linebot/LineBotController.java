@@ -64,7 +64,6 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import sub_controller.HolidayController;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -136,7 +135,6 @@ public class LineBotController {
 
 	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
-	
 	Date nowDate = new Date();
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
@@ -201,17 +199,13 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-//				String pathYamlHome = "asset/sub_select_event.yml";
-//				String pathImageHome = "asset/sub_select_event.jpg";
-				userLog.setTextInputFromUser(text);
-				System.out.println("User Input LoneBotController  :"+userLog.getTextInputFromUser());
-				
-				System.out.println("------------END LINEBOTCONTROLLER------------");
-				HolidayController sss = new HolidayController();
-				sss.handleTextContent(replyToken, event, content ,text, userMap);
-				
-				//RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				String pathYamlHome = "asset/sub_select_event.yml";
+				String pathImageHome = "asset/sub_select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
@@ -229,7 +223,7 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
@@ -326,8 +320,8 @@ public class LineBotController {
 				day3 = day3.replace(",", " ");
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
-								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ "
-								+ day2 + "\n" + "➤ " + day3)));
+								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
+								+ day2 + "\n" + "? " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -365,6 +359,7 @@ public class LineBotController {
 										new MessageAction("ลาพักร้อน", "ลาพักร้อนครับ")))));
 				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
 				this.reply(replyToken, templateMessage);
+
 				// userLog.setStatusBot(status.Q11);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
