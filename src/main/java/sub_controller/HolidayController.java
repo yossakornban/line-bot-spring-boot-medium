@@ -77,9 +77,6 @@ import java.util.Date;
 import com.iphayao.LineApplication;
 
 @Slf4j
-@ComponentScan
-@LineMessageHandler
-
 public class HolidayController {
 
 	@Autowired
@@ -88,47 +85,11 @@ public class HolidayController {
 	@Autowired
 	private LineRepository lineRepo;
 
-	// private status userLog.setStatusBot(status.DEFAULT); // Default status
-	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
-
-	@EventMapping
-	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
-		log.info(event.toString());
-		TextMessageContent message = event.getMessage();
-		handleTextContent(event.getReplyToken(), event, message, null);
-	}
-	@EventMapping
-	public void handlePostbackEvent(PostbackEvent event) {
-		String replyToken = event.getReplyToken();
-		replyToken = replyToken.replace("date", "");
-		this.replyText(replyToken, event.getPostbackContent().getData().toString().replace("date", "")
-				+ event.getPostbackContent().getParams().toString());
-	}
-	@EventMapping
-	public void handleOtherEvent(Event event) {
-		log.info("Received message(Ignored): {}", event);
-	}
-	@EventMapping
-	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
-		log.info(event.toString());
-		ImageMessageContent content = event.getMessage();
-		String replyToken = event.getReplyToken();
-		try {
-			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
-			DownloadedContent jpg = saveContent("jpg", response);
-			DownloadedContent previewImage = createTempFile("jpg");
-			system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
-			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
-		} catch (InterruptedException | ExecutionException e) {
-			reply(replyToken, new TextMessage("Cannot get image: " + content));
-			throw new RuntimeException(e);
-		}
-	}
 	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
-	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text) throws IOException {
+	public void handleTextContent(String replyToken, Event event, TextMessageContent content, String text, Map<String, UserLog> userMap) throws IOException {
 		
 		UserLog userLogHoliday = userMap.get(event.getSource().getSenderId());
 		String userInput = text;
