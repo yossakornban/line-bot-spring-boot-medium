@@ -107,12 +107,10 @@ public class LineBotController {
 		this.replyText(replyToken, event.getPostbackContent().getData().toString().replace("date", "")
 				+ event.getPostbackContent().getParams().toString());
 	}
-
 	@EventMapping
 	public void handleOtherEvent(Event event) {
 		log.info("Received message(Ignored): {}", event);
 	}
-
 	@EventMapping
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
 		log.info(event.toString());
