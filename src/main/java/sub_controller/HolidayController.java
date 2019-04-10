@@ -104,8 +104,7 @@ public class HolidayController {
 //				String pathImageHome = "asset/sub_select_event.jpg";
 //				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLogHoliday.getUserID());
 				System.out.println("ก่อรการเเจ้งเชิญเลือกรายการ");
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLogHoliday.setStatusBot(status.DEFAULT);
+				
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {

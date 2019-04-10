@@ -121,7 +121,6 @@ public class LineBotController {
 			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
 			DownloadedContent jpg = saveContent("jpg", response);
 			DownloadedContent previewImage = createTempFile("jpg");
-
 			system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
 
 			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
@@ -154,7 +153,6 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 				foods_all.forEach(record -> {
@@ -246,7 +244,6 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + holi.getDate_holiday() + "   " + holi.getName_holiday());
-
 				});
 				String day1 = holiday_all.get(0).toString();
 				String day2 = holiday_all.get(1).toString();
