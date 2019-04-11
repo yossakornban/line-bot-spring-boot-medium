@@ -100,7 +100,8 @@ public class HolidayController {
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("ก่อนมาถึงเมนูขึ้น");
-				System.out.println(userMap);
+				System.out.println("USerLogHoliday is:"+userLogHoliday);
+				System.out.println("UserMao is :"+userMap);
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
