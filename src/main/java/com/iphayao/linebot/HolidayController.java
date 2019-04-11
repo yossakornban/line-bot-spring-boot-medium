@@ -78,7 +78,7 @@ import java.util.Date;
 import com.iphayao.LineApplication;
 
 @Slf4j
-@Service
+
 public class HolidayController {
 
 	@Autowired

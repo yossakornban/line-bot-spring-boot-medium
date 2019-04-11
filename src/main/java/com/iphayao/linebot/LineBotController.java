@@ -201,9 +201,9 @@ public class LineBotController {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				HolidayController HCL = new HolidayController();
 				HCL.handleTextContent(replyToken, event, content, text, userMap);
-//				String pathYamlHome = "asset/sub_select_event.yml";
-//				String pathImageHome = "asset/sub_select_event.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				String pathYamlHome = "asset/sub_select_event.yml";
+				String pathImageHome = "asset/sub_select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
