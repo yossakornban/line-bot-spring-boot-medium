@@ -100,8 +100,7 @@ public class HolidayController {
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("ก่อนมาถึงเมนูขึ้น");
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLogHoliday.setStatusBot(status.DEFAULT);
+				System.out.println(userMap);
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
