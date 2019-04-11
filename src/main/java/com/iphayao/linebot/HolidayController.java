@@ -102,6 +102,9 @@ public class HolidayController {
 				System.out.println("ก่อนมาถึงเมนูขึ้น");
 				System.out.println("USerLogHoliday is:"+userLogHoliday);
 				System.out.println("UserMao is :"+userMap);
+				
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+				
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
