@@ -100,10 +100,6 @@ public class HolidayController {
 			switch (userInput) {
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				System.out.println("ก่อนมาถึงเมนูขึ้น");
-				String pathYamlHome = "asset/sub_select_event.yml";
-				String pathImageHome = "asset/sub_select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLogHoliday.getUserID());
-				System.out.println("ก่อรการเเจ้งเชิญเลือกรายการ");
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLogHoliday.setStatusBot(status.DEFAULT);
 				break;
