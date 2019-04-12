@@ -3,6 +3,7 @@ package com.iphayao.linebot;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -104,7 +105,6 @@ public class HolidayController {
 				System.out.println("UserMao is :"+userMap);
 				System.out.println("Reply Token is :"+replyToken);
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				
 				break;
 			}
 			case "โหวตอาหารประจำสัปดาห์": {
