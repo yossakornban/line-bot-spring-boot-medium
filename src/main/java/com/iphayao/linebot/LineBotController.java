@@ -566,8 +566,9 @@ public class LineBotController {
 				break;
 			}
 
+			
+			
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
-
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
 				holiday_all.forEach(record -> {
