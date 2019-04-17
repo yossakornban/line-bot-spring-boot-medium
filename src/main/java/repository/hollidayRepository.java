@@ -28,6 +28,7 @@ import com.iphayao.linebot.model.UserLog;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Repository
 @Data
@@ -60,7 +61,6 @@ public class hollidayRepository {
 		}
 		return result;
 	}
-
 	public  String CountVote(UserLog  userLog) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
