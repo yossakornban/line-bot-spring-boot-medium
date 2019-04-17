@@ -86,7 +86,7 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private LineRepository lineRepo;
+	private hollidayRepository lineRepo;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
