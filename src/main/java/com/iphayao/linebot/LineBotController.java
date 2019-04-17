@@ -37,7 +37,7 @@ import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
-
+import com.iphayao.repository.Foods_Repo;
 import com.iphayao.repository.Holiday_Repo;
 
 import com.linecorp.bot.client.LineMessagingClient;
@@ -92,6 +92,7 @@ public class LineBotController {
 	@Autowired
 
 	private Holiday_Repo holiday;
+	private Foods_Repo foods;
 
 	
 	
