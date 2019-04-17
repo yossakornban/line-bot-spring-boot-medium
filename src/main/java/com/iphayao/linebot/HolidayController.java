@@ -1,5 +1,5 @@
 package com.iphayao.linebot;
-import repository.holidayRepository;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
@@ -66,7 +66,6 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import repository.holidayRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -87,7 +86,7 @@ public class HolidayController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private holidayRepository lineRepo;
+	private LineRepository lineRepo;
 
 	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
