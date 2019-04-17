@@ -155,7 +155,6 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 				foods_all.forEach(record -> {
@@ -165,7 +164,7 @@ public class LineBotController {
 				});
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
-				Imr = Imr.replace("]", "");
+				Imr = Imr.replace("]", " ");
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
