@@ -37,9 +37,6 @@ import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
-import com.iphayao.repository.Foods_Repo;
-import com.iphayao.repository.Holiday_Repo;
-import com.iphayao.repository.LineBot_Repo;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -63,8 +60,8 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-
-
+import com.iphayao.repository.Holiday_Repo;
+import com.iphayao.repository.LineBot_Repo;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -90,14 +87,9 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-
-	private LineBot_Repo loneBot;
+	private LineBot_Repo lineRepo;
 	private Holiday_Repo holiday;
-	private Foods_Repo foods;
 
-	
-	
-	
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
@@ -158,14 +150,15 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
-		String empName = holiday.findEmp(text.toString());
-		String foodName = holiday.findFoods(text.toString());
+		String empName = lineRepo.findEmp(text.toString());
+		String foodName = lineRepo.findFoods(text.toString());
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
+
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> foods_all = holiday.foodsList();
+				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 				foods_all.forEach(record -> {
 					Food holi = new Food();
 					modelMapper.map(record, holi);
@@ -173,7 +166,7 @@ public class LineBotController {
 				});
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
-				Imr = Imr.replace("]", " ");
+				Imr = Imr.replace("]", "");
 				Imr = Imr.replace(",", "");
 				this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
@@ -192,13 +185,14 @@ public class LineBotController {
 				break;
 			}
 			case "ลงทะเบียน": {
+
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
 			case "list": {
-				ArrayList<Map<String, Object>> list = holiday.list();
+				ArrayList<Map<String, Object>> list = lineRepo.list();
 				list.forEach(record -> {
 					Entity en = new Entity();
 					modelMapper.map(record, en);
@@ -227,11 +221,11 @@ public class LineBotController {
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
@@ -247,7 +241,7 @@ public class LineBotController {
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
@@ -264,7 +258,6 @@ public class LineBotController {
 				day1 = day1.replace("2019-04-15", "15/04/2019");
 				day1 = day1.replace("2019-04-16", "16/04/2019");
 				day1 = day1.replace("2019-05-01", "01/05/2019");
-				day1 = day1.replace("2019-05-20", "20/05/2019");
 				day1 = day1.replace("2019-07-20", "20/07/2019");
 				day1 = day1.replace("2019-07-16", "16/07/2019");
 				day1 = day1.replace("2019-07-29", "29/07/2019");
@@ -282,7 +275,6 @@ public class LineBotController {
 				day2 = day2.replace("2019-04-15", "15/04/2019");
 				day2 = day2.replace("2019-04-16", "16/04/2019");
 				day2 = day2.replace("2019-05-01", "01/05/2019");
-				day2 = day2.replace("2019-05-20", "20/05/2019");
 				day2 = day2.replace("2019-07-20", "20/07/2019");
 				day2 = day2.replace("2019-07-16", "16/07/2019");
 				day2 = day2.replace("2019-07-29", "29/07/2019");
@@ -300,7 +292,6 @@ public class LineBotController {
 				day3 = day3.replace("2019-04-15", "15/04/2019");
 				day3 = day3.replace("2019-04-16", "16/04/2019");
 				day3 = day3.replace("2019-05-01", "01/05/2019");
-				day3 = day3.replace("2019-05-20", "20/05/2019");
 				day3 = day3.replace("2019-07-20", "20/07/2019");
 				day3 = day3.replace("2019-07-16", "16/07/2019");
 				day3 = day3.replace("2019-07-29", "29/07/2019");
@@ -331,8 +322,8 @@ public class LineBotController {
 				day3 = day3.replace(",", " ");
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
-								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ "
-								+ day2 + "\n" + "➤ " + day3)));
+								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
+								+ day2 + "\n" + "? " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -440,7 +431,7 @@ public class LineBotController {
 				break;
 			}
 			case "โหวตอาหาร": {
-				holiday.CountVote(userLog);
+				lineRepo.CountVote(userLog);
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
 							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
@@ -457,13 +448,13 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			holiday.CountVote(userLog);
+			lineRepo.CountVote(userLog);
 			if (foodName == null) {
 				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 
 					Stack<String> holi_list = new Stack<>();
-					ArrayList<Map<String, Object>> foods_all = holiday.foodsList();
+					ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 					foods_all.forEach(record -> {
 						Food foods = new Food();
 						modelMapper.map(record, foods);
@@ -490,7 +481,7 @@ public class LineBotController {
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					userLog.setFoodId(text.toString());
-					holiday.saveFood(userLog);
+					lineRepo.saveFood(userLog);
 					Calendar c = Calendar.getInstance();
 					Date now = new Date();
 					SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM");
@@ -568,15 +559,14 @@ public class LineBotController {
 				break;
 			}
 
-			
-			
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
+
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
@@ -623,7 +613,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
-				holiday.register(userLog);
+				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
