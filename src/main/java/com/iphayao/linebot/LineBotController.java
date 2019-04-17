@@ -256,6 +256,7 @@ public class LineBotController {
 				day1 = day1.replace("2019-04-15", "15/04/2019");
 				day1 = day1.replace("2019-04-16", "16/04/2019");
 				day1 = day1.replace("2019-05-01", "01/05/2019");
+				day1 = day1.replace("2019-05-20", "20/05/2019");
 				day1 = day1.replace("2019-07-20", "20/07/2019");
 				day1 = day1.replace("2019-07-16", "16/07/2019");
 				day1 = day1.replace("2019-07-29", "29/07/2019");
@@ -273,6 +274,7 @@ public class LineBotController {
 				day2 = day2.replace("2019-04-15", "15/04/2019");
 				day2 = day2.replace("2019-04-16", "16/04/2019");
 				day2 = day2.replace("2019-05-01", "01/05/2019");
+				day2 = day2.replace("2019-05-20", "20/05/2019");
 				day2 = day2.replace("2019-07-20", "20/07/2019");
 				day2 = day2.replace("2019-07-16", "16/07/2019");
 				day2 = day2.replace("2019-07-29", "29/07/2019");
@@ -290,6 +292,7 @@ public class LineBotController {
 				day3 = day3.replace("2019-04-15", "15/04/2019");
 				day3 = day3.replace("2019-04-16", "16/04/2019");
 				day3 = day3.replace("2019-05-01", "01/05/2019");
+				day3 = day3.replace("2019-05-20", "20/05/2019");
 				day3 = day3.replace("2019-07-20", "20/07/2019");
 				day3 = day3.replace("2019-07-16", "16/07/2019");
 				day3 = day3.replace("2019-07-29", "29/07/2019");
