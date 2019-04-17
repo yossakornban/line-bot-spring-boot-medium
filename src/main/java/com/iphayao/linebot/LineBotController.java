@@ -39,7 +39,7 @@ import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
 import com.iphayao.repository.Foods_Repo;
 import com.iphayao.repository.Holiday_Repo;
-
+import com.iphayao.repository.LineBot_Repo;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -91,6 +91,7 @@ public class LineBotController {
 
 	@Autowired
 
+	private LineBot_Repo loneBot;
 	private Holiday_Repo holiday;
 	private Foods_Repo foods;
 
@@ -622,7 +623,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
-				holiday.register(userLog);
+				loneBot.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
