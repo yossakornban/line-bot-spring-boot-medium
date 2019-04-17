@@ -1,4 +1,4 @@
-package repository;
+package com.iphayao.repository;
 
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Repository
 @Data
-public class hollidayRepository {
+public class holidayRepository {
 
 	public class Model {
 

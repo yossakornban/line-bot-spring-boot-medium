@@ -37,6 +37,7 @@ import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
+import com.iphayao.repository.holidayRepository;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -64,7 +65,6 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import repository.hollidayRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -87,7 +87,7 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private hollidayRepository lineRepo;
+	private holidayRepository lineRepo;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
