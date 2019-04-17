@@ -65,7 +65,6 @@ import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -80,7 +79,6 @@ import com.iphayao.LineApplication;
 @Slf4j
 @ComponentScan
 @LineMessageHandler
-
 
 public class LineBotController {
 
@@ -107,10 +105,12 @@ public class LineBotController {
 		this.replyText(replyToken, event.getPostbackContent().getData().toString().replace("date", "")
 				+ event.getPostbackContent().getParams().toString());
 	}
+
 	@EventMapping
 	public void handleOtherEvent(Event event) {
 		log.info("Received message(Ignored): {}", event);
 	}
+
 	@EventMapping
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
 		log.info(event.toString());
@@ -121,6 +121,7 @@ public class LineBotController {
 			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
 			DownloadedContent jpg = saveContent("jpg", response);
 			DownloadedContent previewImage = createTempFile("jpg");
+
 			system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
 
 			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
@@ -153,6 +154,7 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
+
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 				foods_all.forEach(record -> {
@@ -199,8 +201,6 @@ public class LineBotController {
 			}
 
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				HolidayController HCL = new HolidayController();
-				HCL.handleTextContent(replyToken, event, content, text, userMap);
 				String pathYamlHome = "asset/sub_select_event.yml";
 				String pathImageHome = "asset/sub_select_event.jpg";
 				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
@@ -223,7 +223,7 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
@@ -244,6 +244,7 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + holi.getDate_holiday() + "   " + holi.getName_holiday());
+
 				});
 				String day1 = holiday_all.get(0).toString();
 				String day2 = holiday_all.get(1).toString();
@@ -319,8 +320,8 @@ public class LineBotController {
 				day3 = day3.replace(",", " ");
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
-								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ "
-								+ day2 + "\n" + "➤ " + day3)));
+								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
+								+ day2 + "\n" + "? " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -447,14 +448,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			lineRepo.CountVote(userLog);
 			if (foodName == null) {
-				switch (text) {case "ย้อนกลับค่ะ": {
-					String pathYamlHome = "asset/select_event.yml";
-					String pathImageHome = "asset/select_event.jpg";
-					RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-					this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-					userLog.setStatusBot(status.DEFAULT);
-					break;
-				}
+				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 
 					Stack<String> holi_list = new Stack<>();
@@ -570,7 +564,7 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
