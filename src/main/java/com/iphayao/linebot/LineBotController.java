@@ -16,9 +16,6 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
-
-import javax.sound.sampled.Line;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import org.modelmapper.ModelMapper;
@@ -67,6 +64,8 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import repository.hollidayRepository;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -88,7 +87,7 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private LineRepository lineRepo;
+	private hollidayRepository lineRepo;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
