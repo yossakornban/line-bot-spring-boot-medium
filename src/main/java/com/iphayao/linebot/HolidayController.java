@@ -66,6 +66,7 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import repository.holidayRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -86,7 +87,7 @@ public class HolidayController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private LineRepository lineRepo;
+	private holidayRepository lineRepo;
 
 	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");

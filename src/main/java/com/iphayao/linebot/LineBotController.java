@@ -64,6 +64,7 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import repository.holidayRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -86,7 +87,7 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private LineRepository lineRepo;
+	private holidayRepository lineRepo;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -183,7 +184,6 @@ public class LineBotController {
 				break;
 			}
 			case "ลงทะเบียน": {
-
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);

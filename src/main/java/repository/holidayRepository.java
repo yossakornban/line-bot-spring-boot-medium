@@ -1,4 +1,4 @@
-package com.iphayao.linebot;
+package repository;
 
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Repository
 @Data
-public class LineRepository {
+public class holidayRepository {
 
 	public class Model {
 
