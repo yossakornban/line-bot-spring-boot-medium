@@ -1,4 +1,4 @@
-package repository;
+package com.iphayao.linebot;
 
 import java.sql.Array;
 import java.sql.ResultSet;
