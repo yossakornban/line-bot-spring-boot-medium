@@ -23,7 +23,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.iphayao.linebot.model.UserLog;
-import com.linecorp.bot.model.message.flex.component.Text;
+
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
