@@ -202,6 +202,7 @@ public class Holiday_Repo {
 
 	public ArrayList<Map<String, Object>> Holiday_Soon() {
 		ArrayList<Map<String, Object>> result = null;
+		System.out.println("raider Striker in Holiday");
 		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
