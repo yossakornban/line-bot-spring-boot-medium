@@ -37,7 +37,9 @@ import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
+import com.iphayao.repository.Foods_Repo;
 import com.iphayao.repository.Holiday_Repo;
+import com.iphayao.repository.LineBot_Repo;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -61,6 +63,7 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+
 
 import lombok.NonNull;
 import lombok.Value;
@@ -87,8 +90,12 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private Holiday_Repo lineRepo;
-
+	private LineBot_Repo lineBot;
+	private Holiday_Repo holiday;
+	private Foods_Repo foods;
+	
+	
+	
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
@@ -149,14 +156,14 @@ public class LineBotController {
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
-		String empName = lineRepo.findEmp(text.toString());
-		String foodName = lineRepo.findFoods(text.toString());
+		String empName = lineBot.findEmp(text.toString());
+		String foodName = lineBot.findFoods(text.toString());
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
+				ArrayList<Map<String, Object>> foods_all = foods.foodsList();
 				foods_all.forEach(record -> {
 					Food holi = new Food();
 					modelMapper.map(record, holi);
@@ -189,7 +196,7 @@ public class LineBotController {
 				break;
 			}
 			case "list": {
-				ArrayList<Map<String, Object>> list = lineRepo.list();
+				ArrayList<Map<String, Object>> list = lineBot.list();
 				list.forEach(record -> {
 					Entity en = new Entity();
 					modelMapper.map(record, en);
@@ -218,7 +225,7 @@ public class LineBotController {
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
+				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
@@ -238,7 +245,7 @@ public class LineBotController {
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
+				ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
@@ -431,7 +438,7 @@ public class LineBotController {
 				break;
 			}
 			case "โหวตอาหาร": {
-				lineRepo.CountVote(userLog);
+				foods.CountVote(userLog);
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
 							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
@@ -448,13 +455,13 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			lineRepo.CountVote(userLog);
+			foods.CountVote(userLog);
 			if (foodName == null) {
 				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 
 					Stack<String> holi_list = new Stack<>();
-					ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
+					ArrayList<Map<String, Object>> foods_all = foods.foodsList();
 					foods_all.forEach(record -> {
 						Food foods = new Food();
 						modelMapper.map(record, foods);
@@ -481,7 +488,7 @@ public class LineBotController {
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					userLog.setFoodId(text.toString());
-					lineRepo.saveFood(userLog);
+					foods.saveFood(userLog);
 					Calendar c = Calendar.getInstance();
 					Date now = new Date();
 					SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM");
@@ -562,7 +569,7 @@ public class LineBotController {
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
+				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
@@ -613,7 +620,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
-				lineRepo.register(userLog);
+				lineBot.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
 				String pathYamlHome = "asset/select_event.yml";
 				String pathImageHome = "asset/select_event.jpg";
