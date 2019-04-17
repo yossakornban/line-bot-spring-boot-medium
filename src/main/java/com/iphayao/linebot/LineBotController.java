@@ -91,9 +91,9 @@ public class LineBotController {
 
 	@Autowired
 
-	
+	private LineBot_Repo loneBot;
 	private Holiday_Repo holiday;
-
+	private Foods_Repo foods;
 
 	
 	
