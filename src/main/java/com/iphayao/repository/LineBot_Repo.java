@@ -185,51 +185,6 @@ public class LineBot_Repo {
 		return (String) result.get(0).get("emp_emp_name");
 	}
 
-	public ArrayList<Map<String, Object>> holidayList() {
-		ArrayList<Map<String, Object>> result = null;
-		// List<Map<String, Object>> result = null;
-		try {
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-			stb.append(" select * from holiday order by number_event ");
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-		}
-		return result;
-	}
-
-	public ArrayList<Map<String, Object>> Holiday_Soon() {
-		System.out.println("raider Madmanint in Holliday");
-		ArrayList<Map<String, Object>> result = null;
-		System.out.println("raider Striker in Holiday");
-		// List<Map<String, Object>> result = null;
-		try {
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-			stb.append(
-					
-					" select to_date(date_holiday, 'dd/mm/yyyy'),name_holiday from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date  limit 3 ");
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-		}
-		return result;
-	}
-	public ArrayList<Map<String, Object>> list() {
-		ArrayList<Map<String, Object>> result = null;
-		// List<Map<String, Object>> result = null;
-		try {
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-			stb.append(" SELECT message FROM log_chat ");
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-		}
-		return result;
-	}
+	
+	
 }
