@@ -180,7 +180,6 @@ public class LineBotController {
 				break;
 			}
 			case "สวัสดี": {
-
 				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
