@@ -346,16 +346,18 @@ public class LineBotController {
 				break;
 			}
 			case "ขอลาหยุดครับผม": {
-				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(
-						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
-								Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
-										new MessageAction("ลาป่วย", "ลาป่วยครับ"),
-										new MessageAction("ลาพักร้อน", "ลาพักร้อนครับ")))));
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
-
-				// userLog.setStatusBot(status.Q11);
+//				String imageUrl = createUri("/static/buttons/1040.jpg");
+//				CarouselTemplate carouselTemplate = new CarouselTemplate(
+//						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
+//								Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
+//										new MessageAction("ลาป่วย", "ลาป่วยครับ"),
+//										new MessageAction("ลาพักร้อน", "ลาพักร้อนครับ")))));
+//				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+//				this.reply(replyToken, templateMessage);
+//
+//				// userLog.setStatusBot(status.Q11);
+				Arrays.asList(new TextMessage("ยังใช้ การลา ไม่ได้ในตอนนี้ค้าบบบ"));
+			
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
