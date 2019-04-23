@@ -31,16 +31,13 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @Data
 public class Foods_Repo {
-
 	public class Model {
-
 		public String profileCode;
 		public String profileDesc;
 		public Boolean active;
 		private String createdProgram;
 		private String updatedProgram;
 	}
-
 	@Autowired
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
@@ -60,7 +57,6 @@ public class Foods_Repo {
 		}
 		return result;
 	}
-
 	public String CountVote(UserLog userLog) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -91,9 +87,7 @@ public class Foods_Repo {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
 		return (String) result.get(0).get("emp_emp_id");
-
 	}
-
 	public int register(UserLog userLog) {
 		int aaa = 0;
 		try {
@@ -105,7 +99,6 @@ public class Foods_Repo {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-
 			aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 			// (stb.toString(), parameters,
@@ -115,7 +108,6 @@ public class Foods_Repo {
 		}
 		return aaa;
 	}
-
 	public int saveFood(UserLog string) {
 		Calendar c = Calendar.getInstance();
 		int aaa = 0;
@@ -127,8 +119,7 @@ public class Foods_Repo {
 			int yearInteger = c.get(Calendar.YEAR);
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
-			stb.append(
-					"insert into employee_vote (emp_emp_id,food_id,date_vote,week_of_year,year_vote)  values  (:employeeCode,:foodIdVote,:dateNow,:week_of_year,:year)");
+			stb.append( "insert into employee_vote (emp_emp_id,food_id,date_vote,week_of_year,year_vote)  values  (:employeeCode,:foodIdVote,:dateNow,:week_of_year,:year)");
 			String employeeCode = string.getEmpCode();
 			String FoodsIdVote = string.getFoodId();
 			parameters.addValue("employeeCode", employeeCode);
@@ -146,7 +137,6 @@ public class Foods_Repo {
 		}
 		return aaa;
 	}
-
 	public String findFoods(String foodId) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -157,18 +147,15 @@ public class Foods_Repo {
 			stb.append(" WHERE food_food_id = :foodCode ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("foodCode", foodId);
-
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 			if (result.size() == 0) {
 				return null;
 			}
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-
 		}
 		return (String) result.get(0).get("food_food_name");
 	}
-
 	public String findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -188,7 +175,6 @@ public class Foods_Repo {
 		}
 		return (String) result.get(0).get("emp_emp_name");
 	}
-
 	public ArrayList<Map<String, Object>> holidayList() {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -203,7 +189,6 @@ public class Foods_Repo {
 		}
 		return result;
 	}
-
 	public ArrayList<Map<String, Object>> Holiday_Soon() {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
@@ -211,7 +196,6 @@ public class Foods_Repo {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 			stb.append(
-
 					" select to_date(date_holiday, 'dd/mm/yyyy'),name_holiday from holiday where to_date(date_holiday, 'dd/mm/yyyy') between now() and to_date('31/12/2019', 'dd/mm/yyyy') order by to_date  limit 3 ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
