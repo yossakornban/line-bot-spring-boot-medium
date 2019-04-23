@@ -82,7 +82,7 @@ import com.iphayao.LineApplication;
 @ComponentScan
 @LineMessageHandler
 
-public class LineBotController {
+public class LineBotController525 {
 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
