@@ -88,6 +88,8 @@ public class LineBotController {
 
 	@Autowired
 	private LineBot_Repo lineRepo;
+	
+	@Autowired
 	private Holiday_Repo holiday;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
