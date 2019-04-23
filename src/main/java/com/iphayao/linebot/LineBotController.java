@@ -89,10 +89,8 @@ public class LineBotController {
 
 	@Autowired
 	private LineBot_Repo lineRepo;
-	
 	@Autowired
 	private  Foods_Repo foods;
-	
 	@Autowired
 	private Holiday_Repo holiday;
 
@@ -430,7 +428,7 @@ public class LineBotController {
 				break;
 			}
 			case "โหวตอาหาร": {
-				lineRepo.CountVote(userLog);
+				foods.CountVote(userLog);
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
 							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
@@ -447,13 +445,13 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			lineRepo.CountVote(userLog);
+			foods.CountVote(userLog);
 			if (foodName == null) {
 				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 
 					Stack<String> holi_list = new Stack<>();
-					ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
+					ArrayList<Map<String, Object>> foods_all = foods.foodsList();
 					foods_all.forEach(record -> {
 						Food foods = new Food();
 						modelMapper.map(record, foods);
@@ -480,7 +478,7 @@ public class LineBotController {
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					userLog.setFoodId(text.toString());
-					lineRepo.saveFood(userLog);
+					foods.saveFood(userLog);
 					Calendar c = Calendar.getInstance();
 					Date now = new Date();
 					SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM");
