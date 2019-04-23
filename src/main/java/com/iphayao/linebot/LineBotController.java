@@ -444,6 +444,16 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
+			switch (text) {
+			case "ย้อนกลับค่ะ": {
+			String pathYamlHome = "asset/select_event.yml";
+			String pathImageHome = "asset/select_event.jpg";
+			RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+			this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+			userLog.setStatusBot(status.DEFAULT);
+			break;
+		}
+			}
 			foods.CountVote(userLog);
 			if (foodName == null) {
 				switch (text) {
@@ -476,16 +486,7 @@ public class LineBotController {
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					//----------------------------------------------------------------------------------------------------------Focus
-					switch (text) {
-					case "ย้อนกลับค่ะ": {
-					String pathYamlHome = "asset/select_event.yml";
-					String pathImageHome = "asset/select_event.jpg";
-					RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-					this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-					userLog.setStatusBot(status.DEFAULT);
-					break;
-				}
-					}
+				
 					userLog.setFoodId(text.toString());
 					foods.saveFood(userLog);
 					Calendar c = Calendar.getInstance();
