@@ -90,7 +90,7 @@ public class LineBotController {
 	@Autowired
 	private LineBot_Repo lineRepo;
 	@Autowired
-	private  Foods_Repo foods;
+	private Foods_Repo foods;
 	@Autowired
 	private Holiday_Repo holiday;
 
@@ -103,6 +103,7 @@ public class LineBotController {
 		TextMessageContent message = event.getMessage();
 		handleTextContent(event.getReplyToken(), event, message);
 	}
+
 	@EventMapping
 	public void handlePostbackEvent(PostbackEvent event) {
 		String replyToken = event.getReplyToken();
@@ -192,7 +193,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
-			
 
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
@@ -230,7 +230,7 @@ public class LineBotController {
 			}
 
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
-			
+
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
@@ -347,18 +347,9 @@ public class LineBotController {
 				break;
 			}
 			case "ขอลาหยุดครับผม": {
-//				String imageUrl = createUri("/static/buttons/1040.jpg");
-//				CarouselTemplate carouselTemplate = new CarouselTemplate(
-//						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
-//								Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
-//										new MessageAction("ลาป่วย", "ลาป่วยครับ"),
-//										new MessageAction("ลาพักร้อน", "ลาพักร้อนครับ")))));
-//				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-//				this.reply(replyToken, templateMessage);
-//
-//				// userLog.setStatusBot(status.Q11);
+				//
 				Arrays.asList(new TextMessage("ยังใช้ การลา ไม่ได้ในตอนนี้ค้าบบบ"));
-			
+
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -446,19 +437,35 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
 			switch (text) {
 			case "ย้อนกลับค่ะ": {
-			String pathYamlHome = "asset/select_event.yml";
-			String pathImageHome = "asset/select_event.jpg";
-			RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-			this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-			userLog.setStatusBot(status.DEFAULT);
-			break;
-		}
+				String pathYamlHome = "asset/select_event.yml";
+				String pathImageHome = "asset/select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
 			}
 			foods.CountVote(userLog);
 			if (foodName == null) {
 				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 
+					switch (text) {
+					case "โหวตอาหาร": {
+						foods.CountVote(userLog);
+						if (userLog.getCountVout_CheckPossilibity() >= 10) {
+							this.reply(replyToken, Arrays.asList(new TextMessage(
+									"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
+							userLog.setStatusBot(status.DEFAULT);
+						} else {
+							this.reply(replyToken,
+									Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  ??")));
+							userLog.setStatusBot(status.VOTE_FOODS);
+						}
+
+						break;
+					}
+				}
 					Stack<String> holi_list = new Stack<>();
 					ArrayList<Map<String, Object>> foods_all = foods.foodsList();
 					foods_all.forEach(record -> {
@@ -485,8 +492,8 @@ public class LineBotController {
 							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
-					//----------------------------------------------------------------------------------------------------------Focus
-				
+					// ----------------------------------------------------------------------------------------------------------Focus
+
 					userLog.setFoodId(text.toString());
 					foods.saveFood(userLog);
 					Calendar c = Calendar.getInstance();
@@ -505,12 +512,11 @@ public class LineBotController {
 					}
 					int limitVOte = 9;
 					int stopVote = limitVOte - userLog.getCountVout_CheckPossilibity();
-					this.reply(replyToken,
-							Arrays.asList(new TextMessage("คุณโหวต  " + "\n" + "( " + foodName + "  )" + "\n"+"ประจำสัปดาห์ที่ "
-									+ DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(monday) + "-"
-									+ DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(sunday) + "/"
-									+ simpleDateformat.format(now) + "/" + c.get(Calendar.YEAR) + "\n"
-									+ "เหลือสิทธ์ในการโหวตอีก" + stopVote + "ครั้ง")));
+					this.reply(replyToken, Arrays.asList(new TextMessage("คุณโหวต  " + "\n" + "( " + foodName + "  )"
+							+ "\n" + "ประจำสัปดาห์ที่ " + DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(monday)
+							+ "-" + DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(sunday) + "/"
+							+ simpleDateformat.format(now) + "/" + c.get(Calendar.YEAR) + "\n"
+							+ "เหลือสิทธ์ในการโหวตอีก" + stopVote + "ครั้ง")));
 					userLog.setStatusBot(status.VOTE_FOODS);
 				}
 
