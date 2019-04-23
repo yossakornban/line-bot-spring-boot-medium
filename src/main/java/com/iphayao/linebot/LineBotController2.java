@@ -202,14 +202,14 @@ public class LineBotController2 {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-//			case "โหวตอาหารประจำสัปดาห์": {
-//				String pathYamlHome = "asset/foodVote.yml";
-//				String pathImageHome = "asset/foodVote.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-//				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-//				userLog.setStatusBot(status.DEFAULT);
-//				break;
-//			}
+			case "โหวตอาหารประจำสัปดาห์": {
+				String pathYamlHome = "asset/foodVote.yml";
+				String pathImageHome = "asset/foodVote.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
