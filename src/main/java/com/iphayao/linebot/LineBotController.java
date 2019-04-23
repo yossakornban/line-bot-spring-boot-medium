@@ -191,16 +191,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
-			case "list": {
-				ArrayList<Map<String, Object>> list = lineRepo.list();
-				list.forEach(record -> {
-					Entity en = new Entity();
-					modelMapper.map(record, en);
-					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
-				});
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
+			
 
 			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
 				String pathYamlHome = "asset/sub_select_event.yml";
