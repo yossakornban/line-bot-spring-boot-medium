@@ -156,7 +156,6 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 				foods_all.forEach(record -> {
@@ -242,7 +241,7 @@ public class LineBotController {
 				System.out.println("11111111111111111111111111111111");
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
