@@ -220,7 +220,6 @@ public class Foods_Repo {
 		}
 		return result;
 	}
-
 	public ArrayList<Map<String, Object>> list() {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
