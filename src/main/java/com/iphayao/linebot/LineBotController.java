@@ -62,6 +62,7 @@ import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import com.iphayao.repository.Holiday_Repo;
 import com.iphayao.repository.LineBot_Repo;
+import com.iphayao.repository.Foods_Repo;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -88,6 +89,9 @@ public class LineBotController {
 
 	@Autowired
 	private LineBot_Repo lineRepo;
+	
+	@Autowired
+	private  Foods_Repo foods;
 	
 	@Autowired
 	private Holiday_Repo holiday;
@@ -159,7 +163,7 @@ public class LineBotController {
 			switch (text) {
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
+				ArrayList<Map<String, Object>> foods_all = foods.foodsList();
 				foods_all.forEach(record -> {
 					Food holi = new Food();
 					modelMapper.map(record, holi);
