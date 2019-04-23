@@ -82,7 +82,7 @@ import com.iphayao.LineApplication;
 @ComponentScan
 @LineMessageHandler
 
-public class LineBotController {
+public class LineBotController2 {
 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
@@ -194,22 +194,22 @@ public class LineBotController {
 				break;
 			}
 
-			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				String pathYamlHome = "asset/sub_select_event.yml";
-				String pathImageHome = "asset/sub_select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-//			case "โหวตอาหารประจำสัปดาห์": {
-//				String pathYamlHome = "asset/foodVote.yml";
-//				String pathImageHome = "asset/foodVote.jpg";
+//			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
+//				String pathYamlHome = "asset/sub_select_event.yml";
+//				String pathImageHome = "asset/sub_select_event.jpg";
 //				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 //				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 //				userLog.setStatusBot(status.DEFAULT);
 //				break;
 //			}
+			case "โหวตอาหารประจำสัปดาห์": {
+				String pathYamlHome = "asset/foodVote.yml";
+				String pathImageHome = "asset/foodVote.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
