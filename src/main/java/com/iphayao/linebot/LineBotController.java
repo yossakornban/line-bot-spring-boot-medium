@@ -469,13 +469,23 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 
-				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
 							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
+					//----------------------------------------------------------------------------------------------------------Focus
+					switch (text) {
+					case "ย้อนกลับค่ะ": {
+					String pathYamlHome = "asset/select_event.yml";
+					String pathImageHome = "asset/select_event.jpg";
+					RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+					this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+					userLog.setStatusBot(status.DEFAULT);
+					break;
+				}
+					}
 					userLog.setFoodId(text.toString());
 					foods.saveFood(userLog);
 					Calendar c = Calendar.getInstance();
