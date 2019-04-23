@@ -45,54 +45,6 @@ public class LineBot_Repo {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 	
-	public ArrayList<Map<String, Object>> foodsList() {
-		ArrayList<Map<String, Object>> result = null;
-		// List<Map<String, Object>> result = null;
-		try {
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-			stb.append("select food_food_id,food_food_name from foods");
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-		}
-		return result;
-	}
-
-	public  String CountVote(UserLog  userLog) {
-		ArrayList<Map<String, Object>> result = null;
-		// List<Map<String, Object>> result = null;
-		try {
-			Calendar c = Calendar.getInstance();   
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-			stb.append(" select count(*) from employee_vote where emp_emp_id =:empcode  and week_of_year=:week_of_year    and  year_vote=:year_Vote ");
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			int weekOfYearInteger = c.get(Calendar.WEEK_OF_YEAR);
-			int yearInteger = c.get(Calendar.YEAR);
-			parameters.addValue("empcode", userLog.getEmpCode());
-			parameters.addValue("week_of_year", weekOfYearInteger);
-			parameters.addValue("year_Vote", yearInteger);
-			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			String kkl = result.toString();
-			userLog.setCountVote(kkl);
-			String change1 = userLog.getCountVote();
-			String change2 = change1.replace("[{count=", "");
-			String change3  = change2.replace("}]", "");
-			int countVote = Integer.parseInt(change3);
-			userLog.setCountVout_CheckPossilibity(countVote);
-			if (result.size() == 0) {
-				return null;
-			}
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-		}
-		return (String) result.get(0).get("emp_emp_id");
-	
-		
-		
-	}
 	public int register(UserLog userLog) {
 		int aaa = 0;
 		try {
@@ -115,56 +67,7 @@ public class LineBot_Repo {
 		return aaa;
 	}
 	
-	public int saveFood(UserLog string ){
-		Calendar c = Calendar.getInstance();
-		int aaa = 0;
-		try {
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-			int weekOfYearInteger = c.get(Calendar.WEEK_OF_YEAR);
-			int yearInteger = c.get(Calendar.YEAR);
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			Date date = new Date();
-	   	     stb.append("insert into employee_vote (emp_emp_id,food_id,date_vote,week_of_year,year_vote)  values  (:employeeCode,:foodIdVote,:dateNow,:week_of_year,:year)");
-		    String employeeCode = string.getEmpCode();
-		    String FoodsIdVote = string.getFoodId();
-			parameters.addValue("employeeCode", employeeCode);
-			parameters.addValue("foodIdVote", FoodsIdVote);
-			parameters.addValue("dateNow", dateFormat.format(date));
-			parameters.addValue("week_of_year", weekOfYearInteger);
-			parameters.addValue("year", yearInteger);
-			parameters.addValue("dateNow", dateFormat.format(date));
-		    aaa = jdbcTemplate.update(stb.toString(), parameters);
-			return aaa;
-			// (stb.toString(), parameters,
-			// new BeanPropertyRowMapper<Entity>(Entity.class));
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-		}
-		return aaa;
-	}
-	public String findFoods(String foodId) {
-		ArrayList<Map<String, Object>> result = null;
-		// List<Map<String, Object>> result = null;
-		try {
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-			stb.append(" select  food_food_name from foods ");
-			stb.append(" WHERE food_food_id = :foodCode ");
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("foodCode", foodId);
-
-			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			if (result.size() == 0) {
-				return null;
-			}
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-
-		}
-		return (String) result.get(0).get("food_food_name");
-	}
+	
 	public String findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
