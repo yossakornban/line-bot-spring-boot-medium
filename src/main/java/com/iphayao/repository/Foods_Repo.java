@@ -77,8 +77,8 @@ public class Foods_Repo {
 			parameters.addValue("week_of_year", weekOfYearInteger);
 			parameters.addValue("year_Vote", yearInteger);
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			String kkl = result.toString();
-			userLog.setCountVote(kkl);
+			String count = result.toString();
+			userLog.setCountVote(count);
 			String change1 = userLog.getCountVote();
 			String change2 = change1.replace("[{count=", "");
 			String change3 = change2.replace("}]", "");
