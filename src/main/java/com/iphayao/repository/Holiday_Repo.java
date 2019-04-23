@@ -70,9 +70,7 @@ public class Holiday_Repo {
 	}
 
 	public ArrayList<Map<String, Object>> Holiday_Soon() {
-		System.out.println("raider Madmanint in Holliday");
 		ArrayList<Map<String, Object>> result = null;
-		System.out.println("raider Striker in Holiday");
 		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
