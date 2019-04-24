@@ -32,13 +32,19 @@ import com.iphayao.linebot.flex.RestaurantMenuFlexMessageSupplier;
 import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Employee;
+import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.Food;
+import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.DatetimePickerAction;
+import com.linecorp.bot.model.action.MessageAction;
+import com.linecorp.bot.model.action.PostbackAction;
+import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
@@ -47,16 +53,25 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
+import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.template.CarouselColumn;
+import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import com.iphayao.repository.Holiday_Repo;
+import com.iphayao.repository.LineBot_Repo;
 import com.iphayao.repository.Foods_Repo;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -68,8 +83,11 @@ import com.iphayao.LineApplication;
 @LineMessageHandler
 
 public class foodController {
+
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
+	@Autowired
+	private LineBot_Repo lineRepo;
 	@Autowired
 	private Foods_Repo foods;
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
@@ -94,6 +112,7 @@ public class foodController {
 	public void handleOtherEvent(Event event) {
 		log.info("Received message(Ignored): {}", event);
 	}
+
 	@EventMapping
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
 		log.info(event.toString());
@@ -115,6 +134,8 @@ public class foodController {
 
 	}
 
+	private static final DateFormat dateNow = new SimpleDateFormat("yyyy-MM-dd");
+	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	Date nowDate = new Date();
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
@@ -127,6 +148,7 @@ public class foodController {
 		ModelMapper modelMapper = new ModelMapper();
 		// userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
+		String empName = lineRepo.findEmp(text.toString());
 		String foodName = foods.findFoods(text.toString());
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
