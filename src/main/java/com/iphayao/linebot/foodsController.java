@@ -711,6 +711,7 @@ public class foodsController {
 		String foods = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
 		Path tempFile = LineApplication.downloadedContentDir.resolve(foods);
 		tempFile.toFile().deleteOnExit();
+		
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 	}
 
