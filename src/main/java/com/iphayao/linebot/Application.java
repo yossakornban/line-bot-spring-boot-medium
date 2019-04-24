@@ -11,7 +11,7 @@ import java.nio.file.Path;
 
 @SpringBootApplication
 public class Application {
-	 public static Path downloadedContentDir;
+	  static Path downloadedContentDir;
 		public static void main(String[] args) throws IOException {
 		downloadedContentDir = Files.createTempDirectory("line-bot");
 		SpringApplication.run(LineApplication.class, args);
