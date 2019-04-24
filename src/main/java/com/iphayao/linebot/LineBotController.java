@@ -603,7 +603,6 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 			userLog.setEmpCode(text.toString());
 			if (empName != null) {
-
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
@@ -624,10 +623,10 @@ public class LineBotController {
 			switch (text) {
 			case "ใช่": {
 				lineRepo.register(userLog);
-				userLog.setStatusBot(status.DEFAULT);
-				String pathYamlHome = "asset/select_event.yml";
-				String pathImageHome = "asset/select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+//				userLog.setStatusBot(status.DEFAULT);
+//				String pathYamlHome = "asset/select_event.yml";
+//				String pathImageHome = "asset/select_event.jpg";
+//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ  ??")));
 				break;
