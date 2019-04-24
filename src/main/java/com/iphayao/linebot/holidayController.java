@@ -191,7 +191,7 @@ public class holidayController {
 				break;
 			}
 
-//			case "ขอทราบ ข้อมูลวันหยุดค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
+//			case "ขอทราบ ข้อมูลวันหยุดค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1,000 ครั้ง
 			case "วันหยุด": {
 //				String pathYamlHome = "asset/sub_select_event.yml";
 //				String pathImageHome = "asset/sub_select_event.jpg";
@@ -211,7 +211,7 @@ public class holidayController {
 //				userLog.setStatusBot(status.DEFAULT);
 //				break;
 //			}
-//			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
+//			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1,000  ครั้ง
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
@@ -220,7 +220,6 @@ public class holidayController {
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
-
 				String Imr = holi_list.toString();
 				Imr = Imr.replace("[", "");
 				Imr = Imr.replace("]", "");
@@ -230,7 +229,7 @@ public class holidayController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-//			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
+//			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1,000 ครั้ง
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
