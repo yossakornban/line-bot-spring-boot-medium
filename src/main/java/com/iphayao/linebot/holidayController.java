@@ -441,12 +441,11 @@ public class holidayController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			}
+		}
 			foods.CountVote(userLog);
 			if (foodName == null) {
 				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-
 					switch (text) {
 					case "โหวตอาหาร": {
 						foods.CountVote(userLog);
@@ -459,7 +458,6 @@ public class holidayController {
 									Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  ??")));
 							userLog.setStatusBot(status.VOTE_FOODS);
 						}
-
 						break;
 					}
 				}
@@ -478,11 +476,10 @@ public class holidayController {
 					userLog.setStatusBot(status.VOTE_FOODS);
 					break;
 				}
-				}
+			}
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
-
 			} else if (text != null && text == userLog.getFoodName()) {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
@@ -490,7 +487,6 @@ public class holidayController {
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
 					// ----------------------------------------------------------------------------------------------------------Focus
-
 					userLog.setFoodId(text.toString());
 					foods.saveFood(userLog);
 					Calendar c = Calendar.getInstance();

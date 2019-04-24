@@ -122,7 +122,6 @@ public class foodController {
 		log.info(event.toString());
 		ImageMessageContent content = event.getMessage();
 		String replyToken = event.getReplyToken();
-
 		try {
 			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
 			DownloadedContent jpg = saveContent("jpg", response);
