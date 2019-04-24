@@ -15,6 +15,7 @@ public class LineApplication {
 	public static void main(String[] args) throws IOException {
 	downloadedContentDir = Files.createTempDirectory("line-bot");
 	SpringApplication.run(LineApplication.class, args);
+	
 	}
 
 }
