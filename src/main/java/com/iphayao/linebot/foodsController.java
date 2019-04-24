@@ -708,8 +708,8 @@ public class foodsController {
 	}
 
 	private static DownloadedContent createTempFile(String ext) {
-		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
-		Path tempFile = LineApplication.downloadedContentDir.resolve(fileName);
+		String foods = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
+		Path tempFile = LineApplication.downloadedContentDir.resolve(foods);
 		tempFile.toFile().deleteOnExit();
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 	}
