@@ -211,6 +211,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+//			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
@@ -229,9 +230,8 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-
+//			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
-
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
