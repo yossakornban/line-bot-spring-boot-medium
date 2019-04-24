@@ -76,7 +76,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.iphayao.linebot.*;;
+import com.iphayao.LineApplication;
 
 @Slf4j
 @ComponentScan
@@ -708,10 +708,9 @@ public class foodsController {
 	}
 
 	private static DownloadedContent createTempFile(String ext) {
-		String foods = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
-		Path tempFile = LineApplication.downloadedContentDir.resolve(foods);
+		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
+		Path tempFile = LineApplication.downloadedContentDir.resolve(fileName);
 		tempFile.toFile().deleteOnExit();
-		
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 	}
 
