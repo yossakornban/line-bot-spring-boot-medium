@@ -224,6 +224,7 @@ public class foodController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+			
 
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 
