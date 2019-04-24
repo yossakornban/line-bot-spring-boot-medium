@@ -91,7 +91,8 @@ public class foodController {
 	private LineBot_Repo lineRepo;
 	@Autowired
 	private Foods_Repo foods;
-
+	@Autowired
+	private Holiday_Repo holiday;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
