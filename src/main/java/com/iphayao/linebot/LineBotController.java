@@ -191,7 +191,8 @@ public class LineBotController {
 				break;
 			}
 
-			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
+//			case "ขอทราบ ข้อมูลวันหยุดค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
+			case "วันหยุด": {
 //				String pathYamlHome = "asset/sub_select_event.yml";
 //				String pathImageHome = "asset/sub_select_event.jpg";
 //				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
@@ -200,7 +201,8 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "โหวตอาหารประจำสัปดาห์": {
+//			case "โหวตอาหารประจำสัปดาห์": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
+			case "อาหาร": {
 //				String pathYamlHome = "asset/foodVote.yml";
 //				String pathImageHome = "asset/foodVote.jpg";
 //				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
