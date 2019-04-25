@@ -34,7 +34,7 @@ public class HolidayService {
 		holiday_all.forEach(record -> {
 			Holiday holi = new Holiday();
 			modelMapper.map(record, holi);
-			holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+			holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 		});
 
 		String Imr = holi_list.toString();
@@ -45,7 +45,7 @@ public class HolidayService {
 		return Imr;
 	}
 	
-	public String getHolidaySoon(){
+	public String getHolidaySoon(){   
 		modelMapper = new ModelMapper();
 		Date nowDate = new Date();
 		Stack<String> holi_list = new Stack<>();
@@ -132,8 +132,8 @@ public class HolidayService {
 		day3 = day3.replace(",", " ");
 		
 		String holidaySoon = "วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
-		+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
-		+ day2 + "\n" + "? " + day3;
+		+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ "
+		+ day2 + "\n" + "➤ " + day3;
 		return holidaySoon;
 	}
 	
