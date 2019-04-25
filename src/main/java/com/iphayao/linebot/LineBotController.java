@@ -331,8 +331,7 @@ public class LineBotController {
 //				day3 = day3.replace(",", " ");
 				String holidaySoon = holiday.getHolidaySoon();
 			
-				this.reply(replyToken,
-						(new TextMessage(holidaySoon)));
+				this.reply(replyToken, Arrays.asList(new TextMessage(holidaySoon)));
 				System.out.println(holidaySoon);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
