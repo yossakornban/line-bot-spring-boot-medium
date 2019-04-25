@@ -37,6 +37,7 @@ import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
+import com.iphayao.repository.LineRepository;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -60,9 +61,7 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-import com.iphayao.repository.Holiday_Repo;
-import com.iphayao.repository.LineBot_Repo;
-import com.iphayao.repository.Foods_Repo;
+
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -88,11 +87,7 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private LineBot_Repo lineRepo;
-	@Autowired
-	private Foods_Repo foods;
-	@Autowired
-	private Holiday_Repo holiday;
+	private LineRepository lineRepo;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -145,6 +140,7 @@ public class LineBotController {
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
+
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
@@ -154,13 +150,14 @@ public class LineBotController {
 		// userLog.setEmpCode(text.toString());
 		userLog.setFoodName(text.toString());
 		String empName = lineRepo.findEmp(text.toString());
-		String foodName = foods.findFoods(text.toString());
+		String foodName = lineRepo.findFoods(text.toString());
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
+
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> foods_all = foods.foodsList();
+				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 				foods_all.forEach(record -> {
 					Food holi = new Food();
 					modelMapper.map(record, holi);
@@ -175,50 +172,59 @@ public class LineBotController {
 				break;
 			}
 			case "ไอ้สัส": {
+
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
 			case "สวัสดี": {
+
 				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
 			case "ลงทะเบียน": {
+
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
+			case "list": {
+				ArrayList<Map<String, Object>> list = lineRepo.list();
+				list.forEach(record -> {
+					Entity en = new Entity();
+					modelMapper.map(record, en);
+					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
+				});
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
 
-//			case "ขอทราบ ข้อมูลวันหยุดค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
-			case "วันหยุด": {
-//				String pathYamlHome = "asset/sub_select_event.yml";
-//				String pathImageHome = "asset/sub_select_event.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				//-------------------------------------ปิดไว้เพราะ API ถึงขีดจำกัด เเสดงรูปภาพขึ้นมาได้แค่ 1000 ครั้ง หลังเคลียร์ปัญหานี้เปิดใช้ได้ตามปกติครับ-------------------  ╮(￣▽￣)╭
+			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
+				String pathYamlHome = "asset/sub_select_event.yml";
+				String pathImageHome = "asset/sub_select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-//			case "โหวตอาหารประจำสัปดาห์": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
-			case "อาหาร": {
-//				String pathYamlHome = "asset/foodVote.yml";
-//				String pathImageHome = "asset/foodVote.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				//-------------------------------------ปิดไว้เพราะ API ถึงขีดจำกัด เเสดงรูปภาพขึ้นมาได้แค่ 1000 ครั้ง หลังเคลียร์ปัญหานี้เปิดใช้ได้ตามปกติครับ-------------------  ╮(￣▽￣)╭
+			case "โหวตอาหารประจำสัปดาห์": {
+				String pathYamlHome = "asset/foodVote.yml";
+				String pathImageHome = "asset/foodVote.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-//			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
+
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
@@ -230,15 +236,16 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-//			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
+
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + holi.getDate_holiday() + "   " + holi.getName_holiday());
+
 				});
 				String day1 = holiday_all.get(0).toString();
 				String day2 = holiday_all.get(1).toString();
@@ -250,7 +257,6 @@ public class LineBotController {
 				day1 = day1.replace("2019-04-15", "15/04/2019");
 				day1 = day1.replace("2019-04-16", "16/04/2019");
 				day1 = day1.replace("2019-05-01", "01/05/2019");
-				day1 = day1.replace("2019-05-20", "02/05/2019");
 				day1 = day1.replace("2019-07-20", "20/07/2019");
 				day1 = day1.replace("2019-07-16", "16/07/2019");
 				day1 = day1.replace("2019-07-29", "29/07/2019");
@@ -268,7 +274,6 @@ public class LineBotController {
 				day2 = day2.replace("2019-04-15", "15/04/2019");
 				day2 = day2.replace("2019-04-16", "16/04/2019");
 				day2 = day2.replace("2019-05-01", "01/05/2019");
-				day2 = day2.replace("2019-05-20", "02/05/2019");
 				day2 = day2.replace("2019-07-20", "20/07/2019");
 				day2 = day2.replace("2019-07-16", "16/07/2019");
 				day2 = day2.replace("2019-07-29", "29/07/2019");
@@ -286,7 +291,6 @@ public class LineBotController {
 				day3 = day3.replace("2019-04-15", "15/04/2019");
 				day3 = day3.replace("2019-04-16", "16/04/2019");
 				day3 = day3.replace("2019-05-01", "01/05/2019");
-				day3 = day3.replace("2019-05-20", "02/05/2019");
 				day3 = day3.replace("2019-07-20", "20/07/2019");
 				day3 = day3.replace("2019-07-16", "16/07/2019");
 				day3 = day3.replace("2019-07-29", "29/07/2019");
@@ -317,8 +321,8 @@ public class LineBotController {
 				day3 = day3.replace(",", " ");
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
-								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ "
-								+ day2 + "\n" + "➤ " + day3)));
+								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
+								+ day2 + "\n" + "? " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -348,9 +352,16 @@ public class LineBotController {
 				break;
 			}
 			case "ขอลาหยุดครับผม": {
-				//
-				Arrays.asList(new TextMessage("ยังใช้ การลา ไม่ได้ในตอนนี้ค้าบบบ"));
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(
+						Arrays.asList(new CarouselColumn(imageUrl, "ประเภทการลา", "กรุณาเลือก ประเภทการลา ด้วยค่ะ",
+								Arrays.asList(new MessageAction("ลากิจ", "ลากิจครับ"),
+										new MessageAction("ลาป่วย", "ลาป่วยครับ"),
+										new MessageAction("ลาพักร้อน", "ลาพักร้อนครับ")))));
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
 
+				// userLog.setStatusBot(status.Q11);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -419,7 +430,7 @@ public class LineBotController {
 				break;
 			}
 			case "โหวตอาหาร": {
-				foods.CountVote(userLog);
+				lineRepo.CountVote(userLog);
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
 							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
@@ -436,39 +447,13 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 		} else if (userLog.getStatusBot().equals(status.VOTE_FOODS)) {
-			switch (text) {
-			case "ย้อนกลับค่ะ": {
-				String pathYamlHome = "asset/select_event.yml";
-				String pathImageHome = "asset/select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			}
-			foods.CountVote(userLog);
+			lineRepo.CountVote(userLog);
 			if (foodName == null) {
 				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 
-					switch (text) {
-					case "โหวตอาหาร": {
-						foods.CountVote(userLog);
-						if (userLog.getCountVout_CheckPossilibity() >= 10) {
-							this.reply(replyToken, Arrays.asList(new TextMessage(
-									"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
-							userLog.setStatusBot(status.DEFAULT);
-						} else {
-							this.reply(replyToken,
-									Arrays.asList(new TextMessage("ใส่ หมายเลขอาหาร ที่ต้องการโหวตได้เลยค่ะ  ??")));
-							userLog.setStatusBot(status.VOTE_FOODS);
-						}
-
-						break;
-					}
-				}
 					Stack<String> holi_list = new Stack<>();
-					ArrayList<Map<String, Object>> foods_all = foods.foodsList();
+					ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
 					foods_all.forEach(record -> {
 						Food foods = new Food();
 						modelMapper.map(record, foods);
@@ -487,16 +472,15 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 
+				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
 							"คุณโหวตอาหารครบ 10 รายการสำหรับอาทิตย์นี่เเล้วค่ะ   กรุณารออาทิตย์ถัดไปสำหรับการโหวตครั้งใหม่นะคะ")));
 					userLog.setStatusBot(status.DEFAULT);
 				} else {
-					// ----------------------------------------------------------------------------------------------------------Focus
-
 					userLog.setFoodId(text.toString());
-					foods.saveFood(userLog);
+					lineRepo.saveFood(userLog);
 					Calendar c = Calendar.getInstance();
 					Date now = new Date();
 					SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM");
@@ -513,11 +497,12 @@ public class LineBotController {
 					}
 					int limitVOte = 9;
 					int stopVote = limitVOte - userLog.getCountVout_CheckPossilibity();
-					this.reply(replyToken, Arrays.asList(new TextMessage("คุณโหวต  " + "\n" + "( " + foodName + "  )"
-							+ "\n" + "ประจำสัปดาห์ที่ " + DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(monday)
-							+ "-" + DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(sunday) + "/"
-							+ simpleDateformat.format(now) + "/" + c.get(Calendar.YEAR) + "\n"
-							+ "เหลือสิทธ์ในการโหวตอีก" + stopVote + "ครั้ง")));
+					this.reply(replyToken,
+							Arrays.asList(new TextMessage("คุณโหวต  " + "\n" + "( " + foodName + "  )" + "\n"+"ประจำสัปดาห์ที่ "
+									+ DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(monday) + "-"
+									+ DateTimeFormatter.ofPattern("dd", Locale.CHINA).format(sunday) + "/"
+									+ simpleDateformat.format(now) + "/" + c.get(Calendar.YEAR) + "\n"
+									+ "เหลือสิทธ์ในการโหวตอีก" + stopVote + "ครั้ง")));
 					userLog.setStatusBot(status.VOTE_FOODS);
 				}
 
@@ -539,6 +524,7 @@ public class LineBotController {
 			switch (text) {
 
 			case "ลากิจครับ": {
+
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
@@ -575,11 +561,11 @@ public class LineBotController {
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n"  + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
@@ -606,6 +592,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 			userLog.setEmpCode(text.toString());
 			if (empName != null) {
+
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
 						new MessageAction("ใช่ !", "ใช่"), new MessageAction("ไม่ใช่ !", "ไม่ใช่"));
 
@@ -626,11 +613,10 @@ public class LineBotController {
 			switch (text) {
 			case "ใช่": {
 				lineRepo.register(userLog);
-//				userLog.setStatusBot(status.DEFAULT);
-//				String pathYamlHome = "asset/select_event.yml";
-//				String pathImageHome = "asset/select_event.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				//-------------------------------------ปิดไว้เพราะ API ถึงขีดจำกัด เเสดงรูปภาพขึ้นมาได้แค่ 1000 ครั้ง หลังเคลียร์ปัญหานี้เปิดใช้ได้ตามปกติครับ-------------------  ╮(￣▽￣)╭
+				userLog.setStatusBot(status.DEFAULT);
+				String pathYamlHome = "asset/select_event.yml";
+				String pathImageHome = "asset/select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ  ??")));
 				break;
