@@ -38,6 +38,7 @@ import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
 import com.iphayao.repository.LineRepository;
+import com.iphayao.service.TestService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -88,6 +89,9 @@ public class LineBotController {
 
 	@Autowired
 	private LineRepository lineRepo;
+	
+	@Autowired
+	private TestService testService;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -184,9 +188,9 @@ public class LineBotController {
 				break;
 			}
 			case "ลงทะเบียน": {
-
+//				testService.setTest("FUCK U MAN");
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
+						Arrays.asList(new TextMessage(/*"กรุณากรอก รหัสพนักงาน"*/testService.setTest("FUCK U MAN") + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
