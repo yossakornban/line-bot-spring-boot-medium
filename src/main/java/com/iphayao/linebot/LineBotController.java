@@ -38,6 +38,7 @@ import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
 import com.iphayao.repository.LineRepository;
+import com.iphayao.service.FoodsService;
 import com.iphayao.service.HolidayService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
@@ -92,6 +93,9 @@ public class LineBotController {
 	
 	@Autowired
 	private HolidayService holiday;
+	
+	@Autowired
+	private FoodsService foods;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -158,19 +162,11 @@ public class LineBotController {
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
-			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
-				foods_all.forEach(record -> {
-					Food holi = new Food();
-					modelMapper.map(record, holi);
-					holi_list.push("\n" + holi.getFood_id() + "  " + holi.getFood_name());
-				});
-				String Imr = holi_list.toString();
-				Imr = Imr.replace("[", "");
-				Imr = Imr.replace("]", "");
-				Imr = Imr.replace(",", "");
-				this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
+			//-------------------------------------------------------------------------------------------------------------Focus
+//			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
+			case "ขอดูรายการ": {
+				String Imr = foods.ListAllFoods();
+				this.reply(replyToken, Arrays.asList(new TextMessage(Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -382,7 +378,6 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 
-				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(

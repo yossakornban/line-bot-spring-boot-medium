@@ -22,10 +22,7 @@ public class HolidayService {
 	
 	ModelMapper modelMapper;
 
-	public String setTest(String name) {
-		String text = "I will "+name;
-		return text;
-	}
+	
 	
 	public String getAllHoliday() {
 		modelMapper = new ModelMapper();
