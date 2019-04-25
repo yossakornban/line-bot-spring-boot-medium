@@ -223,7 +223,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
+			case "ทั้งหมด": {
 
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
