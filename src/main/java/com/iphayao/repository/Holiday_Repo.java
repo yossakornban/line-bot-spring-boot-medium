@@ -28,7 +28,6 @@ public class Holiday_Repo {
 		public Boolean active;
 
 	}
-
 	@Autowired
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
