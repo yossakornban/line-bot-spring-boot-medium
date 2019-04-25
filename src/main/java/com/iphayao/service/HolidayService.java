@@ -34,12 +34,12 @@ public class HolidayService {
 			holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 		});
 
-		String Imr = holi_list.toString();
-		Imr = Imr.replace("[", "");
-		Imr = Imr.replace("]", "");
-		Imr = Imr.replace(",", "");
+		String Holiday_In_Year = holi_list.toString();
+		Holiday_In_Year = Holiday_In_Year.replace("[", "");
+		Holiday_In_Year = Holiday_In_Year.replace("]", "");
+		Holiday_In_Year = Holiday_In_Year.replace(",", "");
 		
-		return Imr;
+		return Holiday_In_Year;
 	}
 	
 	public String getHolidaySoon(){   

@@ -165,8 +165,8 @@ public class LineBotController {
 			//-------------------------------------------------------------------------------------------------------------Focus
 //			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 			case "ขอดูรายการ": {
-				String Imr = foods.ListAllFoods();
-				this.reply(replyToken, Arrays.asList(new TextMessage(Imr)));
+				String foodsList = foods.ListAllFoods();
+				this.reply(replyToken, Arrays.asList(new TextMessage(foodsList)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -197,7 +197,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-
+//			case "ขอทราบ ข้อมูลวันหยุดค่ะ"{
 			case "วัยหยุด": {
 //				String pathYamlHome = "asset/sub_select_event.yml";
 //				String pathImageHome = "asset/sub_select_event.jpg";
@@ -214,10 +214,11 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
+//			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ"{
 			case "ทั้งหมด": {
-				String Imr = holiday.getAllHoliday();
+				String Holiday_In_Year = holiday.getAllHoliday();
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Imr)));
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Holiday_In_Year)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -357,19 +358,8 @@ public class LineBotController {
 			if (foodName == null) {
 				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-
-					Stack<String> holi_list = new Stack<>();
-					ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
-					foods_all.forEach(record -> {
-						Food foods = new Food();
-						modelMapper.map(record, foods);
-						holi_list.push("\n" + foods.getFood_id() + "  " + foods.getFood_name());
-					});
-					String Imr = holi_list.toString();
-					Imr = Imr.replace("[", "");
-					Imr = Imr.replace("]", "");
-					Imr = Imr.replace(",", "");
-					this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
+					String foodsList = foods.ListAllFoods();
+					this.reply(replyToken, Arrays.asList(new TextMessage(foodsList)));
 					userLog.setStatusBot(status.VOTE_FOODS);
 					break;
 				}
