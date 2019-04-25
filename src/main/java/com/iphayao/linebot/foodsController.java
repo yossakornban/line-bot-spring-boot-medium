@@ -83,6 +83,7 @@ import com.iphayao.LineApplication;
 @LineMessageHandler
 
 public class foodsController {
+	
 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
