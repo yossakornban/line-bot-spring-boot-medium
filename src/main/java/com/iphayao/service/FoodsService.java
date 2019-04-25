@@ -33,7 +33,7 @@ public class FoodsService {
 			modelMapper.map(record, menus);
 			holi_list.push("\n" + menus.getFood_id() + "  " + menus.getFood_name());
 		});
-		String foodsList ="รายการอาหารค่ะ"+"\n"+ holi_list.toString();
+		String foodsList ="รายการอาหารค่ะ"+"\n"+ holi_list.toString()+"╮(￣▽￣)╭";
 		foodsList = foodsList.replace("[", "");
 		foodsList = foodsList.replace("]", "");
 		foodsList = foodsList.replace(",", "");
