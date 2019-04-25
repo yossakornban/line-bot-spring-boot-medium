@@ -333,6 +333,7 @@ public class LineBotController {
 			
 				this.reply(replyToken,
 						(new TextMessage(holidaySoon)));
+				System.out.println(holidaySoon);
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
