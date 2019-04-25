@@ -25,7 +25,7 @@ public class FoodsService {
 
 	
 	public String ListAllFoods(){
-		
+		modelMapper = new ModelMapper();
 		Stack<String> holi_list = new Stack<>();
 		ArrayList<Map<String, Object>> foods_all = foods.foodsList();
 		foods_all.forEach(record -> {
