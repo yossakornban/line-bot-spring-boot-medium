@@ -46,6 +46,7 @@ public class HolidayService {
 	}
 	
 	public String getHolidaySoon(){
+		modelMapper = new ModelMapper();
 		Date nowDate = new Date();
 		Stack<String> holi_list = new Stack<>();
 		ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
@@ -129,6 +130,7 @@ public class HolidayService {
 		day3 = day3.replace("name_holiday=", " ");
 		day3 = day3.replace("=", "");
 		day3 = day3.replace(",", " ");
+		
 		String holidaySoon = "วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
 		+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
 		+ day2 + "\n" + "? " + day3;
