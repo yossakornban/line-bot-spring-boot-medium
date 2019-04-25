@@ -38,7 +38,7 @@ import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
 import com.iphayao.repository.LineRepository;
-import com.iphayao.service.TestService;
+import com.iphayao.service.FoodsService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -91,7 +91,7 @@ public class LineBotController {
 	private LineRepository lineRepo;
 	
 	@Autowired
-	private TestService testService;
+	private FoodsService testService;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
