@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 public class TestService {
 
 	public String setTest(String name) {
-		String text = "I will" + name;
+		String text = name;
 		return text;
 	}
 	
