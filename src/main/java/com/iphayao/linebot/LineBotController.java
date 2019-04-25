@@ -201,18 +201,18 @@ public class LineBotController {
 				break;
 			}
 
-			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
-				String pathYamlHome = "asset/sub_select_event.yml";
-				String pathImageHome = "asset/sub_select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+			case "วัยหยุด": {
+//				String pathYamlHome = "asset/sub_select_event.yml";
+//				String pathImageHome = "asset/sub_select_event.jpg";
+//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "โหวตอาหารประจำสัปดาห์": {
-				String pathYamlHome = "asset/foodVote.yml";
-				String pathImageHome = "asset/foodVote.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+			case "อาหาร": {
+//				String pathYamlHome = "asset/foodVote.yml";
+//				String pathImageHome = "asset/foodVote.jpg";
+//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
@@ -614,9 +614,9 @@ public class LineBotController {
 			case "ใช่": {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
-				String pathYamlHome = "asset/select_event.yml";
-				String pathImageHome = "asset/select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+//				String pathYamlHome = "asset/select_event.yml";
+//				String pathImageHome = "asset/select_event.jpg";
+//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ  ??")));
 				break;
