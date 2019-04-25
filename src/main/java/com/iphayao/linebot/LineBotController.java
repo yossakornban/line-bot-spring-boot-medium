@@ -188,7 +188,7 @@ public class LineBotController {
 				break;
 			}
 			case "ลงทะเบียน": {
-//				testService.setTest("FUCK U MAN");
+				System.out.println(testService.setTest("FUCK U MAN"));
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage(/*"กรุณากรอก รหัสพนักงาน"*/testService.setTest("FUCK U MAN") + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
