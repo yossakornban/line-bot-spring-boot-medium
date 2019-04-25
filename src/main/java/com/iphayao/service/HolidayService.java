@@ -1,5 +1,7 @@
 package com.iphayao.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -14,7 +16,7 @@ import com.iphayao.repository.Holiday_Repo;;;
 
 @Service
 public class HolidayService {
-	
+	private static final DateFormat dateNowHoliday = new SimpleDateFormat("dd/MM/yyyy");
 	@Autowired
 	private Holiday_Repo holiday;
 	
@@ -44,7 +46,7 @@ public class HolidayService {
 	}
 	
 	public String getHolidaySoon(){
-		
+		Date nowDate = new Date();
 		Stack<String> holi_list = new Stack<>();
 		ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
 		holiday_all.forEach(record -> {
@@ -125,8 +127,10 @@ public class HolidayService {
 		day3 = day3.replace("name_holiday=", " ");
 		day3 = day3.replace("=", "");
 		day3 = day3.replace(",", " ");
-	
-		return day1 + day2 + day3;
+		String holidaySoon = "วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
+		+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
+		+ day2 + "\n" + "? " + day3;
+		return holidaySoon;
 	}
 	
 	

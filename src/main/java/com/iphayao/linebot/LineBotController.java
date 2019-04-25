@@ -329,13 +329,10 @@ public class LineBotController {
 //				day3 = day3.replace("name_holiday=", " ");
 //				day3 = day3.replace("=", "");
 //				day3 = day3.replace(",", " ");
-				String day1 = holiday.getHolidaySoon();
-				String day2 = holiday.getHolidaySoon();
-				String day3 = holiday.getHolidaySoon();
+				String holidaySoon = holiday.getHolidaySoon();
+			
 				this.reply(replyToken,
-						(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
-								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
-								+ day2 + "\n" + "? " + day3)));
+						(new TextMessage(holidaySoon)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
