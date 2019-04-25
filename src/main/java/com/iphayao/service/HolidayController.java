@@ -12,7 +12,7 @@ import com.iphayao.linebot.model.Holiday;
 import com.iphayao.repository.LineRepository;
 
 @Service
-public class FoodsService {
+public class HolidayController {
 	
 	@Autowired
 	private LineRepository lineRepo;
