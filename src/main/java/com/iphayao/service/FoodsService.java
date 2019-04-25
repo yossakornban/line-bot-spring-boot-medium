@@ -27,17 +27,17 @@ public class FoodsService {
 	public String ListAllFoods(){
 		modelMapper = new ModelMapper();
 		Stack<String> holi_list = new Stack<>();
-		ArrayList<Map<String, Object>> foods_all = foods.foodsList();
-		foods_all.forEach(record -> {
-			Food holi = new Food();
-			modelMapper.map(record, holi);
-			holi_list.push("\n" + holi.getFood_id() + "  " + holi.getFood_name());
+		ArrayList<Map<String, Object>> ListFoodsAll = foods.foodsList();
+		ListFoodsAll.forEach(record -> {
+			Food menus = new Food();
+			modelMapper.map(record, menus);
+			holi_list.push("\n" + menus.getFood_id() + "  " + menus.getFood_name());
 		});
-		String Imr ="รายการอาหารค่ะ"+"/n"+ holi_list.toString();
-		Imr = Imr.replace("[", "");
-		Imr = Imr.replace("]", "");
-		Imr = Imr.replace(",", "");
-		return Imr;
+		String foodsList ="รายการอาหารค่ะ"+"\n"+ holi_list.toString();
+		foodsList = foodsList.replace("[", "");
+		foodsList = foodsList.replace("]", "");
+		foodsList = foodsList.replace(",", "");
+		return foodsList;
 		
 		
 	}
