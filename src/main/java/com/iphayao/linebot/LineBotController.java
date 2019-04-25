@@ -539,7 +539,6 @@ public class LineBotController {
 			switch (text) {
 
 			case "ลากิจครับ": {
-
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
