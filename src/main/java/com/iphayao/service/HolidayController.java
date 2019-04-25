@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iphayao.linebot.model.Holiday;
-import com.iphayao.repository.LineRepository;
+import com.iphayao.repository.Holiday_Repo;;;
 
 @Service
 public class HolidayController {
 	
 	@Autowired
-	private LineRepository lineRepo;
+	private Holiday_Repo holiday;
 	
 	ModelMapper modelMapper;
 
@@ -27,7 +27,7 @@ public class HolidayController {
 	public String getAllHoliday() {
 		modelMapper = new ModelMapper();
 		Stack<String> holi_list = new Stack<>();
-		ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
+		ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
 		holiday_all.forEach(record -> {
 			Holiday holi = new Holiday();
 			modelMapper.map(record, holi);
