@@ -327,9 +327,9 @@ public class LineBotController {
 				break;
 			}
 			case "ย้อนกลับค่ะ": {
-				String pathYamlHome = "asset/select_event.yml";
-				String pathImageHome = "asset/select_event.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+//				String pathYamlHome = "asset/select_event.yml";
+//				String pathImageHome = "asset/select_event.jpg";
+//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
