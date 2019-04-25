@@ -191,21 +191,21 @@ public class LineBotController {
 				break;
 			}
 
-//			case "ขอทราบ ข้อมูลวันหยุดค่ะ": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
-			case "วันหยุด": {
-//				String pathYamlHome = "asset/sub_select_event.yml";
-//				String pathImageHome = "asset/sub_select_event.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+			case "ขอทราบ ข้อมูลวันหยุดค่ะ": { 
+//			case "วันหยุด": {
+				String pathYamlHome = "asset/sub_select_event.yml";
+				String pathImageHome = "asset/sub_select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				//-------------------------------------ปิดไว้เพราะ API ถึงขีดจำกัด เเสดงรูปภาพขึ้นมาได้แค่ 1000 ครั้ง หลังเคลียร์ปัญหานี้เปิดใช้ได้ตามปกติครับ-------------------  ╮(￣▽￣)╭
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-//			case "โหวตอาหารประจำสัปดาห์": { อันนี้ตัวจริงหลังเเก้ปัญหาเปิดใช้ได้ตามปกติเลย  ขีดจำกัดแแสดง Menu 1000 ครั้ง
-			case "อาหาร": {
-//				String pathYamlHome = "asset/foodVote.yml";
-//				String pathImageHome = "asset/foodVote.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+			case "โหวตอาหารประจำสัปดาห์": { 
+		
+				String pathYamlHome = "asset/foodVote.yml";
+				String pathImageHome = "asset/foodVote.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				//-------------------------------------ปิดไว้เพราะ API ถึงขีดจำกัด เเสดงรูปภาพขึ้นมาได้แค่ 1000 ครั้ง หลังเคลียร์ปัญหานี้เปิดใช้ได้ตามปกติครับ-------------------  ╮(￣▽￣)╭
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
