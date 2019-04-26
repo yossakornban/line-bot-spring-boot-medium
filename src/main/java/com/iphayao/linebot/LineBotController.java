@@ -455,20 +455,9 @@ public class LineBotController {
 
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 
-				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
-				holiday_all.forEach(record -> {
-					Holiday holi = new Holiday();
-					modelMapper.map(record, holi);
-					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
-				});
-
-				String Imr = holi_list.toString();
-				Imr = Imr.replace("[", "");
-				Imr = Imr.replace("]", "");
-				Imr = Imr.replace(",", "");
+				String Holiday_In_Year = holiday.getAllHoliday();
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Imr)));
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Holiday_In_Year)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
