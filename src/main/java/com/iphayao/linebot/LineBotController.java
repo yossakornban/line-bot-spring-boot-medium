@@ -170,31 +170,10 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "ไอ้สัส": {
-
-				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
-			case "สวัสดี": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
 			case "ลงทะเบียน": {
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน"+ "\n" + "เพื่อยืนยันตัวตนค่ะ")));
 				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
-			case "list": {
-				ArrayList<Map<String, Object>> list = lineRepo.list();
-				list.forEach(record -> {
-					Entity en = new Entity();
-					modelMapper.map(record, en);
-					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
-				});
-				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 //			case "ขอทราบ ข้อมูลวันหยุดค่ะ"{
@@ -224,10 +203,7 @@ public class LineBotController {
 			}
 		//	case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
 			case "เร็วๆ": {
-				Date nowDate = new Date();
-
 				String holidaySoon = holiday.getHolidaySoon();
-			
 				this.reply(replyToken, Arrays.asList(new TextMessage(holidaySoon)));
 				System.out.println(holidaySoon);
 				userLog.setStatusBot(status.DEFAULT);
@@ -485,14 +461,11 @@ public class LineBotController {
 				userLog.setStatusBot(status.FINDCONFIRM);
 			} else {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
-
 						"ไม่มีข้อมูลพนักงานเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
 						new TextMessage("กรุณากรอก รหัสพนักงาน ให้ถูกต้อง" + "\n" + "เพื่อยืนยันตัวตนอีกครั้งค่ะ")));
 				;
-
 				userLog.setStatusBot(status.FINDEMP);
 			}
-
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
