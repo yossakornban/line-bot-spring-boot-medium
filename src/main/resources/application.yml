@@ -1,3 +1,8 @@
+server:
+  port: 8080
+  servlet:
+   contextPath: /api
+
 line.bot:
   channel-token: 'Put Your Channel Token Here.'
   channel-secret: 'Put Your Channel Token Here.'
