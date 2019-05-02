@@ -6,7 +6,7 @@ server:
 line.bot:
   channel-token: 'Put Your Channel Token Here.'
   channel-secret: 'Put Your Channel Token Here.'
-  handler.path: /callback
+
   
 spring.datasource:
   platform: postgres
