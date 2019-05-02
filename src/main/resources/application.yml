@@ -3,9 +3,6 @@ server:
   servlet:
    contextPath: /api
 
-line.bot:
-  channel-token: 'Put Your Channel Token Here.'
-  channel-secret: 'Put Your Channel Token Here.'
 
   
 spring.datasource:
