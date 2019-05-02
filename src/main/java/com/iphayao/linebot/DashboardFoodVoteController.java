@@ -28,6 +28,7 @@ public class DashboardFoodVoteController {
 
 	@RequestMapping("voteFood/dashboardFoodVote")
 	public ArrayList<Map<String, Object>> findEmp(String empCode) {
+		System.out.println("Stay in ChartController");
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;
 		try {
