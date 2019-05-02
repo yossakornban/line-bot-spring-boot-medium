@@ -23,7 +23,7 @@ public class DashboardFoodVoteController {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	@RequestMapping("/dashboardFoodVote")
+	@RequestMapping("voteFood/dashboardFoodVote")
 	public ArrayList<Map<String, Object>> findEmp(String empCode) {
 		ArrayList<Map<String, Object>> result = null;
 		// List<Map<String, Object>> result = null;

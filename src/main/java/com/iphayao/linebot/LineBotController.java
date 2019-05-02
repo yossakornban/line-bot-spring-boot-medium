@@ -162,7 +162,6 @@ public class LineBotController {
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
-			//-------------------------------------------------------------------------------------------------------------Focus
 //			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
 			case "ขอดูรายการ": {
 				String foodsList = foods.ListAllFoods();
