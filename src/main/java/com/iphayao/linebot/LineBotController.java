@@ -251,7 +251,6 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"โปรดเลือกรายการ \n พิมพ์  profile : ดูข้อมูล Profile  \n พิมพ์  list : ดู Agenda \n พิมพ์  add : เพิ่ม Agenda")));
 				userLog.setStatusBot(status.DEFAULT);
-				;
 				break;
 			}
 			case "Flex": {
