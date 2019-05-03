@@ -12,6 +12,6 @@ spring.datasource:
   password: ssline^1999
   
   server:
-  port: 8080
+port: 8080
   servlet:
    contextPath: /api
