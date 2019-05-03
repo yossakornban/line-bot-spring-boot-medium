@@ -11,11 +11,14 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.iphayao.repository.Holiday_Repo;
 
 import lombok.extern.slf4j.Slf4j;
 
+@RestController
+@RequestMapping("/voteFood")
 @Slf4j
 @Controller
 public class DashboardFoodVoteController {
@@ -25,7 +28,7 @@ public class DashboardFoodVoteController {
 	private StringBuilder stb = null;
 
 
-	@RequestMapping("voteFood/dashboardFoodVote")
+	@RequestMapping("/dashboardFoodVote")
 	public  static void main(String [] args ) {
 		System.out.println("Raider Madmaninthailand@gmail.com");
 	}
