@@ -11,28 +11,40 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.iphayao.repository.Holiday_Repo;
 
 import lombok.extern.slf4j.Slf4j;
 
-@RestController
-@RequestMapping("/voteFood")
 @Slf4j
 @Controller
 public class DashboardFoodVoteController {
+	
 	@Autowired
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
 
-	@RequestMapping("/dashboardFoodVote")
-	public  static void main(String [] args ) {
-		System.out.println("Raider Madmaninthailand@gmail.com");
+	@RequestMapping("voteFood/dashboardFoodVote")
+	public ArrayList<Map<String, Object>> findEmp(String empCode) {
+		System.out.println("Stay in ChartController");
+		ArrayList<Map<String, Object>> result = null;
+		// List<Map<String, Object>> result = null;
+		try {
+			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			stb = new StringBuilder();
+			stb.append("select food_id,food_food_name,count(food_id)  from employee_vote inner join foods on employee_vote.food_id = foods.food_food_id group by food_id,foods.food_food_name order by count desc ");
+			MapSqlParameterSource parameters = new MapSqlParameterSource();
+			parameters.addValue("empcode", empCode);
+			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			if (result.size() == 0) {
+				return null;
+			}
+		} catch (EmptyResultDataAccessException ex) {
+			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+		}
+		return result;
 	}
-	
-		
 
 }
