@@ -54,8 +54,6 @@
 			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 			<version>2.0.4.RELEASE</version>
 		</dependency>
-
-		<!-- For lombok setting. -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
@@ -143,17 +141,6 @@
 			<version>1.6</version>
 		</dependency>
 
-		<!-- Java QR code generator -->
-		<dependency>
-			<groupId>com.google.zxing</groupId>
-			<artifactId>core</artifactId>
-			<version>3.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.zxing</groupId>
-			<artifactId>javase</artifactId>
-			<version>3.3.2</version>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
