@@ -1,4 +1,8 @@
-
+server:
+  port: 8080
+  servlet:
+   contextPath: /api
+   
 line.bot:
   channel-token: 'Put Your Channel Token Here.'
   channel-secret: 'Put Your Channel Token Here.'
@@ -11,7 +15,4 @@ spring.datasource:
   username: ssline
   password: ssline^1999
   
-  server:
-  port: 8080
-  servlet:
-   contextPath: /api
+  
