@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class DashboardFoodVoteController {
-	
 	@Autowired
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
@@ -27,24 +26,10 @@ public class DashboardFoodVoteController {
 
 
 	@RequestMapping("voteFood/dashboardFoodVote")
-	public ArrayList<Map<String, Object>> findEmp(String empCode) {
-		System.out.println("Stay in ChartController");
-		ArrayList<Map<String, Object>> result = null;
-		// List<Map<String, Object>> result = null;
-		try {
-			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			stb = new StringBuilder();
-			stb.append("select food_id,food_food_name,count(food_id)  from employee_vote inner join foods on employee_vote.food_id = foods.food_food_id group by food_id,foods.food_food_name order by count desc ");
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("empcode", empCode);
-			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			if (result.size() == 0) {
-				return null;
-			}
-		} catch (EmptyResultDataAccessException ex) {
-			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
-		}
-		return result;
+	public  static void main(String [] args ) {
+		System.out.println("Raider Madmaninthailand@gmail.com");
 	}
+	
+		
 
 }
