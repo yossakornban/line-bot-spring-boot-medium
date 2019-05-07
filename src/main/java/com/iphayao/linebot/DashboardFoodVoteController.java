@@ -27,7 +27,7 @@ public class DashboardFoodVoteController {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	@RequestMapping("voteFood/dashboardFoodVote")
+	@RequestMapping("wepogfj/dashboardFoodVote")
 	public ArrayList<Map<String, Object>> findEmp(String empCode) {
 		System.out.println("Stay in ChartController");
 		ArrayList<Map<String, Object>> result = null;
