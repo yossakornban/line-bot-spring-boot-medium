@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@CrossOrigin("/voteFood")
 public class DashboardFoodVoteController {
 	
 	@Autowired
