@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @CrossOrigin("*")
+@RequestMapping("/voteFood")
 public class DashboardFoodVoteController {
 	
 	@Autowired
@@ -27,7 +28,7 @@ public class DashboardFoodVoteController {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	@RequestMapping("voteFood/dashboardFoodVote")
+	@RequestMapping("/dashboardFoodVote")
 	public ArrayList<Map<String, Object>> findEmp(String empCode) {
 		System.out.println("Stay in ChartController");
 		ArrayList<Map<String, Object>> result = null;
