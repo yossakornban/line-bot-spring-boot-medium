@@ -140,8 +140,12 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.12</version>
 		</dependency>
+		<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-core</artifactId>
+    <version>0.11.0.RELEASE</version>
+</dependency>
 	</dependencies>
-
 	<build>
 		<resources>
 			<resource>
