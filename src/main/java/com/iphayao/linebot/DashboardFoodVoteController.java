@@ -18,7 +18,7 @@ import com.iphayao.repository.Holiday_Repo;
 
 import lombok.extern.slf4j.Slf4j;
 
-@CrossOrigin(origins = "http://localhost:4200/su/food")
+@CrossOrigin
 @Slf4j
 @Controller
 public class DashboardFoodVoteController {
