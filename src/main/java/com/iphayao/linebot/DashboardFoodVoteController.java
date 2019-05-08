@@ -11,12 +11,14 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.iphayao.repository.Holiday_Repo;
 
 import lombok.extern.slf4j.Slf4j;
 
+@CrossOrigin
 @Slf4j
 @Controller
 public class DashboardFoodVoteController {
@@ -26,7 +28,7 @@ public class DashboardFoodVoteController {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	@RequestMapping("/dashboardFoodVote")
+	@GetMapping("/dashboardFoodVote")
 	public ArrayList<Map<String, Object>> findEmp(String empCode) {
 		System.out.println("Stay in ChartController");
 		ArrayList<Map<String, Object>> result = null;
