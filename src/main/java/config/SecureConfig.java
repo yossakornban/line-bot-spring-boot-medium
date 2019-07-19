@@ -15,12 +15,12 @@ public class SecureConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
 		.antMatchers(HttpMethod.OPTIONS)
-		.antMatchers("/resources/**")
-		.antMatchers("/webjars/**")
-		.antMatchers("/swagger**")
-		.antMatchers("/swagger-resources/**")
-		.antMatchers("/v2/api-docs")
-		.antMatchers("/api/**")
-		.antMatchers("/localize/**");
+		.antMatchers("**");
+		// .antMatchers("/webjars/**")
+		// .antMatchers("/swagger**")
+		// .antMatchers("/swagger-resources/**")
+		// .antMatchers("/v2/api-docs")
+		// .antMatchers("/api/**")
+		// .antMatchers("/localize/**");
 	}
 }
