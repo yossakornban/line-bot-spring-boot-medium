@@ -7,9 +7,9 @@ line.bot:
 spring.datasource:
   platform: postgres
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://ec2-52-77-234-86.ap-southeast-1.compute.amazonaws.com:29448/erp?currentSchema=db
-  username: postgres
-  password: erp^1999
+  url: jdbc:postgresql://ec2-52-77-234-86.ap-southeast-1.compute.amazonaws.com:27348/ssline?sslmode=disable
+  username: ssline
+  password: ssline^1999
   
   server:
   port: 8080
