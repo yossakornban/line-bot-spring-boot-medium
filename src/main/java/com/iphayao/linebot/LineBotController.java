@@ -37,9 +37,6 @@ import com.iphayao.linebot.model.Food;
 import com.iphayao.linebot.model.Holiday;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
-import com.iphayao.repository.LineRepository;
-import com.iphayao.service.FoodsService;
-import com.iphayao.service.HolidayService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -63,7 +60,8 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-
+import com.iphayao.repository.Holiday_Repo;
+import com.iphayao.repository.LineBot_Repo;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -89,13 +87,8 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private LineRepository lineRepo;
-	
-	@Autowired
-	private HolidayService holiday;
-	
-	@Autowired
-	private FoodsService foods;
+	private LineBot_Repo lineRepo;
+	private Holiday_Repo holiday;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -162,56 +155,182 @@ public class LineBotController {
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
-//			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-			case "ขอดูรายการ": {
-				String foodsList = foods.ListAllFoods();
-				this.reply(replyToken, Arrays.asList(new TextMessage(foodsList)));
+			case "ขอดูรายการอาหารทั้งหมดค่ะ": {
+
+				Stack<String> holi_list = new Stack<>();
+				ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
+				foods_all.forEach(record -> {
+					Food holi = new Food();
+					modelMapper.map(record, holi);
+					holi_list.push("\n" + holi.getFood_id() + "  " + holi.getFood_name());
+				});
+				String Imr = holi_list.toString();
+				Imr = Imr.replace("[", "");
+				Imr = Imr.replace("]", "");
+				Imr = Imr.replace(",", "");
+				this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-			case "ลงทะเบียน": {
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน"+ "\n" + "เพื่อยืนยันตัวตนค่ะ")));
+			case "ไอ้สัส": {
+
+				this.reply(replyToken, Arrays.asList(new TextMessage("ไอ้สัส แป๊ะกล้วยทอดมึงดิ")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
-//			case "ขอทราบ ข้อมูลวันหยุดค่ะ"{
-			case "วัยหยุด": {
-//				String pathYamlHome = "asset/sub_select_event.yml";
-//				String pathImageHome = "asset/sub_select_event.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLog.setStatusBot(status.DEFAULT);
+			case "สวัสดี": {
+
+				this.reply(replyToken, Arrays.asList(new TextMessage("สวัสดีจร้าาาา")));
+				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
-			case "อาหาร": {
-//				String pathYamlHome = "asset/foodVote.yml";
-//				String pathImageHome = "asset/foodVote.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-//			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ"{
-			case "ทั้งหมด": {
-				String Holiday_In_Year = holiday.getAllHoliday();
+			case "ลงทะเบียน": {
+
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Holiday_In_Year)));
+						Arrays.asList(new TextMessage("กรุณากรอก รหัสพนักงาน" + "\n" + "เพื่อยืนยันตัวตนค่ะ")));
+				userLog.setStatusBot(status.FINDEMP);
+				break;
+			}
+			case "list": {
+				ArrayList<Map<String, Object>> list = lineRepo.list();
+				list.forEach(record -> {
+					Entity en = new Entity();
+					modelMapper.map(record, en);
+					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
+				});
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
-		//	case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
-			case "เร็วๆ": {
-				String holidaySoon = holiday.getHolidaySoon();
-				this.reply(replyToken, Arrays.asList(new TextMessage(holidaySoon)));
-				System.out.println(holidaySoon);
+
+			case "ขอทราบ ข้อมูลวันหยุดค่ะ": {
+				String pathYamlHome = "asset/sub_select_event.yml";
+				String pathImageHome = "asset/sub_select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			case "โหวตอาหารประจำสัปดาห์": {
+				String pathYamlHome = "asset/foodVote.yml";
+				String pathImageHome = "asset/foodVote.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
+
+				Stack<String> holi_list = new Stack<>();
+				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
+				holiday_all.forEach(record -> {
+					Holiday holi = new Holiday();
+					modelMapper.map(record, holi);
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+				});
+
+				String Imr = holi_list.toString();
+				Imr = Imr.replace("[", "");
+				Imr = Imr.replace("]", "");
+				Imr = Imr.replace(",", "");
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Imr)));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+
+			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
+				System.out.println("Striker In herer");
+				Date nowDate = new Date();
+				Stack<String> holi_list = new Stack<>();
+				ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
+				holiday_all.forEach(record -> {
+					Holiday holi = new Holiday();
+					modelMapper.map(record, holi);
+					holi_list.push("\n" + holi.getDate_holiday() + "   " + holi.getName_holiday());
+				});
+				String day1 = holiday_all.get(0).toString();
+				String day2 = holiday_all.get(1).toString();
+				String day3 = holiday_all.get(2).toString();
+				day1 = day1.replace("2019-01-01", "01/01/2019");
+				day1 = day1.replace("2019-02-05", "05/02/2019");
+				day1 = day1.replace("2019-02-19", "19/02/2019");
+				day1 = day1.replace("2019-04-08", "08/04/2019");
+				day1 = day1.replace("2019-04-15", "15/04/2019");
+				day1 = day1.replace("2019-04-16", "16/04/2019");
+				day1 = day1.replace("2019-05-01", "01/05/2019");
+				day1 = day1.replace("2019-07-20", "20/07/2019");
+				day1 = day1.replace("2019-07-16", "16/07/2019");
+				day1 = day1.replace("2019-07-29", "29/07/2019");
+				day1 = day1.replace("2019-08-12", "12/08/2019");
+				day1 = day1.replace("2019-10-14", "14/10/2019");
+				day1 = day1.replace("2019-10-23", "23/10/2019");
+				day1 = day1.replace("2019-12-5", "05/12/2019");
+				day1 = day1.replace("2019-12-10", "10/12/2019");
+				day1 = day1.replace("2019-12-31", "31/12/2019");
+				// -------------------------------------------------
+				day2 = day2.replace("2019-01-01", "01/01/2019");
+				day2 = day2.replace("2019-02-05", "05/02/2019");
+				day2 = day2.replace("2019-02-19", "19/02/2019");
+				day2 = day2.replace("2019-02-08", "08/02/2019");
+				day2 = day2.replace("2019-04-15", "15/04/2019");
+				day2 = day2.replace("2019-04-16", "16/04/2019");
+				day2 = day2.replace("2019-05-01", "01/05/2019");
+				day2 = day2.replace("2019-07-20", "20/07/2019");
+				day2 = day2.replace("2019-07-16", "16/07/2019");
+				day2 = day2.replace("2019-07-29", "29/07/2019");
+				day2 = day2.replace("2019-08-12", "12/08/2019");
+				day2 = day2.replace("2019-10-14", "14/10/2019");
+				day2 = day2.replace("2019-10-23", "23/10/2019");
+				day2 = day2.replace("2019-12-5", "05/12/2019");
+				day2 = day2.replace("2019-12-10", "10/12/2019");
+				day2 = day2.replace("2019-12-31", "31/12/2019");
+				// -------------------------------------------------
+				day3 = day3.replace("2019-01-01", "01/01/2019");
+				day3 = day3.replace("2019-02-05", "05/02/2019");
+				day3 = day3.replace("2019-02-19", "19/02/2019");
+				day3 = day3.replace("2019-02-08", "08/02/2019");
+				day3 = day3.replace("2019-04-15", "15/04/2019");
+				day3 = day3.replace("2019-04-16", "16/04/2019");
+				day3 = day3.replace("2019-05-01", "01/05/2019");
+				day3 = day3.replace("2019-07-20", "20/07/2019");
+				day3 = day3.replace("2019-07-16", "16/07/2019");
+				day3 = day3.replace("2019-07-29", "29/07/2019");
+				day3 = day3.replace("2019-08-12", "12/08/2019");
+				day3 = day3.replace("2019-10-14", "14/10/2019");
+				day3 = day3.replace("2019-10-23", "23/10/2019");
+				day3 = day3.replace("2019-12-5", "05/12/2019");
+				day3 = day3.replace("2019-12-10", "10/12/2019");
+				day3 = day3.replace("2019-12-31", "31/12/2019");
+				// -------------------------------------------------
+				day1 = day1.replace("{", "");
+				day1 = day1.replace("}", "");
+				day1 = day1.replace("to_date=", "");
+				day1 = day1.replace("name_holiday=", "");
+				day1 = day1.replace("=", "");
+				day1 = day1.replace(",", " ");
+				day2 = day2.replace("{", "");
+				day2 = day2.replace("}", "");
+				day2 = day2.replace("to_date=", "");
+				day2 = day2.replace("name_holiday=", " ");
+				day2 = day2.replace("=", "");
+				day2 = day2.replace(",", " ");
+				day3 = day3.replace("{", "");
+				day3 = day3.replace("}", "");
+				day3 = day3.replace("to_date=", "");
+				day3 = day3.replace("name_holiday=", " ");
+				day3 = day3.replace("=", "");
+				day3 = day3.replace(",", " ");
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
+								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
+								+ day2 + "\n" + "? " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "ย้อนกลับค่ะ": {
-//				String pathYamlHome = "asset/select_event.yml";
-//				String pathImageHome = "asset/select_event.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				String pathYamlHome = "asset/select_event.yml";
+				String pathImageHome = "asset/select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage("เลือกเมนูที่ต้องการ ได้เลยค่ะ  ??")));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
@@ -251,6 +370,7 @@ public class LineBotController {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"โปรดเลือกรายการ \n พิมพ์  profile : ดูข้อมูล Profile  \n พิมพ์  list : ดู Agenda \n พิมพ์  add : เพิ่ม Agenda")));
 				userLog.setStatusBot(status.DEFAULT);
+				;
 				break;
 			}
 			case "Flex": {
@@ -332,8 +452,19 @@ public class LineBotController {
 			if (foodName == null) {
 				switch (text) {
 				case "ขอดูรายการอาหารทั้งหมดค่ะ": {
-					String foodsList = foods.ListAllFoods();
-					this.reply(replyToken, Arrays.asList(new TextMessage(foodsList)));
+
+					Stack<String> holi_list = new Stack<>();
+					ArrayList<Map<String, Object>> foods_all = lineRepo.foodsList();
+					foods_all.forEach(record -> {
+						Food foods = new Food();
+						modelMapper.map(record, foods);
+						holi_list.push("\n" + foods.getFood_id() + "  " + foods.getFood_name());
+					});
+					String Imr = holi_list.toString();
+					Imr = Imr.replace("[", "");
+					Imr = Imr.replace("]", "");
+					Imr = Imr.replace(",", "");
+					this.reply(replyToken, Arrays.asList(new TextMessage("รายการอาหารทั้งหมดค่ะ  " + "\n" + Imr)));
 					userLog.setStatusBot(status.VOTE_FOODS);
 					break;
 				}
@@ -342,6 +473,7 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("ไม่พบรายาร อาหารดังกล่าว กรุณา ใส่รหัสอาหารอีกครั้งค่ะ")));
 				userLog.setStatusBot(status.VOTE_FOODS);
 
+				// -----------------------------------------------------------------------------------------------------------Focus
 			} else if (text != null && text == userLog.getFoodName()) {
 				if (userLog.getCountVout_CheckPossilibity() >= 10) {
 					this.reply(replyToken, Arrays.asList(new TextMessage(
@@ -429,9 +561,20 @@ public class LineBotController {
 
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 
-				String Holiday_In_Year = holiday.getAllHoliday();
+				Stack<String> holi_list = new Stack<>();
+				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
+				holiday_all.forEach(record -> {
+					Holiday holi = new Holiday();
+					modelMapper.map(record, holi);
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+				});
+
+				String Imr = holi_list.toString();
+				Imr = Imr.replace("[", "");
+				Imr = Imr.replace("]", "");
+				Imr = Imr.replace(",", "");
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Holiday_In_Year)));
+						Arrays.asList(new TextMessage("ข้อมูลวันหยุดประจำปี ทั้งหมดค่ะ  " + "\n" + Imr)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -459,19 +602,22 @@ public class LineBotController {
 				userLog.setStatusBot(status.FINDCONFIRM);
 			} else {
 				this.reply(replyToken, Arrays.asList(new TextMessage(
+
 						"ไม่มีข้อมูลพนักงานเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
 						new TextMessage("กรุณากรอก รหัสพนักงาน ให้ถูกต้อง" + "\n" + "เพื่อยืนยันตัวตนอีกครั้งค่ะ")));
 				;
+
 				userLog.setStatusBot(status.FINDEMP);
 			}
+
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "ใช่": {
 				lineRepo.register(userLog);
 				userLog.setStatusBot(status.DEFAULT);
-//				String pathYamlHome = "asset/select_event.yml";
-//				String pathImageHome = "asset/select_event.jpg";
-//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				String pathYamlHome = "asset/select_event.yml";
+				String pathImageHome = "asset/select_event.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
 				this.reply(replyToken, Arrays.asList(new TextMessage(
 						"ลงทะเบียนสำเร็จ  " + "\n" + "กรุณา  เลือกเมนู ที่ต้องการทำรายการ ได้เลยค่ะ  ??")));
 				break;
