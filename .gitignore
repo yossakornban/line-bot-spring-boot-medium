@@ -18,4 +18,3 @@ buildNumber.properties
 .project
 .settings/*
 *.iml
-/.metadata/

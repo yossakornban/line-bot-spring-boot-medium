@@ -3,7 +3,7 @@ size:
   height: 1686
 selected: false
 name: Home
-chatBarText: 'กรุณา เลือกเมนูคะ'
+chatBarText: 'Menu Eiei'
 areas:
 -
   bounds:
@@ -54,4 +54,4 @@ areas:
   action:
     type: message
     label: unlink
-    text: 'สอบถาม ข้อมูลทั่วไป'
+    text: 'Flex Back'
