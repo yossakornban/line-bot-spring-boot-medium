@@ -49,6 +49,8 @@ public class LineRepository {
 			stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
+			System.out.println("1111111111111111111"+userLog.getEmpCode());
+			System.out.println( "22222222222222222222"+ userLog.getUserID());
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
 
