@@ -60,7 +60,8 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-
+import com.iphayao.repository.Holiday_Repo;
+import com.iphayao.repository.LineBot_Repo;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -86,7 +87,8 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private LineRepository lineRepo;
+	private LineBot_Repo lineRepo;
+	private Holiday_Repo holiday;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -223,7 +225,7 @@ public class LineBotController {
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
@@ -237,6 +239,7 @@ public class LineBotController {
 			}
 
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
+				System.out.println("11111111111111111111111111111111");
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
 				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
@@ -244,7 +247,6 @@ public class LineBotController {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
 					holi_list.push("\n" + holi.getDate_holiday() + "   " + holi.getName_holiday());
-
 				});
 				String day1 = holiday_all.get(0).toString();
 				String day2 = holiday_all.get(1).toString();
@@ -320,8 +322,8 @@ public class LineBotController {
 				day3 = day3.replace(",", " ");
 				this.reply(replyToken,
 						Arrays.asList(new TextMessage("วันที่ปัจจุบัน คือ  " + " " + dateNowHoliday.format(nowDate)
-								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "➤ " + day1 + "\n" + "➤ "
-								+ day2 + "\n" + "➤ " + day3)));
+								+ "\n" + "\n" + "วันหยุดที่จะถึงเร็วๆนี้ ได้เเก่ " + "\n" + "? " + day1 + "\n" + "? "
+								+ day2 + "\n" + "? " + day3)));
 				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
@@ -560,11 +562,11 @@ public class LineBotController {
 			case "ขอทราบวันหยุด ทั้งหมดภายในปีนี้ค่ะ": {
 
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.holidayList();
+				ArrayList<Map<String, Object>> holiday_all = holiday.holidayList();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
-					holi_list.push("\n" + "➤ " + holi.getDate_holiday() + "  " + holi.getName_holiday());
+					holi_list.push("\n" + "? " + holi.getDate_holiday() + "  " + holi.getName_holiday());
 				});
 
 				String Imr = holi_list.toString();
