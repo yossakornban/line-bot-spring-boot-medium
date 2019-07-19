@@ -45,7 +45,7 @@ public class LineRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" UPDATE employee SET emp_emp_line_id = :lineid ");
+			stb.append(" UPDATE db.employee SET emp_emp_line_id = :lineid ");
 			stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -71,7 +71,7 @@ public class LineRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" SELECT emp_emp_name FROM employee ");
+			stb.append(" SELECT emp_emp_name FROM db.employee ");
 			stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();

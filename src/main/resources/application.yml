@@ -6,7 +6,7 @@ line.bot:
 spring.datasource:
   platform: postgres
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://jdbc:postgresql://ec2-52-77-234-86.ap-southeast-1.compute.amazonaws.com:29448/erp?currentSchema=db?sslmode=disable
+  url: jdbc:postgresql://jdbc:postgresql://ec2-52-77-234-86.ap-southeast-1.compute.amazonaws.com:29448/erp?sslmode=disable
   username: postgres
   password: erp^1999
 
