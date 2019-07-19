@@ -239,10 +239,10 @@ public class LineBotController {
 			}
 
 			case "ขอทราบวันหยุด ที่จะถึงเร็วๆนี้ค่ะ": {
-				System.out.println("11111111111111111111111111111111");
+				System.out.println("Striker In here");
 				Date nowDate = new Date();
 				Stack<String> holi_list = new Stack<>();
-				ArrayList<Map<String, Object>> holiday_all = lineRepo.Holiday_Soon();
+				ArrayList<Map<String, Object>> holiday_all = holiday.Holiday_Soon();
 				holiday_all.forEach(record -> {
 					Holiday holi = new Holiday();
 					modelMapper.map(record, holi);
