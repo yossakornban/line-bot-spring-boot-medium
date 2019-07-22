@@ -137,7 +137,7 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "register": {
-				this.push("Ue074ef16e3ea59a852268d4fd1d50f1b", Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
+				this.push("U9e0df9712f8a5c329a6d2194674ba9c9", Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
@@ -340,6 +340,14 @@ public class LineBotController {
 	}
 
 	private void push(@NonNull String replyToken, @NonNull List<Message> messages) {
+		try {
+			lineMessagingClient.pushMessage(new PushMessage(replyToken, messages)).get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void pushById(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			lineMessagingClient.pushMessage(new PushMessage(replyToken, messages)).get();
 		} catch (InterruptedException | ExecutionException e) {
