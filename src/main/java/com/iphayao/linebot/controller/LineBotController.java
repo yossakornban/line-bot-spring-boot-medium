@@ -302,7 +302,7 @@ public class LineBotController {
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
-				lineRepo.register(userLog,event.getSource().getSenderId());
+				lineRepo.register(userLog,replyToken);
 				userLog.setStatusBot(status.DEFAULT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ")));
 				break;
