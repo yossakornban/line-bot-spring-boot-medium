@@ -53,7 +53,7 @@ public class ApproveRepository  {
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("emp_code", data.getCustomer_code());
-			parameters.addValue("approve", data.getApprove());
+			parameters.addValue("approve", data.getApprove_status());
 			jdbcTemplate.update(stb.toString(), parameters);
 
 			stb2 = new StringBuilder();

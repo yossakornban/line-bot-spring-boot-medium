@@ -46,7 +46,7 @@ public class ApproveController {
        String userId; 
        String approveStatus; 
         try {
-            if(data.getApprove()){
+            if(data.getApprove_status()){
                 approveStatus = "อนุมัติ";
             }else{
                 approveStatus = "ไม่อนุมัติ";

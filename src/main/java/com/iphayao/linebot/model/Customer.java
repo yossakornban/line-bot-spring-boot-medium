@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Customer {
 	private String customer_code;
-	private Boolean approve;
+	private Boolean approve_status;
 }
