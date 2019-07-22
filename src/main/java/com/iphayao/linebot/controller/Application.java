@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@SpringBootApplication(scanBasePackages = { "com.iphayao.linebot.controller" })
+@SpringBootApplication(scanBasePackages = { "com.iphayao.linebot.controller","com.iphayao.linebot.repository" })
+
 public class Application {
     static Path downloadedContentDir;
 
