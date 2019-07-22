@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.iphayao.linebot.model.Customer;
 import com.iphayao.linebot.model.UserLog;
 
 import lombok.Data;
@@ -41,7 +42,7 @@ public class ApproveRepository  {
 	private StringBuilder stb = null;
 	private StringBuilder stb2 = null;
 
-	public String approve(String emp_code, Boolean approve) {
+	public String approve(Customer data) {
 		ArrayList<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -51,8 +52,8 @@ public class ApproveRepository  {
 			stb.append(" WHERE emp_emp_code = :emp_code ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("emp_code", emp_code);
-			parameters.addValue("approve", approve);
+			parameters.addValue("emp_code", data.getCustomer_code());
+			parameters.addValue("approve", data.getApprove());
 			jdbcTemplate.update(stb.toString(), parameters);
 
 			stb2 = new StringBuilder();
@@ -61,7 +62,7 @@ public class ApproveRepository  {
 			stb2.append(" WHERE emp_emp_code = :emp_code ");
 
 			MapSqlParameterSource parameters2 = new MapSqlParameterSource();
-			parameters2.addValue("emp_code", emp_code);
+			parameters2.addValue("emp_code", data.getCustomer_code());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb2.toString(), parameters2);
 			
 //					(stb.toString(), parameters,

@@ -10,11 +10,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.iphayao.linebot.model.Customer;
 import com.iphayao.linebot.repository.ApproveRepository;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
@@ -40,18 +41,17 @@ public class ApproveController {
     @Autowired
 	private LineMessagingClient lineMessagingClient;
 
-    @GetMapping(path = "/submit")
-    public void insertCompany() throws Exception {
+    @PostMapping(path = "/submit")
+    public void updateApprove(@RequestBody Customer data) throws Exception {
        String userId; 
        String approveStatus; 
-       boolean approve = true;
         try {
-            if(approve){
+            if(data.getApprove()){
                 approveStatus = "อนุมัติ";
             }else{
                 approveStatus = "ไม่อนุมัติ";
             }
-            userId = approveRepo.approve("002",approve);
+            userId = approveRepo.approve(data);
             this.pushById(userId, Arrays.asList(new TextMessage(approveStatus)));
         } catch (DataIntegrityViolationException e) {
             throw e;
