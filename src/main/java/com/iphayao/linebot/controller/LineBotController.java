@@ -142,13 +142,13 @@ public class LineBotController {
 				break;
 			}
 			case "list": {
-				// ArrayList<Map<String, Object>> list = lineRepo.list();
-				// list.forEach(record -> {
-				// 	Entity en = new Entity();
-				// 	modelMapper.map(record, en);
-				// 	this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
-				// });
-				// userLog.setStatusBot(status.DEFAULT);
+				ArrayList<Map<String, Object>> list = lineRepo.list();
+				list.forEach(record -> {
+					Entity en = new Entity();
+					modelMapper.map(record, en);
+					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
+				});
+				userLog.setStatusBot(status.DEFAULT);
 				break;
 			}
 			case "profile": {
@@ -286,25 +286,25 @@ public class LineBotController {
 				userLog.setStatusBot(status.Q11);
 			}
 		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
-			// userLog.setEmpCode(text.toString());
-			// String empName = lineRepo.findEmp(text.toString());
-			// if (empName != null) {
-			// ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
-			// 		new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
-			// TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-			// this.reply(replyToken, templateMessage);
-			// userLog.setStatusBot(status.FINDCONFIRM);
-			// } else {
-			// this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "), new TextMessage("กรอก รหัสพนักงาน")));
-			// userLog.setStatusBot(status.FINDEMP);
-			// }
+			userLog.setEmpCode(text.toString());
+			String empName = lineRepo.findEmp(text.toString());
+			if (empName != null) {
+			ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
+					new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
+			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+			this.reply(replyToken, templateMessage);
+			userLog.setStatusBot(status.FINDCONFIRM);
+			} else {
+			this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "), new TextMessage("กรอก รหัสพนักงาน")));
+			userLog.setStatusBot(status.FINDEMP);
+			}
 
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
-				// lineRepo.register(userLog);
-				// userLog.setStatusBot(status.DEFAULT);
-				// this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ")));
+				lineRepo.register(userLog);
+				userLog.setStatusBot(status.DEFAULT);
+				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ")));
 				break;
 			}
 			case "No": {
