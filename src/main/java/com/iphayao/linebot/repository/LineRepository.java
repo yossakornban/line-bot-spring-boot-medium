@@ -29,8 +29,8 @@ public class LineRepository {
 		public String profileCode;
 		public String profileDesc;
 		public Boolean active;  
-		private String createdProgram; 
-		private String updatedProgram;
+		// private String createdProgram; 
+		// private String updatedProgram;
 		  
 }
 

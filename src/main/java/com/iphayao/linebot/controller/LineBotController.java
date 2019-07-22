@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
@@ -64,6 +65,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ComponentScan
 @LineMessageHandler
+@Controller
+
 public class LineBotController {
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
