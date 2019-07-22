@@ -40,13 +40,13 @@ public class LineRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	public int register(UserLog userLog) {
+	public int register(UserLog userLog, String SenderId) {
 		int aaa = 0;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" UPDATE db.employee SET emp_emp_line_id = :lineid ");
+			stb.append(" UPDATE db.employee SET emp_emp_line_id = :lineid, sender_id = :sender_id ");
 			stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -54,7 +54,8 @@ public class LineRepository {
 			System.out.println( "22222222222222222222"+ userLog.getUserID());
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
-
+			parameters.addValue("sender_id", SenderId);
+			
 			 aaa = jdbcTemplate.update(stb.toString(), parameters);
 			return aaa;
 //					(stb.toString(), parameters,
