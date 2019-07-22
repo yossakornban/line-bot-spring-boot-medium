@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +40,7 @@ public class ApproveController {
     @Autowired
 	private LineMessagingClient lineMessagingClient;
 
-    @PostMapping(path = "/submit")
+    @GetMapping(path = "/submit")
     public void insertCompany(@RequestParam(value = "emp_code")String emp_code, @RequestParam(value = "approve")Boolean approve) throws Exception {
        String userId; 
        String approveStatus; 
