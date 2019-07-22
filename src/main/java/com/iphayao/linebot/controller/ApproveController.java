@@ -41,16 +41,17 @@ public class ApproveController {
 	private LineMessagingClient lineMessagingClient;
 
     @GetMapping(path = "/submit")
-    public void insertCompany(@RequestParam(value = "emp_code")String emp_code, @RequestParam(value = "approve")Boolean approve) throws Exception {
+    public void insertCompany() throws Exception {
        String userId; 
        String approveStatus; 
+       boolean approve = true;
         try {
             if(approve){
                 approveStatus = "อนุมัติ";
             }else{
                 approveStatus = "ไม่อนุมัติ";
             }
-            userId = approveRepo.approve(emp_code,approve);
+            userId = approveRepo.approve("002",approve);
             this.pushById(userId, Arrays.asList(new TextMessage(approveStatus)));
         } catch (DataIntegrityViolationException e) {
             throw e;
