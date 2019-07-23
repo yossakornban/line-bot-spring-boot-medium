@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutionException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,7 +30,6 @@ import com.iphayao.linebot.flex.RestaurantFlexMessageSupplier;
 import com.iphayao.linebot.flex.RestaurantMenuFlexMessageSupplier;
 import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
 import com.iphayao.linebot.helper.RichMenuHelper;
-import com.iphayao.linebot.model.Employee;
 import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -118,7 +116,6 @@ public class LineBotController {
 			reply(replyToken, new TextMessage("Cannot get image: " + content));
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
@@ -129,7 +126,6 @@ public class LineBotController {
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
 
-		System.out.println("+++++ " + userMap.get(event.getSource().getSenderId()).toString());
 
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
@@ -342,14 +338,6 @@ public class LineBotController {
 	private void push(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			lineMessagingClient.pushMessage(new PushMessage(replyToken, messages)).get();
-		} catch (InterruptedException | ExecutionException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void pushById(@NonNull String userId, @NonNull List<Message> messages) {
-		try {
-			lineMessagingClient.pushMessage(new PushMessage(userId, messages)).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
 		}

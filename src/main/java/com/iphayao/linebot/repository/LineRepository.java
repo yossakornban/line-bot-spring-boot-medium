@@ -1,18 +1,15 @@
 package com.iphayao.linebot.repository;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 //import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.iphayao.linebot.model.UserLog;
@@ -50,8 +47,6 @@ public class LineRepository {
 			stb.append(" WHERE emp_emp_code = :empcode ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			System.out.println("1111111111111111111"+userLog.getEmpCode());
-			System.out.println( "22222222222222222222"+ userLog.getUserID());
 			parameters.addValue("empcode", userLog.getEmpCode());
 			parameters.addValue("lineid", userLog.getUserID());
 			parameters.addValue("sender_id", SenderId);

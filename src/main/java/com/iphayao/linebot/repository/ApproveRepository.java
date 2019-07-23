@@ -1,22 +1,18 @@
 package com.iphayao.linebot.repository;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 //import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.iphayao.linebot.model.Customer;
-import com.iphayao.linebot.model.UserLog;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
