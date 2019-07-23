@@ -44,7 +44,7 @@ public class ApproveRepository  {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" UPDATE db.employee SET appove = :approve ");
+			stb.append(" UPDATE employee SET appove = :approve ");
 			stb.append(" WHERE emp_emp_code = :emp_code ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -54,7 +54,7 @@ public class ApproveRepository  {
 
 			stb2 = new StringBuilder();
 
-			stb2.append(" Select emp_emp_line_id From db.employee");
+			stb2.append(" Select emp_emp_line_id From employee");
 			stb2.append(" WHERE emp_emp_code = :emp_code ");
 
 			MapSqlParameterSource parameters2 = new MapSqlParameterSource();
