@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
-
 import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -61,12 +60,13 @@ import lombok.extern.slf4j.Slf4j;
 @LineMessageHandler
 @CrossOrigin
 @RestController
+
 public class LineBotController {
+	@Autowired
+	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
 	private LineRepository lineRepo;
-	private LineMessagingClient lineMessagingClient;
-
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -218,47 +218,24 @@ public class LineBotController {
 			default:
 
 			}
-		} else if (userLog.getStatusBot().equals(status.Q11)) {
-			switch (text) {
-			case "1": {
-				log.info("Return echo message %s : %s", replyToken, text);
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "2": {
-				log.info("Return echo message %s : %s", replyToken, text);
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "3": {
-
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			default:
-				log.info("Return echo message %s : %s", replyToken, text);
-				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
-						"ประเภทการลา", "กรุณาเลือก", Arrays.asList(new MessageAction("ลากิจ", "1"),
-								new MessageAction("ลาป่วย", "2"), new MessageAction("ลาพักร้อน", "3")))));
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
-				userLog.setStatusBot(status.Q11);
-			}
-		}
-		/* Loan approval ขออนุมัติสินเชื่อ */
-		else if (userLog.getStatusBot().equals(status.SavePrefix)) {
+		} else if (userLog.getStatusBot().equals(status.SavePrefix)) {
 			switch (text) {
 			// นาย
 			case "Mr.": {
 				text = "1";
 				// lineRepo.register(userLog, replyToken);
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
+				log.info("Return echo message %s : %s", replyToken, text);
+				userLog.setStatusBot(status.SaveFirstName);
 				break;
 			}
 			// นาง
 			case "Mrs.": {
 				text = "2";
 				// lineRepo.register(userLog, replyToken);
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
+				log.info("Return echo message %s : %s", replyToken, text);
+				userLog.setStatusBot(status.SaveFirstName);
 				break;
 			}
 			default:
@@ -268,7 +245,7 @@ public class LineBotController {
 			}
 
 		} else if (userLog.getStatusBot().equals(status.SaveFirstName)) {
-			// lineRepo.findEmp(text); SaveFirstName 
+			// lineRepo.findEmp(text); SaveFirstName
 			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุนามสกุล")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveLastName);
@@ -305,7 +282,34 @@ public class LineBotController {
 
 		} /* End Loan approval ขออนุมัติสินเชื่อ */
 
-		else if (userLog.getStatusBot().equals(status.FINDEMP)) {
+		else if (userLog.getStatusBot().equals(status.Q11)) {
+			switch (text) {
+			case "1": {
+				log.info("Return echo message %s : %s", replyToken, text);
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			case "2": {
+				log.info("Return echo message %s : %s", replyToken, text);
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			case "3": {
+
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			default:
+				log.info("Return echo message %s : %s", replyToken, text);
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
+						"ประเภทการลา", "กรุณาเลือก", Arrays.asList(new MessageAction("ลากิจ", "1"),
+								new MessageAction("ลาป่วย", "2"), new MessageAction("ลาพักร้อน", "3")))));
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
+				userLog.setStatusBot(status.Q11);
+			}
+		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 			userLog.setEmpCode(text.toString());
 			String empName = lineRepo.findEmp(text.toString());
 			if (empName != null) {
