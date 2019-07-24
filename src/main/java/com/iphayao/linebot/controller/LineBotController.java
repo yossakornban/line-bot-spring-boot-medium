@@ -302,7 +302,7 @@ public class LineBotController {
 		}
 	}
 
-	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
+	private void reply(@NonNull String replyToken, List<Message> messages) {
 		try {
 			log.info(replyToken);
 			System.out.println(messages);
