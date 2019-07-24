@@ -126,8 +126,7 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "register": {
-				log.info(replyToken);
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
+				this.push(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
