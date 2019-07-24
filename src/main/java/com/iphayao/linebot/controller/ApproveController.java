@@ -35,8 +35,6 @@ public class ApproveController {
 
     @Autowired
     private ApproveRepository approveRepo ;
-
-    @Autowired
 	private LineMessagingClient lineMessagingClient;
 
     @PostMapping(path = "/submit")

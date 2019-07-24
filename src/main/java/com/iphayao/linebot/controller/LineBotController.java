@@ -23,13 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
-import com.iphayao.linebot.flex.CatalogueFlexMessageSupplier;
-import com.iphayao.linebot.flex.NewsFlexMessageSupplier;
-import com.iphayao.linebot.flex.ReceiptFlexMessageSupplier;
-import com.iphayao.linebot.flex.RestaurantFlexMessageSupplier;
-import com.iphayao.linebot.flex.RestaurantMenuFlexMessageSupplier;
-import com.iphayao.linebot.flex.TicketFlexMessageSupplier;
-import com.iphayao.linebot.helper.RichMenuHelper;
+
 import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -67,13 +61,12 @@ import lombok.extern.slf4j.Slf4j;
 @LineMessageHandler
 @CrossOrigin
 @RestController
-
 public class LineBotController {
-	@Autowired
-	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
 	private LineRepository lineRepo;
+	private LineMessagingClient lineMessagingClient;
+
 
 //	private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -179,42 +172,6 @@ public class LineBotController {
 						"โปรดเลือกรายการ \n พิมพ์  profile : ดูข้อมูล Profile  \n พิมพ์  list : ดู Agenda \n พิมพ์  add : เพิ่ม Agenda")));
 				userLog.setStatusBot(status.DEFAULT);
 				;
-				break;
-			}
-			case "Flex": {
-				String pathYamlHome = "asset/richmenu-home.yml";
-				String pathImageHome = "asset/richmenu-home.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-				break;
-			}
-			case "Flex Back": {
-
-				RichMenuHelper.deleteRichMenu(lineMessagingClient, userLog.getUserID());
-				break;
-			}
-
-			case "Flex Restaurant": {
-				this.reply(replyToken, new RestaurantFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex Menu": {
-				this.reply(replyToken, new RestaurantMenuFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex Receipt": {
-				this.reply(replyToken, new ReceiptFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex News": {
-				this.reply(replyToken, new NewsFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex Ticket": {
-				this.reply(replyToken, new TicketFlexMessageSupplier().get());
-				break;
-			}
-			case "Flex Catalogue": {
-				this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
 				break;
 			}
 			case "carousel": {
