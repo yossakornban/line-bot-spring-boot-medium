@@ -7,9 +7,8 @@ import lombok.Data;
 @Data
 public class UserLog {
 	
-	public enum status {DEFAULT, SAVE, Q11, FINDEMP, FINDCONFIRM};
-	
-	
+	public enum status {DEFAULT, SAVE, Q11, FINDEMP, FINDCONFIRM, 
+		SavePrefix, SaveFirstName, SaveLastName, SaveTel, SaveEmail, SaveSalary, SaveCreditType};
 	
 	public status getStatusBot() {
 		return statusBot;

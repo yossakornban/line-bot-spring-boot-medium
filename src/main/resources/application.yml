@@ -1,7 +1,7 @@
-# server:
-#  port: 8080
-#  servlet:
-#   contextPath: /api
+server:
+ port: 8080
+ servlet:
+  contextPath: /api
 
 line.bot:
   channel-token: 'R8WuRHv8zrMjdiZpb9pRbIGt6pqbfXZNpXTMwsiiz338XY0G5RiLl8a5znaBRZZ4zdX++K/IrxCq+yEQzSyAWvwpDj2+kW2Ohr9Wy29rcmxVEefuICQwcNkpm2/vwfHdiQlEspS688In7bzaP+ciDAdB04t89/1O/w1cDnyilFU='

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
+
 import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -60,15 +61,14 @@ import lombok.extern.slf4j.Slf4j;
 @LineMessageHandler
 @CrossOrigin
 @RestController
-
 public class LineBotController {
-	@Autowired
-	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
 	private LineRepository lineRepo;
+	private LineMessagingClient lineMessagingClient;
 
-//	private status userLog.setStatusBot(status.DEFAULT); // Default status
+
+	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
 	@EventMapping
@@ -119,12 +119,19 @@ public class LineBotController {
 			userMap.put(event.getSource().getSenderId(), userLog);
 		}
 
-
 		String text = content.getText();
 		ModelMapper modelMapper = new ModelMapper();
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
+			case "ขออนุมัติสินเชื่อ": {
+				ConfirmTemplate confirmTemplate = new ConfirmTemplate("กรุณาระบุคำนำหน้า",
+						new MessageAction("นาย", "Mr."), new MessageAction("นาง", "Mrs."));
+				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+				this.reply(replyToken, templateMessage);
+				userLog.setStatusBot(status.SavePrefix);
+				break;
+			}
 			case "register": {
 				this.reply(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
@@ -238,24 +245,86 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.Q11);
 			}
-		} else if (userLog.getStatusBot().equals(status.FINDEMP)) {
+		}
+		/* Loan approval ขออนุมัติสินเชื่อ */
+		else if (userLog.getStatusBot().equals(status.SavePrefix)) {
+			switch (text) {
+			// นาย
+			case "Mr.": {
+				text = "1";
+				// lineRepo.register(userLog, replyToken);
+				break;
+			}
+			// นาง
+			case "Mrs.": {
+				text = "2";
+				// lineRepo.register(userLog, replyToken);
+				break;
+			}
+			default:
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
+				log.info("Return echo message %s : %s", replyToken, text);
+				userLog.setStatusBot(status.SaveFirstName);
+			}
+
+		} else if (userLog.getStatusBot().equals(status.SaveFirstName)) {
+			// lineRepo.findEmp(text); SaveFirstName 
+			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุนามสกุล")));
+			log.info("Return echo message %s : %s", replyToken, text);
+			userLog.setStatusBot(status.SaveLastName);
+
+		} else if (userLog.getStatusBot().equals(status.SaveLastName)) {
+			// lineRepo.findEmp(text); SaveLastName
+			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุเบอร์โทรศัพท์")));
+			log.info("Return echo message %s : %s", replyToken, text);
+			userLog.setStatusBot(status.SaveTel);
+
+		} else if (userLog.getStatusBot().equals(status.SaveTel)) {
+			// lineRepo.findEmp(text); SaveTel
+			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุอีเมล")));
+			log.info("Return echo message %s : %s", replyToken, text);
+			userLog.setStatusBot(status.SaveEmail);
+
+		} else if (userLog.getStatusBot().equals(status.SaveEmail)) {
+			// lineRepo.findEmp(text); SaveEmail
+			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุรายได้ต่อเดือน")));
+			log.info("Return echo message %s : %s", replyToken, text);
+			userLog.setStatusBot(status.SaveSalary);
+
+		} else if (userLog.getStatusBot().equals(status.SaveSalary)) {
+			// lineRepo.findEmp(text); SaveSalary
+			this.reply(replyToken, Arrays.asList(new TextMessage("ขอสินเชื่อประเภท เช่น รถ, ที่ดินเปล่า")));
+			log.info("Return echo message %s : %s", replyToken, text);
+			userLog.setStatusBot(status.SaveCreditType);
+
+		} else if (userLog.getStatusBot().equals(status.SaveCreditType)) {
+			// lineRepo.findEmp(text); SaveCreditType
+			this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+			log.info("Return echo message %s : %s", replyToken, text);
+			userLog.setStatusBot(status.DEFAULT);
+
+		} /* End Loan approval ขออนุมัติสินเชื่อ */
+
+		else if (userLog.getStatusBot().equals(status.FINDEMP)) {
 			userLog.setEmpCode(text.toString());
 			String empName = lineRepo.findEmp(text.toString());
 			if (empName != null) {
-			ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
-					new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
-			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-			this.reply(replyToken, templateMessage);
-			userLog.setStatusBot(status.FINDCONFIRM);
+				ConfirmTemplate confirmTemplate = new ConfirmTemplate("ยืนยัน, คุณใช่ " + empName + " หรือไม่ ?",
+						new MessageAction("ใช่ !", "Yes"), new MessageAction("ไม่ใช่ !", "No"));
+				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+				this.reply(replyToken, templateMessage);
+				userLog.setStatusBot(status.FINDCONFIRM);
 			} else {
-			this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "), new TextMessage("กรอก รหัสพนักงาน")));
-			userLog.setStatusBot(status.FINDEMP);
+				this.reply(replyToken, Arrays.asList(new TextMessage(
+						"ไม่มีข้อมูลพนักเบื้องต้นในระบบ โปรดกรอกรหัสพนักงานให้ถูกต้อง หรือ ติดต่อผู้ดูแลระบบ  \n @line : http://line.naver.jp/ti/p/-AK9r2Na5E#~ "),
+						new TextMessage("กรอก รหัสพนักงาน")));
+				userLog.setStatusBot(status.FINDEMP);
 			}
 
 		} else if (userLog.getStatusBot().equals(status.FINDCONFIRM)) {
 			switch (text) {
 			case "Yes": {
-				lineRepo.register(userLog,replyToken);
+				lineRepo.register(userLog, replyToken);
 				userLog.setStatusBot(status.DEFAULT);
 				this.reply(replyToken, Arrays.asList(new TextMessage("ลงทะเบียนสำเร็จ")));
 				break;
@@ -352,4 +421,3 @@ public class LineBotController {
 		String uri;
 	}
 }
-
