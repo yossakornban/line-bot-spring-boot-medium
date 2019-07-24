@@ -304,8 +304,11 @@ public class LineBotController {
 
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
+			log.info(replyToken);
+			System.out.println(messages);
 			lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
 		} catch (InterruptedException | ExecutionException e) {
+			
 			throw new RuntimeException(e);
 		}
 	}
