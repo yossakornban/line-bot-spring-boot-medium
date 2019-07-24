@@ -62,10 +62,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 
 public class LineBotController {
+	@Autowired
+	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
 	private LineRepository lineRepo;
-	private LineMessagingClient lineMessagingClient;
 
 //	private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -112,7 +113,6 @@ public class LineBotController {
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
-		log.info(replyToken);
 
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
@@ -126,7 +126,7 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "register": {
-				this.push(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
 			}
@@ -174,7 +174,6 @@ public class LineBotController {
 				;
 				break;
 			}
-		
 			case "carousel": {
 				String imageUrl = createUri("/static/buttons/1040.jpg");
 				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
@@ -301,13 +300,10 @@ public class LineBotController {
 		}
 	}
 
-	private void reply(@NonNull String replyToken, List<Message> messages) {
+	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
-			log.info(replyToken);
-			System.out.println(messages);
 			lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
 		} catch (InterruptedException | ExecutionException e) {
-			
 			throw new RuntimeException(e);
 		}
 	}
@@ -356,3 +352,4 @@ public class LineBotController {
 		String uri;
 	}
 }
+
