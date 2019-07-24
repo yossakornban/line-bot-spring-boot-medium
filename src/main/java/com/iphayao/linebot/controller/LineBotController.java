@@ -112,6 +112,7 @@ public class LineBotController {
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
+		log.info(replyToken);
 
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
@@ -125,6 +126,7 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "register": {
+				log.info(replyToken);
 				this.reply(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
 				userLog.setStatusBot(status.FINDEMP);
 				break;
