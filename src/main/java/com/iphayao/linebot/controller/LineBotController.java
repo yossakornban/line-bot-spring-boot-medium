@@ -126,10 +126,25 @@ public class LineBotController {
 			switch (text) {
 			case "ขออนุมัติสินเชื่อ": {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("กรุณาระบุคำนำหน้า",
-						new MessageAction("นาย", "Mr."), new MessageAction("นาง", "Mrs."));
+						new MessageAction("นาย", "นาย"), new MessageAction("นาง", "นาง"));
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.SavePrefix);
+				break;
+			}
+			case "บัญชีของฉัน": {
+				// lineRepo.register(userLog, replyToken); บัญชีของฉัน
+				String AmountPaid = "11,050";
+				String PayPrincipal = "10,000";
+				String PayInterest = "1,050";
+				String PayDate = "20-Jul-19";
+				String OutstandingBalance = "90,000";
+				String NextPaymentDate = "20-Jul-19";
+				this.reply(replyToken, Arrays.asList(new TextMessage("ชำระงวดที่ 1" + "/n" + "ยอดที่ต้องชำระ"
+						+ AmountPaid + "บ." + "/n" + "ชำระเป็นเงินต้น" + PayPrincipal + "บ." + "/n" + "ชำระเป็นดอกเบี้ย"
+						+ PayInterest + "บ." + "/n" + "ชำระค่าเบี้ยเมื่อวันที่" + PayDate + "/n" + "ยอดค้างชำระคงเหลือ"
+						+ OutstandingBalance + "บ." + "/n" + "ชำระครั้งต่อไปวันที่" + NextPaymentDate)));
+				log.info("Return echo message %s : %s", replyToken, text);
 				break;
 			}
 			case "register": {
@@ -220,8 +235,7 @@ public class LineBotController {
 			}
 		} else if (userLog.getStatusBot().equals(status.SavePrefix)) {
 			switch (text) {
-			// นาย
-			case "Mr.": {
+			case "นาย": {
 				text = "1";
 				// lineRepo.register(userLog, replyToken);
 				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
@@ -229,8 +243,7 @@ public class LineBotController {
 				userLog.setStatusBot(status.SaveFirstName);
 				break;
 			}
-			// นาง
-			case "Mrs.": {
+			case "นาง": {
 				text = "2";
 				// lineRepo.register(userLog, replyToken);
 				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
@@ -270,11 +283,36 @@ public class LineBotController {
 
 		} else if (userLog.getStatusBot().equals(status.SaveSalary)) {
 			// lineRepo.findEmp(text); SaveSalary
-			this.reply(replyToken, Arrays.asList(new TextMessage("ขอสินเชื่อประเภท เช่น รถ, ที่ดินเปล่า")));
+			ConfirmTemplate confirmTemplate = new ConfirmTemplate("ขอสินเชื่อประเภท", new MessageAction("รถ", "รถ"),
+					new MessageAction("ที่ดินเปล่า", "ที่ดินเปล่า"));
+			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+			this.reply(replyToken, templateMessage);
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveCreditType);
 
 		} else if (userLog.getStatusBot().equals(status.SaveCreditType)) {
+			switch (text) {
+				case "รถ": {
+					text = "1";
+					// lineRepo.register(userLog, replyToken);
+					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+					log.info("Return echo message %s : %s", replyToken, text);
+					userLog.setStatusBot(status.DEFAULT);
+					break;
+				}
+				case "ที่ดินเปล่า": {
+					text = "2";
+					// lineRepo.register(userLog, replyToken);
+					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+					log.info("Return echo message %s : %s", replyToken, text);
+					userLog.setStatusBot(status.DEFAULT);
+					break;
+				}
+				default:
+					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+					log.info("Return echo message %s : %s", replyToken, text);
+					userLog.setStatusBot(status.DEFAULT);
+				}
 			// lineRepo.findEmp(text); SaveCreditType
 			this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
 			log.info("Return echo message %s : %s", replyToken, text);
