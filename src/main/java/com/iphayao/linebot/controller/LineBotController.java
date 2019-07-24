@@ -90,26 +90,26 @@ public class LineBotController {
 		log.info("Received message(Ignored): {}", event);
 	}
 
-	@EventMapping
-	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
-		log.info(event.toString());
-		ImageMessageContent content = event.getMessage();
-		String replyToken = event.getReplyToken();
+	// @EventMapping
+	// public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
+	// 	log.info(event.toString());
+	// 	ImageMessageContent content = event.getMessage();
+	// 	String replyToken = event.getReplyToken();
 
-		try {
-			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
-			DownloadedContent jpg = saveContent("jpg", response);
-			DownloadedContent previewImage = createTempFile("jpg");
+	// 	try {
+	// 		MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
+	// 		DownloadedContent jpg = saveContent("jpg", response);
+	// 		DownloadedContent previewImage = createTempFile("jpg");
 
-			system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
+	// 		system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
 
-			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
+	// 		reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
 
-		} catch (InterruptedException | ExecutionException e) {
-			reply(replyToken, new TextMessage("Cannot get image: " + content));
-			throw new RuntimeException(e);
-		}
-	}
+	// 	} catch (InterruptedException | ExecutionException e) {
+	// 		reply(replyToken, new TextMessage("Cannot get image: " + content));
+	// 		throw new RuntimeException(e);
+	// 	}
+	// }
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
@@ -308,39 +308,39 @@ public class LineBotController {
 		}
 	}
 
-	private void system(String... args) {
-		ProcessBuilder processBuilder = new ProcessBuilder(args);
-		try {
-			Process start = processBuilder.start();
-			int i = start.waitFor();
-			log.info("result: {} => {}", Arrays.toString(args), i);
-		} catch (InterruptedException e) {
-			log.info("Interrupted", e);
-			Thread.currentThread().interrupt();
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
+	// private void system(String... args) {
+	// 	ProcessBuilder processBuilder = new ProcessBuilder(args);
+	// 	try {
+	// 		Process start = processBuilder.start();
+	// 		int i = start.waitFor();
+	// 		log.info("result: {} => {}", Arrays.toString(args), i);
+	// 	} catch (InterruptedException e) {
+	// 		log.info("Interrupted", e);
+	// 		Thread.currentThread().interrupt();
+	// 	} catch (IOException e) {
+	// 		throw new UncheckedIOException(e);
+	// 	}
+	// }
 
-	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
-		log.info("Content-type: {}", response);
-		DownloadedContent tempFile = createTempFile(ext);
-		try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
-			ByteStreams.copy(response.getStream(), outputStream);
-			log.info("Save {}: {}", ext, tempFile);
-			return tempFile;
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
+	// private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
+	// 	log.info("Content-type: {}", response);
+	// 	DownloadedContent tempFile = createTempFile(ext);
+	// 	try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
+	// 		ByteStreams.copy(response.getStream(), outputStream);
+	// 		log.info("Save {}: {}", ext, tempFile);
+	// 		return tempFile;
+	// 	} catch (IOException e) {
+	// 		throw new UncheckedIOException(e);
+	// 	}
+	// }
 
-	private static DownloadedContent createTempFile(String ext) {
-		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
-		Path tempFile = Application.downloadedContentDir.resolve(fileName);
-		tempFile.toFile().deleteOnExit();
-		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
+	// private static DownloadedContent createTempFile(String ext) {
+	// 	String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
+	// 	Path tempFile = Application.downloadedContentDir.resolve(fileName);
+	// 	tempFile.toFile().deleteOnExit();
+	// 	return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 
-	}
+	// }
 
 	private static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString();

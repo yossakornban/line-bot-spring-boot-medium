@@ -21,12 +21,12 @@ import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
-import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+// import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
 import lombok.NonNull;
 
 @ComponentScan
-@LineMessageHandler
+// @LineMessageHandler
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/approve")
