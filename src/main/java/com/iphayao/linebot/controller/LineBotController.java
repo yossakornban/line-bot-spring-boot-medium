@@ -29,6 +29,8 @@ import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
 import com.iphayao.linebot.repository.LineRepository;
+import com.iphayao.linebot.repository.LoanApprovalRepository;
+import com.iphayao.linebot.repository.MyAccountRepository;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -69,6 +71,12 @@ public class LineBotController {
 
 	@Autowired
 	private LineRepository lineRepo;
+
+	@Autowired
+	private LoanApprovalRepository loanApprovalRepository;
+
+	@Autowired
+	private MyAccountRepository myAccountRepository;
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
@@ -134,14 +142,14 @@ public class LineBotController {
 			switch (text) {
 			case "ขออนุมัติสินเชื่อ": {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("กรุณาระบุคำนำหน้า",
-						new MessageAction("นาย", "นาย"), new MessageAction("นาง", "นาง"));
+						new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken, templateMessage);
 				userLog.setStatusBot(status.SavePrefix);
 				break;
 			}
 			case "บัญชีของฉัน": {
-				// lineRepo.register(userLog, replyToken); บัญชีของฉัน
+				myAccountRepository.searchMyAccount(userLog);
 				String AmountPaid = "11,050";
 				String PayPrincipal = "10,000";
 				String PayInterest = "1,050";
@@ -245,15 +253,15 @@ public class LineBotController {
 			switch (text) {
 			case "นาย": {
 				text = "1";
-				// lineRepo.register(userLog, replyToken);
+				loanApprovalRepository.savePrefix(userLog, text.toString());
 				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
 				log.info("Return echo message %s : %s", replyToken, text);
 				userLog.setStatusBot(status.SaveFirstName);
 				break;
 			}
-			case "นาง": {
+			case "นางสาว": {
 				text = "2";
-				// lineRepo.register(userLog, replyToken);
+				loanApprovalRepository.savePrefix(userLog, text.toString());
 				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
 				log.info("Return echo message %s : %s", replyToken, text);
 				userLog.setStatusBot(status.SaveFirstName);
@@ -262,35 +270,35 @@ public class LineBotController {
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
 				log.info("Return echo message %s : %s", replyToken, text);
-				userLog.setStatusBot(status.SaveFirstName);
+				userLog.setStatusBot(status.DEFAULT);
 			}
 
 		} else if (userLog.getStatusBot().equals(status.SaveFirstName)) {
-			// lineRepo.findEmp(text); SaveFirstName
+			loanApprovalRepository.saveFirstName(userLog, text.toString());
 			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุนามสกุล")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveLastName);
 
 		} else if (userLog.getStatusBot().equals(status.SaveLastName)) {
-			// lineRepo.findEmp(text); SaveLastName
+			loanApprovalRepository.saveLastName(userLog, text.toString());
 			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุเบอร์โทรศัพท์")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveTel);
 
 		} else if (userLog.getStatusBot().equals(status.SaveTel)) {
-			// lineRepo.findEmp(text); SaveTel
+			loanApprovalRepository.saveTel(userLog, text.toString());
 			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุอีเมล")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveEmail);
 
 		} else if (userLog.getStatusBot().equals(status.SaveEmail)) {
-			// lineRepo.findEmp(text); SaveEmail
+			loanApprovalRepository.saveEmail(userLog, text.toString());
 			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุรายได้ต่อเดือน")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveSalary);
 
 		} else if (userLog.getStatusBot().equals(status.SaveSalary)) {
-			// lineRepo.findEmp(text); SaveSalary
+			loanApprovalRepository.saveSalary(userLog, text.toString());
 			ConfirmTemplate confirmTemplate = new ConfirmTemplate("ขอสินเชื่อประเภท", new MessageAction("รถ", "รถ"),
 					new MessageAction("ที่ดินเปล่า", "ที่ดินเปล่า"));
 			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
@@ -300,31 +308,28 @@ public class LineBotController {
 
 		} else if (userLog.getStatusBot().equals(status.SaveCreditType)) {
 			switch (text) {
-			case "รถ": {
-				text = "1";
-				// lineRepo.register(userLog, replyToken);
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-				log.info("Return echo message %s : %s", replyToken, text);
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "ที่ดินเปล่า": {
-				text = "2";
-				// lineRepo.register(userLog, replyToken);
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-				log.info("Return echo message %s : %s", replyToken, text);
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			default:
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-				log.info("Return echo message %s : %s", replyToken, text);
-				userLog.setStatusBot(status.DEFAULT);
-			}
-			// lineRepo.findEmp(text); SaveCreditType
+				case "ที่ดินเปล่า": {
+					text = "1";
+					loanApprovalRepository.saveCreditType(userLog, replyToken);
+					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+					log.info("Return echo message %s : %s", replyToken, text);
+					userLog.setStatusBot(status.DEFAULT);
+					break;
+				}
+				case "รถ": {
+					text = "2";
+					loanApprovalRepository.saveCreditType(userLog, replyToken);
+					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+					log.info("Return echo message %s : %s", replyToken, text);
+					userLog.setStatusBot(status.DEFAULT);
+					break;
+				}
+				default:
+					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+					log.info("Return echo message %s : %s", replyToken, text);
+					userLog.setStatusBot(status.DEFAULT);
+				}
+			// lineRepo.findEmp(userLog, text.toString()); SaveCreditType
 			this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.DEFAULT);
