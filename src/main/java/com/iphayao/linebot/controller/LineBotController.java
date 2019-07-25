@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -91,22 +93,28 @@ public class LineBotController {
 	}
 
 	@EventMapping
-	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
-		log.info(event.toString());
+	public void handleImageMessage(MessageEvent<ImageMessageContent> event) throws IOException {
+		System.out.println("1--------- "+ event);
 		ImageMessageContent content = event.getMessage();
 		String replyToken = event.getReplyToken();
 
 		try {
+			System.out.println("1.1--------- "+ content);
 			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
-			DownloadedContent jpg = saveContent("jpg", response);
-			DownloadedContent previewImage = createTempFile("jpg");
+			System.out.println("2--------- "+ response.getStream().toString());
+			byte[] bytes = IOUtils.toByteArray(response.getStream());
+			String encoded = Base64.getEncoder().encodeToString(bytes);
 
-			system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
+			System.out.println("encoded--------- "+ encoded);
 
-			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
+			// DownloadedContent jpg = saveContent("jpg", response);
+			// DownloadedContent previewImage = createTempFile("jpg");
+			// system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
+
+			// reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
 
 		} catch (InterruptedException | ExecutionException e) {
-			reply(replyToken, new TextMessage("Cannot get image: " + content));
+			// reply(replyToken, new TextMessage("Cannot get image: " + content));
 			throw new RuntimeException(e);
 		}
 	}
@@ -140,10 +148,10 @@ public class LineBotController {
 				String PayDate = "20-Jul-19";
 				String OutstandingBalance = "90,000";
 				String NextPaymentDate = "20-Jul-19";
-				this.reply(replyToken, Arrays.asList(new TextMessage("ชำระงวดที่ 1" + "/n" + "ยอดที่ต้องชำระ"
-						+ AmountPaid + "บ." + "/n" + "ชำระเป็นเงินต้น" + PayPrincipal + "บ." + "/n" + "ชำระเป็นดอกเบี้ย"
-						+ PayInterest + "บ." + "/n" + "ชำระค่าเบี้ยเมื่อวันที่" + PayDate + "/n" + "ยอดค้างชำระคงเหลือ"
-						+ OutstandingBalance + "บ." + "/n" + "ชำระครั้งต่อไปวันที่" + NextPaymentDate)));
+				this.reply(replyToken, Arrays.asList(new TextMessage("ชำระงวดที่ 1" + "\n" + "ยอดที่ต้องชำระ"
+						+ AmountPaid + "บ." + "\n" + "ชำระเป็นเงินต้น" + PayPrincipal + "บ." + "\n" + "ชำระเป็นดอกเบี้ย"
+						+ PayInterest + "บ." + "\n" + "ชำระค่าเบี้ยเมื่อวันที่" + PayDate + "\n" + "ยอดค้างชำระคงเหลือ"
+						+ OutstandingBalance + "บ." + "\n" + "ชำระครั้งต่อไปวันที่" + NextPaymentDate)));
 				log.info("Return echo message %s : %s", replyToken, text);
 				break;
 			}
@@ -292,27 +300,30 @@ public class LineBotController {
 
 		} else if (userLog.getStatusBot().equals(status.SaveCreditType)) {
 			switch (text) {
-				case "รถ": {
-					text = "1";
-					// lineRepo.register(userLog, replyToken);
-					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-					log.info("Return echo message %s : %s", replyToken, text);
-					userLog.setStatusBot(status.DEFAULT);
-					break;
-				}
-				case "ที่ดินเปล่า": {
-					text = "2";
-					// lineRepo.register(userLog, replyToken);
-					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-					log.info("Return echo message %s : %s", replyToken, text);
-					userLog.setStatusBot(status.DEFAULT);
-					break;
-				}
-				default:
-					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-					log.info("Return echo message %s : %s", replyToken, text);
-					userLog.setStatusBot(status.DEFAULT);
-				}
+			case "รถ": {
+				text = "1";
+				// lineRepo.register(userLog, replyToken);
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+				log.info("Return echo message %s : %s", replyToken, text);
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			case "ที่ดินเปล่า": {
+				text = "2";
+				// lineRepo.register(userLog, replyToken);
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+				log.info("Return echo message %s : %s", replyToken, text);
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			default:
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+				log.info("Return echo message %s : %s", replyToken, text);
+				userLog.setStatusBot(status.DEFAULT);
+			}
 			// lineRepo.findEmp(text); SaveCreditType
 			this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
 			log.info("Return echo message %s : %s", replyToken, text);
@@ -434,7 +445,6 @@ public class LineBotController {
 	}
 
 	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
-		log.info("Content-type: {}", response);
 		DownloadedContent tempFile = createTempFile(ext);
 		try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
 			ByteStreams.copy(response.getStream(), outputStream);
