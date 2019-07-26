@@ -150,17 +150,17 @@ public class LineBotController {
 			}
 			case "บัญชีของฉัน": {
 				ArrayList<Map<String, Object>> result = myAccountRepository.searchMyAccount(userLog);
-
-				String AmountPaid = "11,050";
-				String PayPrincipal = "10,000";
-				String PayInterest = "1,050";
-				String PayDate = "20-Jul-19";
-				String OutstandingBalance = "90,000";
-				String NextPaymentDate = "20-Jul-19";
-				this.reply(replyToken, Arrays.asList(new TextMessage("ชำระงวดที่ 1" + "\n" + "ยอดที่ต้องชำระ"
-						+ AmountPaid + "บ." + "\n" + "ชำระเป็นเงินต้น" + PayPrincipal + "บ." + "\n" + "ชำระเป็นดอกเบี้ย"
-						+ PayInterest + "บ." + "\n" + "ชำระค่าเบี้ยเมื่อวันที่" + PayDate + "\n" + "ยอดค้างชำระคงเหลือ"
-						+ OutstandingBalance + "บ." + "\n" + "ชำระครั้งต่อไปวันที่" + NextPaymentDate)));
+				String Period = (String) result.get(0).get("payment_period");
+				String AmountPaid = (String) result.get(0).get("payment_amount_paid");
+				String PayPrincipal = (String) result.get(0).get("payment_principle");
+				String PayInterest = (String) result.get(0).get("payment_installment");
+				String PayDate = (String) result.get(0).get("payment_pay_date");
+				String OutstandingBalance = (String) result.get(0).get("payment_outstanding_balance");
+				String NextPaymentDate = (String) result.get(0).get("payment_pay_date_next");
+				this.reply(replyToken, Arrays.asList(new TextMessage("ชำระงวดที่ "+ Period + "\n" + "ยอดที่ต้องชำระ "
+						+ AmountPaid + " บ." + "\n" + "ชำระเป็นเงินต้น " + PayPrincipal + " บ." + "\n" + "ชำระเป็นดอกเบี้ย "
+						+ PayInterest + " บ." + "\n" + "ชำระค่าเบี้ยเมื่อวันที่ " + PayDate + "\n" + "ยอดค้างชำระคงเหลือ "
+						+ OutstandingBalance + " บ." + "\n" + "ชำระครั้งต่อไปวันที่ " + NextPaymentDate)));
 				log.info("Return echo message %s : %s", replyToken, text);
 				break;
 			}
