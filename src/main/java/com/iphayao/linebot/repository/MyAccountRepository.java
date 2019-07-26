@@ -37,16 +37,16 @@ public class MyAccountRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	/* บัญชีของฉัน */
 	public ArrayList<Map<String, Object>> searchMyAccount(UserLog userLog) {
 		ArrayList<Map<String, Object>> result = null;
-		// List<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" SELECT * FORM account ");
-			stb.append(" WHERE customer_user_line_id = :lineId ");
+			stb.append(" SELECT * FORM customer cus ");
+			stb.append(" JOIN account acc ON acc.customer_user_id = cus.customer_user_id ");
+			stb.append(" JOIN payment pay ON pay.account_id = acc.account_id ");
+			stb.append(" WHERE cus.customer_user_line_id = :lineId ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("lineId", userLog.getUserID());
@@ -57,6 +57,5 @@ public class MyAccountRepository {
 		}
 		return result;
 	}
-	/* End บัญชีของฉัน */
 
 }
