@@ -29,18 +29,34 @@ public class LoanApprovalRepository {
 
 	/* Loan approval ขออนุมัติสินเชื่อ */
 	public void savePrefix(UserLog userLog, String Prefix) {
+		ArrayList<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-
-			stb.append(" INSERT INTO customer (customer_user_line_id, prefix_id, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");
-			stb.append(" VALUES (:lineId, :prefixId, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance') ");
-
+			stb.append(" SELECT customer_user_id AS userId FROM customer ");
+			stb.append(" WHERE customer_user_line_id = :lineId ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("lineId", userLog.getUserID());
-			parameters.addValue("prefixId", Prefix);
+			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			stb.setLength(0);
+			if (result.get(0).get("userId") == null) {
+				stb.append(
+						" INSERT INTO customer (customer_user_line_id, prefix_id, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");
+				stb.append(
+						" VALUES (:lineId, :prefixId, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance') ");
 
-			jdbcTemplate.update(stb.toString(), parameters);
+				parameters.addValue("lineId", userLog.getUserID());
+				parameters.addValue("prefixId", Integer.parseInt(Prefix));
+				jdbcTemplate.update(stb.toString(), parameters);
+			} else {
+				stb.append(" UPDATE customer SET prefix_id = :prefixId ");
+				stb.append(" WHERE customer_user_id = :userId ");
+
+				parameters.addValue("userId", result.get(0).get("userId"));
+				parameters.addValue("prefixId", Integer.parseInt(Prefix));
+				jdbcTemplate.update(stb.toString(), parameters);
+			}
+
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
@@ -120,24 +136,42 @@ public class LoanApprovalRepository {
 
 	public void saveSalary(UserLog userLog, String salary) {
 		ArrayList<Map<String, Object>> result = null;
+		ArrayList<Map<String, Object>> result2 = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-			stb.append(" SELECT customer_user_id AS 'userId' FROM customer ");
+			stb.append(" SELECT customer_user_id AS userId FROM customer ");
 			stb.append(" WHERE customer_user_line_id = :lineId ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("lineId", userLog.getUserID());
-			jdbcTemplate.update(stb.toString(), parameters);
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 
-			stb.append(" INSERT INTO request_loan (customer_user_id, salary, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");
-			stb.append(" VALUES (:userId, :salary, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance') ");
+			stb.setLength(0);
+			stb.append(" SELECT customer_user_id AS userId FROM request_loan ");
+			stb.append(" WHERE customer_user_id = :userId ");
+			parameters.addValue("userId", result.get(0).get("userId"));
+			result2 = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 
-			log.info("result.{}",result);
-			parameters.addValue("userId", result);
-			parameters.addValue("salary", salary);
+			if (result2.get(0).get("userId") == null) {
+				stb.setLength(0);
+				stb.append(
+						" INSERT INTO request_loan (customer_user_id, salary, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");
+				stb.append(
+						" VALUES (:userId, :salary, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance') ");
+				log.info("result.{}", result);
+				parameters.addValue("userId", result.get(0).get("userId"));
+				parameters.addValue("salary", salary);
+				jdbcTemplate.update(stb.toString(), parameters);
+			} else {
+				stb.setLength(0);
+				stb.append(" UPDATE request_loan SET salary = :salary ");
+				stb.append(" WHERE customer_user_id = :userId ");
+				log.info("result.{}", result);
+				parameters.addValue("userId", result.get(0).get("userId"));
+				parameters.addValue("salary", salary);
+				jdbcTemplate.update(stb.toString(), parameters);
+			}
 
-			jdbcTemplate.update(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
@@ -148,18 +182,17 @@ public class LoanApprovalRepository {
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
-			stb.append(" SELECT customer_user_id AS 'userId' FROM customer ");
+			stb.append(" SELECT customer_user_id AS userId FROM customer ");
 			stb.append(" WHERE customer_user_line_id = :lineId ");
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("lineId", userLog.getUserID());
-			jdbcTemplate.update(stb.toString(), parameters);
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-
+			stb.setLength(0);
 			stb.append(" UPDATE request_loan SET credit_type_id = :creditType ");
 			stb.append(" WHERE customer_user_id = :userId ");
 
-			parameters.addValue("lineId", result);
-			parameters.addValue("creditType", creditType);
+			parameters.addValue("userId", result.get(0).get("userId"));
+			parameters.addValue("creditType", Integer.parseInt(creditType));
 
 			jdbcTemplate.update(stb.toString(), parameters);
 		} catch (EmptyResultDataAccessException ex) {
