@@ -43,7 +43,10 @@ public class MyAccountRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" SELECT * FORM customer cus ");
+			stb.append(" SELECT pay.payment_period, pay.payment_amount_paid, pay.payment_principle, ");
+			stb.append(
+					" pay.payment_installment, to_char(pay.payment_pay_date, 'dd/MM/yyyy') AS payment_pay_date, pay.payment_outstanding_balance, to_char(pay.payment_pay_date_next, 'dd/MM/yyyy') AS payment_pay_date_next ");
+			stb.append(" FROM customer cus ");
 			stb.append(" JOIN account acc ON acc.customer_user_id = cus.customer_user_id ");
 			stb.append(" JOIN payment pay ON pay.account_id = acc.account_id ");
 			stb.append(" WHERE cus.customer_user_line_id = :lineId ");
@@ -55,6 +58,7 @@ public class MyAccountRepository {
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
+		System.out.println(result);
 		return result;
 	}
 

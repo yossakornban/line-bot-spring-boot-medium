@@ -254,9 +254,11 @@ public class LineBotController {
 			switch (text) {
 			case "นาย": {
 				text = "1";
+				System.out.println("1111111");
 				loanApprovalRepository.savePrefix(userLog, text.toString());
+				System.out.println("2222222");
 				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
-				log.info("Return echo message %s : %s", replyToken, text);
+				System.out.println("333333");
 				userLog.setStatusBot(status.SaveFirstName);
 				break;
 			}
@@ -413,7 +415,7 @@ public class LineBotController {
 		reply(replyToken, Collections.singletonList(message));
 	}
 
-	private void push(@NonNull String replyToken, @NonNull List<Message> messages) {
+	public void push(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			lineMessagingClient.pushMessage(new PushMessage(replyToken, messages)).get();
 		} catch (InterruptedException | ExecutionException e) {

@@ -60,14 +60,20 @@ public class ApproveRepository {
 
 			if (data.getApprove_status()) {
 				stb.append(
-						" INSERT INTO account(account_no, customer_user_id, created_by, created_date, created_program, updated_by, updated_date, updated_program, account_approve) ");
+						" INSERT INTO account(account_no, customer_user_id, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");
 				stb.append(
 						" VALUES (:account_no, :customer_user_id, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance') ");
 
 				MapSqlParameterSource parameters = new MapSqlParameterSource();
 				parameters.addValue("account_no", random);
 				parameters.addValue("customer_user_id", data.getCustomer_code());
-				parameters.addValue("account_approve", data.getApprove_status());
+				jdbcTemplate.update(stb.toString(), parameters);
+				stb.setLength(0);
+				stb.append(" UPDATE request_loan SET approve_status = :approve_status ");
+				stb.append(" WHERE customer_user_id = :userId ");
+
+				parameters.addValue("userId", data.getCustomer_code());
+				parameters.addValue("approve_status", data.getApprove_status());
 				jdbcTemplate.update(stb.toString(), parameters);
 				stb.setLength(0);
 
@@ -76,6 +82,7 @@ public class ApproveRepository {
 
 				parameters.addValue("customer_user_id", data.getCustomer_code());
 				account_id = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+				System.out.println("++++++ account_id "+account_id);
 
 				stb.setLength(0);
 				stb.append(
@@ -113,7 +120,7 @@ public class ApproveRepository {
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
-
+		System.out.println("customer_user_line_id ============ " + (String) result.get(0).get("customer_user_line_id"));
 		return (String) result.get(0).get("customer_user_line_id");
 	}
 

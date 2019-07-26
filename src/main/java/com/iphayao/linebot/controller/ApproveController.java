@@ -20,13 +20,14 @@ import com.linecorp.bot.model.PushMessage;
 
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
 // import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
 import lombok.NonNull;
 
 @ComponentScan
-// @LineMessageHandler
+@LineMessageHandler
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/approve")
@@ -34,31 +35,27 @@ import lombok.NonNull;
 public class ApproveController {
 
     @Autowired
-    private ApproveRepository approveRepo ;
-	private LineMessagingClient lineMessagingClient;
+    private LineBotController LineBotController;
+    @Autowired
+    private ApproveRepository approveRepo;
+
+    private LineMessagingClient lineMessagingClient;
 
     @PostMapping(path = "/submit")
     public void updateApprove(@RequestBody Customer data) throws Exception {
        String userId; 
        String approveStatus; 
         try {
-            if(data.getApprove_status()){
+            if(data.getApprove_status() == true){
                 approveStatus = "การขอสินเชื่อของคุณได้รับการ อนุมัติ เรียบร้อยแล้ว";
             }else{
                 approveStatus = "การขอสินเชื่อของคุณ ไม่ได้รับการอนุมัติ สามารถสอบถามเพิ่มเติมได้ที่ 02-222-2222";
             }
             userId = approveRepo.approve(data);
-            this.pushById(userId, Arrays.asList(new TextMessage(approveStatus)));
+            LineBotController.push(userId, Arrays.asList(new TextMessage(approveStatus)));
         } catch (DataIntegrityViolationException e) {
             throw e;
         }
     }
-    
-    private void pushById(@NonNull String userId, @NonNull List<Message> messages) {
-		try {
-			lineMessagingClient.pushMessage(new PushMessage(userId, messages)).get();
-		} catch (InterruptedException | ExecutionException e) {
-			throw new RuntimeException(e);
-		}
-	}
+
 }

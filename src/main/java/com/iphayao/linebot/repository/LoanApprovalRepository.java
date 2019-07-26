@@ -38,6 +38,7 @@ public class LoanApprovalRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("lineId", userLog.getUserID());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+			System.out.println("+++++-----****//// "+ result);
 			stb.setLength(0);
 			if (result.get(0).get("userId") == null) {
 				stb.append(
