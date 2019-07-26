@@ -43,9 +43,9 @@ public class ApproveController {
        String approveStatus; 
         try {
             if(data.getApprove_status()){
-                approveStatus = "อนุมัติ";
+                approveStatus = "การขอสินเชื่อของคุณได้รับการ อนุมัติ เรียบร้อยแล้ว";
             }else{
-                approveStatus = "ไม่อนุมัติ";
+                approveStatus = "การขอสินเชื่อของคุณ ไม่ได้รับการอนุมัติ สามารถสอบถามเพิ่มเติมได้ที่ 02-222-2222";
             }
             userId = approveRepo.approve(data);
             this.pushById(userId, Arrays.asList(new TextMessage(approveStatus)));
