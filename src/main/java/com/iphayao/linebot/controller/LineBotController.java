@@ -149,7 +149,8 @@ public class LineBotController {
 				break;
 			}
 			case "บัญชีของฉัน": {
-				myAccountRepository.searchMyAccount(userLog);
+				ArrayList<Map<String, Object>> result = myAccountRepository.searchMyAccount(userLog);
+
 				String AmountPaid = "11,050";
 				String PayPrincipal = "10,000";
 				String PayInterest = "1,050";
