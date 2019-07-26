@@ -310,17 +310,15 @@ public class LineBotController {
 			switch (text) {
 				case "ที่ดินเปล่า": {
 					text = "1";
-					loanApprovalRepository.saveCreditType(userLog, replyToken);
+					loanApprovalRepository.saveCreditType(userLog, text.toString());
 					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-					log.info("Return echo message %s : %s", replyToken, text);
 					userLog.setStatusBot(status.DEFAULT);
 					break;
 				}
 				case "รถ": {
 					text = "2";
-					loanApprovalRepository.saveCreditType(userLog, replyToken);
+					loanApprovalRepository.saveCreditType(userLog, text.toString());
 					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-					log.info("Return echo message %s : %s", replyToken, text);
 					userLog.setStatusBot(status.DEFAULT);
 					break;
 				}
@@ -329,11 +327,6 @@ public class LineBotController {
 					log.info("Return echo message %s : %s", replyToken, text);
 					userLog.setStatusBot(status.DEFAULT);
 				}
-			// lineRepo.findEmp(userLog, text.toString()); SaveCreditType
-			this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-			log.info("Return echo message %s : %s", replyToken, text);
-			userLog.setStatusBot(status.DEFAULT);
-
 		} /* End Loan approval ขออนุมัติสินเชื่อ */
 
 		else if (userLog.getStatusBot().equals(status.Q11)) {
