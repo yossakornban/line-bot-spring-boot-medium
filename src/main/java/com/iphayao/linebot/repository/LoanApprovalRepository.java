@@ -38,9 +38,9 @@ public class LoanApprovalRepository {
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("lineId", userLog.getUserID());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			System.out.println("+++++-----****//// "+ result);
+			// System.out.println("+++++-----****//// "+ result.get(0).get("userId") );
 			stb.setLength(0);
-			if (result.get(0).get("userId") == null) {
+			if (result.size() == 0) {
 				stb.append(
 						" INSERT INTO customer (customer_user_line_id, prefix_id, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");
 				stb.append(
@@ -153,7 +153,7 @@ public class LoanApprovalRepository {
 			parameters.addValue("userId", result.get(0).get("userId"));
 			result2 = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 
-			if (result2.get(0).get("userId") == null) {
+			if (result2.size() == 0) {
 				stb.setLength(0);
 				stb.append(
 						" INSERT INTO request_loan (customer_user_id, salary, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");

@@ -31,6 +31,7 @@ import com.iphayao.linebot.model.UserLog.status;
 import com.iphayao.linebot.repository.LineRepository;
 import com.iphayao.linebot.repository.LoanApprovalRepository;
 import com.iphayao.linebot.repository.MyAccountRepository;
+import com.iphayao.linebot.repository.SlipPaymentRepository;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -78,6 +79,9 @@ public class LineBotController {
 	@Autowired
 	private MyAccountRepository myAccountRepository;
 
+	@Autowired
+	private SlipPaymentRepository slipPaymentRepository;
+
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
@@ -102,24 +106,19 @@ public class LineBotController {
 
 	@EventMapping
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) throws IOException {
-		System.out.println("1--------- "+ event);
+
 		ImageMessageContent content = event.getMessage();
 		String replyToken = event.getReplyToken();
 
 		try {
-			System.out.println("1.1--------- "+ content);
+			System.out.println("1.1--------- " + content);
 			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
-			System.out.println("2--------- "+ response.getStream().toString());
+			System.out.println("2--------- " + response.getStream().toString());
 			byte[] bytes = IOUtils.toByteArray(response.getStream());
 			String encoded = Base64.getEncoder().encodeToString(bytes);
-
-			System.out.println("encoded--------- "+ encoded);
-
-			// DownloadedContent jpg = saveContent("jpg", response);
-			// DownloadedContent previewImage = createTempFile("jpg");
-			// system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
-
-			// reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
+			System.out.println("3--------- " + encoded);
+			slipPaymentRepository.saveSlipPayment(event.getSource().getUserId(), bytes);
+			this.reply(replyToken, Arrays.asList(new TextMessage("เจ้าหน้าที่กำลังตรวจสอบ โปรดรอสักครู่")));
 
 		} catch (InterruptedException | ExecutionException e) {
 			// reply(replyToken, new TextMessage("Cannot get image: " + content));
@@ -129,7 +128,6 @@ public class LineBotController {
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
-
 		if (userLog == null) {
 			userLog = new UserLog(event.getSource().getSenderId(), status.DEFAULT);
 			userMap.put(event.getSource().getSenderId(), userLog);
@@ -141,11 +139,15 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ขออนุมัติสินเชื่อ": {
-				ConfirmTemplate confirmTemplate = new ConfirmTemplate("กรุณาระบุคำนำหน้า",
+				ConfirmTemplate confirmTemplate = new ConfirmTemplate("1.กรุณาระบุคำนำหน้า",
 						new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-				this.reply(replyToken, templateMessage);
+				this.reply(replyToken, Arrays.asList(new TextMessage("การขออนุมัติสินเชื่อ มี่ทั้งหมด 7 ขั้นตอน"),templateMessage));
 				userLog.setStatusBot(status.SavePrefix);
+				break;
+			}
+			case "ชำระค่าเบี้ย": {
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน")));
 				break;
 			}
 			case "บัญชีของฉัน": {
@@ -157,10 +159,12 @@ public class LineBotController {
 				String PayDate = (String) result.get(0).get("payment_pay_date");
 				String OutstandingBalance = (String) result.get(0).get("payment_outstanding_balance");
 				String NextPaymentDate = (String) result.get(0).get("payment_pay_date_next");
-				this.reply(replyToken, Arrays.asList(new TextMessage("ชำระงวดที่ "+ Period + "\n" + "ยอดที่ต้องชำระ "
-						+ AmountPaid + " บ." + "\n" + "ชำระเป็นเงินต้น " + PayPrincipal + " บ." + "\n" + "ชำระเป็นดอกเบี้ย "
-						+ PayInterest + " บ." + "\n" + "ชำระค่าเบี้ยเมื่อวันที่ " + PayDate + "\n" + "ยอดค้างชำระคงเหลือ "
-						+ OutstandingBalance + " บ." + "\n" + "ชำระครั้งต่อไปวันที่ " + NextPaymentDate)));
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ชำระงวดที่ " + Period + "\n" + "ยอดที่ต้องชำระ " + AmountPaid
+								+ " บ." + "\n" + "ชำระเป็นเงินต้น " + PayPrincipal + " บ." + "\n" + "ชำระเป็นดอกเบี้ย "
+								+ PayInterest + " บ." + "\n" + "ชำระค่าเบี้ยเมื่อวันที่ " + PayDate + "\n"
+								+ "ยอดค้างชำระคงเหลือ " + OutstandingBalance + " บ." + "\n" + "ชำระครั้งต่อไปวันที่ "
+								+ NextPaymentDate)));
 				log.info("Return echo message %s : %s", replyToken, text);
 				break;
 			}
@@ -254,18 +258,15 @@ public class LineBotController {
 			switch (text) {
 			case "นาย": {
 				text = "1";
-				System.out.println("1111111");
 				loanApprovalRepository.savePrefix(userLog, text.toString());
-				System.out.println("2222222");
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
-				System.out.println("333333");
+				this.reply(replyToken, Arrays.asList(new TextMessage("2.กรุณาระบุชื่อ")));
 				userLog.setStatusBot(status.SaveFirstName);
 				break;
 			}
 			case "นางสาว": {
 				text = "2";
 				loanApprovalRepository.savePrefix(userLog, text.toString());
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุชื่อ")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("2.กรุณาระบุชื่อ")));
 				log.info("Return echo message %s : %s", replyToken, text);
 				userLog.setStatusBot(status.SaveFirstName);
 				break;
@@ -278,31 +279,31 @@ public class LineBotController {
 
 		} else if (userLog.getStatusBot().equals(status.SaveFirstName)) {
 			loanApprovalRepository.saveFirstName(userLog, text.toString());
-			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุนามสกุล")));
+			this.reply(replyToken, Arrays.asList(new TextMessage("3.กรุณาระบุนามสกุล")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveLastName);
 
 		} else if (userLog.getStatusBot().equals(status.SaveLastName)) {
 			loanApprovalRepository.saveLastName(userLog, text.toString());
-			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุเบอร์โทรศัพท์")));
+			this.reply(replyToken, Arrays.asList(new TextMessage("4.กรุณาระบุเบอร์โทรศัพท์")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveTel);
 
 		} else if (userLog.getStatusBot().equals(status.SaveTel)) {
 			loanApprovalRepository.saveTel(userLog, text.toString());
-			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุอีเมล")));
+			this.reply(replyToken, Arrays.asList(new TextMessage("5.กรุณาระบุอีเมล")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveEmail);
 
 		} else if (userLog.getStatusBot().equals(status.SaveEmail)) {
 			loanApprovalRepository.saveEmail(userLog, text.toString());
-			this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาระบุรายได้ต่อเดือน")));
+			this.reply(replyToken, Arrays.asList(new TextMessage("6.กรุณาระบุรายได้ต่อเดือน")));
 			log.info("Return echo message %s : %s", replyToken, text);
 			userLog.setStatusBot(status.SaveSalary);
 
 		} else if (userLog.getStatusBot().equals(status.SaveSalary)) {
 			loanApprovalRepository.saveSalary(userLog, text.toString());
-			ConfirmTemplate confirmTemplate = new ConfirmTemplate("ขอสินเชื่อประเภท", new MessageAction("รถ", "รถ"),
+			ConfirmTemplate confirmTemplate = new ConfirmTemplate("7.ขอสินเชื่อประเภท", new MessageAction("รถ", "รถ"),
 					new MessageAction("ที่ดินเปล่า", "ที่ดินเปล่า"));
 			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 			this.reply(replyToken, templateMessage);
@@ -311,25 +312,28 @@ public class LineBotController {
 
 		} else if (userLog.getStatusBot().equals(status.SaveCreditType)) {
 			switch (text) {
-				case "ที่ดินเปล่า": {
-					text = "1";
-					loanApprovalRepository.saveCreditType(userLog, text.toString());
-					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-					userLog.setStatusBot(status.DEFAULT);
-					break;
-				}
-				case "รถ": {
-					text = "2";
-					loanApprovalRepository.saveCreditType(userLog, text.toString());
-					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-					userLog.setStatusBot(status.DEFAULT);
-					break;
-				}
-				default:
-					this.reply(replyToken, Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
-					log.info("Return echo message %s : %s", replyToken, text);
-					userLog.setStatusBot(status.DEFAULT);
-				}
+			case "ที่ดินเปล่า": {
+				text = "1";
+				loanApprovalRepository.saveCreditType(userLog, text.toString());
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			case "รถ": {
+				text = "2";
+				loanApprovalRepository.saveCreditType(userLog, text.toString());
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+				userLog.setStatusBot(status.DEFAULT);
+				break;
+			}
+			default:
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ข้อมูลครบถ้วน กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+				log.info("Return echo message %s : %s", replyToken, text);
+				userLog.setStatusBot(status.DEFAULT);
+			}
 		} /* End Loan approval ขออนุมัติสินเชื่อ */
 
 		else if (userLog.getStatusBot().equals(status.Q11)) {

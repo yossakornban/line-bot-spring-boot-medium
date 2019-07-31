@@ -82,7 +82,6 @@ public class ApproveRepository {
 
 				parameters.addValue("customer_user_id", data.getCustomer_code());
 				account_id = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-				System.out.println("++++++ account_id "+account_id);
 
 				stb.setLength(0);
 				stb.append(
