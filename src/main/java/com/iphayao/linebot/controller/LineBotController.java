@@ -156,7 +156,7 @@ public class LineBotController {
 				String AmountPaid = (String) result.get(0).get("payment_amount_paid");
 				String PayPrincipal = (String) result.get(0).get("payment_principle");
 				String PayInterest = (String) result.get(0).get("payment_installment");
-				String PayDate = (String) result.get(0).get("payment_pay_date");
+				String PayDate = (String) result.get(0).get("payment_pay_date") == null ? " - " :(String) result.get(0).get("payment_pay_date");
 				String OutstandingBalance = (String) result.get(0).get("payment_outstanding_balance");
 				String NextPaymentDate = (String) result.get(0).get("payment_pay_date_next");
 				this.reply(replyToken,
