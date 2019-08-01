@@ -54,9 +54,7 @@ areas:
   action:
     type: uri
     label: tel
-    uri: '0823994975'
-    altUri: 
-      desktop: tel://0823994975
+    uri: 'tel://0823994975'
 -
   bounds:
     x: 1667
