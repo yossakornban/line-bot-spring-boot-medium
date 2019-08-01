@@ -149,7 +149,23 @@ public class LineBotController {
 				break;
 			}
 			case "ชำระค่าเบี้ย": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน งวดที่ 1/12")));
+				ArrayList<Map<String, Object>> result = myAccountRepository.searchMyAccount(userLog);
+				String Period = (String) result.get(0).get("payment_period");
+				String AmountPaid = (String) result.get(0).get("payment_amount_paid");
+				String PayPrincipal = (String) result.get(0).get("payment_principle");
+				String PayInterest = (String) result.get(0).get("payment_installment");
+				String PayDate = (String) result.get(0).get("payment_pay_date") == null ? " - "
+						: (String) result.get(0).get("payment_pay_date");
+				String OutstandingBalance = (String) result.get(0).get("payment_outstanding_balance");
+				String NextPaymentDate = (String) result.get(0).get("payment_pay_date_next");
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("ชำระงวดที่ " + Period + "\n" + "ยอดที่ต้องชำระ " + AmountPaid
+								+ " บ." + "\n" + "ชำระเป็นเงินต้น " + PayPrincipal + " บ." + "\n" + "ชำระเป็นดอกเบี้ย "
+								+ PayInterest + " บ." + "\n" + "ชำระค่าเบี้ยเมื่อวันที่ " + PayDate + "\n"
+								+ "ยอดค้างชำระคงเหลือ " + OutstandingBalance + " บ." + "\n" + "ชำระครั้งต่อไปวันที่ "
+								+ NextPaymentDate)));
+				log.info("Return echo message %s : %s", replyToken, text);
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน งวดที่ "+ Period)));
 				break;
 			}
 			case "บัญชีของฉัน": {
@@ -244,10 +260,11 @@ public class LineBotController {
 				break;
 			}
 			// case "Flex": {
-			// 	String pathYamlHome = "asset/richmenu-home.yml";
-			// 	String pathImageHome = "asset/richmenu-home.jpg";
-			// 	RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
-			// 	break;
+			// String pathYamlHome = "asset/richmenu-home.yml";
+			// String pathImageHome = "asset/richmenu-home.jpg";
+			// RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome,
+			// pathImageHome, userLog.getUserID());
+			// break;
 			// }
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
@@ -344,7 +361,6 @@ public class LineBotController {
 				userLog.setStatusBot(status.DEFAULT);
 			}
 		} /* End Loan approval ขออนุมัติสินเชื่อ */
-
 		else if (userLog.getStatusBot().equals(status.Q11)) {
 			switch (text) {
 			case "1": {
