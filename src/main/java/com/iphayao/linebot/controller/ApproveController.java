@@ -56,8 +56,8 @@ public class ApproveController {
             userId = approveRepo.approve(data);
             if (data.getApprove_status() == true) {
                 approveStatus = "การขอสินเชื่อของคุณได้รับการ อนุมัติ เรียบร้อยแล้ว";
-                String pathYamlHome = "asset/richmenu-home.yml";
-                String pathImageHome = "asset/richmenu-home.jpg";
+                String pathYamlHome = "asset/richmenu-pico.yml";
+                String pathImageHome = "asset/pico-menu.jpg";
                 RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userId);
             } else {
                 approveStatus = "การขอสินเชื่อของคุณ ไม่ได้รับการอนุมัติ สามารถสอบถามเพิ่มเติมได้ที่ 02-222-2222";

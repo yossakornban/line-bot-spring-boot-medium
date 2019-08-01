@@ -1,0 +1,27 @@
+size:
+  width: 2500
+  height: 1686
+selected: false
+name: Submit
+chatBarText: 'Menu Eiei'
+areas:
+-
+  bounds:
+    x: 0
+    y: 0
+    width: 1250
+    height: 1686
+  action:
+    type: message
+    label: payment
+    text: 'ชำระค่าเบี้ย'
+-
+  bounds:
+    x: 1250
+    y: 0
+    width: 1250
+    height: 1686
+  action:
+    type: message
+    label: my account
+    text: 'บัญชีของฉัน'
