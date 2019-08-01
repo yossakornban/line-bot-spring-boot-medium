@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
+import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
@@ -142,12 +143,13 @@ public class LineBotController {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("1.กรุณาระบุคำนำหน้า",
 						new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-				this.reply(replyToken, Arrays.asList(new TextMessage("การขออนุมัติสินเชื่อ มี่ทั้งหมด 7 ขั้นตอน"),templateMessage));
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("การขออนุมัติสินเชื่อ มี่ทั้งหมด 7 ขั้นตอน"), templateMessage));
 				userLog.setStatusBot(status.SavePrefix);
 				break;
 			}
 			case "ชำระค่าเบี้ย": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน งวดที่ 1/12")));
 				break;
 			}
 			case "บัญชีของฉัน": {
@@ -156,7 +158,8 @@ public class LineBotController {
 				String AmountPaid = (String) result.get(0).get("payment_amount_paid");
 				String PayPrincipal = (String) result.get(0).get("payment_principle");
 				String PayInterest = (String) result.get(0).get("payment_installment");
-				String PayDate = (String) result.get(0).get("payment_pay_date") == null ? " - " :(String) result.get(0).get("payment_pay_date");
+				String PayDate = (String) result.get(0).get("payment_pay_date") == null ? " - "
+						: (String) result.get(0).get("payment_pay_date");
 				String OutstandingBalance = (String) result.get(0).get("payment_outstanding_balance");
 				String NextPaymentDate = (String) result.get(0).get("payment_pay_date_next");
 				this.reply(replyToken,
@@ -240,6 +243,12 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
+			// case "Flex": {
+			// 	String pathYamlHome = "asset/richmenu-home.yml";
+			// 	String pathImageHome = "asset/richmenu-home.jpg";
+			// 	RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+			// 	break;
+			// }
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
