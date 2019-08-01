@@ -140,12 +140,12 @@ public class LineBotController {
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
 			case "ขออนุมัติสินเชื่อ": {
-				ConfirmTemplate confirmTemplate = new ConfirmTemplate("1.กรุณาระบุคำนำหน้า",
-						new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
-				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+				// ConfirmTemplate confirmTemplate = new ConfirmTemplate("1.กรุณาระบุคำนำหน้า",
+				// 		new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
+				// TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("การขออนุมัติสินเชื่อ มี่ทั้งหมด 7 ขั้นตอน"), templateMessage));
-				userLog.setStatusBot(status.SavePrefix);
+						Arrays.asList(new TextMessage("http://dev.pico.sstrain.ml/su/line01?user_line_id=" + userLog.getUserID())));
+				// userLog.setStatusBot(status.SavePrefix);
 				break;
 			}
 			case "ชำระค่าเบี้ย": {
