@@ -1,9 +1,12 @@
  package com.iphayao.linebot.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iphayao.linebot.repository.ApprovePaymentRepository;
 import com.iphayao.linebot.repository.ApprovePaymentRepository.ModelUpdate;
+import com.linecorp.bot.model.message.TextMessage;
 
  @CrossOrigin
  @RestController
@@ -22,6 +26,9 @@ import com.iphayao.linebot.repository.ApprovePaymentRepository.ModelUpdate;
 
      @Autowired
      private ApprovePaymentRepository approvePayRepo;
+     
+     @Autowired
+     private LineBotController LineBotController;
 
      @GetMapping(path = "/search")
      public ArrayList<Map<String, Object>> searchPaymant(@RequestParam(value = "keyword") String keyword) throws Exception {
@@ -35,7 +42,27 @@ import com.iphayao.linebot.repository.ApprovePaymentRepository.ModelUpdate;
      
      @PutMapping(path = "/update")
      public Map<String, Object> update(@RequestBody ModelUpdate model) throws Exception {
-    	 return approvePayRepo.Update(model);
-     }
+         Map<String, Object> result = new HashMap<String, Object>();
+         StringBuilder text = new StringBuilder();
+    	 try {
+    		 if(model.getApprove()) {
+        		 result = approvePayRepo.Update(model);
+                 if (result != null) {
+                	 text.append("บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับชำระเรียบร้อย\n");
+                	 text.append("สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา");
+                	 
+                	 LineBotController.push(result.get("customer_user_line_id").toString(), Arrays.asList(new TextMessage(text.toString())));
+                	 return result;
+                 }
+    		 }
 
+    		 text.append("การชำระเงินไม่สมบูรณ์ สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา");
+    		 LineBotController.push(result.get("customer_user_line_id").toString(), Arrays.asList(new TextMessage(text.toString())));
+             
+         } catch (DataIntegrityViolationException e) {
+             throw e;
+         }
+    	 return result;
+     }
+     
  }
