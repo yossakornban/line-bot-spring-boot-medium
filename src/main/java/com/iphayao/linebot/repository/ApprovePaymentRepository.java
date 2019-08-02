@@ -146,7 +146,7 @@ public class ApprovePaymentRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			StringBuilder sql = new StringBuilder();
 			sql.append(
-					" SELECT payment_id, cus.customer_first_name || ' ' || cus.customer_last_name AS name, payment_id, payment_period ");
+					" SELECT cus.customer_user_id, payment_id, cus.customer_first_name || ' ' || cus.customer_last_name AS name, payment_id, payment_period ");
 			sql.append(" FROM payment pay ");
 			sql.append("   JOIN account acc ");
 			sql.append("     ON pay.account_id = acc.account_id ");
