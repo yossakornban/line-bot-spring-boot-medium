@@ -149,7 +149,35 @@ public class LineBotController {
 				// userLog.setStatusBot(status.SavePrefix);
 				break;
 			}
-			case "ชำระค่าเบี้ย": {
+			case "ชำระ": {
+				ConfirmTemplate confirmTemplate = new ConfirmTemplate("เลือก",
+						new MessageAction("การชำระเบี้ย", "การชำระเบี้ย"), new MessageAction("แจ้งการชำระเงิน", "แจ้งการชำระเงิน"));
+				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+				this.reply(replyToken, templateMessage);
+				break;
+			}
+			case "การชำระเบี้ย": {
+				// ArrayList<Map<String, Object>> result = myAccountRepository.searchMyAccount(userLog);
+				String name = "สมศรี";
+				String Period = "2";
+				String AmountPaid = "2,000";
+				String lastDate = "21/02/2019";
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("รียน คุณ "+ name +"\n"
+						+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n"
+						+ "งวดที่: "+ Period +"\n"
+						+ "ยอดชำระ: "+ AmountPaid +" บาท\n"
+						+ "โปรดชำระเงินภายใน: "+ lastDate +"\n"
+						+ "---------------"+"\n"
+						+ "|    |"+"\n"
+						+ "| QR Code  |"+"\n"
+						+ "|    |"+"\n"
+						+ "|    |"+"\n"
+						+ "---------------"+"\n")));
+				log.info("Return echo message %s : %s", replyToken, text);
+				break;
+			}
+			case "แจ้งการชำระเงิน": {
 				ArrayList<Map<String, Object>> result = myAccountRepository.searchMyAccount(userLog);
 				String Period = (String) result.get(0).get("payment_period");
 				String AmountPaid = (String) result.get(0).get("payment_amount_paid");
