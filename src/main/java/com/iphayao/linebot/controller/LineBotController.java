@@ -141,10 +141,11 @@ public class LineBotController {
 			switch (text) {
 			case "ขออนุมัติสินเชื่อ": {
 				// ConfirmTemplate confirmTemplate = new ConfirmTemplate("1.กรุณาระบุคำนำหน้า",
-				// 		new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
-				// TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("http://dev.pico.sstrain.ml/su/line01?user_line_id=" + userLog.getUserID())));
+				// new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
+				// TemplateMessage templateMessage = new TemplateMessage("Confirm alt text",
+				// confirmTemplate);
+				this.reply(replyToken, Arrays.asList(
+						new TextMessage("http://pico.sstrain.ml/su/line01;user_line_id=" + userLog.getUserID())));
 				// userLog.setStatusBot(status.SavePrefix);
 				break;
 			}
@@ -165,7 +166,7 @@ public class LineBotController {
 								+ "ยอดค้างชำระคงเหลือ " + OutstandingBalance + " บ." + "\n" + "ชำระครั้งต่อไปวันที่ "
 								+ NextPaymentDate)));
 				log.info("Return echo message %s : %s", replyToken, text);
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน งวดที่ "+ Period)));
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน งวดที่ " + Period)));
 				break;
 			}
 			case "บัญชีของฉัน": {
@@ -259,13 +260,12 @@ public class LineBotController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
-			// case "Flex": {
-			// String pathYamlHome = "asset/richmenu-home.yml";
-			// String pathImageHome = "asset/richmenu-home.jpg";
-			// RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome,
-			// pathImageHome, userLog.getUserID());
-			// break;
-			// }
+			case "Flex": {
+				String pathYamlHome = "asset/richmenu-pico.yml";
+				String pathImageHome = "asset/pico-menu.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userLog.getUserID());
+				break;
+			}
 			default:
 				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
