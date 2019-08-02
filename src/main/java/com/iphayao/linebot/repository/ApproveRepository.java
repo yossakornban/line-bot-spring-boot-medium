@@ -1,7 +1,13 @@
 package com.iphayao.linebot.repository;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -143,10 +149,10 @@ public class ApproveRepository {
 		return (String) result.get(0).get("customer_user_line_id");
 	}
 	
-	public Customer approveWaitDoc(Customer data){
+	public Map<String, Object> approveWaitDoc(Customer data){
 		log.info("<--Start approveWaitDoc.{}-->", data.getCustomer_user_id());
 		Customer customer = new Customer();
-		ArrayList<Map<String, Object>> result = null;
+		Map<String, Object> result = null;
 		String random = randomAlphaNumeric(10);
 		
 		StringBuilder sql = new StringBuilder();
@@ -168,18 +174,84 @@ public class ApproveRepository {
 		jdbcTemplate.update(sql.toString(), parameters);
 		
 		StringBuilder sql2 = new StringBuilder();
-		sql2.append(" SELECT cus.customer_first_name || ' ' || cus.customer_last_name AS customer_name, cus.customer_user_line_id, acc.* ");
+		sql2.append(" SELECT cus.customer_first_name || ' ' || cus.customer_last_name AS customer_name, cus.customer_user_line_id, acc.status AS account_status, (acc.account_interest / 12)  AS interest_bht, acc.* ");
 		sql2.append(" FROM account acc ");
 		sql2.append(" JOIN customer cus ON cus.customer_user_id = acc.customer_user_id ");
 		sql2.append(" WHERE cus.customer_user_id = :customer_user_id ");
 
 		MapSqlParameterSource parameters2 = new MapSqlParameterSource();
-		parameters2.addValue("customer_user_id", data.getCustomer_code());
-		customer = (Customer) jdbcTemplate.queryForMap(sql2.toString(), parameters2);
+		parameters2.addValue("customer_user_id", data.getCustomer_user_id());
+		result = jdbcTemplate.queryForMap(sql2.toString(), parameters2);
 		} catch (EmptyResultDataAccessException ex) {
 			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
 		}
-		return customer;
+		return result;
+	}
+	
+	public Map<String, Object> approvePayment(Customer data){
+		log.info("<--Start approveWaitDoc.{}-->", data.getCustomer_user_id());
+		Map<String, Object> result = null;
+		String random = randomAlphaNumeric(10);
+		
+		NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
+		mf.setMaximumFractionDigits(2);
+		
+		StringBuilder sql = new StringBuilder();
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		
+		
+//		try {
+			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			
+			sql.append(" SELECT cus.customer_first_name || ' ' || cus.customer_last_name AS customer_name, cus.customer_user_line_id, acc.status AS account_status, acc.account_credit / acc.account_period AS credit_bht,  acc.account_credit * ((acc.account_interest / 12) /100) AS interest_bht, acc.* ");
+			sql.append(" FROM account acc ");
+			sql.append(" JOIN customer cus ON cus.customer_user_id = acc.customer_user_id ");
+			sql.append(" WHERE cus.customer_user_id = :customer_user_id ");
+			parameters.addValue("customer_user_id", data.getCustomer_user_id());
+			result = jdbcTemplate.queryForMap(sql.toString(), parameters);
+			
+			BigDecimal paymentOutstandingBalance = (BigDecimal)result.get("account_credit"); 
+//			SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+//			
+			
+			int account_period = ((BigDecimal) result.get("account_period")).intValue();
+			for(int i = 0 ; i < account_period; i++) {
+				StringBuilder sql1 = new StringBuilder();
+				MapSqlParameterSource parameters1 = new MapSqlParameterSource();
+				
+				paymentOutstandingBalance = paymentOutstandingBalance.subtract((BigDecimal)result.get("interest_bht"));
+				
+				Calendar cal = Calendar.getInstance();
+				Date date = new Date(System.currentTimeMillis());
+		        cal.setTime(date);
+		        cal.add(Calendar.MONTH, 1);
+		        
+				sql1.append(
+						" INSERT INTO payment(account_id, status_id, payment_period, payment_installment, payment_outstanding_balance, created_by, created_date, created_program, updated_by, updated_date, updated_program, payment_due_date, payment_principle) ");
+				sql1.append(
+						" VALUES (:account_id, 7, :payment_period, :installmentByYear, :payment_outstanding_balance, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance', :payment_due_date, :payment_principle); ");
+				
+				parameters1.addValue("account_id", result.get("account_id"));
+				parameters1.addValue("payment_period", i+1);
+				parameters1.addValue("installmentByYear", result.get("interest_bht"));
+				parameters1.addValue("payment_outstanding_balance", paymentOutstandingBalance);
+				parameters1.addValue("payment_due_date", cal.getTime());
+				parameters1.addValue("payment_principle", result.get("credit_bht"));
+				
+				jdbcTemplate.update(sql1.toString(), parameters1);
+			}
+			
+			sql.setLength(0);
+			sql.append(" UPDATE account SET status = 7 ");
+			sql.append(" WHERE customer_user_id = :customer_user_id ");
+			jdbcTemplate.update(sql.toString(), parameters);
+			
+			result.put("account_status", 7);
+//		} catch (EmptyResultDataAccessException ex) {
+//			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+//		}
+			
+		return result;
 	}
 
 }
