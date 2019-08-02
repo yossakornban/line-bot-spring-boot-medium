@@ -12,4 +12,5 @@ public class Register {
     private String customer_email;
     private Integer credit_type_id;
     private String salary;
+    private String career;
 }

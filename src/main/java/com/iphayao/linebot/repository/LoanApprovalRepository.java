@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 //import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.iphayao.linebot.model.Register;
 import com.iphayao.linebot.model.UserLog;
 
 import lombok.Data;
@@ -28,33 +29,50 @@ public class LoanApprovalRepository {
 	private StringBuilder stb = null;
 
 	/* Loan approval ขออนุมัติสินเชื่อ */
-	public void savePrefix(UserLog userLog, String Prefix) {
+	public void approveLoan(Register data) {
 		ArrayList<Map<String, Object>> result = null;
+		ArrayList<Map<String, Object>> id = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
+			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			stb.append(" SELECT customer_user_id AS userId FROM customer ");
 			stb.append(" WHERE customer_user_line_id = :lineId ");
-			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("lineId", userLog.getUserID());
+			parameters.addValue("lineId", data.getCustomer_user_line_id());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
-			// System.out.println("+++++-----****//// "+ result.get(0).get("userId") );
 			stb.setLength(0);
 			if (result.size() == 0) {
 				stb.append(
-						" INSERT INTO customer (customer_user_line_id, prefix_id, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");
+						" INSERT INTO customer (customer_user_line_id, prefix_id, customer_first_name, customer_last_name, customer_tel, customer_email, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");
 				stb.append(
-						" VALUES (:lineId, :prefixId, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance') ");
+						" VALUES (:lineId, :prefixId, :first_name, :last_name, :tel, :email, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance') ");
 
-				parameters.addValue("lineId", userLog.getUserID());
-				parameters.addValue("prefixId", Integer.parseInt(Prefix));
+				parameters.addValue("lineId", data.getCustomer_user_line_id());
+				parameters.addValue("prefixId", data.getPrefix_id());
+				parameters.addValue("first_name", data.getCustomer_first_name());
+				parameters.addValue("last_name", data.getCustomer_last_name());
+				parameters.addValue("tel", data.getCustomer_tel());
+				parameters.addValue("email", data.getCustomer_email());
 				jdbcTemplate.update(stb.toString(), parameters);
-			} else {
-				stb.append(" UPDATE customer SET prefix_id = :prefixId ");
-				stb.append(" WHERE customer_user_id = :userId ");
 
-				parameters.addValue("userId", result.get(0).get("userId"));
-				parameters.addValue("prefixId", Integer.parseInt(Prefix));
+				stb.setLength(0);
+
+				stb.append(" SELECT customer_user_id AS userId FROM customer ");
+				stb.append(" WHERE customer_user_line_id = :lineId ");
+				parameters.addValue("lineId", data.getCustomer_user_line_id());
+				id = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
+
+				stb.setLength(0);
+
+				stb.append(
+						" INSERT INTO request_loan (customer_user_id, credit_type_id, salary, created_by, created_date, created_program, updated_by, updated_date, updated_program, career) ");
+				stb.append(
+						" VALUES (:userId, :credit_type_id, :salary, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance', :career) ");
+
+				parameters.addValue("userId", id.get(0).get("userId"));
+				parameters.addValue("credit_type_id", data.getCredit_type_id());
+				parameters.addValue("salary", data.getSalary());
+				parameters.addValue("career", data.getCareer());
 				jdbcTemplate.update(stb.toString(), parameters);
 			}
 

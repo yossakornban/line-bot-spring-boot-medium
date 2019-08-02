@@ -284,14 +284,14 @@ public class LineBotController {
 			switch (text) {
 			case "นาย": {
 				text = "1";
-				loanApprovalRepository.savePrefix(userLog, text.toString());
+				// loanApprovalRepository.savePrefix(userLog, text.toString());
 				this.reply(replyToken, Arrays.asList(new TextMessage("2.กรุณาระบุชื่อ")));
 				userLog.setStatusBot(status.SaveFirstName);
 				break;
 			}
 			case "นางสาว": {
 				text = "2";
-				loanApprovalRepository.savePrefix(userLog, text.toString());
+				// loanApprovalRepository.savePrefix(userLog, text.toString());
 				this.reply(replyToken, Arrays.asList(new TextMessage("2.กรุณาระบุชื่อ")));
 				log.info("Return echo message %s : %s", replyToken, text);
 				userLog.setStatusBot(status.SaveFirstName);

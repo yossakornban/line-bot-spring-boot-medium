@@ -18,6 +18,7 @@ import com.iphayao.linebot.model.Customer;
 import com.iphayao.linebot.model.Register;
 import com.iphayao.linebot.repository.ApprovePaymentRepository;
 import com.iphayao.linebot.repository.ApproveRepository;
+import com.iphayao.linebot.repository.LoanApprovalRepository;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 
@@ -41,30 +42,18 @@ public class ApplyLoanController {
     private LineBotController LineBotController;
 
     @Autowired
-    private ApproveRepository approveRepo;
-
-    @Autowired
-    private ApprovePaymentRepository approvePayRepo;
-
-    @Autowired
-    private LineMessagingClient lineMessagingClient;
+    private LoanApprovalRepository loanAppRepo;
 
     @PostMapping(path = "/regis")
     public void updateApprove(@RequestBody Register data) throws Exception {
-        String userId;
-        String approveStatus;
         try {
-            // userId = approveRepo.approve(data);
-            // if (data.getApprove_status() == true) {
-            //     approveStatus = "การขอสินเชื่อของคุณได้รับการ อนุมัติ เรียบร้อยแล้ว";
-            //     String pathYamlHome = "asset/richmenu-home.yml";
-            //     String pathImageHome = "asset/richmenu-home.jpg";
-            //     RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userId);
-            // } else {
-            //     approveStatus = "การขอสินเชื่อของคุณ ไม่ได้รับการอนุมัติ สามารถสอบถามเพิ่มเติมได้ที่ 02-222-2222";
-            // }
-
-            LineBotController.push(data.getCustomer_user_line_id(), Arrays.asList(new TextMessage("กรุณารอการตอบกลับภายใน 1 วันทำการ")));
+            loanAppRepo.approveLoan(data);
+            LineBotController.push(data.getCustomer_user_line_id(),
+                    Arrays.asList(new TextMessage("เรียน คุณ " + data.getCustomer_first_name() +" "+ data.getCustomer_last_name() 
+                    + "\n" + "ขณะนี้บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับเรื่องการขอสินเชื่อของท่านแล้ว " 
+                    + "\n" + "ทางเราจะทำการพิจารณา และแจ้งผลตอบกลับโดยด่วนที่สุด "
+                    + "\n" + "สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา " 
+           )));
         } catch (DataIntegrityViolationException e) {
             throw e;
         }
