@@ -33,10 +33,11 @@ public class ApprovePaymentRepository {
 		// private String updatedProgram;
 
 	}
-	
+
 	@Data
 	public class ModelUpdate {
 		private Integer paymentId;
+		private Boolean approve;
 	}
 
 	@Autowired
