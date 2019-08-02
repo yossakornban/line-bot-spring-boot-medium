@@ -1,10 +1,13 @@
 package com.iphayao.linebot.repository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -27,9 +30,6 @@ public class ApproveRepository {
 		public String profileCode;
 		public String profileDesc;
 		public Boolean active;
-		// private String createdProgram;
-		// private String updatedProgram;
-
 	}
 
 	@Autowired
@@ -39,7 +39,7 @@ public class ApproveRepository {
 	private StringBuilder stb2 = null;
 
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
+	
 	public static String randomAlphaNumeric(int count) {
 		StringBuilder builder = new StringBuilder();
 		while (count-- != 0) {
@@ -49,6 +49,26 @@ public class ApproveRepository {
 		return builder.toString();
 	}
 
+	public ArrayList<Map<String, Object>> line03Search(String countrySearch) throws Exception {
+		log.info("<--Start ApproveRepository.{}-->", "line03Search()");
+		jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		
+		StringBuilder sql = new StringBuilder();
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		
+		sql.append("SELECT status.status_name, cus.* ");
+		sql.append("FROM customer cus ");
+		sql.append("JOIN request_loan loan ON loan.customer_user_id = cus.customer_user_id  ");
+		sql.append("JOIN status ON status.status_id = loan.status  ");
+		sql.append("WHERE 1 = 1 ");
+		try {
+			return (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(sql.toString(), parameters);
+		} catch (Exception ex) {
+			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+			throw ex;
+		}
+	}
+	
 	public String approve(Customer data) {
 		ArrayList<Map<String, Object>> result = null;
 		ArrayList<Map<String, Object>> account_id = null;
@@ -121,6 +141,45 @@ public class ApproveRepository {
 		}
 		System.out.println("customer_user_line_id ============ " + (String) result.get(0).get("customer_user_line_id"));
 		return (String) result.get(0).get("customer_user_line_id");
+	}
+	
+	public Customer approveWaitDoc(Customer data){
+		log.info("<--Start approveWaitDoc.{}-->", data.getCustomer_user_id());
+		Customer customer = new Customer();
+		ArrayList<Map<String, Object>> result = null;
+		String random = randomAlphaNumeric(10);
+		
+		StringBuilder sql = new StringBuilder();
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		
+		try {
+			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		
+		sql.append(
+				" INSERT INTO account(account_no, customer_user_id, created_by, created_date, created_program, updated_by, updated_date, updated_program, account_credit, account_interest, account_period, status) ");
+		sql.append(
+				" VALUES (:account_no, :customer_user_id, 'SS-Pico-Finance', NOW(), 'SS-Pico-Finance','SS-Pico-Finance', NOW(), 'SS-Pico-Finance', :account_credit, :account_interest, :account_period, 2) ");
+
+		parameters.addValue("account_no", random);
+		parameters.addValue("customer_user_id", data.getCustomer_user_id());
+		parameters.addValue("account_credit", data.getAccount_credit());
+		parameters.addValue("account_interest", data.getAccount_interest());
+		parameters.addValue("account_period", data.getAccount_period());
+		jdbcTemplate.update(sql.toString(), parameters);
+		
+		StringBuilder sql2 = new StringBuilder();
+		sql2.append(" SELECT cus.customer_first_name || ' ' || cus.customer_last_name AS customer_name, cus.customer_user_line_id, acc.* ");
+		sql2.append(" FROM account acc ");
+		sql2.append(" JOIN customer cus ON cus.customer_user_id = acc.customer_user_id ");
+		sql2.append(" WHERE cus.customer_user_id = :customer_user_id ");
+
+		MapSqlParameterSource parameters2 = new MapSqlParameterSource();
+		parameters2.addValue("customer_user_id", data.getCustomer_code());
+		customer = (Customer) jdbcTemplate.queryForMap(sql2.toString(), parameters2);
+		} catch (EmptyResultDataAccessException ex) {
+			log.error("Msg :: {}, Trace :: {}", ex.getMessage(), ex.getStackTrace());
+		}
+		return customer;
 	}
 
 }
