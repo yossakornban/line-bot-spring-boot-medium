@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -42,6 +44,7 @@ import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.FlexMessage;
+import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
@@ -169,53 +172,67 @@ public class LineBotController {
 			}
 			case "ชำระ": {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("เลือก",
-						new MessageAction("การชำระเบี้ย", "การชำระเบี้ย"),
-						new MessageAction("แจ้งการชำระเงิน", "แจ้งการชำระเงิน"));
+						new MessageAction("ชำระเบี้ย", "ชำระเบี้ย"), new MessageAction("แจ้งโอนเงิน", "แจ้งโอนเงิน"));
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken, templateMessage);
 				break;
 			}
-			case "การชำระเบี้ย": {
+			case "ชำระเบี้ย": {
 				// ArrayList<Map<String, Object>> result =
 				// myAccountRepository.searchMyAccount(userLog);
+				NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
+				mf.setMaximumFractionDigits(2);
 				ArrayList<Map<String, Object>> result = myAccountRepository.searchPaid(userLog);
 				String name = (String) result.get(0).get("customer_first_name") + " "
 						+ (String) result.get(0).get("customer_last_name");
 				String Period = result.get(0).get("payment_period").toString();
-				String AmountPaid = (String) result.get(0).get("payment_amount_paid");
-				String lastDate = (String) result.get(0).get("payment_due_date");
-				this.reply(replyToken, Arrays.asList(new TextMessage("รียน คุณ " + name + "\n"
+				userLog.setPeriod(Period);
+				String AmountPaid = mf.format(result.get(0).get("paid_amount"));
+				String lastDate = (String) result.get(0).get("payment_pay_date_next");
+
+				TextMessage tm = new TextMessage("เรียน คุณ " + name + "\n"
 						+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n" + "งวดที่: "
-						+ Period + "\n" + "ยอดชำระ: " + AmountPaid + " บาท\n" + "โปรดชำระเงินภายใน: " + lastDate + "\n"
-						+ "---------------" + "\n" + "|    |" + "\n" + "| QR Code  |" + "\n" + "|    |" + "\n"
-						+ "|    |" + "\n" + "---------------" + "\n")));
+						+ Period + "\n" + "ยอดชำระ: " + AmountPaid + " บาท\n" + "โปรดชำระเงินภายใน: " + lastDate);
+
+				String originalContentUrl = "https://eyemin.eyefleet.co/eyemin/img/123.jpg";
+				ImageMessage im = new ImageMessage(originalContentUrl, originalContentUrl);
+
+				this.reply(replyToken, Arrays.asList(tm, im));
 				log.info("Return echo message %s : %s", replyToken, text);
 				break;
 			}
-			case "แจ้งการชำระเงิน": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน งวดที่ ")));
+			case "แจ้งโอนเงิน": {
+				this.reply(replyToken,
+						Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระเงิน งวดที่ " + userLog.getPeriod())));
 				break;
 			}
-			case "ประวัติชำระเบี้ย": {
-				this.push(userLog.getUserID(), Arrays.asList(new TextMessage(
-						" บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งประวัติชำระเบี้ย ตามข้อมูลด้านล่าง")));
-
+			case "ประวัติการชำระ": {
+				// this.push(userLog.getUserID(), Arrays.asList(new TextMessage(
+				// " บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งประวัติชำระเบี้ย
+				// ตามข้อมูลด้านล่าง")));
+				NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
+				mf.setMaximumFractionDigits(2);
 				ArrayList<Map<String, Object>> result = myAccountRepository.searchHis(userLog);
 				int i;
 				int size = result.size();
-				for (i = 0; i < size; i++) {
-					String Period = result.get(i).get("payment_period").toString();
-					String account_credit = (String) result.get(i).get("account_credit");
-					String payment_amount_paid = (String) result.get(i).get("payment_amount_paid");
-					String PayInterest = (String) result.get(i).get("payment_installment");
-					String TotalPayment = (String) result.get(i).get("total");
-					String payment_outstanding_balance = (String) result.get(i).get("payment_outstanding_balance");
+				if (size > 0) {
+					for (i = 0; i < size; i++) {
+						String Period = result.get(i).get("payment_period").toString();
+						String account_credit = mf.format( result.get(i).get("account_credit"));
+						String payment_amount_paid = mf.format(result.get(i).get("payment_principle"));
+						String PayInterest = mf.format(result.get(i).get("payment_installment"));
+						String TotalPayment = mf.format(result.get(i).get("total"));
+						String payment_outstanding_balance = mf.format(result.get(i).get("payment_outstanding_balance"));
 
-					this.push(userLog.getUserID(),
-							Arrays.asList(new TextMessage("งวดที่ : " + Period + "\n" + "ยอดหนี้ : " + account_credit
-									+ " บาท\n" + "ยอดชำระเงินต้น : " + payment_amount_paid + " บาท\n"
-									+ "ยอดชำระดอกเบี้ย : " + PayInterest + " บาท\n" + "รวมยอดชำระ : " + TotalPayment
-									+ " บาท\n" + "เงินต้นคงเหลือ : " + payment_outstanding_balance + " บาท")));
+						this.push(userLog.getUserID(),
+								Arrays.asList(new TextMessage("งวดที่ : " + Period + "\n" + "ยอดหนี้ : "
+										+ account_credit + " บาท\n" + "ยอดชำระเงินต้น : " + payment_amount_paid
+										+ " บาท\n" + "ยอดชำระดอกเบี้ย : " + PayInterest + " บาท\n" + "รวมยอดชำระ : "
+										+ TotalPayment + " บาท\n" + "เงินต้นคงเหลือ : " + payment_outstanding_balance
+										+ " บาท")));
+					}
+				} else {
+					this.push(userLog.getUserID(), Arrays.asList(new TextMessage("ไม่มีประวัติการชำระ")));
 				}
 				break;
 			}

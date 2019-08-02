@@ -43,7 +43,7 @@ public class MyAccountRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" SELECT pay.payment_period, pay.payment_amount_paid ");
+			stb.append(" SELECT pay.payment_period, pay.payment_amount_paid ,pay.payment_principle , pay.payment_installment ");
 			stb.append(" , pay.payment_installment, to_char(pay.payment_pay_date, 'dd/MM/yyyy') AS payment_pay_date ");
 			stb.append(" , pay.payment_outstanding_balance ");
 			stb.append(" , to_char(pay.payment_due_date, 'dd/MM/yyyy') AS payment_pay_date_next ");
@@ -73,7 +73,7 @@ public class MyAccountRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" SELECT pay.payment_period, pay.payment_amount_paid ");
+			stb.append(" SELECT pay.payment_period ,pay.payment_principle + pay.payment_installment AS  paid_amount, pay.payment_amount_paid ");
 			stb.append(" , pay.payment_installment, to_char(pay.payment_pay_date, 'dd/MM/yyyy') AS payment_pay_date ");
 			stb.append(" , pay.payment_outstanding_balance ");
 			stb.append(" , to_char(pay.payment_due_date, 'dd/MM/yyyy') AS payment_pay_date_next ");
@@ -85,7 +85,7 @@ public class MyAccountRepository {
 			stb.append(" JOIN payment pay ON pay.account_id = acc.account_id ");
 			stb.append(" WHERE cus.customer_user_line_id = :lineId ");
 			stb.append(" AND pay.status_id = 7 ");
-			stb.append(" ORDER BY ASC pay.payment_due_date ");
+			stb.append(" ORDER BY pay.payment_due_date ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("lineId", userLog.getUserID());

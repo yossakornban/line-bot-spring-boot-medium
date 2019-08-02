@@ -26,9 +26,11 @@ public class SlipPaymentRepository {
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
+	private StringBuilder stb1 = null;
 
 	public void saveSlipPayment(String UserID, String encoded) {
 		ArrayList<Map<String, Object>> result = null;
+		ArrayList<Map<String, Object>> result1 = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
@@ -38,15 +40,29 @@ public class SlipPaymentRepository {
 			stb.append(" WHERE cus.customer_user_line_id = :lineId ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
-			parameters.addValue("lineId",UserID);
+			parameters.addValue("lineId", UserID);
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb.toString(), parameters);
 
-			stb.setLength(0);
-			stb.append(" INSERT INTO slip_payment( account_id, slip)");
-			stb.append(" VALUES ( :account_id, :slip) ");
+			stb1 = new StringBuilder();
+			stb1.append(" SELECT payment_id ");
+			stb1.append(" FROM payment ");
+			stb1.append(" WHERE account_id = :account_id ");
+			stb1.append(" AND status_id =  7");
+			stb1.append(" ORDER BY payment_id ");
+			stb1.append(" LIMIT 1");
 
-			parameters.addValue("account_id", null);
-			parameters.addValue("slip", "image/jpeg;base64,"+encoded);
+			MapSqlParameterSource parameters1 = new MapSqlParameterSource();
+			parameters1.addValue("account_id", result.get(0).get("account_id"));
+			result1 = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(stb1.toString(), parameters1);
+
+			stb.setLength(0);
+
+			stb.append(" INSERT INTO slip_payment( account_id, slip, payment_id)");
+			stb.append(" VALUES ( :account_id, :slip, :payment_id) ");
+
+			parameters.addValue("account_id", result.get(0).get("account_id"));
+			parameters.addValue("slip", "image/jpeg;base64," + encoded);
+			parameters.addValue("payment_id", result1.get(0).get("payment_id"));
 			jdbcTemplate.update(stb.toString(), parameters);
 
 		} catch (EmptyResultDataAccessException ex) {

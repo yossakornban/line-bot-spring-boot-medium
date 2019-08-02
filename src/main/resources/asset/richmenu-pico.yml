@@ -24,7 +24,7 @@ areas:
   action:
     type: message
     label: payment
-    text: 'ชำระค่าเบี้ย'
+    text: 'ชำระ'
 -
   bounds:
     x: 1667
@@ -34,7 +34,7 @@ areas:
   action:
     type: message
     label: history
-    text: 'ประวัติชำระเบี้ย'
+    text: 'ประวัติการชำระ'
 -
   bounds:
     x: 0
