@@ -198,22 +198,27 @@ public class LineBotController {
 				break;
 			}
 			case "บัญชีของฉัน": {
+				this.reply(replyToken,Arrays.asList(new TextMessage(" บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งประวัติชำระเบี้ย ตามข้อมูลด้านล่าง")));
+				
 				ArrayList<Map<String, Object>> result = myAccountRepository.searchMyAccount(userLog);
-				String Period = (String) result.get(0).get("payment_period");
-				String AmountPaid = (String) result.get(0).get("payment_amount_paid");
-				String PayPrincipal = (String) result.get(0).get("payment_principle");
-				String PayInterest = (String) result.get(0).get("payment_installment");
-				String PayDate = (String) result.get(0).get("payment_pay_date") == null ? " - "
-						: (String) result.get(0).get("payment_pay_date");
-				String OutstandingBalance = (String) result.get(0).get("payment_outstanding_balance");
-				String NextPaymentDate = (String) result.get(0).get("payment_pay_date_next");
+				int i;
+				int size = result.size();
+				for (i = 0; i < size; i++) {
+				String Period = (String) result.get(i).get("payment_period");
+				String AmountPaid = (String) result.get(i).get("payment_amount_paid");
+				String PayPrincipal = (String) result.get(i).get("payment_principle");
+				String PayInterest = (String) result.get(i).get("payment_installment");
+				String TotalPayment = (String) result.get(i).get("payment_outstanding_balance");
+				String RemainingPrincipal = (String) result.get(i).get("payment_pay_date_next");
+
 				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ชำระงวดที่ " + Period + "\n" + "ยอดที่ต้องชำระ " + AmountPaid
-								+ " บ." + "\n" + "ชำระเป็นเงินต้น " + PayPrincipal + " บ." + "\n" + "ชำระเป็นดอกเบี้ย "
-								+ PayInterest + " บ." + "\n" + "ชำระค่าเบี้ยเมื่อวันที่ " + PayDate + "\n"
-								+ "ยอดค้างชำระคงเหลือ " + OutstandingBalance + " บ." + "\n" + "ชำระครั้งต่อไปวันที่ "
-								+ NextPaymentDate)));
-				log.info("Return echo message %s : %s", replyToken, text);
+						Arrays.asList(new TextMessage("งวดที่ : "+ Period +"\n"
+						+"ยอดหนี้ : "+ AmountPaid +" บาท\n"
+						+"ยอดชำระเงินต้น : "+ PayPrincipal +" บาท\n"
+						+"ยอดชำระดอกเบี้ย : "+ PayInterest +" บาท\n"
+						+"รวมยอดชำระ : "+ TotalPayment+" บาท\n"
+						+"เงินต้นคงเหลือ : "+ RemainingPrincipal +" บาท")));
+				}
 				break;
 			}
 			case "register": {
