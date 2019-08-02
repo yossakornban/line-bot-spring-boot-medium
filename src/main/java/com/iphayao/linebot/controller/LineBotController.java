@@ -17,7 +17,6 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.IOUtils;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,20 +25,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
 import com.iphayao.linebot.helper.RichMenuHelper;
-import com.iphayao.linebot.model.Entity;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
 import com.iphayao.linebot.repository.LineRepository;
-import com.iphayao.linebot.repository.LoanApprovalRepository;
 import com.iphayao.linebot.repository.MyAccountRepository;
 import com.iphayao.linebot.repository.SlipPaymentRepository;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
-import com.linecorp.bot.model.action.DatetimePickerAction;
 import com.linecorp.bot.model.action.MessageAction;
-import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -47,7 +42,6 @@ import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.FlexMessage;
-import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
@@ -55,7 +49,9 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.model.message.flex.component.Spacer;
+import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
+import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import com.linecorp.bot.model.message.template.CarouselColumn;
@@ -81,9 +77,6 @@ public class LineBotController {
 
 	@Autowired
 	private LineRepository lineRepo;
-
-	@Autowired
-	private LoanApprovalRepository loanApprovalRepository;
 
 	@Autowired
 	private MyAccountRepository myAccountRepository;
@@ -120,13 +113,10 @@ public class LineBotController {
 		String replyToken = event.getReplyToken();
 
 		try {
-			System.out.println("1.1--------- " + content);
 			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
-			System.out.println("2--------- " + response.getStream().toString());
 			byte[] bytes = IOUtils.toByteArray(response.getStream());
 			String encoded = Base64.getEncoder().encodeToString(bytes);
-			System.out.println("3--------- " + encoded);
-			slipPaymentRepository.saveSlipPayment(event.getSource().getUserId(), bytes);
+			slipPaymentRepository.saveSlipPayment(event.getSource().getUserId(), encoded);
 			this.reply(replyToken, Arrays.asList(new TextMessage("เจ้าหน้าที่กำลังตรวจสอบ โปรดรอสักครู่")));
 
 		} catch (InterruptedException | ExecutionException e) {
@@ -136,16 +126,22 @@ public class LineBotController {
 	}
 
 	public FlexMessage getFlexMessage(String UserID) {
+		final Box bodyBlock = createBodyBlock();
 		final Box footerBlock = createFooterBox(UserID);
+		final Bubble bubble = Bubble.builder().body(bodyBlock).footer(footerBlock).build();
+		return new FlexMessage("Please provide information", bubble);
+	}
 
-		final Bubble bubble = Bubble.builder().footer(footerBlock).build();
-		return new FlexMessage("Restaurant Menu", bubble);
+	private Box createBodyBlock() {
+		final Text title = Text.builder().text("กรุณาบันทึกข้อมูลของท่านให้เราทราบ").weight(Text.TextWeight.REGULAR)
+				.size(FlexFontSize.Md).build();
+		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(title)).build();
 	}
 
 	private Box createFooterBox(String UserID) {
-		final Spacer spacer = Spacer.builder().size(FlexMarginSize.XXL).build();
-		final Button button = Button.builder().style(Button.ButtonStyle.PRIMARY).color("#905c44")
-				.action(new URIAction("กรุณากดปุ่ม", "http://pico.sstrain.ml/su/line01;user_line_id=" + UserID))
+		final Spacer spacer = Spacer.builder().size(FlexMarginSize.XL).build();
+		final Button button = Button.builder().style(Button.ButtonStyle.PRIMARY).color("#ffd006")
+				.action(new URIAction("กรุณากดปุ่ม", "https://pico.sstrain.ml/su/line01;user_line_id=" + UserID))
 				.build();
 		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(spacer, button)).build();
 	}
@@ -158,7 +154,6 @@ public class LineBotController {
 		}
 
 		String text = content.getText();
-		ModelMapper modelMapper = new ModelMapper();
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
@@ -183,10 +178,12 @@ public class LineBotController {
 			case "การชำระเบี้ย": {
 				// ArrayList<Map<String, Object>> result =
 				// myAccountRepository.searchMyAccount(userLog);
-				String name = "สมศรี";
-				String Period = "2";
-				String AmountPaid = "2,000";
-				String lastDate = "21/02/2019";
+				ArrayList<Map<String, Object>> result = myAccountRepository.searchPaid(userLog);
+				String name = (String) result.get(0).get("customer_first_name") + " "
+						+ (String) result.get(0).get("customer_last_name");
+				String Period = result.get(0).get("payment_period").toString();
+				String AmountPaid = (String) result.get(0).get("payment_amount_paid");
+				String lastDate = (String) result.get(0).get("payment_due_date");
 				this.reply(replyToken, Arrays.asList(new TextMessage("รียน คุณ " + name + "\n"
 						+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n" + "งวดที่: "
 						+ Period + "\n" + "ยอดชำระ: " + AmountPaid + " บาท\n" + "โปรดชำระเงินภายใน: " + lastDate + "\n"
@@ -196,121 +193,58 @@ public class LineBotController {
 				break;
 			}
 			case "แจ้งการชำระเงิน": {
-				ArrayList<Map<String, Object>> result = myAccountRepository.searchMyAccount(userLog);
-				String Period = (String) result.get(0).get("payment_period");
-				String AmountPaid = (String) result.get(0).get("payment_amount_paid");
-				String PayPrincipal = (String) result.get(0).get("payment_principle");
-				String PayInterest = (String) result.get(0).get("payment_installment");
-				String PayDate = (String) result.get(0).get("payment_pay_date") == null ? " - "
-						: (String) result.get(0).get("payment_pay_date");
-				String OutstandingBalance = (String) result.get(0).get("payment_outstanding_balance");
-				String NextPaymentDate = (String) result.get(0).get("payment_pay_date_next");
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("ชำระงวดที่ " + Period + "\n" + "ยอดที่ต้องชำระ " + AmountPaid
-								+ " บ." + "\n" + "ชำระเป็นเงินต้น " + PayPrincipal + " บ." + "\n" + "ชำระเป็นดอกเบี้ย "
-								+ PayInterest + " บ." + "\n" + "ชำระค่าเบี้ยเมื่อวันที่ " + PayDate + "\n"
-								+ "ยอดค้างชำระคงเหลือ " + OutstandingBalance + " บ." + "\n" + "ชำระครั้งต่อไปวันที่ "
-								+ NextPaymentDate)));
-				log.info("Return echo message %s : %s", replyToken, text);
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน งวดที่ " + Period)));
+				this.reply(replyToken, Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระการเงิน งวดที่ ")));
 				break;
 			}
-			case "บัญชีของฉัน": {
-				this.reply(replyToken,Arrays.asList(new TextMessage(" บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งประวัติชำระเบี้ย ตามข้อมูลด้านล่าง")));
-				
-				ArrayList<Map<String, Object>> result = myAccountRepository.searchMyAccount(userLog);
+			case "ประวัติชำระเบี้ย": {
+				this.push(userLog.getUserID(), Arrays.asList(new TextMessage(
+						" บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งประวัติชำระเบี้ย ตามข้อมูลด้านล่าง")));
+
+				ArrayList<Map<String, Object>> result = myAccountRepository.searchHis(userLog);
 				int i;
 				int size = result.size();
 				for (i = 0; i < size; i++) {
-				String Period = (String) result.get(i).get("payment_period");
-				String AmountPaid = (String) result.get(i).get("payment_amount_paid");
-				String PayPrincipal = (String) result.get(i).get("payment_principle");
-				String PayInterest = (String) result.get(i).get("payment_installment");
-				String TotalPayment = (String) result.get(i).get("payment_outstanding_balance");
-				String RemainingPrincipal = (String) result.get(i).get("payment_pay_date_next");
+					String Period = result.get(i).get("payment_period").toString();
+					String account_credit = (String) result.get(i).get("account_credit");
+					String payment_amount_paid = (String) result.get(i).get("payment_amount_paid");
+					String PayInterest = (String) result.get(i).get("payment_installment");
+					String TotalPayment = (String) result.get(i).get("total");
+					String payment_outstanding_balance = (String) result.get(i).get("payment_outstanding_balance");
 
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("งวดที่ : "+ Period +"\n"
-						+"ยอดหนี้ : "+ AmountPaid +" บาท\n"
-						+"ยอดชำระเงินต้น : "+ PayPrincipal +" บาท\n"
-						+"ยอดชำระดอกเบี้ย : "+ PayInterest +" บาท\n"
-						+"รวมยอดชำระ : "+ TotalPayment+" บาท\n"
-						+"เงินต้นคงเหลือ : "+ RemainingPrincipal +" บาท")));
+					this.push(userLog.getUserID(),
+							Arrays.asList(new TextMessage("งวดที่ : " + Period + "\n" + "ยอดหนี้ : " + account_credit
+									+ " บาท\n" + "ยอดชำระเงินต้น : " + payment_amount_paid + " บาท\n"
+									+ "ยอดชำระดอกเบี้ย : " + PayInterest + " บาท\n" + "รวมยอดชำระ : " + TotalPayment
+									+ " บาท\n" + "เงินต้นคงเหลือ : " + payment_outstanding_balance + " บาท")));
 				}
 				break;
 			}
-			case "register": {
-				this.reply(replyToken, Arrays.asList(new TextMessage("กรอก รหัสพนักงาน")));
-				userLog.setStatusBot(status.FINDEMP);
-				break;
-			}
-			case "list": {
-				ArrayList<Map<String, Object>> list = lineRepo.list();
-				list.forEach(record -> {
-					Entity en = new Entity();
-					modelMapper.map(record, en);
-					this.push(replyToken, Arrays.asList(new TextMessage(en.getMessage())));
-				});
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "profile": {
-				String userId = event.getSource().getUserId();
-				if (userId != null) {
-					lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
-						if (throwable != null) {
-							this.replyText(replyToken, throwable.getMessage());
-							return;
-						}
-						this.reply(replyToken,
-								Arrays.asList(new TextMessage(
-										"Display name : " + profile.getDisplayName() + "\n Status message : "
-												+ profile.getStatusMessage() + "\n User ID : " + profile.getUserId())));
-					});
-				}
-				userLog.setStatusBot(status.DEFAULT);
-				break;
-			}
-			case "leave": {
-				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(new CarouselColumn(imageUrl,
-						"ประเภทการลา", "กรุณาเลือก", Arrays.asList(new MessageAction("ลากิจ", "1"),
-								new MessageAction("ลาป่วย", "2"), new MessageAction("ลาพักร้อน", "3")))));
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
-				userLog.setStatusBot(status.Q11);
-				break;
-			}
-			case "help": {
-				this.reply(replyToken, Arrays.asList(new TextMessage(
-						"โปรดเลือกรายการ \n พิมพ์  profile : ดูข้อมูล Profile  \n พิมพ์  list : ดู Agenda \n พิมพ์  add : เพิ่ม Agenda")));
-				userLog.setStatusBot(status.DEFAULT);
-				;
-				break;
-			}
-			case "carousel": {
-				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
-						new CarouselColumn(imageUrl, "hoge", "fuga",
-								Arrays.asList(new URIAction("Go to line.me", "https://line.me"),
-										new URIAction("Go to line.me", "https://line.me"),
-										new PostbackAction("Say hello1", "hello こんにちは", "hello こんにちは"))),
-						new CarouselColumn(imageUrl, "hoge", "fuga",
-								Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
-										new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
-										new MessageAction("Say message", "Rice=米"))),
-						new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time or datetime",
-								Arrays.asList(
-										new DatetimePickerAction("Datetime", "action=sel", "datetime",
-												"2017-06-18T06:15", "2100-12-31T23:59", "1900-01-01T00:00"),
-										new DatetimePickerAction("Date", "action=sel&only=date", "date", "2017-06-18",
-												"2100-12-31", "1900-01-01"),
-										new DatetimePickerAction("Time", "action=sel&only=time", "time", "06:15",
-												"23:59", "00:00")))));
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
-				break;
-			}
+			// case "carousel": {
+			// String imageUrl = createUri("/static/buttons/1040.jpg");
+			// CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
+			// new CarouselColumn(imageUrl, "hoge", "fuga",
+			// Arrays.asList(new URIAction("Go to line.me", "https://line.me"),
+			// new URIAction("Go to line.me", "https://line.me"),
+			// new PostbackAction("Say hello1", "hello こんにちは", "hello こんにちは"))),
+			// new CarouselColumn(imageUrl, "hoge", "fuga",
+			// Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+			// new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+			// new MessageAction("Say message", "Rice=米"))),
+			// new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time
+			// or datetime",
+			// Arrays.asList(
+			// new DatetimePickerAction("Datetime", "action=sel", "datetime",
+			// "2017-06-18T06:15", "2100-12-31T23:59", "1900-01-01T00:00"),
+			// new DatetimePickerAction("Date", "action=sel&only=date", "date",
+			// "2017-06-18",
+			// "2100-12-31", "1900-01-01"),
+			// new DatetimePickerAction("Time", "action=sel&only=time", "time", "06:15",
+			// "23:59", "00:00")))));
+			// TemplateMessage templateMessage = new TemplateMessage("Carousel alt text",
+			// carouselTemplate);
+			// this.reply(replyToken, templateMessage);
+			// break;
+			// }
 			case "Flex": {
 				String pathYamlHome = "asset/richmenu-pico.yml";
 				String pathImageHome = "asset/pico-menu.jpg";

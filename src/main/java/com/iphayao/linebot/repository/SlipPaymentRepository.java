@@ -27,7 +27,7 @@ public class SlipPaymentRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	public void saveSlipPayment(String UserID, byte[] encoded) {
+	public void saveSlipPayment(String UserID, String encoded) {
 		ArrayList<Map<String, Object>> result = null;
 		try {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -45,8 +45,8 @@ public class SlipPaymentRepository {
 			stb.append(" INSERT INTO slip_payment( account_id, slip)");
 			stb.append(" VALUES ( :account_id, :slip) ");
 
-			parameters.addValue("account_id", result.get(0).get("account_id"));
-			parameters.addValue("slip", encoded);
+			parameters.addValue("account_id", null);
+			parameters.addValue("slip", "image/jpeg;base64,"+encoded);
 			jdbcTemplate.update(stb.toString(), parameters);
 
 		} catch (EmptyResultDataAccessException ex) {

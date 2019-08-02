@@ -3,7 +3,7 @@ size:
   height: 1686
 selected: false
 name: Pico
-chatBarText: 'Menu Pico'
+chatBarText: 'Menu'
 areas:
 -
   bounds:
@@ -13,8 +13,8 @@ areas:
     height: 843
   action:
     type: message
-    label: payment
-    text: 'ชำระค่าเบี้ย'
+    label: apply loan
+    text: 'ขออนุมัติสินเชื่อ'
 -
   bounds:
     x: 834
@@ -23,8 +23,8 @@ areas:
     height: 843
   action:
     type: message
-    label: my account
-    text: 'บัญชีของฉัน'
+    label: payment
+    text: 'ชำระค่าเบี้ย'
 -
   bounds:
     x: 1667
@@ -33,8 +33,8 @@ areas:
     height: 843
   action:
     type: message
-    label: more
-    text: 'Flex Receipt'
+    label: history
+    text: 'ประวัติชำระเบี้ย'
 -
   bounds:
     x: 0
@@ -64,4 +64,4 @@ areas:
   action:
     type: uri
     label: contact
-    uri: 'https://www.pueantae-capital.com/ติดต่อเพื่อนแท้/'
+    uri: 'https://www.pueantae-capital.com'
