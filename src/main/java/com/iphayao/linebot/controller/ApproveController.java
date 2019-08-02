@@ -51,19 +51,28 @@ public class ApproveController {
     @PostMapping(path = "/submit")
     public void updateApprove(@RequestBody Customer data) throws Exception {
         String userId;
-        String approveStatus;
+        String text;
+        String name = "สมศรี";
+        String limit = "100,000";
+        String interest = "2,000";
+        String period = "36";
         try {
             userId = approveRepo.approve(data);
             if (data.getApprove_status() == true) {
-                approveStatus = "การขอสินเชื่อของคุณได้รับการ อนุมัติ เรียบร้อยแล้ว";
-                String pathYamlHome = "asset/richmenu-pico.yml";
-                String pathImageHome = "asset/pico-menu.jpg";
-                RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userId);
+                text =  "เรียน คุณ "+ name + "\n";
+                text += "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งผลการขอสินเชื่อของท่านคือ ผ่านการอนุมัติ \n";
+                text +="โดยมีข้อมูลให้ท่านพิจารณาดังนี้ \n";
+                text +="วงเงินที่อนุมัติ : "+ limit +" บาท \n";
+                text +="ดอกเบี้ย/เดือน : "+ interest + "\n";
+                text +="จำนวนงวด : "+ period + " งวด \n";
+                text +="ท่านสามารถดำเนินเรื่องเอกสารโดยไปที่สาขาของ บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้เลยค่ะ \n";
+                text +="สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา";
             } else {
-                approveStatus = "การขอสินเชื่อของคุณ ไม่ได้รับการอนุมัติ สามารถสอบถามเพิ่มเติมได้ที่ 02-222-2222";
+                text = "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งผลการขอสินเชื่อของท่านคือ ไม่ผ่านการอนุมัติ \n";
+                text +="สามารถสอบถามข้อมูลเพิ่มเติมได้ที่  เมนูติดต่อเรา";
             }
 
-            LineBotController.push(userId, Arrays.asList(new TextMessage(approveStatus)));
+            LineBotController.push(userId, Arrays.asList(new TextMessage(text)));
         } catch (DataIntegrityViolationException e) {
             throw e;
         }
@@ -72,15 +81,22 @@ public class ApproveController {
     @PostMapping(path = "/submitpayment")
     public void updatePayApprove(@RequestBody Customer data) throws Exception {
         String userId;
-        String approveStatus;
+        String text;
+        String name = "สมศรี";
         try {
+            userId = approveRepo.approve(data);
             if (data.getApprove_status() == true) {
-                approveStatus = "หลักฐานการชำระเงินของคุณได้ผ่านการยืนยันเรียบร้อยแล้ว";
+                text =  "เรียน คุณ "+ name + "\n";
+                text += "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งผลการขอสินเชื่อของท่านคือ ผ่านการอนุมัติ \n";
+                String pathYamlHome = "asset/richmenu-pico.yml";
+                String pathImageHome = "asset/pico-menu.jpg";
+                RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, userId);
             } else {
-                approveStatus = "หลักฐานการชำระเงินของคุณไม่ผ่านการยืนยัน สามารถสอบถามเพิ่มเติมได้ที่ 02-222-2222";
+                text = "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งผลการขอสินเชื่อของท่านคือ ไม่ผ่านการอนุมัติ \n";
+                text +="สามารถสอบถามข้อมูลเพิ่มเติมได้ที่  เมนูติดต่อเรา";
             }
             userId = approvePayRepo.approvePay(data);
-            LineBotController.push(userId, Arrays.asList(new TextMessage(approveStatus)));
+            LineBotController.push(userId, Arrays.asList(new TextMessage(text)));
         } catch (DataIntegrityViolationException e) {
             throw e;
         }
