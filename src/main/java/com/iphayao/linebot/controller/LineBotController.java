@@ -46,16 +46,24 @@ import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.flex.component.Box;
+import com.linecorp.bot.model.message.flex.component.Button;
+import com.linecorp.bot.model.message.flex.component.Spacer;
+import com.linecorp.bot.model.message.flex.container.Bubble;
+import com.linecorp.bot.model.message.flex.unit.FlexLayout;
+import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import static java.util.Arrays.asList;
 
 import lombok.NonNull;
 import lombok.Value;
@@ -127,6 +135,21 @@ public class LineBotController {
 		}
 	}
 
+	public FlexMessage getFlexMessage(String UserID) {
+		final Box footerBlock = createFooterBox(UserID);
+
+		final Bubble bubble = Bubble.builder().footer(footerBlock).build();
+		return new FlexMessage("Restaurant Menu", bubble);
+	}
+
+	private Box createFooterBox(String UserID) {
+		final Spacer spacer = Spacer.builder().size(FlexMarginSize.XXL).build();
+		final Button button = Button.builder().style(Button.ButtonStyle.PRIMARY).color("#905c44")
+				.action(new URIAction("กรุณากดปุ่ม", "http://pico.sstrain.ml/su/line01;user_line_id=" + UserID))
+				.build();
+		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(spacer, button)).build();
+	}
+
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 		if (userLog == null) {
@@ -144,36 +167,31 @@ public class LineBotController {
 				// new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
 				// TemplateMessage templateMessage = new TemplateMessage("Confirm alt text",
 				// confirmTemplate);
-				this.reply(replyToken, Arrays.asList(
-						new TextMessage("http://pico.sstrain.ml/su/line01;user_line_id=" + userLog.getUserID())));
+
+				this.reply(replyToken, getFlexMessage(userLog.getUserID()));
 				// userLog.setStatusBot(status.SavePrefix);
 				break;
 			}
 			case "ชำระ": {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("เลือก",
-						new MessageAction("การชำระเบี้ย", "การชำระเบี้ย"), new MessageAction("แจ้งการชำระเงิน", "แจ้งการชำระเงิน"));
+						new MessageAction("การชำระเบี้ย", "การชำระเบี้ย"),
+						new MessageAction("แจ้งการชำระเงิน", "แจ้งการชำระเงิน"));
 				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
 				this.reply(replyToken, templateMessage);
 				break;
 			}
 			case "การชำระเบี้ย": {
-				// ArrayList<Map<String, Object>> result = myAccountRepository.searchMyAccount(userLog);
+				// ArrayList<Map<String, Object>> result =
+				// myAccountRepository.searchMyAccount(userLog);
 				String name = "สมศรี";
 				String Period = "2";
 				String AmountPaid = "2,000";
 				String lastDate = "21/02/2019";
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("รียน คุณ "+ name +"\n"
-						+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n"
-						+ "งวดที่: "+ Period +"\n"
-						+ "ยอดชำระ: "+ AmountPaid +" บาท\n"
-						+ "โปรดชำระเงินภายใน: "+ lastDate +"\n"
-						+ "---------------"+"\n"
-						+ "|    |"+"\n"
-						+ "| QR Code  |"+"\n"
-						+ "|    |"+"\n"
-						+ "|    |"+"\n"
-						+ "---------------"+"\n")));
+				this.reply(replyToken, Arrays.asList(new TextMessage("รียน คุณ " + name + "\n"
+						+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n" + "งวดที่: "
+						+ Period + "\n" + "ยอดชำระ: " + AmountPaid + " บาท\n" + "โปรดชำระเงินภายใน: " + lastDate + "\n"
+						+ "---------------" + "\n" + "|    |" + "\n" + "| QR Code  |" + "\n" + "|    |" + "\n"
+						+ "|    |" + "\n" + "---------------" + "\n")));
 				log.info("Return echo message %s : %s", replyToken, text);
 				break;
 			}
