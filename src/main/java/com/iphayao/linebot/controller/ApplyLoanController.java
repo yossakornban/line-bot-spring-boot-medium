@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Customer;
 import com.iphayao.linebot.model.Register;
-import com.iphayao.linebot.repository.ApprovePaymentRepository;
-import com.iphayao.linebot.repository.ApproveRepository;
-import com.iphayao.linebot.repository.LoanApprovalRepository;
+import com.iphayao.linebot.service.ApprovePaymentService;
+import com.iphayao.linebot.service.ApproveService;
+import com.iphayao.linebot.service.LoanApprovalService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 
@@ -44,7 +44,7 @@ public class ApplyLoanController {
     private LineBotController LineBotController;
 
     @Autowired
-    private LoanApprovalRepository loanAppRepo;
+    private LoanApprovalService loanAppRepo;
 
     @PostMapping(path = "/regis")
     public void updateApprove(@RequestBody Register data) throws Exception {

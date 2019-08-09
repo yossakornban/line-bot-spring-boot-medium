@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iphayao.linebot.model.ModelUpdate;
-import com.iphayao.linebot.repository.ApprovePaymentRepository;
+import com.iphayao.linebot.service.ApprovePaymentService;
 import com.linecorp.bot.model.message.TextMessage;
 
  @CrossOrigin
@@ -25,7 +25,7 @@ import com.linecorp.bot.model.message.TextMessage;
  public class ApprovePaymentController {
 
      @Autowired
-     private ApprovePaymentRepository approvePayRepo;
+     private ApprovePaymentService approvePayRepo;
      
      @Autowired
      private LineBotController LineBotController;
