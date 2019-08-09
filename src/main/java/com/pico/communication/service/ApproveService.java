@@ -1,11 +1,19 @@
-package com.iphayao.linebot.service;
+package com.pico.communication.service;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -13,8 +21,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 //import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.iphayao.linebot.model.Customer;
-import com.iphayao.linebot.model.ModelUpdate;
+import com.pico.communication.model.Customer;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -22,16 +29,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 @Service
-public class ApprovePaymentService {
+public class ApproveService {
 
 	public class Model {
 
 		public String profileCode;
 		public String profileDesc;
 		public Boolean active;
-		// private String createdProgram;
-		// private String updatedProgram;
-
 	}
 
 	@Autowired
@@ -41,29 +45,24 @@ public class ApprovePaymentService {
 	private StringBuilder stb2 = null;
 
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
+	
 	public static String randomAlphaNumeric(int count) {
-		StringBuilder builder = new StringBuilder();
-		while (count-- != 0) {
-			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-		}
-		return builder.toString();
-	}
-
-	public String approvePay(Customer data) {
 		return null;
 	}
 
-	public ArrayList<Map<String, Object>> searchPaymant(String keyword) {
+	public ArrayList<Map<String, Object>> line03Search(String countrySearch) throws Exception {
 		return null;
 	}
-
-	public Map<String, Object> searchPaymantUpdate(Integer paymentId) {
+	
+	public String approve(Customer data) {
 		return null;
 	}
-
-	public Map<String, Object> Update(ModelUpdate model) {
+	
+	public Map<String, Object> approveWaitDoc(Customer data){
+		return null;
+	}
+	
+	public Map<String, Object> approvePayment(Customer data){
 		return null;
 	}
 

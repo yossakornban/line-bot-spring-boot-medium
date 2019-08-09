@@ -1,4 +1,4 @@
-package com.iphayao.linebot.controller;
+package com.pico.communication.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@SpringBootApplication(scanBasePackages = { "com.iphayao.linebot.controller","com.iphayao.linebot.repository" })
+@SpringBootApplication(scanBasePackages = { "com.pico.communication.controller","com.pico.communication.service" })
 
 public class Application extends SpringBootServletInitializer {
     static Path downloadedContentDir;

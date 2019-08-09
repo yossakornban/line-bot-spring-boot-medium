@@ -1,4 +1,4 @@
-package com.iphayao.linebot.controller;
+package com.pico.communication.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,12 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.google.common.io.ByteStreams;
-import com.iphayao.linebot.helper.RichMenuHelper;
-import com.iphayao.linebot.model.UserLog;
-import com.iphayao.linebot.model.UserLog.status;
-import com.iphayao.linebot.service.LineService;
-import com.iphayao.linebot.service.MyAccountService;
-import com.iphayao.linebot.service.SlipPaymentService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.client.MessageContentResponse;
@@ -63,6 +57,14 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import com.pico.communication.config.Application;
+import com.pico.communication.helper.RichMenuHelper;
+import com.pico.communication.model.UserLog;
+import com.pico.communication.model.UserLog.status;
+import com.pico.communication.service.LineService;
+import com.pico.communication.service.MyAccountService;
+import com.pico.communication.service.SlipPaymentService;
+
 import static java.util.Arrays.asList;
 
 import lombok.NonNull;
@@ -400,24 +402,24 @@ public class LineBotController {
 		}
 	}
 
-	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
-		DownloadedContent tempFile = createTempFile(ext);
-		try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
-			ByteStreams.copy(response.getStream(), outputStream);
-			log.info("Save {}: {}", ext, tempFile);
-			return tempFile;
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
+//	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
+//		DownloadedContent tempFile = createTempFile(ext);
+//		try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
+//			ByteStreams.copy(response.getStream(), outputStream);
+//			log.info("Save {}: {}", ext, tempFile);
+//			return tempFile;
+//		} catch (IOException e) {
+//			throw new UncheckedIOException(e);
+//		}
+//	}
 
-	private static DownloadedContent createTempFile(String ext) {
-		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
-		Path tempFile = Application.downloadedContentDir.resolve(fileName);
-		tempFile.toFile().deleteOnExit();
-		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
-
-	}
+//	private static DownloadedContent createTempFile(String ext) {
+//		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
+//		Path tempFile = Application.downloadedContentDir.resolve(fileName);
+//		tempFile.toFile().deleteOnExit();
+//		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
+//
+//	}
 
 	private static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString();

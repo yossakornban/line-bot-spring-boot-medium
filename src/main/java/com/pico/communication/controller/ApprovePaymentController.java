@@ -1,4 +1,4 @@
-package com.iphayao.linebot.controller;
+package com.pico.communication.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iphayao.linebot.model.ModelUpdate;
-import com.iphayao.linebot.service.ApprovePaymentService;
 import com.linecorp.bot.model.message.TextMessage;
+import com.pico.communication.model.ModelUpdate;
+import com.pico.communication.service.ApprovePaymentService;
 
  @CrossOrigin
  @RestController
  @RequestMapping(path = "/approvepaymant")
  public class ApprovePaymentController {
 
-     @Autowired
+	 @Autowired
      private ApprovePaymentService approvePayRepo;
      
      @Autowired

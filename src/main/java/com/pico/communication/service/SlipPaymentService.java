@@ -1,4 +1,4 @@
-package com.iphayao.linebot.service;
+package com.pico.communication.service;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 //import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.iphayao.linebot.model.UserLog;
+import com.pico.communication.model.UserLog;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -20,33 +20,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 @Service
-public class LineService {
-	
-	public class Model {
-
-		public String profileCode;
-		public String profileDesc;
-		public Boolean active;  
-		// private String createdProgram; 
-		// private String updatedProgram;
-		  
-}
+public class SlipPaymentService {
 
 	@Autowired
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
+	private StringBuilder stb1 = null;
 
-	public int register(UserLog userLog, String SenderId) {
-		return (Integer) null;
+	public void saveSlipPayment(String UserID, String encoded) {
+		//slip
 	}
-	
-	public String findEmp(String empCode) {
-		return null;
-	}
-	
-	public ArrayList<Map<String, Object>> list() {
-		return null;
-	}
+
 }
-

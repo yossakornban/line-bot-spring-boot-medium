@@ -1,4 +1,4 @@
-package com.iphayao.linebot.model;
+package com.pico.communication.model;
 
 import java.security.Timestamp;
 

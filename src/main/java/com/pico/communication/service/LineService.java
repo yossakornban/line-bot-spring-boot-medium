@@ -1,4 +1,4 @@
-package com.iphayao.linebot.service;
+package com.pico.communication.service;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -12,8 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 //import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.iphayao.linebot.model.Register;
-import com.iphayao.linebot.model.UserLog;
+import com.pico.communication.model.UserLog;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -21,33 +20,33 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 @Service
-public class LoanApprovalService {
+public class LineService {
+	
+	public class Model {
+
+		public String profileCode;
+		public String profileDesc;
+		public Boolean active;  
+		// private String createdProgram; 
+		// private String updatedProgram;
+		  
+}
 
 	@Autowired
 	private DataSource dataSource;
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 	private StringBuilder stb = null;
 
-	/* Loan approval ขออนุมัติสินเชื่อ */
-	public void approveLoan(Register data) {
+	public int register(UserLog userLog, String SenderId) {
+		return (Integer) null;
 	}
-
-	public void saveFirstName(UserLog userLog, String firstName) {
+	
+	public String findEmp(String empCode) {
+		return null;
 	}
-
-	public void saveLastName(UserLog userLog, String lastName) {
+	
+	public ArrayList<Map<String, Object>> list() {
+		return null;
 	}
-
-	public void saveTel(UserLog userLog, String telPhone) {
-	}
-
-	public void saveEmail(UserLog userLog, String email) {
-	}
-
-	public void saveSalary(UserLog userLog, String salary) {
-	}
-
-	public void saveCreditType(UserLog userLog, String creditType) {
-	}
-
 }
+

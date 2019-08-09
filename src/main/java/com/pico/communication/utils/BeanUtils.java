@@ -1,4 +1,4 @@
-package com.iphayao.linebot.utils;
+package com.pico.communication.utils;
 
 
 import java.util.Collection;

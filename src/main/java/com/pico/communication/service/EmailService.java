@@ -1,4 +1,4 @@
-package com.iphayao.linebot.service;
+package com.pico.communication.service;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,8 +20,9 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.iphayao.linebot.model.EmailConfig;
-import com.iphayao.linebot.utils.BeanUtils;
+
+import com.pico.communication.model.EmailConfig;
+import com.pico.communication.utils.BeanUtils;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.iphayao.linebot.controller;
+package com.pico.communication.controller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iphayao.linebot.helper.RichMenuHelper;
-import com.iphayao.linebot.model.Customer;
-import com.iphayao.linebot.model.Register;
-import com.iphayao.linebot.service.ApprovePaymentService;
-import com.iphayao.linebot.service.ApproveService;
-import com.iphayao.linebot.service.LoanApprovalService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import com.pico.communication.helper.RichMenuHelper;
+import com.pico.communication.model.Customer;
+import com.pico.communication.model.Register;
+import com.pico.communication.service.ApprovePaymentService;
+import com.pico.communication.service.ApproveService;
+import com.pico.communication.service.LoanApprovalService;
 
 // import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
@@ -43,7 +43,6 @@ public class ApplyLoanController {
     @Autowired
     private LineBotController LineBotController;
 
-    @Autowired
     private LoanApprovalService loanAppRepo;
 
     @PostMapping(path = "/regis")
