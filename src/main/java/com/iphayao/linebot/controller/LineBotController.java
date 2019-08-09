@@ -29,9 +29,9 @@ import com.google.common.io.ByteStreams;
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.UserLog;
 import com.iphayao.linebot.model.UserLog.status;
-import com.iphayao.linebot.repository.LineRepository;
-import com.iphayao.linebot.repository.MyAccountRepository;
-import com.iphayao.linebot.repository.SlipPaymentRepository;
+import com.iphayao.linebot.service.LineService;
+import com.iphayao.linebot.service.MyAccountService;
+import com.iphayao.linebot.service.SlipPaymentService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.client.MessageContentResponse;
@@ -80,13 +80,13 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 
 	@Autowired
-	private LineRepository lineRepo;
+	private LineService lineRepo;
 
 	@Autowired
-	private MyAccountRepository myAccountRepository;
+	private MyAccountService myAccountService;
 
 	@Autowired
-	private SlipPaymentRepository slipPaymentRepository;
+	private SlipPaymentService slipPaymentService;
 
 	// @Autowired
 	// LineSignatureValidator lineSignatureValidator;
@@ -124,7 +124,7 @@ public class LineBotController {
 			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
 			byte[] bytes = IOUtils.toByteArray(response.getStream());
 			String encoded = Base64.getEncoder().encodeToString(bytes);
-			slipPaymentRepository.saveSlipPayment(event.getSource().getUserId(), encoded);
+			slipPaymentService.saveSlipPayment(event.getSource().getUserId(), encoded);
 			this.reply(replyToken, Arrays.asList(new TextMessage("เจ้าหน้าที่กำลังตรวจสอบ โปรดรอสักครู่")));
 
 		} catch (InterruptedException | ExecutionException e) {
@@ -184,10 +184,10 @@ public class LineBotController {
 			}
 			case "ชำระเบี้ย": {
 				// ArrayList<Map<String, Object>> result =
-				// myAccountRepository.searchMyAccount(userLog);
+				// myAccountService.searchMyAccount(userLog);
 				NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 				mf.setMaximumFractionDigits(2);
-				ArrayList<Map<String, Object>> result = myAccountRepository.searchPaid(userLog);
+				ArrayList<Map<String, Object>> result = myAccountService.searchPaid(userLog);
 				String name = (String) result.get(0).get("customer_first_name") + " "
 						+ (String) result.get(0).get("customer_last_name");
 				String Period = result.get(0).get("payment_period").toString();
@@ -217,7 +217,7 @@ public class LineBotController {
 				// ตามข้อมูลด้านล่าง")));
 				NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 				mf.setMaximumFractionDigits(2);
-				ArrayList<Map<String, Object>> result = myAccountRepository.searchHis(userLog);
+				ArrayList<Map<String, Object>> result = myAccountService.searchHis(userLog);
 				int i;
 				int size = result.size();
 				if (size > 0) {
