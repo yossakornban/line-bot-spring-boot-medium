@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.iphayao.linebot.model.Customer;
-import com.iphayao.linebot.repository.ApprovePaymentRepository.ModelUpdate;
+import com.iphayao.linebot.model.ModelUpdate;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +32,6 @@ public class ApprovePaymentRepository {
 		// private String createdProgram;
 		// private String updatedProgram;
 
-	}
-
-	@Data
-	public class ModelUpdate {
-		private Integer paymentId;
-		private Boolean approve;
 	}
 
 	@Autowired
@@ -174,7 +168,7 @@ public class ApprovePaymentRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			StringBuilder sql = new StringBuilder();
 			sql.append(
-					" SELECT pref.prefix_name, cus.customer_first_name, cus.customer_last_name, cus.customer_tel, cus.customer_user_line_id ");
+					" SELECT pay.payment_id,pref.prefix_name, cus.customer_first_name, cus.customer_last_name, cus.customer_tel, cus.customer_user_line_id ");
 			sql.append(
 					" , cus.customer_email, cus.career, reql.salary, credt.credit_type_name, pay.payment_period, pay.payment_amount_paid, slippay.slip ");
 			sql.append(" FROM payment pay ");

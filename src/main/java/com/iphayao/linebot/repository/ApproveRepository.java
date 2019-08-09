@@ -219,7 +219,7 @@ public class ApproveRepository {
 				StringBuilder sql1 = new StringBuilder();
 				MapSqlParameterSource parameters1 = new MapSqlParameterSource();
 				
-				paymentOutstandingBalance = paymentOutstandingBalance.subtract((BigDecimal)result.get("interest_bht"));
+				paymentOutstandingBalance = paymentOutstandingBalance.subtract((BigDecimal)result.get("credit_bht"));
 				
 				Calendar cal = Calendar.getInstance();
 				Date date = new Date(System.currentTimeMillis());

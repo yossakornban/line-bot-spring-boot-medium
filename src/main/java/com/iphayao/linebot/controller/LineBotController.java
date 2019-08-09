@@ -33,6 +33,7 @@ import com.iphayao.linebot.repository.LineRepository;
 import com.iphayao.linebot.repository.MyAccountRepository;
 import com.iphayao.linebot.repository.SlipPaymentRepository;
 import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
@@ -87,11 +88,15 @@ public class LineBotController {
 	@Autowired
 	private SlipPaymentRepository slipPaymentRepository;
 
+	// @Autowired
+	// LineSignatureValidator lineSignatureValidator;
+	
+
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
 	@EventMapping
-	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
+	public void handleTextMessage(MessageEvent<TextMessageContent> event ) throws IOException {
 		log.info(event.toString());
 		TextMessageContent message = event.getMessage();
 		handleTextContent(event.getReplyToken(), event, message);
@@ -173,7 +178,7 @@ public class LineBotController {
 			case "ชำระ": {
 				ConfirmTemplate confirmTemplate = new ConfirmTemplate("เลือก",
 						new MessageAction("ชำระเบี้ย", "ชำระเบี้ย"), new MessageAction("แจ้งโอนเงิน", "แจ้งโอนเงิน"));
-				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+				TemplateMessage templateMessage = new TemplateMessage("Payment", confirmTemplate);
 				this.reply(replyToken, templateMessage);
 				break;
 			}
@@ -194,7 +199,7 @@ public class LineBotController {
 						+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n" + "งวดที่: "
 						+ Period + "\n" + "ยอดชำระ: " + AmountPaid + " บาท\n" + "โปรดชำระเงินภายใน: " + lastDate);
 
-				String originalContentUrl = "https://eyemin.eyefleet.co/eyemin/img/123.jpg";
+				String originalContentUrl = "https://us-central1-poc-payment-functions.cloudfunctions.net/webApi/promptpay/0889920035/10.png";
 				ImageMessage im = new ImageMessage(originalContentUrl, originalContentUrl);
 
 				this.reply(replyToken, Arrays.asList(tm, im));
@@ -269,7 +274,7 @@ public class LineBotController {
 				break;
 			}
 			default:
-				this.reply(replyToken, Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
+				this.push(userLog.getUserID(), Arrays.asList(new TextMessage("ไม่เข้าใจคำสั่ง")));
 			}
 
 		} else if (userLog.getStatusBot().equals(status.SAVE)) {

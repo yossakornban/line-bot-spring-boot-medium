@@ -3,7 +3,7 @@ package com.iphayao.linebot.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,10 +29,12 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 // import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 @ComponentScan
 @LineMessageHandler
 @CrossOrigin
+@Slf4j
 @RestController
 @RequestMapping(path = "/apploan")
 
@@ -55,6 +57,17 @@ public class ApplyLoanController {
                     + "\n" + "สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา " 
            )));
         } catch (DataIntegrityViolationException e) {
+            throw e;
+        }
+    }
+
+    @PostMapping(path = "/testline")
+    public String testline(HttpServletRequest req) throws Exception {
+        try {
+            log.info("==================");
+            log.info("111 "+req);
+           return "aaaaaaa";
+        } catch (Exception e) {
             throw e;
         }
     }

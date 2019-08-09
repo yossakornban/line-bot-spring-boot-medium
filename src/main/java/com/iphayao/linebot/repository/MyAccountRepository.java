@@ -43,18 +43,17 @@ public class MyAccountRepository {
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			stb = new StringBuilder();
 
-			stb.append(" SELECT pay.payment_period, pay.payment_amount_paid ,pay.payment_principle , pay.payment_installment ");
+			stb.append(" SELECT pay.payment_period, pay.payment_amount_paid ,pay.payment_principle ");
 			stb.append(" , pay.payment_installment, to_char(pay.payment_pay_date, 'dd/MM/yyyy') AS payment_pay_date ");
 			stb.append(" , pay.payment_outstanding_balance ");
 			stb.append(" , to_char(pay.payment_due_date, 'dd/MM/yyyy') AS payment_pay_date_next ");
 			stb.append(" , acc.account_credit ");
-			stb.append(" , CAST(payment_amount_paid AS NUMERIC) + CAST(payment_installment AS NUMERIC) AS total ");
+			stb.append(" , CAST(payment_principle AS NUMERIC) + CAST(payment_installment AS NUMERIC) AS total ");
 			stb.append(" FROM customer cus ");
 			stb.append(" JOIN account acc ON acc.customer_user_id = cus.customer_user_id ");
 			stb.append(" JOIN payment pay ON pay.account_id = acc.account_id ");
 			stb.append(" WHERE cus.customer_user_line_id = :lineId ");
 			stb.append("  AND pay.status_id = 6 ");
-			stb.append(" AND pay.payment_period >= (SELECT max(payment.payment_period) FROM payment WHERE payment.account_id = acc.account_id) - 2 ");
 
 			MapSqlParameterSource parameters = new MapSqlParameterSource();
 			parameters.addValue("lineId", userLog.getUserID());

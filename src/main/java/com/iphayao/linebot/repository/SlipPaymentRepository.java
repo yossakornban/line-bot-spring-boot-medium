@@ -61,7 +61,7 @@ public class SlipPaymentRepository {
 			stb.append(" VALUES ( :account_id, :slip, :payment_id) ");
 
 			parameters.addValue("account_id", result.get(0).get("account_id"));
-			parameters.addValue("slip", "image/jpeg;base64," + encoded);
+			parameters.addValue("slip", "data:image/jpeg;base64," + encoded);
 			parameters.addValue("payment_id", result1.get(0).get("payment_id"));
 			jdbcTemplate.update(stb.toString(), parameters);
 

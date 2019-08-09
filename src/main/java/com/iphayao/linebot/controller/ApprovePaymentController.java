@@ -1,4 +1,4 @@
- package com.iphayao.linebot.controller;
+package com.iphayao.linebot.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iphayao.linebot.model.ModelUpdate;
 import com.iphayao.linebot.repository.ApprovePaymentRepository;
-import com.iphayao.linebot.repository.ApprovePaymentRepository.ModelUpdate;
 import com.linecorp.bot.model.message.TextMessage;
 
  @CrossOrigin
@@ -48,8 +48,7 @@ import com.linecorp.bot.model.message.TextMessage;
     		 if(model.getApprove()) {
         		 result = approvePayRepo.Update(model);
                  if (result != null) {
-                	 text.append("บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับชำระเรียบร้อย\n");
-                	 text.append("สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา");
+                	 text.append("บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับชำระเงินเรียบร้อยแล้ว ขอบคุณค่ะ");
                 	 
                 	 LineBotController.push(result.get("customer_user_line_id").toString(), Arrays.asList(new TextMessage(text.toString())));
                 	 return result;
@@ -57,7 +56,7 @@ import com.linecorp.bot.model.message.TextMessage;
     		 }
 
     		 text.append("การชำระเงินไม่สมบูรณ์ สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา");
-    		 LineBotController.push(result.get("customer_user_line_id").toString(), Arrays.asList(new TextMessage(text.toString())));
+    		 LineBotController.push(model.getUserLineId(), Arrays.asList(new TextMessage(text.toString())));
              
          } catch (DataIntegrityViolationException e) {
              throw e;
