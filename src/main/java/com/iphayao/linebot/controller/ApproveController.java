@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iphayao.linebot.helper.RichMenuHelper;
 import com.iphayao.linebot.model.Customer;
-import com.iphayao.linebot.repository.ApprovePaymentRepository;
-import com.iphayao.linebot.repository.ApproveRepository;
+import com.iphayao.linebot.service.ApprovePaymentService;
+import com.iphayao.linebot.service.ApproveService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
@@ -39,10 +39,10 @@ public class ApproveController {
 	private LineBotController LineBotController;
 
 	@Autowired
-	private ApproveRepository approveRepo;
+	private ApproveService approveRepo;
 
 	@Autowired
-	private ApprovePaymentRepository approvePayRepo;
+	private ApprovePaymentService approvePayRepo;
 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
