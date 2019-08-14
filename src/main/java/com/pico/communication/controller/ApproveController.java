@@ -94,9 +94,9 @@ public class ApproveController {
 			if (cusResults.get("account_status").toString().equals("7")) {
 				text = "เรียน คุณ " + (String) cusResults.get("customer_name") + "\n";
 				text += "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้โอนเงินให้กับท่านเรียบร้อยแล้ว \n";
-				String pathYamlHome = "asset/richmenu-pico.yml";
-				String pathImageHome = "asset/pico-menu.jpg";
-				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, (String) cusResults.get("customer_user_line_id"));
+//				String pathYamlHome = "asset/richmenu-pico.yml";
+//				String pathImageHome = "asset/pico-menu.jpg";
+//				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, (String) cusResults.get("customer_user_line_id"));
 			} else {
 				text = "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งผลการขอสินเชื่อของท่านคือ ไม่ผ่านการอนุมัติ \n";
 				text += "สามารถสอบถามข้อมูลเพิ่มเติมได้ที่  เมนูติดต่อเรา";

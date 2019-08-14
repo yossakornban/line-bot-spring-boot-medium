@@ -48,7 +48,7 @@ public class ApplyLoanController {
     @PostMapping(path = "/regis")
     public void updateApprove(@RequestBody Register data) throws Exception {
         try {
-            loanAppRepo.approveLoan(data);
+//            loanAppRepo.approveLoan(data);
             LineBotController.push(data.getCustomer_user_line_id(),
                     Arrays.asList(new TextMessage("เรียน คุณ " + data.getCustomer_first_name() +" "+ data.getCustomer_last_name() 
                     + "\n" + "ขณะนี้บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับเรื่องการขอสินเชื่อของท่านแล้ว " 
@@ -63,9 +63,11 @@ public class ApplyLoanController {
     @PostMapping(path = "/testline")
     public String testline(HttpServletRequest req) throws Exception {
         try {
+        	String aaa = loanAppRepo.executePost();
+        	System.out.println(aaa);
             log.info("==================");
             log.info("111 "+req);
-           return "aaaaaaa";
+           return aaa;
         } catch (Exception e) {
             throw e;
         }
