@@ -156,6 +156,27 @@ public class LineBotController {
 		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(spacer, button)).build();
 	}
 
+	public FlexMessage getFlexRegister(String UserID) {
+		final Box bodyBlock = createBodyBlockRegister();
+		final Box footerBlock = createFooterBoxRegister(UserID);
+		final Bubble bubble = Bubble.builder().body(bodyBlock).footer(footerBlock).build();
+		return new FlexMessage("Please provide information", bubble);
+	}
+
+	private Box createBodyBlockRegister() {
+		final Text title = Text.builder().text("กรุณายืนยันบันทึกข้อมูลของท่านให้เราทราบ").weight(Text.TextWeight.REGULAR)
+				.size(FlexFontSize.Md).build();
+		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(title)).build();
+	}
+
+	private Box createFooterBoxRegister(String UserID) {
+		final Spacer spacer = Spacer.builder().size(FlexMarginSize.XL).build();
+		final Button button = Button.builder().style(Button.ButtonStyle.PRIMARY).color("#ffd006")
+				.action(new URIAction("กรุณากดปุ่ม", "https://pico.sstrain.ml/su/line01;line_user_id=" + UserID))
+				.build();
+		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(spacer, button)).build();
+	}
+
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 		UserLog userLog = userMap.get(event.getSource().getSenderId());
 		if (userLog == null) {

@@ -49,12 +49,13 @@ public class ApplyLoanController {
     public void updateApprove(@RequestBody Register data) throws Exception {
         try {
             loanAppRepo.approveLoan(data);
-            LineBotController.push(data.getCustomer_user_line_id(),
-                    Arrays.asList(new TextMessage("เรียน คุณ " + data.getCustomer_first_name() +" "+ data.getCustomer_last_name() 
-                    + "\n" + "ขณะนี้บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับเรื่องการขอสินเชื่อของท่านแล้ว " 
-                    + "\n" + "ทางเราจะทำการพิจารณา และแจ้งผลตอบกลับโดยด่วนที่สุด "
-                    + "\n" + "สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา " 
-           )));
+            LineBotController
+                    .push(data.getLine_user_id(),
+                            Arrays.asList(new TextMessage("เรียน คุณ " + data.getCustomer_first_name() + " "
+                                    + data.getCustomer_last_name() + "\n"
+                                    + "ขณะนี้บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับเรื่องการขอสินเชื่อของท่านแล้ว "
+                                    + "\n" + "ทางเราจะทำการพิจารณา และแจ้งผลตอบกลับโดยด่วนที่สุด " + "\n"
+                                    + "สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา ")));
         } catch (DataIntegrityViolationException e) {
             throw e;
         }
@@ -64,9 +65,23 @@ public class ApplyLoanController {
     public String testline(HttpServletRequest req) throws Exception {
         try {
             log.info("==================");
-            log.info("111 "+req);
-           return "aaaaaaa";
+            log.info("111 " + req);
+            return "aaaaaaa";
         } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @PostMapping(path = "/register")
+    public void register(@RequestBody Register data) throws Exception {
+        try {
+            if (data.getFlag()) {
+                LineBotController.push(data.getLine_user_id(), Arrays.asList(new TextMessage("ยืนยันการลงทะเบียน")));
+            }else {
+                LineBotController.push(data.getLine_user_id(), Arrays.asList(new TextMessage("ข้อมูลของคุณไม่มีในระบบ \n กรุณาขอสินเชื่อ")));
+            }
+
+        } catch (DataIntegrityViolationException e) {
             throw e;
         }
     }
