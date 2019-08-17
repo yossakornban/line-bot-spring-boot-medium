@@ -56,20 +56,20 @@ public class ApproveController {
 	@PostMapping(path = "/approveWaitDoc")
 	public void approveWaitDoc(@RequestBody Customer data) throws Throwable {
 		try {
-			Map<String, Object> cusResults = new HashMap<String, Object>();
-			cusResults = approveRepo.approveWaitDoc(data);
+//			Map<String, Object> cusResults = new HashMap<String, Object>();
+//			cusResults = approveRepo.approveWaitDoc(data);
 			
 			NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 			mf.setMaximumFractionDigits(2);
 			
 			String text;
-			if (cusResults.get("account_status").toString().equals("2")) {
-				text = "เรียน คุณ " + (String) cusResults.get("customer_name") + "\n";
+			if (data.getStatus()) {
+				text = "เรียน คุณ " + data.getFirst_name() + " " + data.getLast_name()+ "\n";
 				text += "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งผลการขอสินเชื่อของท่านคือ ผ่านการอนุมัติ \n";
 				text += "โดยมีข้อมูลให้ท่านพิจารณาดังนี้ \n";
-				text += "วงเงินที่อนุมัติ : " + mf.format(cusResults.get("account_credit")) + " บาท \n";
-				text += "ดอกเบี้ย/เดือน : " + mf.format(cusResults.get("interest_bht")) + " % \n";
-				text += "จำนวนงวด : " + cusResults.get("account_period") + " งวด \n";
+				text += "วงเงินที่อนุมัติ : " + mf.format(data.getCredit()) + " บาท \n";
+				text += "ดอกเบี้ย/เดือน : " + mf.format(data.getInterest()) + " % \n";
+				text += "จำนวนงวด : " + data.getPeriod() + " งวด \n";
 				text += "ท่านสามารถดำเนินเรื่องเอกสารโดยไปที่สาขาของ บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้เลยค่ะ \n";
 				text += "สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา";
 			} else {
@@ -77,7 +77,7 @@ public class ApproveController {
 				text += "สามารถสอบถามข้อมูลเพิ่มเติมได้ที่  เมนูติดต่อเรา";
 			}
 
-			LineBotController.push((String) cusResults.get("customer_user_line_id"), Arrays.asList(new TextMessage(text)));
+			LineBotController.push(data.getLine_user_id(), Arrays.asList(new TextMessage(text)));
 
 		} catch (DataIntegrityViolationException e) {
 			throw e;

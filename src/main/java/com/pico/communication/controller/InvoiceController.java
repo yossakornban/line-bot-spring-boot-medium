@@ -3,27 +3,28 @@ package com.pico.communication.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pico.communication.model.EmailConfig;
-import com.pico.communication.service.EmailService;
+import com.pico.communication.model.SendInvoice;
+import com.pico.communication.service.InvoiceService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/send")
+@RequestMapping(path = "/invoice")
 
-public class EmailController {
+public class InvoiceController {
 
 	@Autowired
-	private EmailService emailService;
+	private InvoiceService invoiceService;
 
-	@GetMapping("/email")
-	public void line03Search() throws Exception {
+	@PostMapping("/sendInvoice")
+	public void line03Search(SendInvoice data) throws Exception {
 		try {
 			EmailConfig emailConfig = new EmailConfig();
-			emailService.sendEmail(emailConfig);
+			invoiceService.sendEmail(emailConfig, data);
 		} catch (DataIntegrityViolationException e) {
 			throw e;
 		}

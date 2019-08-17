@@ -14,11 +14,13 @@ public class EmailConfig implements Serializable {
 	
 	private String host = "smtp.gmail.com";
 	private String port = "587";
-	private String user = "tiffa.etax@gmail.com"; 
-	private String pass = "etax520124";
+	private String user = "lionlove.055@gmail.com"; 
+	private String pass = "hwyidxkewdyfityf";
+//	private String user = "tiffa.etax@gmail.com"; 
+//	private String pass = "fxcuatstppliykum";
 	private String from = "tiffa.etax@gmail.com";
-	private String subject = "Testttttt";
-	private String messageText = "eieieieieieieieiei";
+	private String subject = "Pueantae E-Statement";
+	private String messageText;
 	private List<String> mailTos;
 	private List<File> attachments;
 	

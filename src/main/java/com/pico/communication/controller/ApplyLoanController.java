@@ -45,9 +45,13 @@ public class ApplyLoanController {
 
     private LoanApprovalService loanAppRepo;
 
+	@Autowired
+	private LineMessagingClient lineMessagingClient;
+	
     @PostMapping(path = "/regis")
     public void updateApprove(@RequestBody Register data) throws Exception {
         try {
+        	System.out.println("******************* "+data);
 //            loanAppRepo.approveLoan(data);
             LineBotController.push(data.getLine_user_id(),
                     Arrays.asList(new TextMessage("เรียน คุณ " + data.getCustomer_first_name() +" "+ data.getCustomer_last_name() 
@@ -77,9 +81,12 @@ public class ApplyLoanController {
     public void register(@RequestBody Register data) throws Exception {
         try {
             if (data.getFlag()) {
-                LineBotController.push(data.getLine_user_id(), Arrays.asList(new TextMessage("ยืนยันการลงทะเบียน")));
+            	String pathYamlHome = "asset/richmenu-pico.yml";
+				String pathImageHome = "asset/pico-menu.jpg";
+				RichMenuHelper.createRichMenu(lineMessagingClient, pathYamlHome, pathImageHome, data.getLine_user_id());
+                LineBotController.push(data.getLine_user_id(), Arrays.asList(new TextMessage("การผูกสัญญาเพื่อนแท้กับไลน์สำเร็จ")));
             }else {
-                LineBotController.push(data.getLine_user_id(), Arrays.asList(new TextMessage("ข้อมูลของคุณไม่มีในระบบ \n กรุณาขอสินเชื่อ")));
+                LineBotController.push(data.getLine_user_id(), Arrays.asList(new TextMessage("ข้อมูลของคุณไม่มีในระบบ \n กรุณาขอสินเชื่อ\n หรือสอบถามข้อมูลเพิ่มเติมได้ที่  เมนูติดต่อเรา")));
             }
 
         } catch (DataIntegrityViolationException e) {

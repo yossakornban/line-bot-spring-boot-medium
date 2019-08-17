@@ -151,7 +151,7 @@ public class LineBotController {
 	private Box createFooterBox(String UserID) {
 		final Spacer spacer = Spacer.builder().size(FlexMarginSize.XL).build();
 		final Button button = Button.builder().style(Button.ButtonStyle.PRIMARY).color("#ffd006")
-				.action(new URIAction("กรุณากดปุ่ม", "https://pico.sstrain.ml/su/line01;user_line_id=" + UserID))
+				.action(new URIAction("กรุณากดปุ่ม", "http://pico.ssweb.ga/lots02;user_line_id=" + UserID))
 				.build();
 		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(spacer, button)).build();
 	}
@@ -164,7 +164,7 @@ public class LineBotController {
 	}
 
 	private Box createBodyBlockRegister() {
-		final Text title = Text.builder().text("กรุณายืนยันบันทึกข้อมูลของท่านให้เราทราบ").weight(Text.TextWeight.REGULAR)
+		final Text title = Text.builder().text("กรุณากรอกเลขประจำตัวประชาชน").weight(Text.TextWeight.REGULAR)
 				.size(FlexFontSize.Md).build();
 		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(title)).build();
 	}
@@ -172,7 +172,7 @@ public class LineBotController {
 	private Box createFooterBoxRegister(String UserID) {
 		final Spacer spacer = Spacer.builder().size(FlexMarginSize.XL).build();
 		final Button button = Button.builder().style(Button.ButtonStyle.PRIMARY).color("#ffd006")
-				.action(new URIAction("กรุณากดปุ่ม", "https://pico.sstrain.ml/su/line01;line_user_id=" + UserID))
+				.action(new URIAction("กรุณากดปุ่ม", "http://pico.ssweb.ga/register;user_line_id=" + UserID))
 				.build();
 		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(spacer, button)).build();
 	}
@@ -188,13 +188,23 @@ public class LineBotController {
 
 		if (userLog.getStatusBot().equals(status.DEFAULT)) {
 			switch (text) {
-			case "ขออนุมัติสินเชื่อ": {
+			case "ประเมินสินเชื่อ": {
 				// ConfirmTemplate confirmTemplate = new ConfirmTemplate("1.กรุณาระบุคำนำหน้า",
 				// new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
 				// TemplateMessage templateMessage = new TemplateMessage("Confirm alt text",
 				// confirmTemplate);
 
 				this.reply(replyToken, getFlexMessage(userLog.getUserID()));
+				// userLog.setStatusBot(status.SavePrefix);
+				break;
+			}
+			case "ผูกบัญชี": {
+				// ConfirmTemplate confirmTemplate = new ConfirmTemplate("1.กรุณาระบุคำนำหน้า",
+				// new MessageAction("นาย", "นาย"), new MessageAction("นางสาว", "นางสาว"));
+				// TemplateMessage templateMessage = new TemplateMessage("Confirm alt text",
+				// confirmTemplate);
+
+				this.reply(replyToken, getFlexRegister(userLog.getUserID()));
 				// userLog.setStatusBot(status.SavePrefix);
 				break;
 			}
@@ -234,6 +244,12 @@ public class LineBotController {
 						Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระเงิน งวดที่ " + userLog.getPeriod())));
 				break;
 			}
+			case "Flex Back": {
+
+				RichMenuHelper.deleteRichMenu(lineMessagingClient, userLog.getUserID());
+				break;
+			}
+			
 			case "ประวัติการชำระ": {
 				// this.push(userLog.getUserID(), Arrays.asList(new TextMessage(
 				// " บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งประวัติชำระเบี้ย
