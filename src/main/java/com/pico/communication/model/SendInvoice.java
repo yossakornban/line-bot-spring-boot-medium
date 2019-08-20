@@ -14,5 +14,6 @@ public class SendInvoice implements Serializable {
 	
 	private String duedate;
 	private String communicationType;
+	private String invoiceNo;
 	}
 

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class InvoiceController {
 	private InvoiceService invoiceService;
 
 	@PostMapping("/sendInvoice")
-	public void line03Search(SendInvoice data) throws Exception {
+	public void line03Search(@RequestBody SendInvoice data) throws Exception {
 		try {
 			EmailConfig emailConfig = new EmailConfig();
 			invoiceService.sendEmail(emailConfig, data);

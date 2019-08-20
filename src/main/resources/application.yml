@@ -11,7 +11,7 @@ line.bot:
 spring.datasource:
   platform: postgres
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://ec2-52-77-234-86.ap-southeast-1.compute.amazonaws.com:9951/pico?sslmode=disable
+  url: jdbc:postgresql://pico.ssweb.ga:9951/pico?sslmode=disable
   username: postgres
   password: pico^1999
 
