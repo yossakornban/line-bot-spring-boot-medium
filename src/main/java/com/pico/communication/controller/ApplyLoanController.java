@@ -40,46 +40,48 @@ import lombok.extern.slf4j.Slf4j;
 
 public class ApplyLoanController {
 
-    @Autowired
-    private LineBotController LineBotController;
+	@Autowired
+	private LineBotController LineBotController;
 
-    private LoanApprovalService loanAppRepo;
+	private LoanApprovalService loanAppRepo;
 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
-	
-    @PostMapping(path = "/regis")
-    public void updateApprove(@RequestBody Register data) throws Exception {
-        try {
-        	System.out.println("******************* "+data);
-//            loanAppRepo.approveLoan(data);
-            LineBotController.push(data.getLine_user_id(),
-                    Arrays.asList(new TextMessage("เรียน คุณ " + data.getCustomer_first_name() +" "+ data.getCustomer_last_name() 
-                    + "\n" + "ขณะนี้บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับเรื่องการขอสินเชื่อของท่านแล้ว " 
-                    + "\n" + "ทางเราจะทำการพิจารณา และแจ้งผลตอบกลับโดยด่วนที่สุด "
-                    + "\n" + "สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา " 
-           )));
-        } catch (DataIntegrityViolationException e) {
-            throw e;
-        }
-    }
 
-    @PostMapping(path = "/testline")
-    public String testline(HttpServletRequest req) throws Exception {
-        try {
-        	String aaa = loanAppRepo.executePost();
-        	System.out.println(aaa);
-            log.info("==================");
-            log.info("111 " + req);
-            return "aaaaaaa";
-        } catch (Exception e) {
-            throw e;
-        }
-    }
+	@PostMapping(path = "/regis")
+	public void updateApprove(@RequestBody Register data) throws Exception {
+		try {
+			loanAppRepo.approveLoan(data);
+			LineBotController
+					.push(data.getLine_user_id(),
+							Arrays.asList(new TextMessage("เรียน คุณ " + data.getCustomer_first_name() + " "
+									+ data.getCustomer_last_name() + "\n"
+									+ "ขณะนี้บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับเรื่องการขอสินเชื่อของท่านแล้ว "
+									+ "\n" + "ทางเราจะทำการพิจารณา และแจ้งผลตอบกลับโดยด่วนที่สุด " + "\n"
+									+ "สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา ")));
+		} catch (DataIntegrityViolationException e) {
+			throw e;
+		}
+	}
 
-    @PostMapping(path = "/register")
-    public void register(@RequestBody Register data) throws Exception {
-        try {
+	@PostMapping(path = "/testline")
+	public String testline(HttpServletRequest req) throws Exception {
+		try {
+//        	String aaa = loanAppRepo.executePost();
+//        	System.out.println(aaa);
+			log.info("==================");
+			log.info("111 " + req);
+			return "aaaaaaa";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@PostMapping(path = "/register")
+	public Boolean register(@RequestBody Register data) throws Exception {
+		try {
+        	System.out.println("========= "+ data.getFlag() );
+        	System.out.println("---------- "+ data.getLine_user_id());
             if (data.getFlag()) {
             	String pathYamlHome = "asset/richmenu-pico.yml";
 				String pathImageHome = "asset/pico-menu.jpg";
@@ -88,10 +90,11 @@ public class ApplyLoanController {
             }else {
                 LineBotController.push(data.getLine_user_id(), Arrays.asList(new TextMessage("ข้อมูลของคุณไม่มีในระบบ \n กรุณาขอสินเชื่อ\n หรือสอบถามข้อมูลเพิ่มเติมได้ที่  เมนูติดต่อเรา")));
             }
+            return true;
 
-        } catch (DataIntegrityViolationException e) {
-            throw e;
-        }
-    }
+		} catch (DataIntegrityViolationException e) {
+			throw e;
+		}
+	}
 
 }

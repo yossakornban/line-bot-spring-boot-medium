@@ -56,8 +56,9 @@ public class ApproveController {
 	@PostMapping(path = "/approveWaitDoc")
 	public void approveWaitDoc(@RequestBody Customer data) throws Throwable {
 		try {
-//			Map<String, Object> cusResults = new HashMap<String, Object>();
-//			cusResults = approveRepo.approveWaitDoc(data);
+		
+			Map<String, Object> cusResults = new HashMap<String, Object>();
+			cusResults = approveRepo.approveWaitDoc(data);
 			
 			NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 			mf.setMaximumFractionDigits(2);

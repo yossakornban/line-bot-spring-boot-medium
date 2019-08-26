@@ -7,11 +7,12 @@ line.bot:
   channel-token: 'R8WuRHv8zrMjdiZpb9pRbIGt6pqbfXZNpXTMwsiiz338XY0G5RiLl8a5znaBRZZ4zdX++K/IrxCq+yEQzSyAWvwpDj2+kW2Ohr9Wy29rcmxVEefuICQwcNkpm2/vwfHdiQlEspS688In7bzaP+ciDAdB04t89/1O/w1cDnyilFU='
   channel-secret: 'c68360ae6ee4660aca65b38fa9301650'
   handler.path: /callback
-  
+
+
+
 spring.datasource:
   platform: postgres
   driverClassName: org.postgresql.Driver
   url: jdbc:postgresql://pico.ssweb.ga:9951/pico?sslmode=disable
-  username: postgres
-  password: pico^1999
-
+  username: loan
+  password: pico_loan^1999

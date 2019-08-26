@@ -12,9 +12,9 @@ areas:
     width: 833
     height: 843
   action:
-    type: message
-    label: apply loan
-    text: 'ขออนุมัติสินเชื่อ'
+    type: uri
+    label: 'ประเมินสินเชื่อ'
+    uri: 'line://app/1600419684-yYAk5W7E'
 -
   bounds:
     x: 834

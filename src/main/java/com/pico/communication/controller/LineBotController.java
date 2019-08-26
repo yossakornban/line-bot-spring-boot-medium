@@ -1,12 +1,11 @@
 package com.pico.communication.controller;
 
+import static java.util.Arrays.asList;
+
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UncheckedIOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.NumberFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -15,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.IOUtils;
@@ -25,13 +23,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.google.common.io.ByteStreams;
 import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.DatetimePickerAction;
 import com.linecorp.bot.model.action.MessageAction;
+import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -57,15 +55,12 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-import com.pico.communication.config.Application;
 import com.pico.communication.helper.RichMenuHelper;
 import com.pico.communication.model.UserLog;
 import com.pico.communication.model.UserLog.status;
 import com.pico.communication.service.LineService;
 import com.pico.communication.service.MyAccountService;
 import com.pico.communication.service.SlipPaymentService;
-
-import static java.util.Arrays.asList;
 
 import lombok.NonNull;
 import lombok.Value;
@@ -92,13 +87,12 @@ public class LineBotController {
 
 	// @Autowired
 	// LineSignatureValidator lineSignatureValidator;
-	
 
 	// private status userLog.setStatusBot(status.DEFAULT); // Default status
 	private Map<String, UserLog> userMap = new HashMap<String, UserLog>();
 
 	@EventMapping
-	public void handleTextMessage(MessageEvent<TextMessageContent> event ) throws IOException {
+	public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
 		log.info(event.toString());
 		TextMessageContent message = event.getMessage();
 		handleTextContent(event.getReplyToken(), event, message);
@@ -151,8 +145,7 @@ public class LineBotController {
 	private Box createFooterBox(String UserID) {
 		final Spacer spacer = Spacer.builder().size(FlexMarginSize.XL).build();
 		final Button button = Button.builder().style(Button.ButtonStyle.PRIMARY).color("#ffd006")
-				.action(new URIAction("กรุณากดปุ่ม", "http://pico.ssweb.ga/lots02;user_line_id=" + UserID))
-				.build();
+				.action(new URIAction("กรุณากดปุ่ม", "https://picos.ssweb.ga/lots02;user_line_id=" + UserID)).build();
 		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(spacer, button)).build();
 	}
 
@@ -172,8 +165,7 @@ public class LineBotController {
 	private Box createFooterBoxRegister(String UserID) {
 		final Spacer spacer = Spacer.builder().size(FlexMarginSize.XL).build();
 		final Button button = Button.builder().style(Button.ButtonStyle.PRIMARY).color("#ffd006")
-				.action(new URIAction("กรุณากดปุ่ม", "http://pico.ssweb.ga/register;user_line_id=" + UserID))
-				.build();
+				.action(new URIAction("กรุณากดปุ่ม", "https://picos.ssweb.ga/register;user_line_id=" + UserID)).build();
 		return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(spacer, button)).build();
 	}
 
@@ -221,15 +213,17 @@ public class LineBotController {
 				NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 				mf.setMaximumFractionDigits(2);
 				ArrayList<Map<String, Object>> result = myAccountService.searchPaid(userLog);
-				String name = (String) result.get(0).get("customer_first_name") + " "
-						+ (String) result.get(0).get("customer_last_name");
-				String Period = result.get(0).get("payment_period").toString();
+				System.out.println(result);
+				String name = (String) result.get(0).get("first_name") + " "
+						+ (String) result.get(0).get("last_name");
+				String Period = result.get(0).get("period").toString();
 				userLog.setPeriod(Period);
-				String AmountPaid = mf.format(result.get(0).get("paid_amount"));
-				String lastDate = (String) result.get(0).get("payment_pay_date_next");
+				String AmountPaid = mf.format(result.get(0).get("total_amount"));
+				String lastDate = (String) result.get(0).get("due_date");
 
 				TextMessage tm = new TextMessage("เรียน คุณ " + name + "\n"
-						+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n" + "งวดที่: "
+						+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n" 
+						+ "งวดที่:"
 						+ Period + "\n" + "ยอดชำระ: " + AmountPaid + " บาท\n" + "โปรดชำระเงินภายใน: " + lastDate);
 
 				String originalContentUrl = "https://us-central1-poc-payment-functions.cloudfunctions.net/webApi/promptpay/0889920035/10.png";
@@ -249,63 +243,25 @@ public class LineBotController {
 				RichMenuHelper.deleteRichMenu(lineMessagingClient, userLog.getUserID());
 				break;
 			}
-			
+
 			case "ประวัติการชำระ": {
 				// this.push(userLog.getUserID(), Arrays.asList(new TextMessage(
 				// " บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขออนุญาติแจ้งประวัติชำระเบี้ย
 				// ตามข้อมูลด้านล่าง")));
-				NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
-				mf.setMaximumFractionDigits(2);
-				ArrayList<Map<String, Object>> result = myAccountService.searchHis(userLog);
-				int i;
-				int size = result.size();
-				if (size > 0) {
-					for (i = 0; i < size; i++) {
-						String Period = result.get(i).get("payment_period").toString();
-						String account_credit = mf.format( result.get(i).get("account_credit"));
-						String payment_amount_paid = mf.format(result.get(i).get("payment_principle"));
-						String PayInterest = mf.format(result.get(i).get("payment_installment"));
-						String TotalPayment = mf.format(result.get(i).get("total"));
-						String payment_outstanding_balance = mf.format(result.get(i).get("payment_outstanding_balance"));
-
-						this.push(userLog.getUserID(),
-								Arrays.asList(new TextMessage("งวดที่ : " + Period + "\n" + "ยอดหนี้ : "
-										+ account_credit + " บาท\n" + "ยอดชำระเงินต้น : " + payment_amount_paid
-										+ " บาท\n" + "ยอดชำระดอกเบี้ย : " + PayInterest + " บาท\n" + "รวมยอดชำระ : "
-										+ TotalPayment + " บาท\n" + "เงินต้นคงเหลือ : " + payment_outstanding_balance
-										+ " บาท")));
-					}
-				} else {
-					this.push(userLog.getUserID(), Arrays.asList(new TextMessage("ไม่มีประวัติการชำระ")));
-				}
+				myAccountService.searchHis(userLog);
 				break;
 			}
-			// case "carousel": {
-			// String imageUrl = createUri("/static/buttons/1040.jpg");
-			// CarouselTemplate carouselTemplate = new CarouselTemplate(Arrays.asList(
-			// new CarouselColumn(imageUrl, "hoge", "fuga",
-			// Arrays.asList(new URIAction("Go to line.me", "https://line.me"),
-			// new URIAction("Go to line.me", "https://line.me"),
-			// new PostbackAction("Say hello1", "hello こんにちは", "hello こんにちは"))),
-			// new CarouselColumn(imageUrl, "hoge", "fuga",
-			// Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
-			// new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
-			// new MessageAction("Say message", "Rice=米"))),
-			// new CarouselColumn(imageUrl, "Datetime Picker", "Please select a date, time
-			// or datetime",
-			// Arrays.asList(
-			// new DatetimePickerAction("Datetime", "action=sel", "datetime",
-			// "2017-06-18T06:15", "2100-12-31T23:59", "1900-01-01T00:00"),
-			// new DatetimePickerAction("Date", "action=sel&only=date", "date",
-			// "2017-06-18",
-			// "2100-12-31", "1900-01-01"),
-			// new DatetimePickerAction("Time", "action=sel&only=time", "time", "06:15",
-			// "23:59", "00:00")))));
-			// TemplateMessage templateMessage = new TemplateMessage("Carousel alt text",
-			// carouselTemplate);
-			// this.reply(replyToken, templateMessage);
-			// break;
-			// }
+//			case "carousel": {
+//				String imageUrl = createUri("asset/1040.jpg");
+//				CarouselTemplate carouselTemplate = new CarouselTemplate(
+//						Arrays.asList(new CarouselColumn("", "hoge", "fuga",
+//								Arrays.asList(new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+//										new PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"),
+//										new MessageAction("Say message", "Rice=米")))));
+//				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+//				this.reply(userLog.getUserID(), templateMessage);
+//				break;
+//			}
 			case "Flex": {
 				String pathYamlHome = "asset/richmenu-pico.yml";
 				String pathImageHome = "asset/pico-menu.jpg";

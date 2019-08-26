@@ -30,7 +30,7 @@ import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.pico.communication.controller.LineBotController;
 import com.pico.communication.model.EmailConfig;
-import com.pico.communication.model.SendInvoice;
+import com.pico.communication.model.SendReceipt;
 import com.pico.communication.utils.BeanUtils;
 //import com.pico.linebot.repository.ApprovePaymentRepository;
 
@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Service
 
-public class InvoiceService {
+public class ReceiptService {
 
 	@Autowired
 	private LineBotController LineBotController;
@@ -53,39 +53,26 @@ public class InvoiceService {
 
 	private String PathReport = "http://pico.ssweb.ga:90/community";
 
-	public void sendEmail(EmailConfig emailConfig, SendInvoice data) throws Exception {
+	public void sendEmail(EmailConfig emailConfig, SendReceipt data) throws Exception {
 		ArrayList<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		ArrayList<Map<String, Object>> resultline = new ArrayList<Map<String, Object>>();
 
 		try {
 
 			jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			StringBuilder sql = new StringBuilder();
 			sql.append(
-					" SELECT lih.invoice_no, lct.line_user_id, lct.first_name, lct.last_name, lih.pdf_path, lct.email ");
-			sql.append(" , lcp.period, lih.total_amount ");
-			sql.append(
-					" , EXTRACT(DAY FROM lih.due_date) || ' ' || loan.TimeStampToThaiMonth(lih.due_date) || ' ' || loan.TimeStampToThaiYear(lih.due_date) AS due_date ");
-			sql.append(" FROM loan.lo_invoice_head lih ");
-//			sql.append(" JOIN loan.lo_invoice_datail lid ON lid.invoice_head_id = lih.invoice_head_id ");
-			sql.append(" JOIN loan.lo_contract_period lcp ON lih.contract_period_id = lcp.contract_period_id ");
-			sql.append(" JOIN loan.lo_contract_head lch ON lih.contract_head_id = lch.contract_head_id ");
-			sql.append(" JOIN loan.lo_customer lct ON lct.customer_code = lch.customer_code ");
-			sql.append(" WHERE 1=1 ");			 
-//			data.setInvoiceNo(null);
-			System.out.println(data);
-			if (BeanUtils.isNotEmpty(data.getInvoiceNo())) {
-				sql.append(" AND lih.invoice_no = :invoiceNo ");
-				System.out.println("11111111111111111111111111");
-			}
-			if (BeanUtils.isNull(data.getInvoiceNo())) {
-				sql.append(
-						" AND CAST(lih.due_date AS DATE) - 15 = COALESCE (CAST(now() AS DATE), CAST(:duedate AS DATE)) ");
-				System.out.println("22222222222222222222222222");
-			}
+					" SELECT lrh.receipt_no, lrh.receipt_head_id ,lct.line_user_id, lct.first_name, lct.last_name, lrh.pdf_path, lct.email ");
+			sql.append(" , lrh.total_amount  ");
+			sql.append(" FROM loan.lo_receipt_head lrh  ");
+			sql.append(" JOIN loan.lo_invoice_head lih ON lrh.ref_invoice_head_id = lih.invoice_head_id ");
+			sql.append(" JOIN loan.lo_contract_head lch ON lih.contract_head_id = lch.contract_head_id  ");
+			sql.append(" JOIN loan.lo_customer lct ON lct.customer_code = lch.customer_code  ");
+			sql.append(" WHERE 1=1 ");
+			sql.append(" AND lrh.receipt_no = :receiptNo  ");
 
 			MapSqlParameterSource params = new MapSqlParameterSource();
-			params.addValue("duedate", data.getDuedate());
-			params.addValue("invoiceNo", data.getInvoiceNo());
+			params.addValue("receiptNo", data.getReceiptNo());
 			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(sql.toString(), params);
 
 			int i;
@@ -123,11 +110,11 @@ public class InvoiceService {
 
 					// creates message part
 
-					String messages = "<label>เรื่อง การจัดส่งใบแจ้งยอดบัญชี อิเล็กทรอนิกส์ </label> <br> "
+					String messages = "<label>เรื่อง การจัดส่งใบเสร็จรับเงิน อิเล็กทรอนิกส์ </label> <br> "
 							+ "<label>เรียน ท่านสมาชิก เพื่อนแท้ เงินด่วน</label> <br> "
 							+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>ทางบริษัทฯ ได้แนบเอกสารในอีเมลฉบับนี้ ประกอบด้วย</label> <br> "
-							+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•  สำเนาใบแจ้งยอดบัญชี <br>"
-							+ "<label>ท่านสามารถดูสำเนาใบแจ้งยอดบัญชีอิเล็กทรอนิกส์และเอกสารอื่นๆ โดยคลิกลิงค์ </label> <br> "
+							+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•  สำเนาใบเสร็จรับเงิน <br>"
+							+ "<label>ท่านสามารถดูสำเนาใบเสร็จรับเงินอิเล็กทรอนิกส์และเอกสารอื่นๆ โดยคลิกลิงค์ </label> <br> "
 							+ PathReport + result.get(i).get("pdf_path").toString() + "<br><br><label>หมายเหตุ</label>"
 							+ "<br><label>- จดหมายอิเล็กทรอนิกส์ฉบับนี้ เป็นการส่งจากระบบอัตโนมัติไม่สามารถตอบกลับได้ หากท่านต้องการติดต่อบริษัทฯ กรุณาติดต่อผ่านทาง  </label>"
 							+ "<br> <label>Facebook : https://www.facebook.com/Pueantaeleasing</label>"
@@ -142,21 +129,14 @@ public class InvoiceService {
 
 					jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 					StringBuilder sqlemail = new StringBuilder();
-					sqlemail.append(" UPDATE loan.lo_invoice_head");
-					sqlemail.append(" SET email_status='1', updated_by= 'Communication-Service', updated_date = now() ");
+					sqlemail.append(" UPDATE loan.lo_receipt_head");
+					sqlemail.append(
+							" SET email_status='1', updated_by= 'Communication-Service', updated_date = now() ");
 					sqlemail.append(" WHERE 1 = 1 ");
+					sqlemail.append(" AND receipt_no = :receiptNo  ");
 
-					if (BeanUtils.isNotNull(data.getInvoiceNo())) {
-						sqlemail.append(" AND invoice_no = :invoiceNo  ");
-					}
-
-					if (BeanUtils.isNull(data.getInvoiceNo())) {
-						sqlemail.append(
-								" AND CAST(due_date AS DATE) - 15 = COALESCE (CAST(now() AS DATE), CAST(:duedate AS DATE)) ");
-					}
 					MapSqlParameterSource paramsemail = new MapSqlParameterSource();
-					paramsemail.addValue("duedate", data.getDuedate());
-					paramsemail.addValue("invoiceNo", data.getInvoiceNo());
+					paramsemail.addValue("receiptNo", data.getReceiptNo());
 					jdbcTemplate.update(sqlemail.toString(), paramsemail);
 //			if (BeanUtils.isNotEmpty(emailConfig.getAttachments())) {
 //				for (File file : emailConfig.getAttachments()) {
@@ -171,36 +151,36 @@ public class InvoiceService {
 
 					NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 					mf.setMaximumFractionDigits(2);
-					TextMessage tm = new TextMessage("เรียน คุณ " + result.get(i).get("first_name").toString() + " "
-							+ result.get(i).get("last_name").toString() + "\n"
-							+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n" + "งวดที่: "
-							+"1"  + "\n" + "ยอดชำระ: "
-							+ mf.format(result.get(i).get("total_amount")) + " บาท\n" + "โปรดชำระเงินภายใน "
-							+ result.get(i).get("due_date").toString());
-//					result.get(i).get("period").toString()
-					String originalContentUrl = "https://us-central1-poc-payment-functions.cloudfunctions.net/webApi/promptpay/0889920035/10.png";
-					ImageMessage im = new ImageMessage(originalContentUrl, originalContentUrl);
+					StringBuilder sql3 = new StringBuilder();
+					sql3.append(" SELECT description, amount ");
+					sql3.append(" FROM loan.lo_receipt_detail ");
+					sql3.append(" WHERE receipt_head_id = :receipt_head_id ");
 
-					jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+					MapSqlParameterSource parameter3 = new MapSqlParameterSource();
+					parameter3.addValue("receipt_head_id", result.get(i).get("receipt_head_id"));
+					resultline = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(sql3.toString(),
+							parameter3);
+
+					int x;
+					int sizeDetail = resultline.size();
+					String detail = "";
+					for (x = 0; x < sizeDetail; x++) {
+						detail += (String) resultline.get(x).get("description") + " จำนวน "
+								+ mf.format(resultline.get(x).get("amount").toString()) + " บาท \n";
+					}
+
 					StringBuilder sqllinn = new StringBuilder();
-					sqllinn.append(" UPDATE loan.lo_invoice_head ");
+					sqllinn.append(" UPDATE loan.lo_receipt_head ");
 					sqllinn.append(" SET line_status='1', updated_by= 'Communication-Service', updated_date = now() ");
 					sqllinn.append(" WHERE 1 = 1 ");
-
-					if (BeanUtils.isNotNull(data.getInvoiceNo())) {
-						sqllinn.append(" AND invoice_no = :invoiceNo  ");
-					}
-
-					if (BeanUtils.isNull(data.getInvoiceNo())) {
-						sqllinn.append(
-								" AND CAST(due_date AS DATE) - 15 = COALESCE (CAST(now() AS DATE), CAST(:duedate AS DATE)) ");
-					}
+					sqllinn.append(" AND receipt_no = :receiptNo  ");
 					MapSqlParameterSource paramsline = new MapSqlParameterSource();
-					paramsline.addValue("duedate", data.getDuedate());
-					paramsline.addValue("invoiceNo", data.getInvoiceNo());
+					paramsline.addValue("receiptNo", data.getReceiptNo());
 					jdbcTemplate.update(sqllinn.toString(), paramsline);
 
-					LineBotController.push(result.get(i).get("line_user_id").toString(), Arrays.asList(tm, im));
+					LineBotController.push((String) result.get(i).get("line_user_id"),
+							Arrays.asList(new TextMessage(detail)));
+
 				}
 			}
 		} catch (MessagingException e) {

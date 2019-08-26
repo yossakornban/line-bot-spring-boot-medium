@@ -11,7 +11,9 @@ import java.nio.file.Path;
 
 @SpringBootApplication(scanBasePackages = { "com.pico.communication.controller","com.pico.communication.service" })
 
+//@SpringBootApplication
 public class Application extends SpringBootServletInitializer {
+//public class Application {
     static Path downloadedContentDir;
 
     public static void main(String[] args) throws IOException {
