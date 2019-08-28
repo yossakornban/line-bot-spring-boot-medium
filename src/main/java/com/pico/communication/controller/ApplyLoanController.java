@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,7 @@ public class ApplyLoanController {
 	@Autowired
 	private LineBotController LineBotController;
 
+	@Autowired
 	private LoanApprovalService loanAppRepo;
 
 	@Autowired
@@ -64,14 +66,14 @@ public class ApplyLoanController {
 		}
 	}
 
-	@PostMapping(path = "/testline")
+	@GetMapping(path = "/testline")
 	public String testline(HttpServletRequest req) throws Exception {
 		try {
-//        	String aaa = loanAppRepo.executePost();
+        	String aaa = loanAppRepo.sendGet();
 //        	System.out.println(aaa);
 			log.info("==================");
 			log.info("111 " + req);
-			return "aaaaaaa";
+			return aaa;
 		} catch (Exception e) {
 			throw e;
 		}

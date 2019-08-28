@@ -3,33 +3,33 @@ package com.pico.communication.controller;
 import static java.util.Arrays.asList;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.google.common.io.ByteStreams;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
-import com.linecorp.bot.model.action.DatetimePickerAction;
 import com.linecorp.bot.model.action.MessageAction;
-import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -55,6 +55,7 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import com.pico.communication.Application;
 import com.pico.communication.helper.RichMenuHelper;
 import com.pico.communication.model.UserLog;
 import com.pico.communication.model.UserLog.status;
@@ -113,20 +114,43 @@ public class LineBotController {
 	@EventMapping
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) throws IOException {
 
-		ImageMessageContent content = event.getMessage();
-		String replyToken = event.getReplyToken();
+		  ImageMessageContent content = event.getMessage();
+		    String replyToken = event.getReplyToken();
 
-		try {
-			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
-			byte[] bytes = IOUtils.toByteArray(response.getStream());
-			String encoded = Base64.getEncoder().encodeToString(bytes);
-			slipPaymentService.saveSlipPayment(event.getSource().getUserId(), encoded);
-			this.reply(replyToken, Arrays.asList(new TextMessage("เจ้าหน้าที่กำลังตรวจสอบ โปรดรอสักครู่")));
+		    try {
+		        MessageContentResponse response = lineMessagingClient.getMessageContent(
+		            content.getId()).get();
+		        DownloadedContent jpg = saveContent("jpg", response);
+		        DownloadedContent previewImage = createTempFile("jpg");
 
-		} catch (InterruptedException | ExecutionException e) {
-			// reply(replyToken, new TextMessage("Cannot get image: " + content));
-			throw new RuntimeException(e);
-		}
+		        system("convert", "-resize", "240x",
+		                jpg.path.toString(),
+		                previewImage.path.toString());
+
+		        reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
+
+		    } catch (InterruptedException | ExecutionException e) {
+		        reply(replyToken, new TextMessage("Cannot get image: " + content));
+		        throw new RuntimeException(e);
+		    }
+		
+		
+		
+		
+//		ImageMessageContent content = event.getMessage();
+//		String replyToken = event.getReplyToken();
+//
+//		try {
+//			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
+//			byte[] bytes = IOUtils.toByteArray(response.getStream());
+//			String encoded = Base64.getEncoder().encodeToString(bytes);
+//			slipPaymentService.saveSlipPayment(event.getSource().getUserId(), encoded);
+//			this.reply(replyToken, Arrays.asList(new TextMessage("เจ้าหน้าที่กำลังตรวจสอบ โปรดรอสักครู่")));
+//
+//		} catch (InterruptedException | ExecutionException e) {
+//			// reply(replyToken, new TextMessage("Cannot get image: " + content));
+//			throw new RuntimeException(e);
+//		}
 	}
 
 	public FlexMessage getFlexMessage(String UserID) {
@@ -395,24 +419,25 @@ public class LineBotController {
 		}
 	}
 
-//	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
-//		DownloadedContent tempFile = createTempFile(ext);
-//		try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
-//			ByteStreams.copy(response.getStream(), outputStream);
-//			log.info("Save {}: {}", ext, tempFile);
-//			return tempFile;
-//		} catch (IOException e) {
-//			throw new UncheckedIOException(e);
-//		}
-//	}
+	private static DownloadedContent saveContent(String ext, MessageContentResponse response) {
+		DownloadedContent tempFile = createTempFile(ext);
+		try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
+			ByteStreams.copy(response.getStream(), outputStream);
+			log.info("Save {}: {}", ext, tempFile);
+			return tempFile;
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
 
-//	private static DownloadedContent createTempFile(String ext) {
-//		String fileName = LocalDateTime.now() + "-" + UUID.randomUUID().toString() + "." + ext;
-//		Path tempFile = Application.downloadedContentDir.resolve(fileName);
-//		tempFile.toFile().deleteOnExit();
-//		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
-//
-//	}
+	private static DownloadedContent createTempFile(String ext) {
+		String fileName =  UUID.randomUUID().toString() + "." + ext;
+		System.out.println("9999999999999 " + fileName);
+		Path tempFile = Application.downloadedContentDir.resolve(fileName);
+		tempFile.toFile().deleteOnExit();
+		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
+
+	}
 
 	private static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString();

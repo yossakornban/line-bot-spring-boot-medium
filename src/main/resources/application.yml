@@ -16,3 +16,4 @@ spring.datasource:
   url: jdbc:postgresql://pico.ssweb.ga:9951/pico?sslmode=disable
   username: loan
   password: pico_loan^1999
+  
