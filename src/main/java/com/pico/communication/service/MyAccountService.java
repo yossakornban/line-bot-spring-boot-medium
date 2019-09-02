@@ -93,6 +93,7 @@ public class MyAccountService {
 			mf.setMaximumFractionDigits(2);
 			int i;
 			int size = receipt_head_id.size();
+			System.out.println("aaaaaaaaaaaaaaaaaaaa "+size);
 			if (size > 0) {
 				for (i = 0; i < size; i++) {
 
@@ -158,8 +159,12 @@ public class MyAccountService {
 			sql.append(" AND lih.contract_head_id = :contract_head_id ");
 
 			MapSqlParameterSource params = new MapSqlParameterSource();
-			params.addValue("contract_head_id", contract_head_id.get(0).get("contract_head_id"));
-			result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(sql.toString(), params);
+			if(!contract_head_id.isEmpty()) {
+				params.addValue("contract_head_id", contract_head_id.get(0).get("contract_head_id"));
+				result = (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(sql.toString(), params);
+			}else {
+				result = null;
+			}
 
 		} catch (EmptyResultDataAccessException e) {
 			e.printStackTrace();

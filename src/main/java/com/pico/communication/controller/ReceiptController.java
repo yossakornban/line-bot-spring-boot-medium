@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pico.communication.model.EmailConfig;
 import com.pico.communication.model.SendReceipt;
+import com.pico.communication.service.RcService;
 import com.pico.communication.service.ReceiptService;
 
 @CrossOrigin
@@ -19,13 +20,12 @@ import com.pico.communication.service.ReceiptService;
 public class ReceiptController {
 
 	@Autowired
-	private ReceiptService receiptService;
+	private RcService rcService;
 
 	@PostMapping("/sendReceipt")
 	public void sendReceipt(@RequestBody SendReceipt data) throws Exception {
 		try {
-			EmailConfig emailConfig = new EmailConfig();
-			receiptService.sendEmail(emailConfig, data);
+			rcService.rcCommunication(data);;
 		} catch (DataIntegrityViolationException e) {
 			throw e;
 		}

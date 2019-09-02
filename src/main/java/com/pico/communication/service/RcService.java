@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,18 +16,20 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.pico.communication.constant.SystemConstant;
 import com.pico.communication.controller.LineBotController;
 import com.pico.communication.dao.InvoiceDao;
+import com.pico.communication.dao.RcDao;
 import com.pico.communication.model.EmailConfig;
 import com.pico.communication.model.SendInvoice;
+import com.pico.communication.model.SendReceipt;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @Transactional
-public class InvoiceService {
+public class RcService {
 
 	@Autowired
-	private InvoiceDao ivDao;
+	private RcDao rcDao;
 	
 	@Autowired
 	private LineBotController lineBotController;
@@ -34,33 +37,30 @@ public class InvoiceService {
 	@Autowired
 	private EmailService emailService;
 	
-	public void ivCommunication(SendInvoice data) throws Exception {
-		ArrayList<Map<String, Object>> results = ivDao.queryInvoice(data);
+	public void rcCommunication(SendReceipt data) throws Exception {
+		ArrayList<Map<String, Object>> results = rcDao.queryReceipt(data);
 		EmailConfig emailConfig = null;
 		for (Map<String, Object> result : results) {
 			
-			if(data.getCommunicationType().equals("email")) {
+			if("email".equals(data.getCommunicationType())) {
 				sendMail(emailConfig, result, data);
 			}
 			
-			if(data.getCommunicationType().equals("line")) {
-				sendLine(result, data);
+			if("line".equals(data.getCommunicationType())) {
+				sendLine(rcDao.queryLineReceipt(result.get("receipt_head_id").toString()), result, data);
 			}
 			
-			if(data.getCommunicationType().equals("all")) {
+			if("all".equals(data.getCommunicationType())) {
 				sendMail(emailConfig, result, data);
-				sendLine(result, data);
-				
-				
+				sendLine(rcDao.queryLineReceipt(result.get("receipt_head_id").toString()), result, data);
 			}
 		}
 	}
 	
-	private void sendMail(EmailConfig config, Map<String, Object> query, SendInvoice data) throws Exception {
+	private void sendMail(EmailConfig config, Map<String, Object> query, SendReceipt data) throws Exception {
 		config = new EmailConfig();
 		config.setToEmail(query.get("email").toString());
-		StringBuilder messageTextEmail =  null;
-		messageTextEmail = new StringBuilder();
+		StringBuilder messageTextEmail = new StringBuilder();
 		
 		messageTextEmail.append("<label>เรื่อง การจัดส่งใบแจ้งยอดบัญชี อิเล็กทรอนิกส์ </label><br>");
 		messageTextEmail.append("<label>เรียน ท่านสมาชิก เพื่อนแท้ เงินด่วน</label> <br> ");
@@ -79,29 +79,22 @@ public class InvoiceService {
 				, SystemConstant.PATHREPORT
 				, query.get("pdf_path").toString()));
 		emailService.SendEmailService(config);
-		ivDao.updateStatusEmail(data.getInvoiceNo());
+		rcDao.updateStatusEmail(data.getReceiptNo());
 	}
 	
-	private void sendLine( Map<String, Object> query, SendInvoice data) throws Exception {
+	private void sendLine(ArrayList<Map<String, Object>> querys, Map<String, Object> result, SendReceipt data) throws Exception {
 		StringBuilder messageTextLine = new StringBuilder();
 		NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 		mf.setMaximumFractionDigits(2);
-		messageTextLine.append("เรียน คุณ %s " );
-		messageTextLine.append("%s \n");
-		messageTextLine.append("บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n");
-		messageTextLine.append("งวดที่: %s" + "\n" + "ยอดชำระ: %s บาท\n");
-		messageTextLine.append("โปรดชำระเงินภายใน  %s");					
+		for (Map<String, Object> query : querys) {
+			messageTextLine.append(query.get("description") +" \n");
+			messageTextLine.append(query.get("receipt_amount").toString()+" \n");
+	//	
+		}
 
-		String originalContentUrl = "https://us-central1-poc-payment-functions.cloudfunctions.net/webApi/promptpay/0889920035/10.png";
-		ImageMessage im = new ImageMessage(originalContentUrl, originalContentUrl);
-		lineBotController.push(query.get("line_user_id").toString(), Arrays.asList(new TextMessage(String.format(messageTextLine.toString()
-				, query.get("first_name").toString()
-				, query.get("last_name").toString()
-				, query.get("period").toString()
-				, mf.format(query.get("total_amount"))
-				, query.get("due_date").toString())), im));
+		lineBotController.push(result.get("line_user_id").toString(), Arrays.asList(new TextMessage(messageTextLine.toString())));
 		
-		ivDao.updateStatusLine(data.getInvoiceNo());
+		rcDao.updateStatusLine(data.getReceiptNo());
 	}
 	
 }

@@ -26,8 +26,8 @@ public class SecureConfig extends WebSecurityConfigurerAdapter {
 
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.OPTIONS)
-		.antMatchers("/callback")
-		.antMatchers("/apploan/testline");
+		.antMatchers("/**");
+//		.antMatchers("/apploan/testline");
 
 	}
 	

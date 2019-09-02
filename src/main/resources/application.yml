@@ -17,3 +17,10 @@ spring.datasource:
   username: loan
   password: pico_loan^1999
   
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: http://pico.ssweb.ga/identity/.well-known/openid-configuration/jwks
+      token-type: Bearer
+      token-info-uri: https://picos.ssweb.ga/identity/connect/token  

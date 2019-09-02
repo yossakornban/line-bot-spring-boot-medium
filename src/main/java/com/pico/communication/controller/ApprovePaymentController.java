@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.linecorp.bot.model.message.TextMessage;
 import com.pico.communication.model.ModelUpdate;
+import com.pico.communication.model.Register;
 import com.pico.communication.service.ApprovePaymentService;
 
  @CrossOrigin
@@ -41,27 +42,11 @@ import com.pico.communication.service.ApprovePaymentService;
      }
      
      @PutMapping(path = "/update")
-     public Map<String, Object> update(@RequestBody ModelUpdate model) throws Exception {
-         Map<String, Object> result = new HashMap<String, Object>();
+     public boolean update(@RequestBody Register model) throws Exception {
          StringBuilder text = new StringBuilder();
-    	 try {
-    		 if(model.getApprove()) {
-        		 result = approvePayRepo.Update(model);
-                 if (result != null) {
                 	 text.append("บริษัท เพื่อนแท้ แคปปิตอล จำกัด ได้รับชำระเงินเรียบร้อยแล้ว ขอบคุณค่ะ");
-                	 
-                	 LineBotController.push(result.get("customer_user_line_id").toString(), Arrays.asList(new TextMessage(text.toString())));
-                	 return result;
-                 }
-    		 }
-
-    		 text.append("การชำระเงินไม่สมบูรณ์ สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ เมนูติดต่อเรา");
-    		 LineBotController.push(model.getUserLineId(), Arrays.asList(new TextMessage(text.toString())));
-             
-         } catch (DataIntegrityViolationException e) {
-             throw e;
-         }
-    	 return result;
+                	 LineBotController.push(model.getLine_user_id(), Arrays.asList(new TextMessage(text.toString())));
+    	 return true;
      }
      
  }

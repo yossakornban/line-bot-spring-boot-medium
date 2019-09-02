@@ -11,25 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pico.communication.model.EmailConfig;
 import com.pico.communication.model.SendInvoice;
 import com.pico.communication.service.InvoiceService;
+import com.pico.communication.service.InvoiceService;
 
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/invoice")
-
 public class InvoiceController {
 
 	@Autowired
-	private InvoiceService invoiceService;
+	private InvoiceService ivService;
 
 	@PostMapping("/sendInvoice")
-	public void line03Search(@RequestBody SendInvoice data) throws Exception {
-		try {
-			EmailConfig emailConfig = new EmailConfig();
-			invoiceService.sendEmail(emailConfig, data);
-		} catch (DataIntegrityViolationException e) {
-			throw e;
-		}
-
+	public void sendInvoice(@RequestBody SendInvoice data) throws Exception {
+		ivService.ivCommunication(data);
 	}
 
 }

@@ -50,7 +50,7 @@ public class ApplyLoanController {
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
-	@PostMapping(path = "/regis")
+	@PostMapping(path = "/preapprove")
 	public void updateApprove(@RequestBody Register data) throws Exception {
 		try {
 			loanAppRepo.approveLoan(data);
