@@ -54,7 +54,7 @@ areas:
   action:
     type: uri
     label: tel
-    uri: 'tel://0823994975'
+    uri: 'tel://0830256646'
 -
   bounds:
     x: 1667

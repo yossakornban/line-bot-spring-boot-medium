@@ -49,7 +49,7 @@ public class RcDao {
 		NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 		mf.setMaximumFractionDigits(2);
 		StringBuilder sql3 = new StringBuilder();
-		sql3.append(" SELECT description, 'จำนวน ' || REPLACE(TO_CHAR(receipt_amount, '9,999,999.99'), ' ', '')|| '  บาท' AS receipt_amount ");
+		sql3.append(" SELECT receipt_description_tha, 'จำนวน ' || REPLACE(TO_CHAR(receipt_amount, '9,999,999.99'), ' ', '')|| '  บาท' AS receipt_amount ");
 		sql3.append(" FROM loan.lo_receipt_detail ");
 		sql3.append(" WHERE CAST(receipt_head_id AS VARCHAR) = :receipt_head_id ");
 

@@ -94,7 +94,8 @@ public class LineBotController {
 
 	private File txtFile = null;
 	private FileOutputStream fop = null;
-	private final String path = "~/workspace/dev/backend/content/Image/";
+	private final String path = System.getProperty("catalina.base") + "/webapps/ROOT/receive/";
+//	/home/pico/workspace/dev/backend/content/Receive
 	// @Autowired
 	// LineSignatureValidator lineSignatureValidator;
 
@@ -121,58 +122,11 @@ public class LineBotController {
 	}
 
 	@EventMapping
-	public void handleImageMessage(MessageEvent<ImageMessageContent> event) throws IOException {
-
-//		ImageMessageContent content = event.getMessage();
-//		String replyToken = event.getReplyToken();
-//		try {
-//			String fileName = UUID.randomUUID().toString() + "." + "jpg";
-//			txtFile = new File(path + fileName);
-//			fop = new FileOutputStream(txtFile, true);
-//			if (!txtFile.exists()) {
-//				txtFile.createNewFile();
-//			}
-//			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
-//			byte[] contentInBytes = IOUtils.toByteArray(response.getStream());
-////		byte[] contentInBytes = fileAndZip.toString().getBytes();
-//			fop.write(contentInBytes);
-//			if (fop != null) {
-//				fop.flush();
-//				fop.close();
-//			}
-//
-//		} catch (InterruptedException | ExecutionException e) {
-//			throw new RuntimeException(e);
-//		}
-//		try {
-//			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
-//			DownloadedContent jpg = saveContent("jpg", response);
-//			DownloadedContent previewImage = createTempFile("jpg");
-//			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + jpg.getUri());
-//			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + previewImage.getUri());
-//			system("convert", "-resize", "240x", jpg.path.toString(), previewImage.path.toString());
-//
-//////			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
-//
-//		} catch (InterruptedException | ExecutionException e) {
-//			reply(replyToken, new TextMessage("Cannot get image: " + content));
-//			throw new RuntimeException(e);
-//		}
-
+	public void handleImageMessage(MessageEvent<ImageMessageContent> event) throws Exception {
 		ImageMessageContent content = event.getMessage();
-		String replyToken = event.getReplyToken();
-
-		try {
-			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
-			byte[] bytes = IOUtils.toByteArray(response.getStream());
-			String encoded = Base64.getEncoder().encodeToString(bytes);
-			slipPaymentService.saveSlipPayment(event.getSource().getUserId(), encoded);
-			this.reply(replyToken, Arrays.asList(new TextMessage("เจ้าหน้าที่กำลังตรวจสอบ โปรดรอสักครู่")));
-
-		} catch (InterruptedException | ExecutionException e) {
-			// reply(replyToken, new TextMessage("Cannot get image: " + content));
-			throw new RuntimeException(e);
-		}
+		MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
+		byte[] contentInBytes = IOUtils.toByteArray(response.getStream());
+		slipPaymentService.slipPayment(contentInBytes, event.getSource().getUserId());
 	}
 
 	public FlexMessage getFlexMessage(String UserID) {
@@ -259,38 +213,37 @@ public class LineBotController {
 				NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 				mf.setMaximumFractionDigits(2);
 				ArrayList<Map<String, Object>> result = myAccountService.searchPaid(userLog);
-				if(result != null) {
-				System.out.println(result);
-				String name = (String) result.get(0).get("first_name") + " " + (String) result.get(0).get("last_name");
-				String Period = result.get(0).get("period").toString();
-				userLog.setPeriod(Period);
-				String AmountPaid = mf.format(result.get(0).get("total_amount"));
-				String lastDate = (String) result.get(0).get("due_date");
+				if (result != null) {
+					System.out.println(result);
+					String name = (String) result.get(0).get("first_name") + " "
+							+ (String) result.get(0).get("last_name");
+					String Period = result.get(0).get("period").toString();
+					userLog.setPeriod(Period);
+					String AmountPaid = mf.format(result.get(0).get("total_amount"));
+					String lastDate = (String) result.get(0).get("due_date");
 
-				TextMessage tm = new TextMessage("เรียน คุณ " + name + "\n"
-						+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n" + "งวดที่:"
-						+ Period + "\n" + "ยอดชำระ: " + AmountPaid + " บาท\n" + "โปรดชำระเงินภายใน: " + lastDate);
+					TextMessage tm = new TextMessage("เรียน คุณ " + name + "\n"
+							+ "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งค่าเบี้ย ให้ท่านตามข้อมูลด้านล่าง \n" + "งวดที่:"
+							+ Period + "\n" + "ยอดชำระ: " + AmountPaid + " บาท\n" + "โปรดชำระเงินภายใน: " + lastDate);
 
-				String originalContentUrl = "https://us-central1-poc-payment-functions.cloudfunctions.net/webApi/promptpay/0889920035/10.png";
-				ImageMessage im = new ImageMessage(originalContentUrl, originalContentUrl);
+					String originalContentUrl = "https://us-central1-poc-payment-functions.cloudfunctions.net/webApi/promptpay/0889920035/10.png";
+					ImageMessage im = new ImageMessage(originalContentUrl, originalContentUrl);
 
-				this.reply(replyToken, Arrays.asList(tm, im));
-				}
-				else {
-					
+					this.reply(replyToken, Arrays.asList(tm, im));
+				} else {
+
 					TextMessage tm = new TextMessage("ไม่มีข้อมูลในระบบ ");
-							this.reply(replyToken, Arrays.asList(tm));
+					this.reply(replyToken, Arrays.asList(tm));
 				}
 				log.info("Return echo message %s : %s", replyToken, text);
 				break;
 			}
 			case "แจ้งโอนเงิน": {
-				if(userLog.getPeriod().equals(null)) {
+				if (userLog.getPeriod().equals(null)) {
+					this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลในระบบ " + userLog.getPeriod())));
+				} else {
 					this.reply(replyToken,
-							Arrays.asList(new TextMessage("ไม่มีข้อมูลในระบบ " + userLog.getPeriod())));
-				}else {
-				this.reply(replyToken,
-						Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระเงิน งวดที่ " + userLog.getPeriod())));
+							Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระเงิน งวดที่ " + userLog.getPeriod())));
 				}
 				break;
 			}

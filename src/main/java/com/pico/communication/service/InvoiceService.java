@@ -17,6 +17,7 @@ import com.pico.communication.controller.LineBotController;
 import com.pico.communication.dao.InvoiceDao;
 import com.pico.communication.model.EmailConfig;
 import com.pico.communication.model.SendInvoice;
+import com.pico.communication.utils.BeanUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,8 +49,13 @@ public class InvoiceService {
 			}
 			
 			if(data.getCommunicationType().equals("all")) {
+				if(BeanUtils.isNotNull(result.get("email"))) {
 				sendMail(emailConfig, result, data);
+				}
+				log.info("------------- "+BeanUtils.isNotNull(result.get("line_user_id")));
+				if(BeanUtils.isNotNull(result.get("line_user_id"))) {
 				sendLine(result, data);
+				}
 				
 				
 			}

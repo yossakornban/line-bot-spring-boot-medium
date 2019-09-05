@@ -97,7 +97,7 @@ public class MyAccountService {
 			if (size > 0) {
 				for (i = 0; i < size; i++) {
 
-					sql3.append(" SELECT description, amount ");
+					sql3.append(" SELECT receipt_description, amount ");
 					sql3.append(" FROM loan.lo_receipt_detail ");
 					sql3.append(" WHERE receipt_head_id = :receipt_head_id ");
 
@@ -108,8 +108,9 @@ public class MyAccountService {
 					int x;
 					int sizeDetail = result.size();
 					String detail = "";
+					detail += "บริษัท เพื่อนแท้ แคปปิตอล จำกัด ขอแจ้งประวัติการชำระเงิน ดังนี้";
 					for (x = 0; x < sizeDetail; x++) {
-						detail += (String) result.get(x).get("description") + " จำนวน "
+						detail += (String) result.get(x).get("receipt_description") + " จำนวน "
 								+ mf.format(result.get(x).get("amount").toString()) + " บาท \n";
 					}
 
