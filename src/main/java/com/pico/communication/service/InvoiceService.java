@@ -73,14 +73,13 @@ public class InvoiceService {
 		messageTextEmail.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>ทางบริษัทฯ ได้แนบเอกสารในอีเมลฉบับนี้ ประกอบด้วย</label><br>");
 		messageTextEmail.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•  สำเนาใบแจ้งยอดบัญชี <br>");
 		messageTextEmail.append("<label>ท่านสามารถดูสำเนาใบแจ้งยอดบัญชีอิเล็กทรอนิกส์และเอกสารอื่นๆ   </label><a href=");
-		messageTextEmail.append(" %s %s> โดยคลิกลิงค์</a> <br>");
+		messageTextEmail.append(" %s%s> โดยคลิกลิงค์</a> <br>");
 		messageTextEmail.append("<br><br><label>หมายเหตุ</label>");
 		messageTextEmail.append("<br><label>- จดหมายอิเล็กทรอนิกส์ฉบับนี้ เป็นการส่งจากระบบอัตโนมัติไม่สามารถตอบกลับได้ หากท่านต้องการติดต่อบริษัทฯ กรุณาติดต่อผ่านทาง  </label>");
 		messageTextEmail.append("<br> <label>Facebook : https://www.facebook.com/Pueantaeleasing</label>");
 		messageTextEmail.append("<br> <label>Website : http://www.pueantae-capital.com</label>");
 		messageTextEmail.append("<br> <label>สายด่วนโทร : 083-025-6646</label>" + "<br><br>");
 		messageTextEmail.append("<labe>ขอแสดงความนับถือ</label>" + "<br><labe>บริษัท เพื่อนแท้ แคปปิตอล จำกัด</label>");
-	
 		config.setMessageText(String.format(messageTextEmail.toString()
 				, SystemConstant.PATHREPORT
 				, query.get("pdf_path").toString()));
