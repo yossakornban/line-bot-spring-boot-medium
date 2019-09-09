@@ -52,7 +52,7 @@ public class SlipPaymentDao {
 
 			stb.append(" INSERT INTO loan.lo_payment_slip");
 			stb.append(
-					" (contract_head_id, slip_image, create_by, create_date, create_program, update_by, update_date, update_program) ");
+					" (contract_head_id, slip_image, created_by, created_date, created_program, updated_by, updated_date, updated_program) ");
 			stb.append(
 					" VALUES(:contract_head_id, :slip, 'Communication-Service', now(),  'Communication-Service', 'Communication-Service', now(), 'Communication-Service') ");
 

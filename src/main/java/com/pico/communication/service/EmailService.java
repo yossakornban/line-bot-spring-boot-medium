@@ -36,48 +36,48 @@ public class EmailService {
 
 	@Autowired
 	private DataSource dataSource;
-	
+
 	@Autowired
 	private LineBotController LineBotController;
 
 	private NamedParameterJdbcTemplate jdbcTemplate = null;
 
-
 	public void SendEmailService(EmailConfig emailConfig) {
 		try {
 			log.info("Prepare to send mail");
-			//For set email target.
-	
-			//For set property(host, port).
+			log.info("send mail -------------- " + emailConfig.toString());
+
+			// For set email target.
+
+			// For set property(host, port).
 			Properties prop = new Properties();
 			prop.put("mail.smtp.host", emailConfig.getHost());
 			prop.put("mail.smtp.port", emailConfig.getPort());
 			prop.put("mail.smtp.auth", "true");
 			prop.put("mail.smtp.starttls.enable", "true"); // TLS
-	
+
 			Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(emailConfig.getUser(), emailConfig.getPass());
 				}
 			});
-	
+
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(emailConfig.getFrom()));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailConfig.getToEmail()));
 			message.setSubject(emailConfig.getSubject());
-			
-			
+
 			MimeBodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart.setContent(emailConfig.getMessageText(), "text/html; charset=utf-8");
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart(messageBodyPart);
-			
+
 			message.setContent(multipart);
 			Transport.send(message);
-			
+
 		} catch (Exception e) {
 			log.info(e.getMessage());
-		} 
+		}
 
 	}
 }

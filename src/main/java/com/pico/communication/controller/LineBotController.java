@@ -68,6 +68,7 @@ import com.pico.communication.model.UserLog.status;
 import com.pico.communication.service.LineService;
 import com.pico.communication.service.MyAccountService;
 import com.pico.communication.service.SlipPaymentService;
+import com.pico.communication.utils.BeanUtils;
 
 import lombok.NonNull;
 import lombok.Value;
@@ -123,10 +124,12 @@ public class LineBotController {
 
 	@EventMapping
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) throws Exception {
+		
 		ImageMessageContent content = event.getMessage();
 		MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
 		byte[] contentInBytes = IOUtils.toByteArray(response.getStream());
-		slipPaymentService.slipPayment(contentInBytes, event.getSource().getUserId());
+		slipPaymentService.slipPayment(contentInBytes, event.getSource().getUserId(), false);
+		
 	}
 
 	public FlexMessage getFlexMessage(String UserID) {
@@ -213,7 +216,9 @@ public class LineBotController {
 				NumberFormat mf = NumberFormat.getInstance(new Locale("en", "US"));
 				mf.setMaximumFractionDigits(2);
 				ArrayList<Map<String, Object>> result = myAccountService.searchPaid(userLog);
-				if (result != null) {
+				log.info("---------------- " + result.toString());
+				System.out.println("---------------- " + result.size());
+				if (result.size() > 0) {
 					System.out.println(result);
 					String name = (String) result.get(0).get("first_name") + " "
 							+ (String) result.get(0).get("last_name");
@@ -232,19 +237,30 @@ public class LineBotController {
 					this.reply(replyToken, Arrays.asList(tm, im));
 				} else {
 
-					TextMessage tm = new TextMessage("ไม่มีข้อมูลในระบบ ");
+					TextMessage tm = new TextMessage("ยังไม่มีงวดที่ต้องชำระ สอบถามข้อมูลเพิ่มเติมได้ที่เมนูติดต่อเรา ");
+					log.info(userLog.getPeriod());
+					userLog.setPeriod(null);
 					this.reply(replyToken, Arrays.asList(tm));
 				}
 				log.info("Return echo message %s : %s", replyToken, text);
 				break;
 			}
 			case "แจ้งโอนเงิน": {
-				if (userLog.getPeriod().equals(null)) {
-					this.reply(replyToken, Arrays.asList(new TextMessage("ไม่มีข้อมูลในระบบ " + userLog.getPeriod())));
+				if(BeanUtils.isNotEmpty(userLog.getPeriod()) ) {
+					
+					try {
+						slipPaymentService.slipPayment(null, event.getSource().getUserId(), true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					this.reply(replyToken,
+							Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระเงิน")));
 				} else {
 					this.reply(replyToken,
-							Arrays.asList(new TextMessage("กรุณาส่งหลักฐานชำระเงิน งวดที่ " + userLog.getPeriod())));
+							Arrays.asList(new TextMessage("ยังไม่มีงวดที่ต้องชำระ สอบถามข้อมูลเพิ่มเติมได้ที่เมนูติดต่อเรา")));
+					
 				}
+		
 				break;
 			}
 			case "Flex Back": {

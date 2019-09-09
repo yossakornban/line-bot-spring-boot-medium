@@ -44,11 +44,15 @@ public class RcService {
 		for (Map<String, Object> result : results) {
 
 			if ("email".equals(data.getCommunicationType())) {
-				sendMail(emailConfig, result, data);
+				if (BeanUtils.isNotNull(result.get("email"))) {
+					sendMail(emailConfig, result, data);
+				}
 			}
 
 			if ("line".equals(data.getCommunicationType())) {
-				sendLine(rcDao.queryLineReceipt(result.get("receipt_head_id").toString()), result, data);
+				if (BeanUtils.isNotNull(result.get("line_user_id"))) {
+					sendLine(rcDao.queryLineReceipt(result.get("receipt_head_id").toString()), result, data);
+				}
 			}
 
 			if ("all".equals(data.getCommunicationType())) {

@@ -28,7 +28,7 @@ public class InvoiceDao {
 		jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 		StringBuilder sql = new StringBuilder();
 		sql.append(" SELECT lih.invoice_no, lct.line_user_id, lct.first_name, lct.last_name, lih.pdf_path, lct.email ");
-		sql.append(" , lcp.period, lih.total_amount ");
+		sql.append(" , lcp.period, lih.total_amount, lih.print_status ");
 		sql.append(
 				" , EXTRACT(DAY FROM lih.due_date) || ' ' || loan.TimeStampToThaiMonth(lih.due_date) || ' ' || loan.TimeStampToThaiYear(lih.due_date) AS due_date ");
 		sql.append(" FROM loan.lo_invoice_head lih ");
@@ -43,7 +43,7 @@ public class InvoiceDao {
 		
 		if (BeanUtils.isNull(data.getInvoiceNo())) {
 			sql.append(
-					" AND lih.invoice_status = '1' AND paid_status = '1' AND print_status = '2' AND email_status = '1' AND line_status = '1' ");
+					" AND lih.invoice_status = '1' AND lih.paid_status = '1' AND lih.print_status = '2' AND lih.email_status = '1' AND lih.line_status = '1' ");
 		}
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
@@ -51,6 +51,7 @@ public class InvoiceDao {
 		if (BeanUtils.isNotEmpty(data.getInvoiceNo())) {
 			params.addValue("invoiceNo", data.getInvoiceNo());
 		}
+		
 		return (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(sql.toString(), params);
 	}
 	
